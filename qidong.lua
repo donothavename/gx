@@ -54,10 +54,10 @@ function 过滤(content)
   if(内容=="") then
     内容="获取失败"
   end
-  if(版本名 > 2.8.1) then
+  if(版本名 > "2.8.1") then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本："..2.8.1.."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."2.8.1".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp") --圆角大小
     .设置积极按钮("下载更新",function()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
