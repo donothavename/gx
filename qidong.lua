@@ -1,3 +1,4 @@
+print"成功了"
 import "java.io.File"
 File("/sdcard/Download/com.MyFusApp.zuolanqi/无图模式").createNewFile()
 File("/sdcard/Download/com.MyFusApp.zuolanqi/夜间").createNewFile()
@@ -55,17 +56,23 @@ function 过滤(content)
   if(内容=="") then
     内容="获取失败"
   end
-  if(链接=="") then
+  --[[if(链接=="") then
     Toast.makeText(activity,"服务器参数配置错误，请过段时间再次尝试", Toast.LENGTH_LONG).setGravity(Gravity.CENTER, 0, 0).show()
-  end
-  if(版本名 > version) then
+  end]]
+  if(版本名 > "2") then
     圆角对话框()
     .设置标题("检测到更新")
     .设置消息("版本："..version.."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp") --圆角大小
     .设置积极按钮("下载更新",function()
-      下载文件(链接)
-      弹出消息("下载更新中…")
+      url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
+Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
+  if(code==200 and content)then con=content
+    io.open(this.luaDir.."/qidong.lua","w+"):write(content):close()
+    print"更新完成，重启失效"
+    end
+  end)
+      弹出消息("更新中…")
     end)
     .设置消极按钮("暂不更新",function()
     end)
