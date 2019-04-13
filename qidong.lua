@@ -1,4 +1,3 @@
-print"成功了"
 import "java.io.File"
 File("/sdcard/Download/com.MyFusApp.zuolanqi/无图模式").createNewFile()
 File("/sdcard/Download/com.MyFusApp.zuolanqi/夜间").createNewFile()
@@ -49,20 +48,16 @@ url="https://sharechain.qq.com/dc2f311c2b314a5edc35f3d9204964f7";
 function 过滤(content)
   版本名=content:match("【版本名】(.-)【版本名】") 
   内容=content:match("【内容】(.-)【内容】") 
-  链接=content:match("【链接】(.-)【链接】")  
   if 版本名=="" then
     版本名="获取失败"
   end
   if(内容=="") then
     内容="获取失败"
   end
-  --[[if(链接=="") then
-    Toast.makeText(activity,"服务器参数配置错误，请过段时间再次尝试", Toast.LENGTH_LONG).setGravity(Gravity.CENTER, 0, 0).show()
-  end]]
-  if(版本名 > "2") then
+  if(版本名 > "2.8.1") then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本："..version.."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本："..2.8.1.."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp") --圆角大小
     .设置积极按钮("下载更新",function()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
