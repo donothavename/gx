@@ -1,3 +1,16 @@
+参数=0
+function onKeyDown(code,event) 
+  if string.find(tostring(event),"KEYCODE_BACK") ~= nil then 
+    if 参数+2 > tonumber(os.time()) then 
+     ti.stop() activity.finish()
+    else
+      Toast.makeText(activity,"再按一次返回键退出浏览器" , Toast.LENGTH_SHORT )
+      .show()
+      参数=tonumber(os.time()) 
+    end
+    return true 
+  end
+end
 import "java.io.File"
 File("/sdcard/Download/com.MyFusApp.zuolanqi/无图模式").createNewFile()
 File("/sdcard/Download/com.MyFusApp.zuolanqi/夜间").createNewFile()
@@ -28,6 +41,7 @@ elseif llqbs=="iphone" then webView.getSettings().setUserAgentString("Mozilla/5.
 elseif llqbs=="塞班 (Symbian)" then webView.getSettings().setUserAgentString("Mozilla/5.0 (Symbian/3; Series60/5.2 NokiaN8-00/012.002; Profile/MIDP-2.1 Configuration/CLDC-1.1 ) AppleWebKit/533.4 (KHTML, like Gecko) NokiaBrowser/7.3.0 Mobile Safari/533.4 3gpp-gba");
 elseif llqbs=="自定义" then ua=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/自定义UA"):read("*a") webView.getSettings().setUserAgentString(ua);end
 加载网页("file://"..this.luaDir.."/html/首页.html")
+import"read"
 import "android.app.*"
 import "android.os.*"
 import "android.widget.*"
@@ -54,7 +68,7 @@ function 过滤(content)
   if(内容=="") then
     内容="获取失败"
   end
-  if(版本名 > "2.8.1") then
+  if(版本名 > "2.8.2") then
     圆角对话框()
     .设置标题("检测到更新")
     .设置消息("版本：".."2.8.1".."→"..版本名.."\n更新内容："..内容)
@@ -102,9 +116,9 @@ colorAnim = ObjectAnimator.ofInt(gengduoic,"ColorFilter",{color2,color2}) colorA
 colorAnim = ObjectAnimator.ofInt(yincangic,"ColorFilter",{color2,color2}) colorAnim.start()
 end
 if 网页链接:find"https://" or 网页链接:find"file://" then
-  aqic.setImageBitmap(loadbitmap('drawable/aq.png'))
+  aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0"))
   else
-  aqic.setImageBitmap(loadbitmap('drawable/baq.png'))
+  aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/559fc7b4-c6fc-48d0-b853-3c7cf6ff41a4/0"))
   end
 设置底栏刷新状态(true,true,1000)
 end
@@ -321,7 +335,7 @@ end
       {
         ImageView;
         ColorFilter=0xFF5C5C5C;
-        src="drawable/aq.png";
+        src=("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0");
         layout_height="25dp";
         layout_marginTop="0dp";
         layout_width="30dp";
@@ -393,7 +407,7 @@ layout_weight="1.0";
  layout_width="23dp",
  layout_height="23dp", 
  ColorFilter="#87C5C5C5",
- src="drawable/eye.png";
+ src=("http://shp.qpic.cn/collector/2530648358/4b24fec2-4d64-4709-9275-b3821165fbcf/0");
 },
 {
 TextView;
@@ -711,7 +725,7 @@ LinearLayout,
                         id="night",
                         ColorFilter="#2237FF2E",
                         style="?android:attr/buttonBarButtonStyle";
-                        src="drawable/night.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/80bac51b-113b-452d-9b22-d137321bb4fe/0");
                       },
                     },
                     {
@@ -738,7 +752,7 @@ LinearLayout,
                         ImageView;
                         layout_width="35dp",
                         layout_height="35dp",
-                        src="drawable/mybook.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/5ff8acf6-66ff-4f50-98c3-90eb5c65f826/0");
                         ColorFilter="#ffaba4e9",
                         style="?android:attr/buttonBarButtonStyle";
                         id="mybook";
@@ -768,7 +782,7 @@ LinearLayout,
                         ImageView;
                         layout_width="35dp",
                         layout_height="35dp",
-                        src="drawable/history.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/47f1e34c-0b2c-46ef-b65a-c0be7d71e60c/0");
                         ColorFilter="#FFFFF045",
                         style="?android:attr/buttonBarButtonStyle";
                         id="history",
@@ -798,7 +812,7 @@ LinearLayout,
                         ImageView;
                         layout_width="35dp",
                         layout_height="35dp",
-                        src="drawable/down.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/7af98cee-0da1-4bef-9e3e-01c3d418974d/0");
                         ColorFilter="#FF42F9E3",
                         id="xiazai",
                         style="?android:attr/buttonBarButtonStyle";
@@ -832,7 +846,7 @@ LinearLayout,
                         ImageView;
                         layout_width="35dp",
                         layout_height="35dp",
-                        src="drawable/yinshen.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/3807ce4c-5ea4-4383-871b-df3c300ce146/0");
                         ColorFilter="#FF009AFF",
                         style="?android:attr/buttonBarButtonStyle";
                         id="yinshen",
@@ -860,7 +874,7 @@ LinearLayout,
                         layout_width="35dp",
                         layout_height="35dp",
                         style="?android:attr/buttonBarButtonStyle";
-                        src="drawable/share.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/83fdbc58-9c2d-4975-a02a-94ff4bdd8a5c/0");
                         ColorFilter="#FF009AFF",
                         id="share";
                       },
@@ -887,7 +901,7 @@ LinearLayout,
                         layout_width="35dp",
                         layout_height="35dp",
                         style="?android:attr/buttonBarButtonStyle";
-                        src="drawable/addbook.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/d073c870-7357-4ae8-b3d2-6fa69edac3eb/0");
                         ColorFilter="#FF009AFF",
                         id="addbook";
                       },
@@ -914,7 +928,7 @@ LinearLayout,
                         layout_width="35dp",
                         layout_height="35dp",
                         style="?android:attr/buttonBarButtonStyle";
-                        src="drawable/gj.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/d5b68401-0695-421d-a3f8-525d0c3f926d/0");
                         ColorFilter="#FF009AFF",
                         id="gj";
                       },
@@ -946,7 +960,7 @@ LinearLayout,
                       ImageView;
                       layout_width="35dp",
                       layout_height="35dp",
-                      src="drawable/tuichu.png";
+                      src=("http://shp.qpic.cn/collector/2530648358/c45ff7b4-fb38-495b-bf7e-5271ea7603c5/0");
                       ColorFilter="#80000000",
                       style="?android:attr/buttonBarButtonStyle";
                       id="tuichu";
@@ -966,7 +980,7 @@ LinearLayout,
                       ImageView;
                       layout_width="35dp",
                       layout_height="35dp",
-                      src="drawable/yincang.png";
+                      src=("http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0");
                       ColorFilter="#80000000",
                       style="?android:attr/buttonBarButtonStyle";
                       id="gdyc";
@@ -1012,7 +1026,7 @@ LinearLayout,
       {
         ImageView;--影像视图
         ColorFilter=0xff000000;
-        src="drawable/bmbargoback.png";
+        src=("http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0");
         layout_height="25dp";--高度
         layout_marginTop="0dp";--边顶
         layout_width="30dp";--宽度
@@ -1033,7 +1047,7 @@ LinearLayout,
       {
         ImageView;--影像视图
         ColorFilter=0xff000000;
-        src="drawable/bmbargoforward.png";
+        src=("http://shp.qpic.cn/collector/2530648358/3cd13a75-c2f6-414c-8787-66ec93a08fe3/0");
         layout_height="25dp";--高度
         layout_marginTop="0dp";--边顶
         layout_width="30dp";--宽度
@@ -1053,7 +1067,7 @@ LinearLayout,
       layout_height="fill";
       {
         ImageView;--影像视图
-        src="drawable/bmbarhome.png";
+        src=("http://shp.qpic.cn/collector/2530648358/bb695541-0c88-4195-af4d-2fb67e2915a0/0");
         ColorFilter=0xff000000;
         layout_height="25dp";--高度
         layout_marginTop="0dp";--边顶
@@ -1074,7 +1088,6 @@ LinearLayout,
       layout_height="fill";
       {
         ImageView;--影像视图
-        --src="drawable/bmbarrefresh.png";
         layout_height="25dp";--高度
         ColorFilter=0xff000000;
         layout_marginTop="0dp";--边顶
@@ -1096,7 +1109,7 @@ LinearLayout,
       {
         ImageView;--影像视图
         ColorFilter=0xff000000;
-        src="drawable/gengduo.png";
+        src=("http://shp.qpic.cn/collector/2530648358/8fa2da48-d85d-4993-b34d-f696b4d8e51f/0");
         layout_height="25dp";--高度
         layout_marginTop="0dp";--边顶
         layout_width="30dp";--宽度
@@ -1117,7 +1130,7 @@ LinearLayout,
       {
         ImageView;--影像视图
         ColorFilter=0xff000000;
-        src="drawable/yincang.png";
+        src=("http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0");
         layout_height="25dp";--高度
         layout_marginTop="0dp";--边顶
         layout_width="15dp";--宽度
@@ -1253,7 +1266,7 @@ LinearLayout,
                         id="yncz",
                         ColorFilter="#2237FF2E",
                         style="?android:attr/buttonBarButtonStyle";
-                        src="drawable/yncz.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/81343e52-4cef-4b2b-9ede-55174b5bfce3/0");
                       },
                     },
                     {
@@ -1280,7 +1293,7 @@ LinearLayout,
                         ImageView;
                         layout_width="35dp",
                         layout_height="35dp",
-                        src="drawable/bcwy.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/18c65ca3-532c-4634-a721-b5c208ed5453/0");
                         ColorFilter="#ffaba4e9",
                         style="?android:attr/buttonBarButtonStyle";
                         id="bcwy";
@@ -1310,7 +1323,7 @@ LinearLayout,
                         ImageView;
                         layout_width="35dp",
                         layout_height="35dp",
-                        src="drawable/lxym.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/c3959a70-df1e-4c4e-96be-8181865ed579/0");
                         ColorFilter="#FFAEF942",
                         style="?android:attr/buttonBarButtonStyle";
                         id="lxym";
@@ -1340,7 +1353,7 @@ LinearLayout,
                         ImageView;
                         layout_width="35dp",
                         layout_height="35dp",
-                        src="drawable/fanyi.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/ddafc5cf-ca80-4805-957f-5d1257f228d6/0");
                         ColorFilter="#FFFFF045",
                         style="?android:attr/buttonBarButtonStyle";
                         id="fanyi",
@@ -1370,7 +1383,7 @@ LinearLayout,
                         ImageView;
                         layout_width="35dp",
                         layout_height="35dp",
-                        src="drawable/yuanma.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/7b498aad-b12a-487b-813c-e75cc8f5e797/0");
                         ColorFilter="#FF42F9E3",
                         id="yuanma",
                         style="?android:attr/buttonBarButtonStyle";
@@ -1405,7 +1418,7 @@ LinearLayout,
                         layout_width="35dp",
                         layout_height="35dp",
                         style="?android:attr/buttonBarButtonStyle";
-                        src="drawable/wtms.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/11202f6f-5ea7-4abc-b93f-3aea77761b88/0");
                         ColorFilter="#FF009AFF",
                         id="wtms";
                       },
@@ -1431,7 +1444,7 @@ LinearLayout,
                         ImageView;
                         layout_width="35dp",
                         layout_height="35dp",
-                        src="drawable/xiutan.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/34fa8e82-36b2-4fea-9e58-4a691998e79d/0");
                         ColorFilter="#FF009AFF",
                         id="xiutan",
                         style="?android:attr/buttonBarButtonStyle";
@@ -1459,7 +1472,7 @@ LinearLayout,
                         ImageView;
                         layout_width="35dp",
                         layout_height="35dp",
-                        src="drawable/biaoshi.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/653f598b-87f4-4635-aff7-ba5922b7c27d/0");
                         ColorFilter="#FF009AFF",
                         style="?android:attr/buttonBarButtonStyle";
                         id="biaoshi",
@@ -1487,7 +1500,7 @@ LinearLayout,
                         layout_width="35dp",
                         layout_height="35dp",
                         style="?android:attr/buttonBarButtonStyle";
-                        src="drawable/spjx.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/2913dfca-deb5-4f5d-a0ba-6d3e7968fe42/0");
                         ColorFilter="#FF009AFF",
                         id="spjx";
                       },
@@ -1514,7 +1527,7 @@ LinearLayout,
                         layout_width="35dp",
                         layout_height="35dp",
                         style="?android:attr/buttonBarButtonStyle";
-                        src="drawable/browser.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/d11f4511-1e57-4ef1-84a2-f7e0f2756504/0");
                         ColorFilter="#FF009AFF",
                         id="browser";
                       },
@@ -1547,7 +1560,7 @@ LinearLayout,
                         layout_width="35dp",
                         layout_height="35dp",
                         style="?android:attr/buttonBarButtonStyle";
-                        src="drawable/wyjt.png";
+                        src=("http://shp.qpic.cn/collector/2530648358/8fcde0f3-b2db-452e-a2b5-afe7f758be4f/0");
                         ColorFilter="#FF009AFF",
                         id="wyjt";
                       },
@@ -1558,6 +1571,34 @@ LinearLayout,
                       gravity="center",
                       text="网页截图",
                       textColor="#ff000000",
+                    },
+                  },
+                  {
+                    LinearLayout,
+                    layout_width="wrap_content",
+                    orientation="vertical",
+                    layout_weight="1.0",
+                    gravity="center_horizontal",
+                    {
+                      LinearLayout,
+                      layout_width="wrap_content",
+                      {
+                        ImageView;
+                        layout_width="35dp",
+                        layout_height="35dp",
+                        src=("http://shp.qpic.cn/collector/2530648358/c7a5a3d6-e79c-406c-97bc-3b8e450a2c87/0");
+                        ColorFilter="#FF009AFF",
+                        id="read",
+                        style="?android:attr/buttonBarButtonStyle";
+                      },
+                    },
+                    {
+                      TextView,
+                      layout_height="wrap_content",
+                      layout_width="25%w",
+                      gravity="center",
+                      text="阅读模式",
+                      textColor="#ff000000",                    
                     },
                   },
                 },
@@ -1579,7 +1620,7 @@ LinearLayout,
                       ImageView;
                       layout_width="35dp",
                       layout_height="35dp",
-                      src="drawable/tuichu.png";
+                      src=("http://shp.qpic.cn/collector/2530648358/c45ff7b4-fb38-495b-bf7e-5271ea7603c5/0");
                       ColorFilter="#80000000",
                       style="?android:attr/buttonBarButtonStyle";
                       id="tuichu";
@@ -1599,7 +1640,7 @@ LinearLayout,
                       ImageView;
                       layout_width="35dp",
                       layout_height="35dp",
-                      src="drawable/yincang.png";
+                      src=("http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0");
                       ColorFilter="#80000000",
                       style="?android:attr/buttonBarButtonStyle";
                       id="gjxyc";
@@ -1781,6 +1822,7 @@ elseif items[v+1]=="4号解析接口" then 加载网页("https://yun.odflv.com/?
 elseif items[v+1]=="2号解析接口" then 加载网页("http://www.sfsft.com/video.php?url="..webView.getUrl()) end end}) .show() end
 browser.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) this.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse(网页链接))) end
 wyjt.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) fakebmbar.setVisibility(View.GONE)activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.GONE)task(300,function()DrawingChaceCapture(picsave..os.date("%Y%m%d%H%M%S")..".png",webView)activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.VISIBLE)fakebmbar.setVisibility(View.VISIBLE)end)end
+read.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) 加载阅读() end
 tuichu.onClick=function()  ti.stop() 退出程序()end
 gjxyc.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) end
 end
