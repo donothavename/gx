@@ -4,9 +4,14 @@ function onKeyDown(code,event)
     if 参数+2 > tonumber(os.time()) then 
      ti.stop() activity.finish()
     else
-      Toast.makeText(activity,"再按一次返回键退出浏览器" , Toast.LENGTH_SHORT )
+    if Gj==0 then gjx.setVisibility(View.GONE) Gj=nil gduo=nil elseif gduo==0 then DialogExternal.setVisibility(View.GONE) gduo=nil else
+     if (webView.canGoBack()) then
+     网页后退() else
+     Toast.makeText(activity,"再按一次返回键退出浏览器" , Toast.LENGTH_SHORT )
       .show()
       参数=tonumber(os.time()) 
+      end
+    end
     end
     return true 
   end
@@ -68,10 +73,10 @@ function 过滤(content)
   if(内容=="") then
     内容="获取失败"
   end
-  if(版本名 > "2.8.2") then
+  if(版本名 > "2.8.3") then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."2.8.2".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."2.8.3".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp") --圆角大小
     .设置积极按钮("下载更新",function()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
