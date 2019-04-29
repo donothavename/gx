@@ -23,7 +23,6 @@ File("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识").createNewFile()
 File("/sdcard/Download/com.MyFusApp.zuolanqi/自定义UA").createNewFile()
 File("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎").createNewFile()
 File("/sdcard/Download/com.MyFusApp.zuolanqi/隐身").createNewFile()
-File("/sdcard/Download/com.MyFusApp.zuolanqi/全屏").createNewFile()
 泡沫对话框(145)
 .设置消息([[初始化完成]])
 .设置积极按钮("确定",function()
@@ -33,13 +32,8 @@ io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("�
 io.open("/sdcard/Download/com.MyFusApp.zuolanqi/夜间","w+"):write("关"):close()
 io.open("/sdcard/Download/com.MyFusApp.zuolanqi/隐身","w+"):write("关"):close()
 io.open("/sdcard/Download/com.MyFusApp.zuolanqi/无图模式","w+"):write("关"):close()
-io.open("/sdcard/Download/com.MyFusApp.zuolanqi/全屏","w+"):write("关"):close()
 end)
 .显示()
-quanp=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/全屏"):read("*a")
-if quanp=="开" then
-  activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-end
 wutu=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/无图模式"):read("*a")
 if wutu=="开" then
 webView.getSettings().setLoadsImagesAutomatically(false)
@@ -51,13 +45,8 @@ elseif llqbs=="IE 11 (PC)" then webView.getSettings().setUserAgentString("Mozill
 elseif llqbs=="iphone" then webView.getSettings().setUserAgentString("Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7");
 elseif llqbs=="塞班 (Symbian)" then webView.getSettings().setUserAgentString("Mozilla/5.0 (Symbian/3; Series60/5.2 NokiaN8-00/012.002; Profile/MIDP-2.1 Configuration/CLDC-1.1 ) AppleWebKit/533.4 (KHTML, like Gecko) NokiaBrowser/7.3.0 Mobile Safari/533.4 3gpp-gba");
 elseif llqbs=="自定义" then ua=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/自定义UA"):read("*a") webView.getSettings().setUserAgentString(ua);end
-加载网页("file://"..this.luaDir.."/html/首页.html")
+加载网页("https://leftshine.gitee.io/viaindex/via-ningjing-3.5/index.html")
 import"read"
-import "android.app.*"
-import "android.os.*"
-import "android.widget.*"
-import "android.view.*"
-import "Dex.Pretend"
 import"zw"
 import "com.my.sc.*"
 离线页面="/sdcard/Download/com.MyFusApp.zuolanqi/离线页面/"
@@ -141,6 +130,89 @@ function 启用快捷工具栏()
 快捷工具栏.LayoutParams.gravity=5
 end
 启用快捷工具栏()
+function ewm()
+AboutLayout=
+{
+  LinearLayout;
+  orientation="horizontal";
+  {
+    Button;
+    text="二维码生成";
+    textSize="15";
+    textColor="#ff000000";
+    background="#00000000";
+    layout_weight="1.0"; 
+    layout_width="fill";
+    layout_marginTop="0";
+    onClick=function()
+      加载网页("https://cli.im/mob")
+      关闭对话框()
+    end
+  };
+  {
+    TextView,
+    layout_width="1dp",
+    layout_height="fill",
+    background="#FFDDDDDD";
+  };
+  {
+    Button;
+    text="检测网页图片二维码";
+    textSize="15";
+    textColor="#ff000000";
+    background="#00000000";
+    layout_weight="1.0"; 
+    layout_width="fill";
+    layout_marginTop="fill";
+    onClick=function()
+      qrcode()
+      关闭对话框()
+    end
+  };
+  {
+    TextView,
+    layout_width="1dp",
+    layout_height="fill",
+    background="#FFDDDDDD";
+  };
+  {
+    Button;
+    text="检测本地图片二维码";
+    textSize="15";
+    textColor="#ff000000";
+    background="#00000000";
+    layout_weight="1.0"; 
+    layout_width="fill";
+    layout_marginTop="fill";
+    onClick=function()
+    弹出消息("请选择含有二维码的图片")
+  import "android.content.Intent"
+  local intent= Intent(Intent.ACTION_PICK)
+  intent.setType("image/*")
+  this.startActivityForResult(intent,1)
+  function onActivityResult(requestCode,resultCode,intent)
+    if intent then
+      local cursor =this.getContentResolver ().query(intent.getData(), nil, nil, nil, nil)
+      cursor.moveToFirst()
+      import "android.provider.MediaStore"
+      local idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+      fileSrc = cursor.getString(idx)
+      bit=nil
+      import "android.graphics.BitmapFactory"
+      bit =BitmapFactory.decodeFile(fileSrc)
+      qrpic()
+    end
+  end
+      关闭对话框()
+    end
+  };
+};
+dlg=AlertDialog.Builder(this).setView(loadlayout(AboutLayout)).show()
+function 关闭对话框()
+  return dlg and dlg.dismiss()
+end
+import "android.graphics.Paint"
+end
 function 短链生成()
 InputLayout={
     LinearLayout;
@@ -220,10 +292,10 @@ function 过滤(content)
   if(内容=="") then
     内容="获取失败"
   end
-  if(版本名 > "2.8.4") then
+  if(版本名 > "2.8.6") then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."2.8.4".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."2.8.6".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp") --圆角大小
     .设置积极按钮("下载更新",function()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
@@ -277,7 +349,36 @@ end
 function 页面加载完毕()
 设置底栏刷新状态(false,true,1000)
 end
+function 收到新标题事件()
+if not 网页链接:find"leftshine.gitee.io" then
+ys=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/隐身"):read("*a")
+if ys=="关" then read_hst() add_hst() save_hst() end end
+yj=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/夜间"):read("*a")
+if yj=="开" then 
+task(100,function()
+加载Js([[javascript:(function(){var styleElem=null,doc=document,ie=doc.all,fontColor=50,sel="body,body *";styleElem=createCSS(sel,setStyle(fontColor),styleElem);function setStyle(fontColor){var colorArr=[fontColor,fontColor,fontColor];return"background-color:#000 !important;color:RGB("+colorArr.join("%,")+"%) !important;"}function createCSS(sel,decl,styleElem){var doc=document,h=doc.getElementsByTagName("head")[0],styleElem=styleElem;if(!styleElem){s=doc.createElement("style");s.setAttribute("type","text/css");styleElem=ie?doc.styleSheets[doc.styleSheets.length-1]:h.appendChild(s)}if(ie){styleElem.addRule(sel,decl)}else{styleElem.innerHTML="";styleElem.appendChild(doc.createTextNode(sel+" {"+decl+"}"))}return styleElem}})();]]) 
+end)end end
 function search() 
+function searchfz()
+  if sq=="百度" then
+  加载网页("https://m.baidu.com/s?from=1022560l&word="..edit.text)
+  end
+  if sq=="必应" then
+  加载网页("https://www2.bing.com/search?q="..edit.text)
+  end
+  if sq=="神马" then
+  加载网页("https://yz.m.sm.cn/s?from=wy923961&q="..edit.text) 
+  end
+  if sq=="好搜" then
+  加载网页("https://m.so.com/s?q="..edit.text)
+  end
+  if sq=="搜狗" then
+  加载网页("https://wap.sogou.com/web/sl?bid=sogou-mobb-ef77022c7b788c29&keyword="..edit.text)
+  end
+  if sq=="谷歌" then
+  加载网页("https://www.google.com.hk/search?q="..edit.text)
+  end
+end
 sq=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎"):read("*a")
 InputLayout={
     LinearLayout;
@@ -311,42 +412,42 @@ InputLayout={
     layout_width="20%w";
     background="";
     text="https://";
-    onClick=function()edit.text=edit.text.."https://";end;
+    onClick=function()edit.text=edit.text.."https://";edit.setSelection(#edit.text)end;
     };
     {
     Button;
     layout_width="14%w";
     background="";
     text="www.";
-    onClick=function()edit.text=edit.text.."www.";end;
+    onClick=function()edit.text=edit.text.."www.";edit.setSelection(#edit.text)end;
     };
     {
     Button;
     text="/";
     layout_width="14%w";
     background="";
-    onClick=function()edit.text=edit.text.."/";end;
+    onClick=function()edit.text=edit.text.."/";edit.setSelection(#edit.text)end;
     };
     {
     Button;
     text=".";
     layout_width="12%w";
     background="";
-    onClick=function()edit.text=edit.text..".";end;
+    onClick=function()edit.text=edit.text..".";edit.setSelection(#edit.text)end;
     };
     {
     Button;
     layout_width="14%w";
     background="";
     text=".com";
-    onClick=function()edit.text=edit.text..".com";end;
+    onClick=function()edit.text=edit.text..".com";edit.setSelection(#edit.text)end;
     };
     {
     Button;
     layout_width="14%w";
     background="";
     text=".cn";
-    onClick=function()edit.text=edit.text..".cn";end;
+    onClick=function()edit.text=edit.text..".cn";edit.setSelection(#edit.text)end;
     };
     };   
   };
@@ -354,75 +455,31 @@ InputLayout={
   .setTitle(webView.title)
   .setView(loadlayout(InputLayout))
   .setPositiveButton("确定",{onClick=function(v) 
-  if edit.text:find"://" then pd=edit.text:match("(.+)://") 
-      if pd=="http" or pd=="https" or pd=="ftp" then 加载网页(edit.text) 
-      elseif pd:find"url=http" then 加载网页(edit.text)
-      else
-      if sq=="百度" then
-      加载网页("https://m.baidu.com/s?from=1022560l&word="..edit.text)
-      end
-      if sq=="必应" then
-      加载网页("https://www2.bing.com/search?q="..edit.text)
-      end
-      if sq=="神马" then
-      加载网页("https://yz.m.sm.cn/s?from=wy923961&q="..edit.text) 
-      end
-      if sq=="好搜" then
-      加载网页("https://m.so.com/s?q="..edit.text)
-      end
-      if sq=="搜狗" then
-      加载网页("https://wap.sogou.com/web/sl?bid=sogou-mobb-ef77022c7b788c29&keyword="..edit.text)
-      end
-      if sq=="谷歌" then
-      加载网页("https://www.google.com.hk/search?q="..edit.text)
-      end
-      end
-      elseif edit.text:find"www." then pd=edit.text:match("(.+)www.") 
-      if pd==nil then 加载网页("https://"..edit.text) 
-      else
-      if sq=="百度" then
-      加载网页("https://m.baidu.com/s?from=1022560l&word="..edit.text)
-      end
-      if sq=="必应" then
-      加载网页("https://www2.bing.com/search?q="..edit.text)
-      end
-      if sq=="神马" then
-      加载网页("https://yz.m.sm.cn/s?from=wy923961&q="..edit.text) 
-      end
-      if sq=="好搜" then
-      加载网页("https://m.so.com/s?q="..edit.text)
-      end
-      if sq=="搜狗" then
-      加载网页("https://wap.sogou.com/web/searchList.jsp?uID=mUZm0CeNyg0fT48i&v=5&from=index&bid=sogou-mobb-19f59064291ed034&w=1274&t=1549868119771&s_t=1549868184944&s_from=index&pg=webSearchList&inter_index=1&keyword="..edit.text)
-      end
-      if sq=="谷歌" then
-      加载网页("https://www.google.com.hk/search?q="..edit.text)
-      end
-      end
-      else
-      if sq=="百度" then
-      加载网页("https://m.baidu.com/s?from=1022560l&word="..edit.text)
-      end
-      if sq=="必应" then
-      加载网页("https://www2.bing.com/search?q="..edit.text)
-      end
-      if sq=="神马" then
-      加载网页("https://yz.m.sm.cn/s?from=wy923961&q="..edit.text) 
-      end
-      if sq=="好搜" then
-      加载网页("https://m.so.com/s?q="..edit.text)
-      end
-      if sq=="搜狗" then
-      加载网页("https://wap.sogou.com/web/searchList.jsp?uID=mUZm0CeNyg0fT48i&v=5&from=index&bid=sogou-mobb-19f59064291ed034&w=1274&t=1549868119771&s_t=1549868184944&s_from=index&pg=webSearchList&inter_index=1&keyword="..edit.text)
-      end
-      if sq=="谷歌" then
-      加载网页("https://www.google.com.hk/search?q="..edit.text)
-      end 
-    end 
-  end})
+    pd4=string.sub(edit.text,1,4) pd6=string.sub(edit.text,1,6) pd7=string.sub(edit.text,1,7) pd8=string.sub(edit.text,1,8)
+    if pd4=="www." then pd=edit.text:match("www.(.+)")
+    if pd==nil then
+      searchfz()
+    else
+    加载网页("http://"..edit.text)end 
+    elseif pd6=="ftp://" then pd=edit.text:match("ftp://(.+)")
+    if pd==nil then
+      searchfz()
+    else 加载网页(edit.text)end
+    elseif pd7=="http://" then pd=edit.text:match("http://(.+)")
+    if pd==nil then
+      searchfz()
+    else 加载网页(edit.text)end
+    elseif pd8=="https://" then pd=edit.text:match("https://(.+)")
+    if pd==nil then
+      searchfz()
+    else 加载网页(edit.text)end
+    else
+    searchfz()
+    end
+    end})
   .setNegativeButton("取消",nil)
   .setNeutralButton("搜索引擎",{onClick=function(v) 
-    items={}
+items={}
 table.insert(items,"百度")
 table.insert(items,"必应")
 table.insert(items,"神马")
@@ -793,24 +850,7 @@ menu.add("分享天气信息").onMenuItemClick=function(a) 分享文本(help) en
   end
 end)
 webView.addJavascriptInterface({},"JsInterface")
-ll=0 hfny=0 ti=Ticker()ti.Period=200 ti.onTick=function()quanp=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/全屏"):read("*a")
-  if quanp=="开" then
-  webY=(tonumber(webView.getHeight()+webView.getScrollY())-webView.getHeight())
-  xc=webY-hfny
-    if xc==0 then
-    elseif xc>0 then
-    toolbar.parent.setVisibility(View.GONE)
-    fakebmbar.setVisibility(View.GONE)
-    elseif xc<0 then
-    toolbar.parent.setVisibility(View.VISIBLE)
-    fakebmbar.setVisibility(View.VISIBLE)
-  end
-  task(1000,function()
-    hfny=webY
-  end)
-end ll=ll+1tt=os.date("时间:%H:%M:%S") if ll==18000 then 对话框().设置标题("温馨提醒").设置消息("您已浏览网页一小时,该休息一下了").设置积极按钮("好的",function()退出程序()end).设置消极按钮("继续浏览网页").显示()end 设置顶栏标题("      "..tt.." "..webView.title)end ti.start()
---开头提示
-泡沫对话框(1).设置标题("提示").设置消息([[安装X5内核可全屏播放视频,还有悬浮按钮可以移动呦!]]).设置积极按钮("确定",function()进入子页面("X5")end).设置消极按钮("取消").显示()
+ll=0 ti=Ticker()ti.Period=1000 ti.onTick=function() ll=ll+1tt=os.date("时间:%H:%M:%S") if ll==3600 then 对话框().设置标题("温馨提醒").设置消息("您已浏览网页一小时,该休息一下了").设置积极按钮("好的",function()退出程序()end).设置消极按钮("继续浏览网页").显示()end 设置顶栏标题("      "..tt.." "..webView.title)end ti.start()
 --
 gd={
 LinearLayout,
@@ -1584,34 +1624,6 @@ LinearLayout,
                         ImageView;
                         layout_width="35dp",
                         layout_height="35dp",
-                        src=("http://shp.qpic.cn/collector/2530648358/6de7a8c6-d432-42e8-a0ef-4ab21f2b1231/0");
-                        ColorFilter="#FF009AFF",
-                        id="qp",
-                        style="?android:attr/buttonBarButtonStyle";
-                      },
-                    },
-                    {
-                      TextView,
-                      layout_height="wrap_content",
-                      layout_width="25%w",
-                      gravity="center",
-                      text="全屏",
-                      textColor="#ff000000",                    
-                    },
-                  },
-                  {
-                    LinearLayout,
-                    layout_width="wrap_content",
-                    orientation="vertical",
-                    layout_weight="1.0",
-                    gravity="center_horizontal",
-                    {
-                      LinearLayout,
-                      layout_width="wrap_content",
-                      {
-                        ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
                         style="?android:attr/buttonBarButtonStyle";
                         src=("http://shp.qpic.cn/collector/2530648358/11202f6f-5ea7-4abc-b93f-3aea77761b88/0");
                         ColorFilter="#FF009AFF",
@@ -1884,7 +1896,7 @@ yncz.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)
   sr={
     LinearLayout;
     layout_width="-1";
-    layout_height="85%h";
+    layout_height="93%h";
     gravity="bottom";
     id="sr";
     Elevation="3dp";
@@ -1898,7 +1910,7 @@ yncz.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)
     layout_height="7%h";
     orientation="horizontal";
     backgroundColor=0x7FFFFFFF;
-    gravity="center|bottom";
+    gravity="left|bottom";
     layout_gravity="center|bottom";
     id="srys";
     {
@@ -1906,73 +1918,62 @@ yncz.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)
       hint="页内查找";
       hintTextColor=0xff000000;
       layout_marginTop="5dp";
-      layout_width="80%w";
-      layout_gravity="center",
+      layout_width="70%w";
+      layout_gravity="left",
       id="edit";
       text="";
     };
+    {
+      LinearLayout,
+      layout_width="match_parent",
+      orientation="horizontal",
+      layout_weight="1.0",
+      layout_height="-1",                 
+       {
+        LinearLayout,
+        layout_width="wrap_content",
+        orientation="vertical",
+        layout_weight="1.0",
+        gravity="center_horizontal",
+        {
+          LinearLayout,
+          layout_width="wrap_content",
+          {
+            ImageView;
+            layout_width="35dp",
+            layout_height="35dp",
+            src=("http://shp.qpic.cn/collector/2530648358/ecc5b48c-e8fd-413f-afef-76787ec5fa3e/0");
+            ColorFilter="#80000000",
+            style="?android:attr/buttonBarButtonStyle";
+            id="gb";
+          },                                                             
+        },
+      },
+      {
+        LinearLayout,
+        layout_width="wrap_content",
+        orientation="vertical",
+        layout_weight="1.0",
+        gravity="center_horizontal",
+        {
+          LinearLayout,
+          layout_width="wrap_content",
+          {
+            ImageView;
+            layout_width="35dp",
+            layout_height="35dp",
+            src=("http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0");
+            ColorFilter="#80000000",
+            style="?android:attr/buttonBarButtonStyle";
+            id="xg";
+          },                                                                                                
+        },
+      }, 
+    },
   };
 };
-ss={
-  LinearLayout;
-  orientation="horizontal";
-  layout_width="-1";
-  layout_height="92%h";
-  gravity="bottom";
-  id="ss";
-  Elevation="3dp";
-  {
-    LinearLayout;
-    layout_width="fill";
-    Elevation="3dp";
-    layout_height="7%h";
-    orientation="horizontal";
-    backgroundColor=0x7FFFFFFF;
-    gravity="center|bottom";
-    layout_gravity="center|bottom";
-    id="ys";
-    {
-      LinearLayout;
-      id="gb";
-      layout_width="50%w";
-      layout_marginLeft="0dp";
-      orientation="vertical";
-      gravity="center|left";
-      layout_gravity="center|left";
-      layout_height="fill";
-      {
-        TextView,
-        layout_height="wrap_content",
-        layout_width="50%w",
-        text="关闭",
-        textSize="17",
-        textColor="#ff000000",
-        gravity="center",
-       },
-    };
-    {
-      LinearLayout;
-      id="xg";
-      layout_width="50%w";
-      layout_height="fill";
-      layout_marginLeft="0dp";
-      orientation="vertical";
-      gravity="center|left";
-      layout_gravity="center|left";
-      {
-        TextView,
-        layout_height="wrap_content",
-        layout_width="50%w",
-        text="下个",
-        textSize="17",
-        textColor="#ff000000",
-        gravity="center",
-      },
-    };
-  };
-}
-fltBtn.Parent.addView(loadlayout(sr)) fltBtn.Parent.addView(loadlayout(ss))
-xg.onClick=function() 页内查找(edit.text) end gb.onClick=function() 页内查找("")sr.setVisibility(View.GONE)ss.setVisibility(View.GONE) end end
+fltBtn.Parent.addView(loadlayout(sr))
+xg.onClick=function() 页内查找(edit.text) end gb.onClick=function() 页内查找("")sr.setVisibility(View.GONE)end end
 bcwy.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) offline="/sdcard/download/com.MyFusApp.zuolanqi/离线页面/"..os.date("%Y%m%d%H%M%S")..webView.title..".mht" print("已保存网页至“"..offline.."”") webView.saveWebArchive(offline) end
 lxym.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) ChoiceOfflineFile("/sdcard/Download/com.MyFusApp.zuolanqi/离线页面/") end
 fanyi.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) items={} table.insert(items,"彩云小译") table.insert(items,"百度翻译") table.insert(items,"有道翻译")AlertDialog.Builder(this) .setTitle("选择翻译引擎") .setItems(items,{onClick=function(l,v) 
@@ -1980,7 +1981,6 @@ if items[v+1]=="百度翻译" then 加载网页("http://fanyi.baidu.com/transpag
 elseif items[v+1]=="有道翻译" then 加载网页("http://fanyi.youdao.com/WebpageTranslate?keyfrom=webfanyi.top&url="..webView.getUrl().."&type=ZH_CN2EN")
 elseif items[v+1]=="彩云小译" then 加载Js([[(function(){if(!document.body)return;var popup=document.querySelectorAll('.cyxy-target-popup');if(popup&&popup.length>0)return;var trs=document.createElement('script');trs.type='text/javascript';trs.charset='UTF-8';trs.src=('https:'==document.location.protocol?'https://':'http://')+'caiyunapp.com/dest/trs.js';document.body.appendChild(trs);})()]])end end}).show()end
 yuanma.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) 加载网页("view-source:"..webView.getUrl()) end
-qp.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) quanp=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/全屏"):read("*a") if quanp=="关" then activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); io.open("/sdcard/Download/com.MyFusApp.zuolanqi/全屏","w+"):write("开"):close() else toolbar.parent.setVisibility(View.VISIBLE) fakebmbar.setVisibility(View.VISIBLE) activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN); io.open("/sdcard/Download/com.MyFusApp.zuolanqi/全屏","w+"):write("关"):close() end end
 wtms.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) wutu=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/无图模式"):read("*a") if wutu=="开" then webView.getSettings().setLoadsImagesAutomatically(true) print"有图模式" io.open("/sdcard/Download/com.MyFusApp.zuolanqi/无图模式","w+"):write("关"):close() else webView.getSettings().setLoadsImagesAutomatically(false) print"无图模式" io.open("/sdcard/Download/com.MyFusApp.zuolanqi/无图模式","w+"):write("开"):close() end end
 xiutan.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) items={} table.insert(items,"嗅探1") table.insert(items,"嗅探2")AlertDialog.Builder(this) .setTitle("选择嗅探引擎") .setItems(items,{onClick=function(l,v) 
 if items[v+1]=="嗅探1" then require("import").import("qqbid/qqbid").resource_sniff();
