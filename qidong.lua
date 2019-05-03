@@ -292,12 +292,12 @@ function 过滤(content)
   if(内容=="") then
     内容="获取失败"
   end
-  if(版本名 > "2.8.6") then
+  if(版本名 > "2.8.7") then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."2.8.6".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."2.8.7".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp") --圆角大小
-    .设置积极按钮("下载更新",function()
+    .设置积极按钮("立即更新",function()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
 Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
   if(code==200 and content)then con=content
@@ -305,7 +305,7 @@ Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
     print"更新完成，重启失效"
     end
   end)
-      弹出消息("更新中…")
+      弹出消息("更新中…\n请不要退出浏览器")
     end)
     .设置消极按钮("暂不更新",function()
     end)
@@ -732,6 +732,7 @@ onClick=function()
     end})end
 };}
 sidebar.addView(ycgn,1)
+function 天气()
 url="https://m.tianqi.com/"
 Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
   if(code==200 and content)then con=content
@@ -765,7 +766,7 @@ Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
         gravity="center";
         onClick=function()
 pop=PopupMenu(activity,aaa) menu=pop.Menu
-menu.add("查看天气详细信息").onMenuItemClick=function(a) 进入子页面("共用",{链接="https://weather.mp.qq.com/?_nav_alpha=0&_nav_txtclr=ffffff&_nav_titleclr=ffffff&_nav_anim=true&asyncMode=1&adtag=h5page.ark_expose&city="..cs})end
+menu.add("查看天气详细信息").onMenuItemClick=function(a) 进入子页面("共用",{链接="https://m.tianqi.com/"})end
 menu.add("复制天气信息").onMenuItemClick=function(a) 复制文本(help) print"已复制" end
 menu.add("分享天气信息").onMenuItemClick=function(a) 分享文本(help) end pop.show()end;
         {LinearLayout;
@@ -809,6 +810,17 @@ menu.add("分享天气信息").onMenuItemClick=function(a) 分享文本(help) en
             };
           };
         };
+        {
+            ImageView;
+            scaleType="fitXY";
+            id="sx";
+            src=("http://shp.qpic.cn/collector/2530648358/7240777b-c5dc-4478-aeba-c8ec1ed01057/0");
+            layout_height="20dp";
+            layout_width="20dp";
+            ColorFilter="#87C5C5C5";
+            onClick=function()
+            chltq.setVisibility(View.GONE) 天气() end;
+          };
       };
       {
         LinearLayout;
@@ -849,6 +861,7 @@ menu.add("分享天气信息").onMenuItemClick=function(a) 分享文本(help) en
     sidebar.addView(chltq,1)
   end
 end)
+end 天气()
 webView.addJavascriptInterface({},"JsInterface")
 ll=0 ti=Ticker()ti.Period=1000 ti.onTick=function() ll=ll+1tt=os.date("时间:%H:%M:%S") if ll==3600 then 对话框().设置标题("温馨提醒").设置消息("您已浏览网页一小时,该休息一下了").设置积极按钮("好的",function()退出程序()end).设置消极按钮("继续浏览网页").显示()end 设置顶栏标题("      "..tt.." "..webView.title)end ti.start()
 --
@@ -2042,7 +2055,7 @@ elseif items[v+1]=="6号解析接口" then 加载网页("http://api.bbbbbb.me/jx
 elseif items[v+1]=="5号解析接口" then 加载网页("https://api.bbbbbb.me/yun/?url="..webView.getUrl())
 else]]if items[v+1]=="1号解析接口" then 加载网页("http://wwa.ha12.xyz/jian/index.php?url="..webView.getUrl())
 elseif items[v+1]=="3号解析接口" then 加载网页("http://xiaojx.two3.cn/jx/?url="..webView.getUrl())
-elseif items[v+1]=="4号解析接口" then 加载网页("https://yun.odflv.com/?url="..webView.getUrl())
+elseif items[v+1]=="4号解析接口" then 加载网页("http://api.qy414.cn/?url="..webView.getUrl())
 elseif items[v+1]=="2号解析接口" then 加载网页("http://www.sfsft.com/video.php?url="..webView.getUrl()) end end}) .show() end
 browser.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) this.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse(网页链接))) end
 wyjt.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) fakebmbar.setVisibility(View.GONE)activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.GONE)task(300,function()DrawingChaceCapture(picsave..os.date("%Y%m%d%H%M%S")..".png",webView)activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.VISIBLE)fakebmbar.setVisibility(View.VISIBLE)end)end
