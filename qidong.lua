@@ -1,3 +1,4 @@
+yys=0xff7c7c7c
 参数=0
 function onKeyDown(code,event) 
   if string.find(tostring(event),"KEYCODE_BACK") ~= nil then 
@@ -46,6 +47,7 @@ elseif llqbs=="iphone" then webView.getSettings().setUserAgentString("Mozilla/5.
 elseif llqbs=="塞班 (Symbian)" then webView.getSettings().setUserAgentString("Mozilla/5.0 (Symbian/3; Series60/5.2 NokiaN8-00/012.002; Profile/MIDP-2.1 Configuration/CLDC-1.1 ) AppleWebKit/533.4 (KHTML, like Gecko) NokiaBrowser/7.3.0 Mobile Safari/533.4 3gpp-gba");
 elseif llqbs=="自定义" then ua=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/自定义UA"):read("*a") webView.getSettings().setUserAgentString(ua);end
 加载网页("https://leftshine.gitee.io/viaindex/via-ningjing-3.5/index.html")
+import"RoundedDialog"
 import"read"
 import"zw"
 import "com.my.sc.*"
@@ -63,7 +65,7 @@ function 启用快捷工具栏()
     gravity="center";
     {
       CardView;
-      radius="5dp";
+      radius="15dp";
       id="侧滑卡片";
       Elevation=0;
       layout_width="60dp";
@@ -131,15 +133,18 @@ function 启用快捷工具栏()
 end
 启用快捷工具栏()
 function ewm()
+yj=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/夜间"):read("*a")
+if yj=="开" then ys=0xff000000 ys2=0xffffffff else ys=0xffffffff ys2=0xff000000 end
 AboutLayout=
 {
   LinearLayout;
   orientation="horizontal";
+  backgroundColor=ys;
   {
     Button;
     text="二维码生成";
     textSize="15";
-    textColor="#ff000000";
+    textColor=ys2;
     background="#00000000";
     layout_weight="1.0"; 
     layout_width="fill";
@@ -159,7 +164,7 @@ AboutLayout=
     Button;
     text="检测网页图片二维码";
     textSize="15";
-    textColor="#ff000000";
+    textColor=ys2;
     background="#00000000";
     layout_weight="1.0"; 
     layout_width="fill";
@@ -179,7 +184,7 @@ AboutLayout=
     Button;
     text="检测本地图片二维码";
     textSize="15";
-    textColor="#ff000000";
+    textColor=ys2;
     background="#00000000";
     layout_weight="1.0"; 
     layout_width="fill";
@@ -215,70 +220,73 @@ import "android.graphics.Paint"
 end
 function 短链生成()
 InputLayout={
-    LinearLayout;
-    orientation="vertical";
-    Focusable=true,
-    FocusableInTouchMode=true,
-    {
-      TextView;
-      id="clian",
-      textSize="15sp",
-      layout_marginTop="10dp";
-      layout_marginLeft="3dp",
-      layout_width="80%w";
-      layout_gravity="center",
-      text="输入长链";
-    };
-    {
-      EditText;
-      layout_marginTop="5dp";
-      layout_width="80%w";
-      layout_gravity="center",
-      id="cl";
-      text="";
-    };   
+  LinearLayout;
+  orientation="vertical";
+  Focusable=true,
+  FocusableInTouchMode=true,
+  {
+    TextView;
+    id="clian",
+    textSize="15sp",
+    textColor=yys;
+    layout_marginTop="10dp";
+    layout_marginLeft="3dp",
+    layout_width="80%w";
+    layout_gravity="center",
+    text="输入长链";
   };
-  AlertDialog.Builder(this)
-  .setTitle("短链生成")
-  .setView(loadlayout(InputLayout))
-  .setNegativeButton("取消",nil)
-  .setNeutralButton("当前网页",{onClick=function(v)
+  {
+    EditText;
+    layout_marginTop="5dp";
+    layout_width="80%w";
+    layout_gravity="center",
+    id="cl";
+    text="";
+    textColor=yys;
+  };   
+};
+圆角对话框()
+  .设置标题("短链生成")
+  .添加布局(InputLayout)
+  .设置圆角("32dp")
+  .设置消极按钮("取消",nil)
+  .设置中立按钮("当前网页",function()
   url="http://suo.im/api.php?format=json&url="..网页链接
 Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
   if(code==200 and content)then con=content
     dl=content:match('"url":"(.-)"')
-对话框()
+圆角对话框()
 .设置标题("短链")
+.设置圆角("32dp")
 .设置消息(dl)
 .设置积极按钮("复制",function()
   复制文本(dl)
 end)
 .设置消极按钮("取消")
 .显示()
-end end)end})   
-  .setPositiveButton("确定",{onClick=function(v) 
+end end)end)   
+.设置积极按钮("确定",function() 
 url="http://suo.im/api.php?format=json&url="..cl.text
 Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
   if(code==200 and content)then con=content
     dl=content:match('"url":"(.-)"')
-对话框()
+圆角对话框()
 .设置标题("短链")
+.设置圆角("32dp")
 .设置消息(dl)
 .设置积极按钮("复制",function()
   复制文本(dl)
 end)
 .设置消极按钮("取消")
 .显示()
-end end)end}).show()
-import "android.view.View$OnFocusChangeListener"
-cl.setOnFocusChangeListener(OnFocusChangeListener{ 
- onFocusChange=function(v,hasFocus)
- if hasFocus then
-  clian.setTextColor(0xFD009688)
- end
-end})end
+end end)end).显示(function()import "android.view.View$OnFocusChangeListener"
+  cl.setOnFocusChangeListener(OnFocusChangeListener{ 
+    onFocusChange=function(v,hasFocus)
+      if hasFocus then
+        clian.setTextColor(0xFD009688)
+      end
+    end})end)end
 function 检查更新()
-import 'RoundedDialog' 
 packinfo=this.getPackageManager().getPackageInfo(this.getPackageName(),((32552732/2/2-8183)/10000-6-231)/9)
 version=tostring(packinfo.versionName)
 versioncode=tostring(packinfo.versionCode)
@@ -292,10 +300,10 @@ function 过滤(content)
   if(内容=="") then
     内容="获取失败"
   end
-  if(版本名 > "2.8.7") then
+  if(版本名 > "2.9.0") then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."2.8.7".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."2.9.0".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp") --圆角大小
     .设置积极按钮("立即更新",function()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
@@ -380,12 +388,13 @@ function searchfz()
   end
 end
 sq=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎"):read("*a")
+if wz==0 then swz=网页链接 wz=nil else swz=nil end
 InputLayout={
     LinearLayout;
     orientation="vertical";
     Focusable=true,
     FocusableInTouchMode=true,
-    {
+   {
       TextView;
       id="Prompt",
       textSize="15sp",
@@ -394,6 +403,7 @@ InputLayout={
       layout_width="80%w";
       layout_gravity="center",
       text=sq.."搜索或输入网址...";
+      textColor=yys;
     };
     {
       EditText;
@@ -402,59 +412,69 @@ InputLayout={
       layout_width="80%w";
       layout_gravity="center",
       id="edit";
-      text="";
+      text=swz;
+      textColor=yys;
+      hintTextColor=yys;
     };
     {
     LinearLayout;
     orientation="horizontal";
+    layout_height="25dp";
     {
-    Button;
+    TextView;
     layout_width="20%w";
     background="";
     text="https://";
+    textColor=yys;
     onClick=function()edit.text=edit.text.."https://";edit.setSelection(#edit.text)end;
     };
     {
-    Button;
+    TextView;
     layout_width="14%w";
     background="";
     text="www.";
+    textColor=yys;
     onClick=function()edit.text=edit.text.."www.";edit.setSelection(#edit.text)end;
     };
     {
-    Button;
+    TextView;
     text="/";
     layout_width="14%w";
     background="";
+    textColor=yys;
     onClick=function()edit.text=edit.text.."/";edit.setSelection(#edit.text)end;
     };
     {
-    Button;
+    TextView;
     text=".";
     layout_width="12%w";
     background="";
+    textColor=yys;
     onClick=function()edit.text=edit.text..".";edit.setSelection(#edit.text)end;
     };
     {
-    Button;
+    TextView;
     layout_width="14%w";
     background="";
     text=".com";
+    textColor=yys;
     onClick=function()edit.text=edit.text..".com";edit.setSelection(#edit.text)end;
     };
     {
-    Button;
+    TextView;
     layout_width="14%w";
     background="";
     text=".cn";
+    textColor=yys;
     onClick=function()edit.text=edit.text..".cn";edit.setSelection(#edit.text)end;
     };
     };   
   };
-  AlertDialog.Builder(this)
-  .setTitle(webView.title)
-  .setView(loadlayout(InputLayout))
-  .setPositiveButton("确定",{onClick=function(v) 
+  圆角对话框()
+  .设置标题(webView.title)
+  .设置圆角("32dp")
+  .添加布局(InputLayout)
+  .设置积极按钮("确定",function() 
     pd4=string.sub(edit.text,1,4) pd6=string.sub(edit.text,1,6) pd7=string.sub(edit.text,1,7) pd8=string.sub(edit.text,1,8)
     if pd4=="www." then pd=edit.text:match("www.(.+)")
     if pd==nil then
@@ -476,9 +496,9 @@ InputLayout={
     else
     searchfz()
     end
-    end})
-  .setNegativeButton("取消",nil)
-  .setNeutralButton("搜索引擎",{onClick=function(v) 
+    end)
+  .设置消极按钮("取消",nil)
+  .设置中立按钮("搜索引擎",function() 
 items={}
 table.insert(items,"百度")
 table.insert(items,"必应")
@@ -504,15 +524,14 @@ io.open("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎","w+"):write("百�
   end
 end})
 .show()  
-    end})
-  .show()
-  import "android.view.View$OnFocusChangeListener"
+    end)
+  .显示(function()import "android.view.View$OnFocusChangeListener"
   edit.setOnFocusChangeListener(OnFocusChangeListener{ 
     onFocusChange=function(v,hasFocus)
       if hasFocus then
         Prompt.setTextColor(0xFD009688)
       end
-    end})
+    end})end)
 end
 检查更新()
 安全={
@@ -558,48 +577,26 @@ end
 fltBtn.Parent.addView(loadlayout(安全))
 aq.onClick=function()
   if 网页链接:find"http://" or 网页链接:find"ftp://" then
-  对话框()
+  圆角对话框()
 .设置标题(网页链接)
+.设置圆角("32dp")
 .设置消息("您与此网站之间建立的链接不安全\n请勿在此网站上输入任何敏感信息(例如密码或信用卡信息),因为攻击者可能会盗取这些信息")
 .显示()
- elseif 网页链接:find"file://" then 
-对话框()
+elseif 网页链接:find"file://" then 
+圆角对话框()
+.设置圆角("32dp")
 .设置标题(网页链接)
 .设置消息("你目前浏览的是此网页的离线副本")
 .显示()
 elseif 网页链接:find"https://" then
-对话框()
+圆角对话框()
 .设置标题(网页链接)
+.设置圆角("32dp")
 .设置消息("链接是安全的\n您发送给这个网站的信息(例如密码或信用卡号)不会外泄")
 .显示()
 end
 end
-toolbar.onClick=function()
-InputLayout={
-    LinearLayout;
-    orientation="vertical";
-    Focusable=true,
-    FocusableInTouchMode=true,
-    {
-      EditText;
-      layout_marginTop="5dp";
-      layout_width="80%w";
-      layout_gravity="center",
-      id="edit";
-      text=网页链接;
-    };   
-  };
-  AlertDialog.Builder(this)
-  .setTitle(webView.title)
-  .setView(loadlayout(InputLayout))
-  .setPositiveButton("加载编辑",{onClick=function(v) 
-  加载网页(edit.text) 
-  end})
-  .setNeutralButton("复制链接",{onClick=function(v) 
-    复制文本(网页链接)print"链接已复制"
-    end}) 
-  .show()
-end
+toolbar.onClick=function()wz=0 search() end
 yjhy=loadlayout{
 LinearLayout;
 orientation="vertical";
@@ -705,6 +702,7 @@ onClick=function()
       layout_width="80%w";
       layout_gravity="center",
       text="请输入密码";
+      textColor=yys;
     };
     {
       EditText;
@@ -713,23 +711,26 @@ onClick=function()
       layout_gravity="center",
       id="mima";
       text=" ";
+      hintTextColor=yys;
+      textColor=yys;
     };
   };
-  AlertDialog.Builder(this)
-  .setTitle("请输入密码")
-  .setView(loadlayout(InputLayout))
-  .setPositiveButton("确定",{onClick=function(v) 
+  圆角对话框()
+  .设置标题("请输入密码")
+  .设置圆角("32dp")
+  .添加布局(InputLayout)
+  .设置积极按钮("确定",function() 
     if mima.text=="" then 进入子页面("xx") else print"密码错误" end  
-    end})
-  .setNegativeButton("取消",nil)
-  .show()
-  import "android.view.View$OnFocusChangeListener"
+    end)
+  .设置消极按钮("取消",nil)
+  .显示(function()import "android.view.View$OnFocusChangeListener"
   mima.setOnFocusChangeListener(OnFocusChangeListener{ 
     onFocusChange=function(v,hasFocus)
       if hasFocus then
         xxmm.setTextColor(0xFD009688)
       end
-    end})end
+    end})end)
+end
 };}
 sidebar.addView(ycgn,1)
 function 天气()
@@ -863,8 +864,499 @@ menu.add("分享天气信息").onMenuItemClick=function(a) 分享文本(help) en
 end)
 end 天气()
 webView.addJavascriptInterface({},"JsInterface")
-ll=0 ti=Ticker()ti.Period=1000 ti.onTick=function() ll=ll+1tt=os.date("时间:%H:%M:%S") if ll==3600 then 对话框().设置标题("温馨提醒").设置消息("您已浏览网页一小时,该休息一下了").设置积极按钮("好的",function()退出程序()end).设置消极按钮("继续浏览网页").显示()end 设置顶栏标题("      "..tt.." "..webView.title)end ti.start()
+ll=0 ti=Ticker()ti.Period=1000 ti.onTick=function() ll=ll+1tt=os.date("时间:%H:%M:%S") if ll==3600 then 圆角对话框().设置标题("温馨提醒").设置圆角("32dp").设置消息("您已浏览网页一小时,该休息一下了").设置积极按钮("好的",function()退出程序()end).设置消极按钮("继续浏览网页").显示()end 设置顶栏标题("      "..tt.." "..webView.title)end ti.start()
 --
+function 工具箱()
+yj=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/夜间"):read("*a")
+if yj=="开" then ys=0xff000000 ys2=0xffffffff else ys=0xffffffff ys2=0xff000000 end
+gjx={
+LinearLayout,
+    background="#99000000",
+    layout_width="fill",
+    layout_height="match_parent",
+    Gravity="bottom",
+    id="gjx",
+    {
+      LinearLayout,
+      layout_height="39%h",
+      layout_width="match_parent",
+      orientation="vertical",
+      id="gjx",
+      layout_weight="1.0",
+      {
+        LinearLayout;
+        orientation="vertical";
+        {
+          LinearLayout;
+          layout_width="-1";
+          {
+            TextView;
+            layout_width="50%w",
+            id="c1";
+          };
+          {
+            TextView;
+            layout_width="50%w",
+            id="c2";
+          };
+          {
+            TextView,
+            id="hg1",
+          },
+        };
+        {
+          PageView;
+          id="滑动窗口";
+          layout_height="-2";
+          layout_width="-1";
+          layout_weight="1.0";
+          layout_marginLeft="2%w";
+          layout_marginRight="2%w";
+          layout_marginBottom="13%w";
+          pages={
+            {
+              CardView;
+              id="k1"; 
+              layout_height="match_parent";
+              radius="32dp"; --圆角角度
+              elevation="0dp";
+              CardBackgroundColor=ys;
+              {
+                LinearLayout,
+                layout_height="match_parent",
+                layout_width="match_parent",
+                orientation="vertical",
+                {
+                  LinearLayout,
+                  layout_height="wrap_content",
+                  layout_width="match_parent",
+                  orientation="horizontal",
+                  layout_weight="1.0",
+                  {
+                    LinearLayout,
+                    layout_height="match_parent",
+                    layout_width="wrap_content",
+                    orientation="vertical",
+                    layout_weight="1.0",
+                    gravity="center",
+                    {
+                      LinearLayout,
+                      layout_height="wrap_content",
+                      layout_width="wrap_content",
+                      {
+                        ImageView;
+                        layout_width="27dp",
+                        layout_height="27dp", 
+                        id="yncz",
+                        ColorFilter="#FF7C7C7C",                        
+                        src=("http://shp.qpic.cn/collector/2530648358/81343e52-4cef-4b2b-9ede-55174b5bfce3/0");
+                      },
+                    },
+                    {
+                      TextView,
+                      layout_height="wrap_content",
+                      layout_width="25%w",
+                      text="页内查找",
+                      textColor=ys2,
+                      gravity="center",
+                    },
+                  },
+                  {
+                    LinearLayout,
+                    layout_height="match_parent",
+                    layout_width="wrap_content",
+                    orientation="vertical",
+                    layout_weight="1.0",
+                    gravity="center",
+                    {
+                      LinearLayout,
+                      layout_height="wrap_content",
+                      layout_width="wrap_content",
+                      {
+                        ImageView;
+                        layout_width="27dp",
+                        layout_height="27dp",
+                        src=("http://shp.qpic.cn/collector/2530648358/18c65ca3-532c-4634-a721-b5c208ed5453/0");
+                        ColorFilter="#ffaba4e9",
+                        id="bcwy";
+                      },
+                    },
+                    {
+                      TextView,
+                      layout_height="wrap_content",
+                      layout_width="25%w",
+                      gravity="center",
+                      text="保存网页",
+                      textColor=ys2,
+                    },
+                  },
+                  {
+                    LinearLayout,
+                    layout_height="match_parent",
+                    layout_width="wrap_content",
+                    orientation="vertical",
+                    layout_weight="1.0",
+                    gravity="center",
+                    {
+                      LinearLayout,
+                      layout_height="wrap_content",
+                      layout_width="wrap_content",
+                      {
+                        ImageView;
+                        layout_width="27dp",
+                        layout_height="27dp",
+                        src=("http://shp.qpic.cn/collector/2530648358/c3959a70-df1e-4c4e-96be-8181865ed579/0");
+                        ColorFilter="#FFAEF942",
+                        id="lxym";
+                      },
+                    },
+                    {
+                      TextView,
+                      layout_height="wrap_content",
+                      layout_width="25%w",
+                      gravity="center",
+                      text="离线页面",
+                      textColor=ys2,
+                    },
+                  },
+                  {
+                    LinearLayout,
+                    layout_height="match_parent",
+                    layout_width="wrap_content",
+                    orientation="vertical",
+                    layout_weight="1.0",
+                    gravity="center",
+                    {
+                      LinearLayout,
+                      layout_height="wrap_content",
+                      layout_width="wrap_content",
+                      {
+                        ImageView;
+                        layout_width="27dp",
+                        layout_height="27dp",
+                        src=("http://shp.qpic.cn/collector/2530648358/ddafc5cf-ca80-4805-957f-5d1257f228d6/0");
+                        ColorFilter="#FFFFF045",
+                        id="fanyi",
+                      },
+                    },
+                    {
+                      TextView,
+                      layout_height="wrap_content",
+                      layout_width="25%w",
+                      gravity="center",
+                      text="网页翻译",
+                      textColor=ys2,
+                    },
+                  },
+                {
+                    LinearLayout,
+                    layout_height="match_parent",
+                    layout_width="wrap_content",
+                    orientation="vertical",
+                    layout_weight="1.0",
+                    gravity="center",
+                    {
+                      LinearLayout,
+                      layout_height="wrap_content",
+                      layout_width="wrap_content",
+                      {
+                        ImageView;
+                        layout_width="27dp",
+                        layout_height="27dp",
+                        src=("http://shp.qpic.cn/collector/2530648358/7b498aad-b12a-487b-813c-e75cc8f5e797/0");
+                        ColorFilter="#FF42F9E3",
+                        id="yuanma",
+                      },
+                    },
+                    {
+                      TextView,
+                      layout_height="wrap_content",
+                      layout_width="25%w",
+                      gravity="center",
+                      text="源码",
+                      textColor=ys2,
+                    },
+                  },                
+                },
+                {
+                  LinearLayout,
+                  layout_width="match_parent",
+                  orientation="horizontal",
+                  layout_weight="1.0",
+                  {
+                    LinearLayout,
+                    layout_width="wrap_content",
+                    orientation="vertical",
+                    layout_weight="1.0",
+                    gravity="center_horizontal",
+                    {
+                      LinearLayout,
+                      layout_width="wrap_content",
+                      {
+                        ImageView;
+                        layout_width="27dp",
+                        layout_height="27dp",
+                        src=("http://shp.qpic.cn/collector/2530648358/11202f6f-5ea7-4abc-b93f-3aea77761b88/0");
+                        ColorFilter="#FF009AFF",
+                        id="wtms";
+                      },
+                    },
+                    {
+                      TextView,
+                      layout_width="25%w",
+                      gravity="center",
+                      text="无图模式",
+                      textColor=ys2,
+                    },
+                  },
+                  {
+                    LinearLayout,
+                    layout_width="wrap_content",
+                    orientation="vertical",
+                    layout_weight="1.0",
+                    gravity="center_horizontal",
+                    {
+                      LinearLayout,
+                      layout_width="wrap_content",
+                      {
+                        ImageView;
+                        layout_width="27dp",
+                        layout_height="27dp",
+                        src=("http://shp.qpic.cn/collector/2530648358/34fa8e82-36b2-4fea-9e58-4a691998e79d/0");
+                        ColorFilter="#FF009AFF",
+                        id="xiutan",
+                      },
+                    },
+                    {
+                      TextView,
+                      layout_height="wrap_content",
+                      layout_width="25%w",
+                      gravity="center",
+                      text="资源嗅探",
+                      textColor=ys2,                    
+                    },
+                  },
+                  {
+                    LinearLayout,
+                    layout_width="wrap_content",
+                    orientation="vertical",
+                    layout_weight="1.0",
+                    gravity="center_horizontal",
+                    {
+                      LinearLayout,
+                      layout_width="wrap_content",
+                      {
+                        ImageView;
+                        layout_width="27dp",
+                        layout_height="27dp",
+                        src=("http://shp.qpic.cn/collector/2530648358/653f598b-87f4-4635-aff7-ba5922b7c27d/0");
+                        ColorFilter="#FF009AFF",
+                        id="biaoshi",
+                      },
+                    },
+                    {
+                      TextView,
+                      layout_width="25%w",
+                      gravity="center",
+                      text="浏览器标识",
+                      textColor=ys2,
+                    },
+                  },
+                  {
+                    LinearLayout,
+                    layout_width="wrap_content",
+                    orientation="vertical",
+                    layout_weight="1.0",
+                    gravity="center_horizontal",
+                    {
+                      LinearLayout,
+                      layout_width="wrap_content",
+                      {
+                        ImageView;
+                        layout_width="27dp",
+                        layout_height="27dp",
+                        src=("http://shp.qpic.cn/collector/2530648358/2913dfca-deb5-4f5d-a0ba-6d3e7968fe42/0");
+                        ColorFilter="#FF009AFF",
+                        id="spjx";
+                      },
+                    },
+                    {
+                      TextView,
+                      layout_width="25%w",
+                      gravity="center",
+                      text="视频解析",
+                      textColor=ys2,
+                    },
+                  },
+                },
+                {
+                  LinearLayout,
+                  layout_width="match_parent",
+                  orientation="horizontal",
+                  layout_weight="1.0",
+                {
+                    LinearLayout,
+                    layout_width="wrap_content",
+                    orientation="vertical",
+                    layout_weight="1.0",
+                    gravity="center_horizontal",
+                    {
+                      LinearLayout,
+                      layout_width="wrap_content",
+                      {
+                        ImageView;
+                        layout_width="27dp",
+                        layout_height="27dp",
+                        src=("http://shp.qpic.cn/collector/2530648358/d11f4511-1e57-4ef1-84a2-f7e0f2756504/0");
+                        ColorFilter="#FF009AFF",
+                        id="browser";
+                      },
+                    },
+                    {
+                      TextView,
+                      layout_width="25%w",
+                      gravity="center",
+                      text="其他打开",
+                      textColor=ys2,
+                    },
+                  },
+                {
+                    LinearLayout,
+                    layout_width="wrap_content",
+                    orientation="vertical",
+                    layout_weight="1.0",
+                    gravity="center_horizontal",
+                    {
+                      LinearLayout,
+                      layout_width="wrap_content",
+                      {
+                        ImageView;
+                        layout_width="27dp",
+                        layout_height="27dp",
+                        src=("http://shp.qpic.cn/collector/2530648358/8fcde0f3-b2db-452e-a2b5-afe7f758be4f/0");
+                        ColorFilter="#FF009AFF",
+                        id="wyjt";
+                      },
+                    },
+                    {
+                      TextView,
+                      layout_width="25%w",
+                      gravity="center",
+                      text="网页截图",
+                      textColor=ys2,
+                    },
+                  },
+                  {
+                    LinearLayout,
+                    layout_width="wrap_content",
+                    orientation="vertical",
+                    layout_weight="1.0",
+                    gravity="center_horizontal",
+                    {
+                      LinearLayout,
+                      layout_width="wrap_content",
+                      {
+                        ImageView;
+                        layout_width="27dp",
+                        layout_height="27dp",
+                        src=("http://shp.qpic.cn/collector/2530648358/c7a5a3d6-e79c-406c-97bc-3b8e450a2c87/0");
+                        ColorFilter="#FF009AFF",
+                        id="read",
+                      },
+                    },
+                    {
+                      TextView,
+                      layout_height="wrap_content",
+                      layout_width="25%w",
+                      gravity="center",
+                      text="阅读模式",
+                      textColor=ys2,                    
+                    },
+                  },
+                  {
+                    LinearLayout,
+                    layout_width="wrap_content",
+                    orientation="vertical",
+                    layout_weight="1.0",
+                    gravity="center_horizontal",
+                    {
+                      LinearLayout,
+                      layout_width="wrap_content",
+                      {
+                        ImageView;
+                        layout_width="27dp",
+                        layout_height="27dp",
+                        src=("http://shp.qpic.cn/collector/2530648358/499e1e3a-cc17-45be-9596-5ed88d841a1e/0");
+                        ColorFilter="#FF009AFF",
+                        id="dlsc",
+                      },
+                    },
+                    {
+                      TextView,
+                      layout_height="wrap_content",
+                      layout_width="25%w",
+                      gravity="center",
+                      text="短链生成",
+                      textColor=ys2,                    
+                    },
+                  },
+                },
+                {
+                  LinearLayout,
+                  layout_width="match_parent",
+                  orientation="horizontal",
+                  layout_weight="1.0",                 
+                {
+                  LinearLayout,
+                  layout_width="wrap_content",
+                  orientation="vertical",
+                  layout_weight="1.0",
+                  gravity="center_horizontal",
+                  {
+                    LinearLayout,
+                    layout_width="wrap_content",
+                    {
+                      ImageView;
+                      layout_width="27dp",
+                      layout_height="27dp",
+                      src=("http://shp.qpic.cn/collector/2530648358/c45ff7b4-fb38-495b-bf7e-5271ea7603c5/0");
+                      ColorFilter=ys2,                      
+                      id="tuichu";
+                      },                                                             
+                    },
+                  },
+                  {
+                  LinearLayout,
+                  layout_width="wrap_content",
+                  orientation="vertical",
+                  layout_weight="1.0",
+                  gravity="center_horizontal",
+                  {
+                    LinearLayout,
+                    layout_width="wrap_content",
+                    {
+                      ImageView;
+                      layout_width="27dp",
+                      layout_height="27dp",
+                      src=("http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0");
+                      ColorFilter=ys2,
+                      id="gjxyc";
+                      },                                                                                                
+                    },
+                  }, 
+                },
+              },
+            };          
+          };
+        },
+      },
+    },
+  }
+fltBtn.Parent.addView(loadlayout(gjx))
+end
+function 更多()
+yj=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/夜间"):read("*a")
+if yj=="开" then ys=0xff000000 ys2=0xffffffff else ys=0xffffffff ys2=0xff000000 end
 gd={
 LinearLayout,
     background="#99000000",
@@ -874,7 +1366,7 @@ LinearLayout,
     id="DialogExternal",
     {
       LinearLayout,
-      layout_height="35%h",
+      layout_height="32%h",
       layout_width="match_parent",
       orientation="vertical",
       id="DialogInternal",
@@ -914,8 +1406,9 @@ LinearLayout,
               CardView;
               id="k1";              
               layout_height="match_parent";
-              radius="15dp"; --圆角角度
+              radius="32dp"; --圆角角度
               elevation="0dp";
+              CardBackgroundColor=ys;
               {
                 LinearLayout,
                 layout_height="match_parent",
@@ -940,11 +1433,10 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp", 
+                        layout_width="27dp",
+                        layout_height="27dp", 
                         id="night",
-                        ColorFilter="#2237FF2E",
-                        style="?android:attr/buttonBarButtonStyle";
+                        ColorFilter="#FF7C7C7C",
                         src=("http://shp.qpic.cn/collector/2530648358/80bac51b-113b-452d-9b22-d137321bb4fe/0");
                       },
                     },
@@ -953,7 +1445,7 @@ LinearLayout,
                       layout_height="wrap_content",
                       layout_width="25%w",
                       text="夜间",
-                      textColor="#ff000000",
+                      textColor=ys2,
                       gravity="center",
                     },
                   },
@@ -970,11 +1462,10 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
+                        layout_width="27dp",
+                        layout_height="27dp",
                         src=("http://shp.qpic.cn/collector/2530648358/5ff8acf6-66ff-4f50-98c3-90eb5c65f826/0");
                         ColorFilter="#ffaba4e9",
-                        style="?android:attr/buttonBarButtonStyle";
                         id="mybook";
                       },
                     },
@@ -984,7 +1475,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="书签",
-                      textColor="#ff000000",
+                      textColor=ys2,
                     },
                   },
                   {
@@ -1000,11 +1491,10 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
+                        layout_width="27dp",
+                        layout_height="27dp",
                         src=("http://shp.qpic.cn/collector/2530648358/47f1e34c-0b2c-46ef-b65a-c0be7d71e60c/0");
                         ColorFilter="#FFFFF045",
-                        style="?android:attr/buttonBarButtonStyle";
                         id="history",
                       },
                     },
@@ -1014,7 +1504,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="历史",
-                      textColor="#ff000000",
+                      textColor=ys2,
                     },
                   },
                 {
@@ -1030,13 +1520,12 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
+                        layout_width="27dp",
+                        layout_height="27dp",
                         src=("http://shp.qpic.cn/collector/2530648358/7af98cee-0da1-4bef-9e3e-01c3d418974d/0");
                         ColorFilter="#FF42F9E3",
                         id="xiazai",
-                        style="?android:attr/buttonBarButtonStyle";
-                      },
+                        },
                     },
                     {
                       TextView,
@@ -1044,7 +1533,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="下载",
-                      textColor="#ff000000",
+                      textColor=ys2,
                     },
                   },
                 },
@@ -1064,11 +1553,10 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
+                        layout_width="27dp",
+                        layout_height="27dp",
                         src=("http://shp.qpic.cn/collector/2530648358/3807ce4c-5ea4-4383-871b-df3c300ce146/0");
-                        ColorFilter="#FF009AFF",
-                        style="?android:attr/buttonBarButtonStyle";
+                        ColorFilter="#FF009AFF",                        
                         id="yinshen",
                       },
                     },
@@ -1077,7 +1565,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="隐身",
-                      textColor="#ff000000",
+                      textColor=ys2,
                     },
                   },
                   {
@@ -1091,9 +1579,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
-                        style="?android:attr/buttonBarButtonStyle";
+                        layout_width="27dp",
+                        layout_height="27dp",                        
                         src=("http://shp.qpic.cn/collector/2530648358/83fdbc58-9c2d-4975-a02a-94ff4bdd8a5c/0");
                         ColorFilter="#FF009AFF",
                         id="share";
@@ -1104,7 +1591,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="分享",
-                      textColor="#ff000000",
+                      textColor=ys2,
                     },
                   },
                   {
@@ -1118,9 +1605,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
-                        style="?android:attr/buttonBarButtonStyle";
+                        layout_width="27dp",
+                        layout_height="27dp",                        
                         src=("http://shp.qpic.cn/collector/2530648358/d073c870-7357-4ae8-b3d2-6fa69edac3eb/0");
                         ColorFilter="#FF009AFF",
                         id="addbook";
@@ -1131,7 +1617,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="添加书签",
-                      textColor="#ff000000",
+                      textColor=ys2,
                     },
                   },
                   {
@@ -1145,9 +1631,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
-                        style="?android:attr/buttonBarButtonStyle";
+                        layout_width="27dp",
+                        layout_height="27dp",                        
                         src=("http://shp.qpic.cn/collector/2530648358/d5b68401-0695-421d-a3f8-525d0c3f926d/0");
                         ColorFilter="#FF009AFF",
                         id="gj";
@@ -1158,7 +1643,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="工具箱",
-                      textColor="#ff000000",
+                      textColor=ys2,
                     },
                   },                  
                 },
@@ -1178,11 +1663,10 @@ LinearLayout,
                     layout_width="wrap_content",
                     {
                       ImageView;
-                      layout_width="35dp",
-                      layout_height="35dp",
+                      layout_width="27dp",
+                      layout_height="27dp",
                       src=("http://shp.qpic.cn/collector/2530648358/c45ff7b4-fb38-495b-bf7e-5271ea7603c5/0");
-                      ColorFilter="#80000000",
-                      style="?android:attr/buttonBarButtonStyle";
+                      ColorFilter=ys2,                      
                       id="tuichu";
                       },                                                             
                     },
@@ -1198,11 +1682,10 @@ LinearLayout,
                     layout_width="wrap_content",
                     {
                       ImageView;
-                      layout_width="35dp",
-                      layout_height="35dp",
+                      layout_width="27dp",
+                      layout_height="27dp",
                       src=("http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0");
-                      ColorFilter="#80000000",
-                      style="?android:attr/buttonBarButtonStyle";
+                      ColorFilter=ys2,                    
                       id="gdyc";
                       },                                                                                                
                     },
@@ -1215,6 +1698,8 @@ LinearLayout,
       },
     },
   }
+fltBtn.Parent.addView(loadlayout(gd))
+end
 --底下导航栏
 底栏布局={
   LinearLayout;
@@ -1383,7 +1868,7 @@ bmforward.onClick=function()if(webView.canGoForward())then 网页前进()else �
 bmhome.onClick=function()
 while(true) do 网页后退()if not(webView.canGoBack()) then break end end end
 --bmrefresh.onClick=function() 刷新网页()end
-gengduo.onClick=function() if GJX==0 then fltBtn.Parent.addView(loadlayout(gd)) GJX=nil gduo=0 elseif Gj==0 then gjx.setVisibility(View.GONE) Gj=nil gduo=nil elseif gduo==nil then fltBtn.Parent.addView(loadlayout(gd)) gduo=0 else DialogExternal.setVisibility(View.GONE) gduo=nil end
+gengduo.onClick=function() if GJX==0 then fltBtn.Parent.addView(loadlayout(gd)) GJX=nil gduo=0 elseif Gj==0 then gjx.setVisibility(View.GONE) Gj=nil gduo=nil elseif gduo==nil then 更多() gduo=0 else DialogExternal.setVisibility(View.GONE) gduo=nil end
 addbook.onClick=function() addDataDialog("Collection","加入书签",webView.getTitle(),webView.getUrl()) DialogExternal.setVisibility(View.GONE) gduo=nil end
 mybook.onClick=function() showDataDialog("Collection","书签") DialogExternal.setVisibility(View.GONE) gduo=nil end
 yinshen.onClick=function() gduo=nil DialogExternal.setVisibility(View.GONE) ys=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/隐身"):read("*a") if ys=="开" then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/隐身","w+"):write("关"):close() print("退出隐身浏览") else io.open("/sdcard/Download/com.MyFusApp.zuolanqi/隐身","w+"):write("开"):close() print("已进入隐身浏览") end end
@@ -1406,504 +1891,7 @@ colorAnim = ObjectAnimator.ofInt(yincangic,"ColorFilter",{color1,color1}) colorA
 DialogExternal.setVisibility(View.GONE) end
 history.onClick=function() DialogExternal.setVisibility(View.GONE) gduo=nil read_hst() show_hst() end
 gj.onClick=function()
-gjx={
-LinearLayout,
-    background="#99000000",
-    layout_width="fill",
-    layout_height="match_parent",
-    Gravity="bottom",
-    id="gjx",
-    {
-      LinearLayout,
-      layout_height="45%h",
-      layout_width="match_parent",
-      orientation="vertical",
-      id="gjx",
-      layout_weight="1.0",
-      {
-        LinearLayout;
-        orientation="vertical";
-        {
-          LinearLayout;
-          layout_width="-1";
-          {
-            TextView;
-            layout_width="50%w",
-            id="c1";
-          };
-          {
-            TextView;
-            layout_width="50%w",
-            id="c2";
-          };
-          {
-            TextView,
-            id="hg1",
-          },
-        };
-        {
-          PageView;
-          id="滑动窗口";
-          layout_height="-2";
-          layout_width="-1";
-          layout_weight="1.0";
-          layout_marginLeft="2%w";
-          layout_marginRight="2%w";
-          layout_marginBottom="13%w";
-          pages={
-            {
-              CardView;
-              id="k1"; 
-              layout_height="match_parent";
-              radius="15dp"; --圆角角度
-              elevation="0dp";
-              {
-                LinearLayout,
-                layout_height="match_parent",
-                layout_width="match_parent",
-                orientation="vertical",
-                {
-                  LinearLayout,
-                  layout_height="wrap_content",
-                  layout_width="match_parent",
-                  orientation="horizontal",
-                  layout_weight="1.0",
-                  {
-                    LinearLayout,
-                    layout_height="match_parent",
-                    layout_width="wrap_content",
-                    orientation="vertical",
-                    layout_weight="1.0",
-                    gravity="center",
-                    {
-                      LinearLayout,
-                      layout_height="wrap_content",
-                      layout_width="wrap_content",
-                      {
-                        ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp", 
-                        id="yncz",
-                        ColorFilter="#2237FF2E",
-                        style="?android:attr/buttonBarButtonStyle";
-                        src=("http://shp.qpic.cn/collector/2530648358/81343e52-4cef-4b2b-9ede-55174b5bfce3/0");
-                      },
-                    },
-                    {
-                      TextView,
-                      layout_height="wrap_content",
-                      layout_width="25%w",
-                      text="页内查找",
-                      textColor="#ff000000",
-                      gravity="center",
-                    },
-                  },
-                  {
-                    LinearLayout,
-                    layout_height="match_parent",
-                    layout_width="wrap_content",
-                    orientation="vertical",
-                    layout_weight="1.0",
-                    gravity="center",
-                    {
-                      LinearLayout,
-                      layout_height="wrap_content",
-                      layout_width="wrap_content",
-                      {
-                        ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
-                        src=("http://shp.qpic.cn/collector/2530648358/18c65ca3-532c-4634-a721-b5c208ed5453/0");
-                        ColorFilter="#ffaba4e9",
-                        style="?android:attr/buttonBarButtonStyle";
-                        id="bcwy";
-                      },
-                    },
-                    {
-                      TextView,
-                      layout_height="wrap_content",
-                      layout_width="25%w",
-                      gravity="center",
-                      text="保存网页",
-                      textColor="#ff000000",
-                    },
-                  },
-                  {
-                    LinearLayout,
-                    layout_height="match_parent",
-                    layout_width="wrap_content",
-                    orientation="vertical",
-                    layout_weight="1.0",
-                    gravity="center",
-                    {
-                      LinearLayout,
-                      layout_height="wrap_content",
-                      layout_width="wrap_content",
-                      {
-                        ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
-                        src=("http://shp.qpic.cn/collector/2530648358/c3959a70-df1e-4c4e-96be-8181865ed579/0");
-                        ColorFilter="#FFAEF942",
-                        style="?android:attr/buttonBarButtonStyle";
-                        id="lxym";
-                      },
-                    },
-                    {
-                      TextView,
-                      layout_height="wrap_content",
-                      layout_width="25%w",
-                      gravity="center",
-                      text="离线页面",
-                      textColor="#ff000000",
-                    },
-                  },
-                  {
-                    LinearLayout,
-                    layout_height="match_parent",
-                    layout_width="wrap_content",
-                    orientation="vertical",
-                    layout_weight="1.0",
-                    gravity="center",
-                    {
-                      LinearLayout,
-                      layout_height="wrap_content",
-                      layout_width="wrap_content",
-                      {
-                        ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
-                        src=("http://shp.qpic.cn/collector/2530648358/ddafc5cf-ca80-4805-957f-5d1257f228d6/0");
-                        ColorFilter="#FFFFF045",
-                        style="?android:attr/buttonBarButtonStyle";
-                        id="fanyi",
-                      },
-                    },
-                    {
-                      TextView,
-                      layout_height="wrap_content",
-                      layout_width="25%w",
-                      gravity="center",
-                      text="网页翻译",
-                      textColor="#ff000000",
-                    },
-                  },
-                {
-                    LinearLayout,
-                    layout_height="match_parent",
-                    layout_width="wrap_content",
-                    orientation="vertical",
-                    layout_weight="1.0",
-                    gravity="center",
-                    {
-                      LinearLayout,
-                      layout_height="wrap_content",
-                      layout_width="wrap_content",
-                      {
-                        ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
-                        src=("http://shp.qpic.cn/collector/2530648358/7b498aad-b12a-487b-813c-e75cc8f5e797/0");
-                        ColorFilter="#FF42F9E3",
-                        id="yuanma",
-                        style="?android:attr/buttonBarButtonStyle";
-                      },
-                    },
-                    {
-                      TextView,
-                      layout_height="wrap_content",
-                      layout_width="25%w",
-                      gravity="center",
-                      text="源码",
-                      textColor="#ff000000",
-                    },
-                  },                
-                },
-                {
-                  LinearLayout,
-                  layout_width="match_parent",
-                  orientation="horizontal",
-                  layout_weight="1.0",
-                  {
-                    LinearLayout,
-                    layout_width="wrap_content",
-                    orientation="vertical",
-                    layout_weight="1.0",
-                    gravity="center_horizontal",
-                    {
-                      LinearLayout,
-                      layout_width="wrap_content",
-                      {
-                        ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
-                        style="?android:attr/buttonBarButtonStyle";
-                        src=("http://shp.qpic.cn/collector/2530648358/11202f6f-5ea7-4abc-b93f-3aea77761b88/0");
-                        ColorFilter="#FF009AFF",
-                        id="wtms";
-                      },
-                    },
-                    {
-                      TextView,
-                      layout_width="25%w",
-                      gravity="center",
-                      text="无图模式",
-                      textColor="#ff000000",
-                    },
-                  },
-                  {
-                    LinearLayout,
-                    layout_width="wrap_content",
-                    orientation="vertical",
-                    layout_weight="1.0",
-                    gravity="center_horizontal",
-                    {
-                      LinearLayout,
-                      layout_width="wrap_content",
-                      {
-                        ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
-                        src=("http://shp.qpic.cn/collector/2530648358/34fa8e82-36b2-4fea-9e58-4a691998e79d/0");
-                        ColorFilter="#FF009AFF",
-                        id="xiutan",
-                        style="?android:attr/buttonBarButtonStyle";
-                      },
-                    },
-                    {
-                      TextView,
-                      layout_height="wrap_content",
-                      layout_width="25%w",
-                      gravity="center",
-                      text="资源嗅探",
-                      textColor="#ff000000",                    
-                    },
-                  },
-                  {
-                    LinearLayout,
-                    layout_width="wrap_content",
-                    orientation="vertical",
-                    layout_weight="1.0",
-                    gravity="center_horizontal",
-                    {
-                      LinearLayout,
-                      layout_width="wrap_content",
-                      {
-                        ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
-                        src=("http://shp.qpic.cn/collector/2530648358/653f598b-87f4-4635-aff7-ba5922b7c27d/0");
-                        ColorFilter="#FF009AFF",
-                        style="?android:attr/buttonBarButtonStyle";
-                        id="biaoshi",
-                      },
-                    },
-                    {
-                      TextView,
-                      layout_width="25%w",
-                      gravity="center",
-                      text="浏览器标识",
-                      textColor="#ff000000",
-                    },
-                  },
-                  {
-                    LinearLayout,
-                    layout_width="wrap_content",
-                    orientation="vertical",
-                    layout_weight="1.0",
-                    gravity="center_horizontal",
-                    {
-                      LinearLayout,
-                      layout_width="wrap_content",
-                      {
-                        ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
-                        style="?android:attr/buttonBarButtonStyle";
-                        src=("http://shp.qpic.cn/collector/2530648358/2913dfca-deb5-4f5d-a0ba-6d3e7968fe42/0");
-                        ColorFilter="#FF009AFF",
-                        id="spjx";
-                      },
-                    },
-                    {
-                      TextView,
-                      layout_width="25%w",
-                      gravity="center",
-                      text="视频解析",
-                      textColor="#ff000000",
-                    },
-                  },
-                },
-                {
-                  LinearLayout,
-                  layout_width="match_parent",
-                  orientation="horizontal",
-                  layout_weight="1.0",
-                {
-                    LinearLayout,
-                    layout_width="wrap_content",
-                    orientation="vertical",
-                    layout_weight="1.0",
-                    gravity="center_horizontal",
-                    {
-                      LinearLayout,
-                      layout_width="wrap_content",
-                      {
-                        ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
-                        style="?android:attr/buttonBarButtonStyle";
-                        src=("http://shp.qpic.cn/collector/2530648358/d11f4511-1e57-4ef1-84a2-f7e0f2756504/0");
-                        ColorFilter="#FF009AFF",
-                        id="browser";
-                      },
-                    },
-                    {
-                      TextView,
-                      layout_width="25%w",
-                      gravity="center",
-                      text="其他打开",
-                      textColor="#ff000000",
-                    },
-                  },
-                {
-                    LinearLayout,
-                    layout_width="wrap_content",
-                    orientation="vertical",
-                    layout_weight="1.0",
-                    gravity="center_horizontal",
-                    {
-                      LinearLayout,
-                      layout_width="wrap_content",
-                      {
-                        ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
-                        style="?android:attr/buttonBarButtonStyle";
-                        src=("http://shp.qpic.cn/collector/2530648358/8fcde0f3-b2db-452e-a2b5-afe7f758be4f/0");
-                        ColorFilter="#FF009AFF",
-                        id="wyjt";
-                      },
-                    },
-                    {
-                      TextView,
-                      layout_width="25%w",
-                      gravity="center",
-                      text="网页截图",
-                      textColor="#ff000000",
-                    },
-                  },
-                  {
-                    LinearLayout,
-                    layout_width="wrap_content",
-                    orientation="vertical",
-                    layout_weight="1.0",
-                    gravity="center_horizontal",
-                    {
-                      LinearLayout,
-                      layout_width="wrap_content",
-                      {
-                        ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
-                        src=("http://shp.qpic.cn/collector/2530648358/c7a5a3d6-e79c-406c-97bc-3b8e450a2c87/0");
-                        ColorFilter="#FF009AFF",
-                        id="read",
-                        style="?android:attr/buttonBarButtonStyle";
-                      },
-                    },
-                    {
-                      TextView,
-                      layout_height="wrap_content",
-                      layout_width="25%w",
-                      gravity="center",
-                      text="阅读模式",
-                      textColor="#ff000000",                    
-                    },
-                  },
-                  {
-                    LinearLayout,
-                    layout_width="wrap_content",
-                    orientation="vertical",
-                    layout_weight="1.0",
-                    gravity="center_horizontal",
-                    {
-                      LinearLayout,
-                      layout_width="wrap_content",
-                      {
-                        ImageView;
-                        layout_width="35dp",
-                        layout_height="35dp",
-                        src=("http://shp.qpic.cn/collector/2530648358/499e1e3a-cc17-45be-9596-5ed88d841a1e/0");
-                        ColorFilter="#FF009AFF",
-                        id="dlsc",
-                        style="?android:attr/buttonBarButtonStyle";
-                      },
-                    },
-                    {
-                      TextView,
-                      layout_height="wrap_content",
-                      layout_width="25%w",
-                      gravity="center",
-                      text="短链生成",
-                      textColor="#ff000000",                    
-                    },
-                  },
-                },
-                {
-                  LinearLayout,
-                  layout_width="match_parent",
-                  orientation="horizontal",
-                  layout_weight="1.0",                 
-                {
-                  LinearLayout,
-                  layout_width="wrap_content",
-                  orientation="vertical",
-                  layout_weight="1.0",
-                  gravity="center_horizontal",
-                  {
-                    LinearLayout,
-                    layout_width="wrap_content",
-                    {
-                      ImageView;
-                      layout_width="35dp",
-                      layout_height="35dp",
-                      src=("http://shp.qpic.cn/collector/2530648358/c45ff7b4-fb38-495b-bf7e-5271ea7603c5/0");
-                      ColorFilter="#80000000",
-                      style="?android:attr/buttonBarButtonStyle";
-                      id="tuichu";
-                      },                                                             
-                    },
-                  },
-                  {
-                  LinearLayout,
-                  layout_width="wrap_content",
-                  orientation="vertical",
-                  layout_weight="1.0",
-                  gravity="center_horizontal",
-                  {
-                    LinearLayout,
-                    layout_width="wrap_content",
-                    {
-                      ImageView;
-                      layout_width="35dp",
-                      layout_height="35dp",
-                      src=("http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0");
-                      ColorFilter="#80000000",
-                      style="?android:attr/buttonBarButtonStyle";
-                      id="gjxyc";
-                      },                                                                                                
-                    },
-                  }, 
-                },
-              },
-            };          
-          };
-        },
-      },
-    },
-  }
-Gj=0 xfb=nil DialogExternal.setVisibility(View.GONE) fltBtn.Parent.addView(loadlayout(gjx))
+工具箱() Gj=0 xfb=nil DialogExternal.setVisibility(View.GONE) 
 function gjx.onClick() gjx.setVisibility(View.GONE) GJX=0 Gj=nil end
 yncz.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)
   sr={
@@ -1953,11 +1941,10 @@ yncz.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)
           layout_width="wrap_content",
           {
             ImageView;
-            layout_width="35dp",
-            layout_height="35dp",
+            layout_width="27dp",
+            layout_height="27dp",
             src=("http://shp.qpic.cn/collector/2530648358/ecc5b48c-e8fd-413f-afef-76787ec5fa3e/0");
             ColorFilter="#80000000",
-            style="?android:attr/buttonBarButtonStyle";
             id="gb";
           },                                                             
         },
@@ -1973,11 +1960,10 @@ yncz.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)
           layout_width="wrap_content",
           {
             ImageView;
-            layout_width="35dp",
-            layout_height="35dp",
+            layout_width="27dp",
+            layout_height="27dp",
             src=("http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0");
             ColorFilter="#80000000",
-            style="?android:attr/buttonBarButtonStyle";
             id="xg";
           },                                                                                                
         },
@@ -2020,6 +2006,7 @@ layout_marginLeft="3dp",
 layout_width="80%w";
 layout_gravity="center",
 text="请输入UA";
+textColor=yys;
 };
 {
 EditText;
@@ -2029,16 +2016,21 @@ layout_marginTop="5dp";
 layout_width="80%w";
 layout_gravity="center",
 id="UA";
+hintTextColor=yys;
+textColor=yys;
 };
 };
-AlertDialog.Builder(this) .setTitle("UserAgent") .setView(loadlayout(InputLayout)) .setPositiveButton("完成设置",{onClick=function(v)
+圆角对话框() .设置标题("UserAgent") .设置圆角("32dp") .添加布局(InputLayout) .设置积极按钮("完成设置",function()
 io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("自定义"):close()
 io.open("/sdcard/Download/com.MyFusApp.zuolanqi/自定义UA","w+"):write(UA.Text):close()
 webView.getSettings().setUserAgentString(UA.Text);
-ua=UA.Text 刷新网页() end}) .setNegativeButton("取消",nil) .show()
-import "android.view.View$OnFocusChangeListener"
-UA.setOnFocusChangeListener(OnFocusChangeListener{onFocusChange=function(v,hasFocus)
-if hasFocus then Prompt.setTextColor(0xFD009688) end end})
+ua=UA.Text 刷新网页() end) .设置消极按钮("取消",nil) .显示(function()import "android.view.View$OnFocusChangeListener"
+  UA.setOnFocusChangeListener(OnFocusChangeListener{ 
+    onFocusChange=function(v,hasFocus)
+      if hasFocus then
+        Prompt.setTextColor(0xFD009688)
+      end
+    end})end)
 elseif items[v+1]=="iphone" then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("iphone"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7"); 刷新网页();
 elseif items[v+1]=="塞班 (Symbian)" then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("塞班 (Symbian)"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 (Symbian/3; Series60/5.2 NokiaN8-00/012.002; Profile/MIDP-2.1 Configuration/CLDC-1.1 ) AppleWebKit/533.4 (KHTML, like Gecko) NokiaBrowser/7.3.0 Mobile Safari/533.4 3gpp-gba"); 刷新网页();
 elseif items[v+1]=="默认" then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("默认"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 Dalvik/2 ( Linux; U; NEM-AL10 Build/HONORNEM-AL10;Youku;7.1.4;) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Safari/537.36 (Baidu; P1 6.0) iPhone/7.1 Android/8.0 baiduboxapp/2.7.0.10"); 刷新网页(); end end}) .show() end
@@ -2269,15 +2261,7 @@ function hstshow()
       layout_width="wrap_content",
       textSize="0sp",
       background="#000000",
-      layout_height="15dp",},
-    {
-      TextView,
-      text="历史记录",
-      gravity="center",
-      layout_width="wrap_content",
-      textSize="30sp",
-      textStyle="bold",
-      layout_height="50dp",},
+      layout_height="0dp",},
     {
       ListView,
       id="hlst",
@@ -2329,10 +2313,12 @@ end
 function show_hst() 
   hstshow()
   local hl=AlertDialog.Builder(activity)
+  .setTitle("历史记录")
   .setView(loadlayout(hstlayout))
   .setNegativeButton("清空历史",{onClick=function()
-  对话框()
+  圆角对话框()
 .设置标题("清空")
+.设置圆角("32dp")
 .设置消息("你是否确认?")
 .设置积极按钮("确定",function()
 File(lstwebads).delete()
@@ -2357,7 +2343,8 @@ end})
   end
   hlst.onItemLongClick=function(l,v,c,b)
     hl.dismiss()
-    对话框()
+    圆角对话框()
+    .设置圆角("32dp")
     .设置消息("是否删除记录？")
     .设置消极按钮("取消",function()
       show_hst()
@@ -2464,23 +2451,22 @@ local input2layout={
   {
     EditText,
     id="edit1",
-    hint="Input here",
-    --numa="32552",
-    --aaa="bbb"
+    hint="标题",
     layout_marginTop="5dp",
     layout_width="80%w",
     layout_gravity="center",
+    hintTextColor=yys,
+    textColor=yys,
   },
   {
     EditText,
     id="edit2",
-    --ccc="ddd",
-    --numb="732",
-    --eee="fff",
-    hint="Input here",
+    hint="链接",
     layout_margiTop="5dp",
     layout_width="80%w",
     layout_gravity="center",
+    hintTextColor=yys,
+    textColor=yys,
   },
 }
 
@@ -2522,9 +2508,10 @@ function showDataDialog(name,title,jdpuk)
       end
     end
     list.onItemLongClick=function(adp,view,pos,id)--325 52732
-      对话框()
+      圆角对话框()
       .设置标题(title)
-      .setView(loadlayout(input2layout))
+      .设置圆角("32dp")
+      .添加布局(input2layout)
       .设置积极按钮("保存",function()--32552732
         if not(edit1.text=="") and not(edit2.text=="") or 3255==2732 then
           removeData(name,keys[id])
@@ -2550,12 +2537,10 @@ function showDataDialog(name,title,jdpuk)
           end
         end
       end)
-      .显示()
-      edit1.setHint("标题")
-      edit2.setHint("链接")
+      .显示(function()
       edit1.setText(values[id])
       edit2.setText(keys[id])
-      return true
+      return true end)
     end
   else
     dlb.设置消息("没有书签")
@@ -2565,9 +2550,10 @@ function showDataDialog(name,title,jdpuk)
 end
 
 function addDataDialog(name,title,value,key)--32552732
-  对话框()
+  圆角对话框()
   .设置标题(title)
-  .setView(loadlayout(input2layout))
+  .设置圆角("32dp")
+  .添加布局(input2layout)
   .设置积极按钮("保存",function()
     if not(edit1.text=="") and not(edit2.text=="") or 325==52732 then
       if not getData(name,edit2.text) then
@@ -2582,13 +2568,12 @@ function addDataDialog(name,title,value,key)--32552732
     end
   end)
   .设置消极按钮("取消")
-  .显示()
-  edit1.setHint("标题")
-  edit2.setHint("链接")
+  .显示(function()
   if(value)then
     edit1.setText(value)
   end
   if(key)then
     edit2.setText(key)
   end
+  end)
 end
