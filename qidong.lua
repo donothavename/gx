@@ -300,10 +300,10 @@ function 过滤(content)
   if(内容=="") then
     内容="获取失败"
   end
-  if(版本名 > "2.9.0") then
+  if(版本名 > "2.9.2") then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."2.9.0".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."2.9.2".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp") --圆角大小
     .设置积极按钮("立即更新",function()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
@@ -350,7 +350,7 @@ end
 if 网页链接:find"https://" or 网页链接:find"file://" then
   aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0"))
   else
-  aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/559fc7b4-c6fc-48d0-b853-3c7cf6ff41a4/0"))
+  aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/279ac7de-ee84-4457-a675-09947d84fcde/0"))
   end
 设置底栏刷新状态(true,true,1000)
 end
@@ -417,6 +417,11 @@ InputLayout={
       hintTextColor=yys;
     };
     {
+    HorizontalScrollView;
+    layout_width='fill';
+    layout_height='fill';
+    horizontalScrollBarEnabled=false;
+    {
     LinearLayout;
     orientation="horizontal";
     layout_height="25dp";
@@ -430,6 +435,30 @@ InputLayout={
     };
     {
     TextView;
+    layout_width="20%w";
+    background="";
+    text="http://";
+    textColor=yys;
+    onClick=function()edit.text=edit.text.."http://";edit.setSelection(#edit.text)end;
+    };
+    {
+    TextView;
+    layout_width="25%w";
+    background="";
+    text="view-source:";
+    textColor=yys;
+    onClick=function()edit.text=edit.text.."view-source:";edit.setSelection(#edit.text)end;
+    };
+    {
+    TextView;
+    layout_width="20%w";
+    background="";
+    text="file:///";
+    textColor=yys;
+    onClick=function()edit.text=edit.text.."file:///";edit.setSelection(#edit.text)end;
+    };
+    {
+    TextView;
     layout_width="14%w";
     background="";
     text="www.";
@@ -438,19 +467,27 @@ InputLayout={
     };
     {
     TextView;
-    text="/";
     layout_width="14%w";
     background="";
+    text="m.";
     textColor=yys;
-    onClick=function()edit.text=edit.text.."/";edit.setSelection(#edit.text)end;
+    onClick=function()edit.text=edit.text.."m.";edit.setSelection(#edit.text)end;
     };
     {
     TextView;
     text=".";
-    layout_width="12%w";
+    layout_width="14%w";
     background="";
     textColor=yys;
     onClick=function()edit.text=edit.text..".";edit.setSelection(#edit.text)end;
+    };
+    {
+    TextView;
+    text="/";
+    layout_width="12%w";
+    background="";
+    textColor=yys;
+    onClick=function()edit.text=edit.text.."/";edit.setSelection(#edit.text)end;
     };
     {
     TextView;
@@ -468,6 +505,23 @@ InputLayout={
     textColor=yys;
     onClick=function()edit.text=edit.text..".cn";edit.setSelection(#edit.text)end;
     };
+    {
+    TextView;
+    layout_width="14%w";
+    background="";
+    text=".org";
+    textColor=yys;
+    onClick=function()edit.text=edit.text..".org";edit.setSelection(#edit.text)end;
+    };
+    {
+    TextView;
+    layout_width="14%w";
+    background="";
+    text=".net";
+    textColor=yys;
+    onClick=function()edit.text=edit.text..".net";edit.setSelection(#edit.text)end;
+    };
+    };
     };   
   };
   圆角对话框()
@@ -475,12 +529,16 @@ InputLayout={
   .设置圆角("32dp")
   .添加布局(InputLayout)
   .设置积极按钮("确定",function() 
-    pd4=string.sub(edit.text,1,4) pd6=string.sub(edit.text,1,6) pd7=string.sub(edit.text,1,7) pd8=string.sub(edit.text,1,8)
-    if pd4=="www." then pd=edit.text:match("www.(.+)")
+    pd4=string.sub(edit.text,1,4) pd6=string.sub(edit.text,1,6) pd7=string.sub(edit.text,1,7) pd8=string.sub(edit.text,1,8) pd12=string.sub(edit.text,1,12)
+    if edit.text=="" then searchfz()
+    elseif pd4=="www."then pd=edit.text:match("www.(.+)")
     if pd==nil then
       searchfz()
-    else
-    加载网页("http://"..edit.text)end 
+    else 加载网页("http://"..edit.text)end
+    elseif pd8=="file:///"then pd=edit.text:match("file:///(.+)")
+    if pd==nil then
+      searchfz()
+    else 加载网页(edit.text)end
     elseif pd6=="ftp://" then pd=edit.text:match("ftp://(.+)")
     if pd==nil then
       searchfz()
@@ -493,38 +551,59 @@ InputLayout={
     if pd==nil then
       searchfz()
     else 加载网页(edit.text)end
+    elseif pd12=="view-source:"then pd=edit.text:match("source:(.+)")
+    if pd:find"http://"or pd:find"https://"then
+    加载网页(edit.text)
+    else searchfz()end
+    elseif edit.text:find"com"or edit.text:find"cn"or edit.text:find"net"or edit.text:find"edu"or edit.text:find"top"or edit.text:find"xyz"or edit.text:find"biz"or edit.text:find"gov"or edit.text:find"info"or edit.text:find"int"or edit.text:find"mil"or edit.text:find"name"or edit.text:find"org"or edit.text:find"pro"or edit.text:find"aero"or edit.text:find"cat"or edit.text:find"coop"or edit.text:find"jobs"or edit.text:find"museum"or edit.text:find"travel"or edit.text:find"mobi"or edit.text:find"asia"or edit.text:find"tel"or edit.text:find"xxx"or edit.text:find"arpa"or edit.text:find"root"or edit.text:find"post"or edit.text:find"geo"or edit.text:find"kid"or edit.text:find"mail"or edit.text:find"sco"or edit.text:find"web"or edit.text:find"nato"or edit.text:find"test"or edit.text:find"bitnet"or edit.text:find"csnet"or edit.text:find"local"or edit.text:find"onion"or edit.text:find"uucp"or edit.text:find"berlin"or edit.text:find"love"then
+    for i=2,#edit.text do pd=string.sub(edit.text,i,i)
+    if pd~="." then
+    if i==#edit.text then
+    searchfz()break end
+    elseif pd=="."then 加载网页("http://"..edit.text)break end end
     else
-    searchfz()
+    for ym=1,26 do
+    if ym==1 then ym="a" elseif ym==2 then ym="b" elseif ym==3 then ym="c" elseif ym==4 then ym="d" elseif ym==5 then ym="e" elseif ym==6 then ym="f" elseif ym==7 then ym="g" elseif ym==8 then ym="h" elseif ym==9 then ym="i" elseif ym==10 then ym="j" elseif ym==11 then ym="k" elseif ym==12 then ym="l" elseif ym==13 then ym="m" elseif ym==14 then ym="n" elseif ym==15 then ym="o" elseif ym==16 then ym="p" elseif ym==17 then ym="q" elseif ym==18 then ym="r" elseif ym==19 then ym="s" elseif ym==20 then ym="t" elseif ym==21 then ym="u" elseif ym==22 then ym="v" elseif ym==23 then ym="w" elseif ym==24 then ym="x" elseif ym==25 then ym="y" else ym="z" end
+    for ym2=1,27 do
+    if ym2==1 then ym2="a" elseif ym2==2 then ym2="b" elseif ym2==3 then ym2="c" elseif ym2==4 then ym2="d" elseif ym2==5 then ym2="e" elseif ym2==6 then ym2="f" elseif ym2==7 then ym2="g" elseif ym2==8 then ym2="h" elseif ym2==9 then ym2="i" elseif ym2==10 then ym2="j" elseif ym2==11 then ym2="k" elseif ym2==12 then ym2="l" elseif ym2==13 then ym2="m" elseif ym2==14 then ym2="n" elseif ym2==15 then ym2="o" elseif ym2==16 then ym2="p" elseif ym2==17 then ym2="q" elseif ym2==18 then ym2="r" elseif ym2==19 then ym2="s" elseif ym2==20 then ym2="t" elseif ym2==21 then ym2="u" elseif ym2==22 then ym2="v" elseif ym2==23 then ym2="w" elseif ym2==24 then ym2="x" elseif ym2==25 then ym2="y" elseif ym2==26 then ym2="z" else ym2="wc"end
+    djym=ym..ym2 if edit.text:find(djym)then 
+    for i=2,#edit.text do pd=string.sub(edit.text,i,i)
+    if pd~="." then
+    if i==#edit.text then
+    searchfz()zd="yzd"break end
+    elseif pd=="."then 加载网页("http://"..edit.text)zd="yzd"break end end
+    elseif djym=="zwc"then if pd~="yzd"then searchfz()end pd="wzd"
+    elseif zd=="yzd"then break break break end end end zd="wzd"
     end
     end)
   .设置消极按钮("取消",nil)
-  .设置中立按钮("搜索引擎",function() 
-items={}
-table.insert(items,"百度")
-table.insert(items,"必应")
-table.insert(items,"神马")
-table.insert(items,"好搜")
-table.insert(items,"搜狗")
-table.insert(items,"谷歌(需V)")
-AlertDialog.Builder(this)
-.setTitle("当前搜索引擎为"..sq)
-.setItems(items,{onClick=function(l,v) 
-if items[v+1]=="谷歌(需V)" then
+  .设置中立按钮("搜索引擎",function()task(150,function()
+  items={
+ ListView,
+ id="lb",
+ items={"百度","必应","神马","好搜","搜狗","谷歌(需V)"},
+ layout_width="fill",
+ backgroundColor=0xffffffff,
+}
+圆角对话框()
+.设置圆角("32dp")
+.设置标题("当前搜索引擎为"..sq)
+.添加布局(items)
+.显示(function() lb.setOnItemClickListener(AdapterView.OnItemClickListener{
+  onItemClick=function(parent, v, pos,id)
+pop.dismiss()if id==6 then
 io.open("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎","w+"):write("谷歌"):close() search()
-elseif items[v+1]=="必应" then
+elseif id==2 then
 io.open("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎","w+"):write("必应"):close() search()
-elseif items[v+1]=="神马" then
+elseif id==3 then
 io.open("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎","w+"):write("神马"):close() search()
-elseif items[v+1]=="好搜" then
+elseif id==4 then
 io.open("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎","w+"):write("好搜"):close() search()
-elseif items[v+1]=="搜狗" then
+elseif id==5 then
 io.open("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎","w+"):write("搜狗"):close() search()
-elseif items[v+1]=="百度" then
+elseif id==1 then
 io.open("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎","w+"):write("百度"):close() search()
-  end
-end})
-.show()  
-    end)
+end end})end)end)end)
   .显示(function()import "android.view.View$OnFocusChangeListener"
   edit.setOnFocusChangeListener(OnFocusChangeListener{ 
     onFocusChange=function(v,hasFocus)
@@ -543,7 +622,6 @@ end
     LinearLayout;
     layout_width="9%w";
     layout_marginTop="50";
-    layout_marginLeft="62";
     Elevation="3dp";
     layout_height="32dp";
     orientation="horizontal";
@@ -555,7 +633,6 @@ end
       LinearLayout;
       id="aq";
       layout_width="19%w";
-      layout_marginLeft="-8dp";
       orientation="vertical";
       gravity="center|left";
       layout_gravity="center|left";
@@ -564,9 +641,9 @@ end
         ImageView;
         ColorFilter=0xFF5C5C5C;
         src=("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0");
-        layout_height="25dp";
+        layout_height="20dp";
         layout_marginTop="0dp";
-        layout_width="30dp";
+        layout_width="20dp";
         layout_gravity="center";
         id="aqic";
         backgroundColor="";
@@ -577,24 +654,17 @@ end
 fltBtn.Parent.addView(loadlayout(安全))
 aq.onClick=function()
   if 网页链接:find"http://" or 网页链接:find"ftp://" then
-  圆角对话框()
-.设置标题(网页链接)
-.设置圆角("32dp")
-.设置消息("您与此网站之间建立的链接不安全\n请勿在此网站上输入任何敏感信息(例如密码或信用卡信息),因为攻击者可能会盗取这些信息")
-.显示()
-elseif 网页链接:find"file://" then 
-圆角对话框()
-.设置圆角("32dp")
-.设置标题(网页链接)
-.设置消息("你目前浏览的是此网页的离线副本")
-.显示()
-elseif 网页链接:find"https://" then
+  wzaq="您与此网站之间建立的链接不安全\n请勿在此网站上输入任何敏感信息(例如密码或信用卡信息),因为攻击者可能会盗取这些信息"
+  elseif 网页链接:find"file://" then 
+  wzaq="你目前浏览的是此网页的离线副本"
+  elseif 网页链接:find"https://" then
+  wzaq="链接是安全的\n您发送给这个网站的信息(例如密码或信用卡号)不会外泄"
+  end
 圆角对话框()
 .设置标题(网页链接)
 .设置圆角("32dp")
-.设置消息("链接是安全的\n您发送给这个网站的信息(例如密码或信用卡号)不会外泄")
+.设置消息(wzaq)
 .显示()
-end
 end
 toolbar.onClick=function()wz=0 search() end
 yjhy=loadlayout{
@@ -864,7 +934,7 @@ menu.add("分享天气信息").onMenuItemClick=function(a) 分享文本(help) en
 end)
 end 天气()
 webView.addJavascriptInterface({},"JsInterface")
-ll=0 ti=Ticker()ti.Period=1000 ti.onTick=function() ll=ll+1tt=os.date("时间:%H:%M:%S") if ll==3600 then 圆角对话框().设置标题("温馨提醒").设置圆角("32dp").设置消息("您已浏览网页一小时,该休息一下了").设置积极按钮("好的",function()退出程序()end).设置消极按钮("继续浏览网页").显示()end 设置顶栏标题("      "..tt.." "..webView.title)end ti.start()
+ll=0 ti=Ticker()ti.Period=1000 ti.onTick=function() ll=ll+1tt=os.date("时间:%H:%M:%S") if ll==3600 then 圆角对话框().设置标题("温馨提醒").设置圆角("32dp").设置消息("您已浏览网页一小时,该休息一下了").设置积极按钮("好的",function()退出程序()end).设置消极按钮("继续浏览网页").显示()end 设置顶栏标题(tt.." "..webView.title)end ti.start()
 --
 function 工具箱()
 yj=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/夜间"):read("*a")
@@ -878,7 +948,7 @@ LinearLayout,
     id="gjx",
     {
       LinearLayout,
-      layout_height="39%h",
+      layout_height="35%h",
       layout_width="match_parent",
       orientation="vertical",
       id="gjx",
@@ -945,8 +1015,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp", 
+                        layout_width="20dp",
+                        layout_height="20dp", 
                         id="yncz",
                         ColorFilter="#FF7C7C7C",                        
                         src=("http://shp.qpic.cn/collector/2530648358/81343e52-4cef-4b2b-9ede-55174b5bfce3/0");
@@ -974,8 +1044,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",
+                        layout_width="20dp",
+                        layout_height="20dp",
                         src=("http://shp.qpic.cn/collector/2530648358/18c65ca3-532c-4634-a721-b5c208ed5453/0");
                         ColorFilter="#ffaba4e9",
                         id="bcwy";
@@ -1003,8 +1073,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",
+                        layout_width="20dp",
+                        layout_height="20dp",
                         src=("http://shp.qpic.cn/collector/2530648358/c3959a70-df1e-4c4e-96be-8181865ed579/0");
                         ColorFilter="#FFAEF942",
                         id="lxym";
@@ -1032,8 +1102,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",
+                        layout_width="20dp",
+                        layout_height="20dp",
                         src=("http://shp.qpic.cn/collector/2530648358/ddafc5cf-ca80-4805-957f-5d1257f228d6/0");
                         ColorFilter="#FFFFF045",
                         id="fanyi",
@@ -1061,8 +1131,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",
+                        layout_width="20dp",
+                        layout_height="20dp",
                         src=("http://shp.qpic.cn/collector/2530648358/7b498aad-b12a-487b-813c-e75cc8f5e797/0");
                         ColorFilter="#FF42F9E3",
                         id="yuanma",
@@ -1094,8 +1164,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",
+                        layout_width="20dp",
+                        layout_height="20dp",
                         src=("http://shp.qpic.cn/collector/2530648358/11202f6f-5ea7-4abc-b93f-3aea77761b88/0");
                         ColorFilter="#FF009AFF",
                         id="wtms";
@@ -1120,8 +1190,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",
+                        layout_width="20dp",
+                        layout_height="20dp",
                         src=("http://shp.qpic.cn/collector/2530648358/34fa8e82-36b2-4fea-9e58-4a691998e79d/0");
                         ColorFilter="#FF009AFF",
                         id="xiutan",
@@ -1147,8 +1217,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",
+                        layout_width="20dp",
+                        layout_height="20dp",
                         src=("http://shp.qpic.cn/collector/2530648358/653f598b-87f4-4635-aff7-ba5922b7c27d/0");
                         ColorFilter="#FF009AFF",
                         id="biaoshi",
@@ -1173,8 +1243,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",
+                        layout_width="20dp",
+                        layout_height="20dp",
                         src=("http://shp.qpic.cn/collector/2530648358/2913dfca-deb5-4f5d-a0ba-6d3e7968fe42/0");
                         ColorFilter="#FF009AFF",
                         id="spjx";
@@ -1205,8 +1275,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",
+                        layout_width="20dp",
+                        layout_height="20dp",
                         src=("http://shp.qpic.cn/collector/2530648358/d11f4511-1e57-4ef1-84a2-f7e0f2756504/0");
                         ColorFilter="#FF009AFF",
                         id="browser";
@@ -1231,8 +1301,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",
+                        layout_width="20dp",
+                        layout_height="20dp",
                         src=("http://shp.qpic.cn/collector/2530648358/8fcde0f3-b2db-452e-a2b5-afe7f758be4f/0");
                         ColorFilter="#FF009AFF",
                         id="wyjt";
@@ -1257,8 +1327,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",
+                        layout_width="20dp",
+                        layout_height="20dp",
                         src=("http://shp.qpic.cn/collector/2530648358/c7a5a3d6-e79c-406c-97bc-3b8e450a2c87/0");
                         ColorFilter="#FF009AFF",
                         id="read",
@@ -1284,8 +1354,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",
+                        layout_width="20dp",
+                        layout_height="20dp",
                         src=("http://shp.qpic.cn/collector/2530648358/499e1e3a-cc17-45be-9596-5ed88d841a1e/0");
                         ColorFilter="#FF009AFF",
                         id="dlsc",
@@ -1317,8 +1387,8 @@ LinearLayout,
                     layout_width="wrap_content",
                     {
                       ImageView;
-                      layout_width="27dp",
-                      layout_height="27dp",
+                      layout_width="20dp",
+                      layout_height="20dp",
                       src=("http://shp.qpic.cn/collector/2530648358/c45ff7b4-fb38-495b-bf7e-5271ea7603c5/0");
                       ColorFilter=ys2,                      
                       id="tuichu";
@@ -1336,8 +1406,8 @@ LinearLayout,
                     layout_width="wrap_content",
                     {
                       ImageView;
-                      layout_width="27dp",
-                      layout_height="27dp",
+                      layout_width="20dp",
+                      layout_height="20dp",
                       src=("http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0");
                       ColorFilter=ys2,
                       id="gjxyc";
@@ -1366,7 +1436,7 @@ LinearLayout,
     id="DialogExternal",
     {
       LinearLayout,
-      layout_height="32%h",
+      layout_height="28%h",
       layout_width="match_parent",
       orientation="vertical",
       id="DialogInternal",
@@ -1433,8 +1503,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp", 
+                        layout_width="20dp",
+                        layout_height="20dp", 
                         id="night",
                         ColorFilter="#FF7C7C7C",
                         src=("http://shp.qpic.cn/collector/2530648358/80bac51b-113b-452d-9b22-d137321bb4fe/0");
@@ -1462,8 +1532,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",
+                        layout_width="20dp",
+                        layout_height="20dp",
                         src=("http://shp.qpic.cn/collector/2530648358/5ff8acf6-66ff-4f50-98c3-90eb5c65f826/0");
                         ColorFilter="#ffaba4e9",
                         id="mybook";
@@ -1491,8 +1561,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",
+                        layout_width="20dp",
+                        layout_height="20dp",
                         src=("http://shp.qpic.cn/collector/2530648358/47f1e34c-0b2c-46ef-b65a-c0be7d71e60c/0");
                         ColorFilter="#FFFFF045",
                         id="history",
@@ -1520,8 +1590,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",
+                        layout_width="20dp",
+                        layout_height="20dp",
                         src=("http://shp.qpic.cn/collector/2530648358/7af98cee-0da1-4bef-9e3e-01c3d418974d/0");
                         ColorFilter="#FF42F9E3",
                         id="xiazai",
@@ -1553,8 +1623,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",
+                        layout_width="20dp",
+                        layout_height="20dp",
                         src=("http://shp.qpic.cn/collector/2530648358/3807ce4c-5ea4-4383-871b-df3c300ce146/0");
                         ColorFilter="#FF009AFF",                        
                         id="yinshen",
@@ -1579,8 +1649,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",                        
+                        layout_width="20dp",
+                        layout_height="20dp",                        
                         src=("http://shp.qpic.cn/collector/2530648358/83fdbc58-9c2d-4975-a02a-94ff4bdd8a5c/0");
                         ColorFilter="#FF009AFF",
                         id="share";
@@ -1605,8 +1675,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",                        
+                        layout_width="20dp",
+                        layout_height="20dp",                        
                         src=("http://shp.qpic.cn/collector/2530648358/d073c870-7357-4ae8-b3d2-6fa69edac3eb/0");
                         ColorFilter="#FF009AFF",
                         id="addbook";
@@ -1631,8 +1701,8 @@ LinearLayout,
                       layout_width="wrap_content",
                       {
                         ImageView;
-                        layout_width="27dp",
-                        layout_height="27dp",                        
+                        layout_width="20dp",
+                        layout_height="20dp",                        
                         src=("http://shp.qpic.cn/collector/2530648358/d5b68401-0695-421d-a3f8-525d0c3f926d/0");
                         ColorFilter="#FF009AFF",
                         id="gj";
@@ -1663,8 +1733,8 @@ LinearLayout,
                     layout_width="wrap_content",
                     {
                       ImageView;
-                      layout_width="27dp",
-                      layout_height="27dp",
+                      layout_width="20dp",
+                      layout_height="20dp",
                       src=("http://shp.qpic.cn/collector/2530648358/c45ff7b4-fb38-495b-bf7e-5271ea7603c5/0");
                       ColorFilter=ys2,                      
                       id="tuichu";
@@ -1682,8 +1752,8 @@ LinearLayout,
                     layout_width="wrap_content",
                     {
                       ImageView;
-                      layout_width="27dp",
-                      layout_height="27dp",
+                      layout_width="20dp",
+                      layout_height="20dp",
                       src=("http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0");
                       ColorFilter=ys2,                    
                       id="gdyc";
@@ -1723,7 +1793,6 @@ end
       LinearLayout;
       id="bmback";
       layout_width="19%w";
-      layout_marginLeft="0dp";
       orientation="vertical";
       gravity="center|left";
       layout_gravity="center|left";
@@ -1732,9 +1801,8 @@ end
         ImageView;--影像视图
         ColorFilter=0xff000000;
         src=("http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0");
-        layout_height="25dp";--高度
-        layout_marginTop="0dp";--边顶
-        layout_width="30dp";--宽度
+        layout_height="20dp";--高度
+        layout_width="20dp";--宽度
         layout_gravity="center";
         id="bmbackic";
         backgroundColor="#00000000";--背景色
@@ -1745,7 +1813,6 @@ end
       id="bmforward";
       layout_width="19%w";
       layout_height="fill";
-      layout_marginLeft="0dp";
       orientation="vertical";
       gravity="center|left";
       layout_gravity="center|left";
@@ -1753,9 +1820,8 @@ end
         ImageView;--影像视图
         ColorFilter=0xff000000;
         src=("http://shp.qpic.cn/collector/2530648358/3cd13a75-c2f6-414c-8787-66ec93a08fe3/0");
-        layout_height="25dp";--高度
-        layout_marginTop="0dp";--边顶
-        layout_width="30dp";--宽度
+        layout_height="20dp";--高度
+        layout_width="20dp";--宽度
         layout_gravity="center";
         id="bmforwardic";
         backgroundColor="#00000000";--背景色
@@ -1765,7 +1831,6 @@ end
       LinearLayout;
       id="bmhome";
       layout_width="19%w";
-      layout_marginLeft="0dp";
       orientation="vertical";
       gravity="center|right";
       layout_gravity="center|right";
@@ -1774,9 +1839,8 @@ end
         ImageView;--影像视图
         src=("http://shp.qpic.cn/collector/2530648358/bb695541-0c88-4195-af4d-2fb67e2915a0/0");
         ColorFilter=0xff000000;
-        layout_height="25dp";--高度
-        layout_marginTop="0dp";--边顶
-        layout_width="30dp";--宽度
+        layout_height="20dp";--高度
+        layout_width="20dp";--宽度
         layout_gravity="center";
         id="bmhmic";
         backgroundColor="#00000000";--背景色
@@ -1786,17 +1850,15 @@ end
       LinearLayout;
       id="bmrefresh";
       layout_width="19%w";
-      layout_marginLeft="0dp";
       orientation="vertical";
       gravity="center|right";
       layout_gravity="center|right";
       layout_height="fill";
       {
         ImageView;--影像视图
-        layout_height="25dp";--高度
+        layout_height="20dp";--高度
         ColorFilter=0xff000000;
-        layout_marginTop="0dp";--边顶
-        layout_width="30dp";--宽度
+        layout_width="20dp";--宽度
         id="bmrefreshic";
         layout_gravity="center";
         backgroundColor="#00000000";--背景色
@@ -1806,7 +1868,6 @@ end
       LinearLayout;
       id="gengduo";
       layout_width="19%w";
-      layout_marginLeft="0dp";
       orientation="vertical";
       gravity="center|left";
       layout_gravity="center|left";
@@ -1815,9 +1876,8 @@ end
         ImageView;--影像视图
         ColorFilter=0xff000000;
         src=("http://shp.qpic.cn/collector/2530648358/8fa2da48-d85d-4993-b34d-f696b4d8e51f/0");
-        layout_height="25dp";--高度
-        layout_marginTop="0dp";--边顶
-        layout_width="30dp";--宽度
+        layout_height="20dp";--高度
+        layout_width="20dp";--宽度
         layout_gravity="center";
         id="gengduoic";
         backgroundColor="#00000000";--背景色
@@ -1827,7 +1887,6 @@ end
       LinearLayout;
       id="yincang";
       layout_width="5%w";
-      layout_marginLeft="0dp";
       orientation="vertical";
       gravity="center|left";
       layout_gravity="center|left";
@@ -1836,8 +1895,7 @@ end
         ImageView;--影像视图
         ColorFilter=0xff000000;
         src=("http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0");
-        layout_height="25dp";--高度
-        layout_marginTop="0dp";--边顶
+        layout_height="20dp";--高度
         layout_width="15dp";--宽度
         layout_gravity="center";
         id="yincangic";
@@ -1867,7 +1925,6 @@ bmback.onClick=function()if(webView.canGoBack())then 网页后退()else 弹出�
 bmforward.onClick=function()if(webView.canGoForward())then 网页前进()else 弹出消息("没有网页可以前进哦")end end
 bmhome.onClick=function()
 while(true) do 网页后退()if not(webView.canGoBack()) then break end end end
---bmrefresh.onClick=function() 刷新网页()end
 gengduo.onClick=function() if GJX==0 then fltBtn.Parent.addView(loadlayout(gd)) GJX=nil gduo=0 elseif Gj==0 then gjx.setVisibility(View.GONE) Gj=nil gduo=nil elseif gduo==nil then 更多() gduo=0 else DialogExternal.setVisibility(View.GONE) gduo=nil end
 addbook.onClick=function() addDataDialog("Collection","加入书签",webView.getTitle(),webView.getUrl()) DialogExternal.setVisibility(View.GONE) gduo=nil end
 mybook.onClick=function() showDataDialog("Collection","书签") DialogExternal.setVisibility(View.GONE) gduo=nil end
@@ -1941,8 +1998,8 @@ yncz.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)
           layout_width="wrap_content",
           {
             ImageView;
-            layout_width="27dp",
-            layout_height="27dp",
+            layout_width="20dp",
+            layout_height="20dp",
             src=("http://shp.qpic.cn/collector/2530648358/ecc5b48c-e8fd-413f-afef-76787ec5fa3e/0");
             ColorFilter="#80000000",
             id="gb";
@@ -1960,8 +2017,8 @@ yncz.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)
           layout_width="wrap_content",
           {
             ImageView;
-            layout_width="27dp",
-            layout_height="27dp",
+            layout_width="20dp",
+            layout_height="20dp",
             src=("http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0");
             ColorFilter="#80000000",
             id="xg";
@@ -1975,23 +2032,13 @@ fltBtn.Parent.addView(loadlayout(sr))
 xg.onClick=function() 页内查找(edit.text) end gb.onClick=function() 页内查找("")sr.setVisibility(View.GONE)end end
 bcwy.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) offline="/sdcard/download/com.MyFusApp.zuolanqi/离线页面/"..os.date("%Y%m%d%H%M%S")..webView.title..".mht" print("已保存网页至“"..offline.."”") webView.saveWebArchive(offline) end
 lxym.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) ChoiceOfflineFile("/sdcard/Download/com.MyFusApp.zuolanqi/离线页面/") end
-fanyi.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) items={} table.insert(items,"彩云小译") table.insert(items,"百度翻译") table.insert(items,"有道翻译")AlertDialog.Builder(this) .setTitle("选择翻译引擎") .setItems(items,{onClick=function(l,v) 
-if items[v+1]=="百度翻译" then 加载网页("http://fanyi.baidu.com/transpage?query="..webView.getUrl().."&from=auto&to=zh&source=url&ie=utf8&render=1")
-elseif items[v+1]=="有道翻译" then 加载网页("http://fanyi.youdao.com/WebpageTranslate?keyfrom=webfanyi.top&url="..webView.getUrl().."&type=ZH_CN2EN")
-elseif items[v+1]=="彩云小译" then 加载Js([[(function(){if(!document.body)return;var popup=document.querySelectorAll('.cyxy-target-popup');if(popup&&popup.length>0)return;var trs=document.createElement('script');trs.type='text/javascript';trs.charset='UTF-8';trs.src=('https:'==document.location.protocol?'https://':'http://')+'caiyunapp.com/dest/trs.js';document.body.appendChild(trs);})()]])end end}).show()end
+fanyi.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)items={ListView,id="lb",items={"彩云小译","百度翻译","有道翻译"},layout_width="fill",backgroundColor=0xffffffff,}圆角对话框().设置圆角("32dp").设置标题("选择翻译引擎").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==2 then 加载网页("http://fanyi.baidu.com/transpage?query="..webView.getUrl().."&from=auto&to=zh&source=url&ie=utf8&render=1")elseif id==3 then 加载网页("http://fanyi.youdao.com/WebpageTranslate?keyfrom=webfanyi.top&url="..webView.getUrl().."&type=ZH_CN2EN")elseif id==1 then 加载Js([[(function(){if(!document.body)return;var popup=document.querySelectorAll('.cyxy-target-popup');if(popup&&popup.length>0)return;var trs=document.createElement('script');trs.type='text/javascript';trs.charset='UTF-8';trs.src=('https:'==document.location.protocol?'https://':'http://')+'caiyunapp.com/dest/trs.js';document.body.appendChild(trs);})()]])end end})end)end
 yuanma.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) 加载网页("view-source:"..webView.getUrl()) end
 wtms.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) wutu=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/无图模式"):read("*a") if wutu=="开" then webView.getSettings().setLoadsImagesAutomatically(true) print"有图模式" io.open("/sdcard/Download/com.MyFusApp.zuolanqi/无图模式","w+"):write("关"):close() else webView.getSettings().setLoadsImagesAutomatically(false) print"无图模式" io.open("/sdcard/Download/com.MyFusApp.zuolanqi/无图模式","w+"):write("开"):close() end end
 xiutan.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) items={} table.insert(items,"嗅探1") table.insert(items,"嗅探2")AlertDialog.Builder(this) .setTitle("选择嗅探引擎") .setItems(items,{onClick=function(l,v) 
 if items[v+1]=="嗅探1" then require("import").import("qqbid/qqbid").resource_sniff();
 elseif items[v+1]=="嗅探2" then local dl=ProgressDialog.show(activity,nil,'正在嗅探') dl.show() 加载Js([[window.location.assign($("iframe").attr("src"))]]) task(1000,function() dl.dismiss() function loadTheJs() 加载Js("function returnVideoUrl(){var theVideoUrl=document.getElementsByTagName('video')[0].currentSrc;location.href=theVideoUrl;};returnVideoUrl();"); return true; end if(loadTheJs()) then task(1000,function() intent = Intent(Intent.ACTION_VIEW); uri = Uri.parse(webView.getUrl()); intent.setDataAndType(uri, "video/mp4"); activity.startActivity(intent); end); end end)end end}).show() end
-biaoshi.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)
-llqbs=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识"):read("*a")
-items={} table.insert(items,"默认") table.insert(items,"Chrome (PC)") table.insert(items,"IE 11 (PC)") table.insert(items,"iphone") table.insert(items,"塞班 (Symbian)") table.insert(items,"自定义")
-AlertDialog.Builder(this) .setTitle("当前UA为"..llqbs) .setItems(items,{onClick=function(l,v) 
-if items[v+1]=="Chrome (PC)" then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("Chrome (PC)"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36"); 刷新网页();
-elseif items[v+1]=="IE 11 (PC)" then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("IE 11 (PC)"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko"); 刷新网页();
-elseif items[v+1]=="自定义" then
-ua=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/自定义UA"):read("*a")
+biaoshi.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)llqbs=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识"):read("*a")items={ListView,id="lb",items={"默认","Chrome (PC)","IE 11 (PC)","iphone","塞班 (Symbian)","自定义"},layout_width="fill",backgroundColor=0xffffffff,}圆角对话框().设置圆角("32dp").设置标题("当前UA为"..llqbs).添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==2 then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("Chrome (PC)"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36")刷新网页()elseif id==3 then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("IE 11 (PC)"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko")刷新网页()elseif id==6 then ua=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/自定义UA"):read("*a")
 InputLayout={
 LinearLayout;
 orientation="vertical";
@@ -2020,35 +2067,8 @@ hintTextColor=yys;
 textColor=yys;
 };
 };
-圆角对话框() .设置标题("UserAgent") .设置圆角("32dp") .添加布局(InputLayout) .设置积极按钮("完成设置",function()
-io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("自定义"):close()
-io.open("/sdcard/Download/com.MyFusApp.zuolanqi/自定义UA","w+"):write(UA.Text):close()
-webView.getSettings().setUserAgentString(UA.Text);
-ua=UA.Text 刷新网页() end) .设置消极按钮("取消",nil) .显示(function()import "android.view.View$OnFocusChangeListener"
-  UA.setOnFocusChangeListener(OnFocusChangeListener{ 
-    onFocusChange=function(v,hasFocus)
-      if hasFocus then
-        Prompt.setTextColor(0xFD009688)
-      end
-    end})end)
-elseif items[v+1]=="iphone" then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("iphone"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7"); 刷新网页();
-elseif items[v+1]=="塞班 (Symbian)" then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("塞班 (Symbian)"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 (Symbian/3; Series60/5.2 NokiaN8-00/012.002; Profile/MIDP-2.1 Configuration/CLDC-1.1 ) AppleWebKit/533.4 (KHTML, like Gecko) NokiaBrowser/7.3.0 Mobile Safari/533.4 3gpp-gba"); 刷新网页();
-elseif items[v+1]=="默认" then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("默认"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 Dalvik/2 ( Linux; U; NEM-AL10 Build/HONORNEM-AL10;Youku;7.1.4;) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Safari/537.36 (Baidu; P1 6.0) iPhone/7.1 Android/8.0 baiduboxapp/2.7.0.10"); 刷新网页(); end end}) .show() end
-spjx.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)
-items={}table.insert(items,"1号解析接口") table.insert(items,"2号解析接口") table.insert(items,"3号解析接口") table.insert(items,"4号解析接口") 
-AlertDialog.Builder(this) .setTitle("选择您需要的解析接口") .setItems(items,{onClick=function(l,v) 
---[[if items[v+1]=="11号解析接口" then 加载网页("http://jx.du2.cc/?url="..webView.getUrl())
-elseif items[v+1]=="10号解析接口" then 加载网页("http://jx.aeidu.cn/index.php?url="..webView.getUrl())
-elseif items[v+1]=="9号解析接口" then 加载网页("http://vip.jlsprh.com/?url="..webView.getUrl())
-elseif items[v+1]=="12号解析接口" then 加载网页("http://jx.618ge.com/?url="..webView.getUrl())
-elseif items[v+1]=="8号解析接口" then 加载网页("http://jx.ovov.cc/?url="..webView.getUrl())
-elseif items[v+1]=="7号解析接口" then 加载网页("http://jx.598110.com/?url="..webView.getUrl())
-elseif items[v+1]=="6号解析接口" then 加载网页("http://api.bbbbbb.me/jx/parse.php?url="..webView.getUrl())
-elseif items[v+1]=="5号解析接口" then 加载网页("https://api.bbbbbb.me/yun/?url="..webView.getUrl())
-else]]if items[v+1]=="1号解析接口" then 加载网页("http://wwa.ha12.xyz/jian/index.php?url="..webView.getUrl())
-elseif items[v+1]=="3号解析接口" then 加载网页("http://xiaojx.two3.cn/jx/?url="..webView.getUrl())
-elseif items[v+1]=="4号解析接口" then 加载网页("http://api.qy414.cn/?url="..webView.getUrl())
-elseif items[v+1]=="2号解析接口" then 加载网页("http://www.sfsft.com/video.php?url="..webView.getUrl()) end end}) .show() end
+圆角对话框().设置标题("UserAgent").设置圆角("32dp").添加布局(InputLayout).设置积极按钮("完成设置",function()io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("自定义"):close()io.open("/sdcard/Download/com.MyFusApp.zuolanqi/自定义UA","w+"):write(UA.Text):close()webView.getSettings().setUserAgentString(UA.Text)ua=UA.Text 刷新网页()end).设置消极按钮("取消",nil).显示(function()import "android.view.View$OnFocusChangeListener"UA.setOnFocusChangeListener(OnFocusChangeListener{onFocusChange=function(v,hasFocus)if hasFocus then Prompt.setTextColor(0xFD009688)end end})end)elseif id==4 then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("iphone"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7")刷新网页()elseif id==5 then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("塞班 (Symbian)"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 (Symbian/3; Series60/5.2 NokiaN8-00/012.002; Profile/MIDP-2.1 Configuration/CLDC-1.1 ) AppleWebKit/533.4 (KHTML, like Gecko) NokiaBrowser/7.3.0 Mobile Safari/533.4 3gpp-gba")刷新网页()elseif id==1 then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("默认"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 Dalvik/2 ( Linux; U; NEM-AL10 Build/HONORNEM-AL10;Youku;7.1.4;) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Safari/537.36 (Baidu; P1 6.0) iPhone/7.1 Android/8.0 baiduboxapp/2.7.0.10")刷新网页()end end})end)end
+spjx.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)items={ListView,id="lb",items={"1号解析接口","2号解析接口","3号解析接口","4号解析接口"},layout_width="fill",backgroundColor=0xffffffff,}圆角对话框().设置圆角("32dp").设置标题("选择您需要的解析接口").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==1 then 加载网页("http://wwa.ha12.xyz/jian/index.php?url="..webView.getUrl())elseif id==3 then 加载网页("http://xiaojx.two3.cn/jx/?url="..网页链接)elseif id==4 then 加载网页("http://api.qy414.cn/?url="..网页链接)elseif id==2 then 加载网页("http://www.sfsft.com/video.php?url="..网页链接)end end})end)end
 browser.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) this.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse(网页链接))) end
 wyjt.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) fakebmbar.setVisibility(View.GONE)activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.GONE)task(300,function()DrawingChaceCapture(picsave..os.date("%Y%m%d%H%M%S")..".png",webView)activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.VISIBLE)fakebmbar.setVisibility(View.VISIBLE)end)end
 read.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) 加载阅读() end
@@ -2508,6 +2528,7 @@ function showDataDialog(name,title,jdpuk)
       end
     end
     list.onItemLongClick=function(adp,view,pos,id)--325 52732
+      dl.dismiss()
       圆角对话框()
       .设置标题(title)
       .设置圆角("32dp")
@@ -2524,7 +2545,7 @@ function showDataDialog(name,title,jdpuk)
           弹出消息("请填写所有字段")
         end
       end)
-      .设置消极按钮("取消")
+      .设置消极按钮("取消",function()showDataDialog("Collection","书签")end)
       .设置中立按钮("删除",function()
         removeData(name,keys[id])
         items.remove(pos)
@@ -2559,15 +2580,17 @@ function addDataDialog(name,title,value,key)--32552732
       if not getData(name,edit2.text) then
         putData(name,edit2.text,edit1.text)
       else
-        弹出消息("该链接已存在")
-        addDataDialog(name,title,edit1.text,edit2.text)
+        task(150,function()
+        print"该链接已存在"
+        addDataDialog(name,title,edit1.text,edit2.text)end)
       end
     else
-      弹出消息("请填写所有字段")
-      addDataDialog(name,title,edit1.text,edit2.text)
+      task(150,function()
+      print"请填写所有字段"
+      addDataDialog(name,title,edit1.text,edit2.text)end)
     end
   end)
-  .设置消极按钮("取消")
+  .设置消极按钮("取消",function()end)
   .显示(function()
   if(value)then
     edit1.setText(value)
