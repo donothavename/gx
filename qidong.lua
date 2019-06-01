@@ -734,9 +734,9 @@ function 页面加载完毕()
 function getBitmapFromView(v)b=Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.RGB_565);c=Canvas(b);v.layout(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());bgDrawable=v.getBackground();if (bgDrawable ~= null) then bgDrawable.draw(c);else c.drawColor(Color.WHITE);v.draw(c);end return b;end bitmap = getBitmapFromView(webView)pixel = bitmap.getPixel(0,0)bmwhole.setBackgroundColor(pixel)color1=0xffffffff color2=0xff000000 if pixel<-8388608 or pixel==-39581 or pixel==-585720 or pixel==-586752 or pixel==-3276800 then aqic.setColorFilter(color1)gengduoic.setColorFilter(color1)bmrefreshic.setColorFilter(color1)bmhmic.setColorFilter(color1)bmforwardic.setColorFilter(color1)bmbackic.setColorFilter(color1)end if pixel>-8388608 and pixel~=-39581 and pixel~=-585720 and pixel~=-586752 and pixel~=-3276800 then aqic.setColorFilter(color2)gengduoic.setColorFilter(color2)bmrefreshic.setColorFilter(color2)bmhmic.setColorFilter(color2)bmforwardic.setColorFilter(color2)bmbackic.setColorFilter(color2)end bitmap.recycle()
 end
 function 收到新标题事件()
-print(网页链接)
+if 网页链接~=nil then
 ys=io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a")
-if ys=="关" then read_hst() add_hst() save_hst() end
+if ys=="关" then read_hst() add_hst() save_hst() end end
 yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
 if yj=="开" then 
 task(100,function()
