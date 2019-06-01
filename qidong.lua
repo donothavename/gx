@@ -658,13 +658,13 @@ url="https://sharechain.qq.com/dc2f311c2b314a5edc35f3d9204964f7";
 function 过滤(content)
   版本名=content:match("【版本名】(.-)【版本名】") 
   内容=content:match("【内容】(.-)【内容】") 
-  if 版本名=="" then
+  if 版本名==""then
     版本名="获取失败"
   end
-  if(内容=="") then
+  if 内容==""then
     内容="获取失败"
   end
-  if(版本名 > "2.9.7") then
+  if 版本名 > "2.9.7"then
     圆角对话框()
     .设置标题("检测到更新")
     .设置消息("版本：".."2.9.7".."→"..版本名.."\n更新内容："..内容)
@@ -674,10 +674,10 @@ function 过滤(content)
 Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
   if(code==200 and content)then con=content
     io.open(this.luaDir.."/qidong.lua","w+"):write(content):close()
-    print"更新完成，重启失效"
+    print"更新完成，重启生效"
     end
   end)
-      弹出消息("更新中…\n请不要退出浏览器")
+      print"更新中…\n请不要退出浏览器"
     end)
     .设置消极按钮("暂不更新",function()
     end)
@@ -731,9 +731,10 @@ config.web_control[1].url=(ymhlj)config.web_control[1].remove_element=(scys)conf
 end
 function 页面加载完毕()
 设置底栏刷新状态(false,true,1000)
-function getBitmapFromView(v)b=Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.RGB_565);c=Canvas(b);v.layout(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());bgDrawable=v.getBackground();if (bgDrawable ~= null) then bgDrawable.draw(c);else c.drawColor(Color.WHITE);v.draw(c);end return b;end bitmap = getBitmapFromView(webView)pixel = bitmap.getPixel(0,0)bmwhole.setBackgroundColor(pixel)color1=0xffffffff color2=0xff000000 if pixel<-8388608 or pixel==-39581 or pixel==-585720 or pixel==-3276800 then aqic.setColorFilter(color1)gengduoic.setColorFilter(color1)bmrefreshic.setColorFilter(color1)bmhmic.setColorFilter(color1)bmforwardic.setColorFilter(color1)bmbackic.setColorFilter(color1)end if pixel>-8388608 and pixel~=-39581 and pixel~=-585720 and pixel~=-3276800 then aqic.setColorFilter(color2)gengduoic.setColorFilter(color2)bmrefreshic.setColorFilter(color2)bmhmic.setColorFilter(color2)bmforwardic.setColorFilter(color2)bmbackic.setColorFilter(color2)end bitmap.recycle()
+function getBitmapFromView(v)b=Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.RGB_565);c=Canvas(b);v.layout(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());bgDrawable=v.getBackground();if (bgDrawable ~= null) then bgDrawable.draw(c);else c.drawColor(Color.WHITE);v.draw(c);end return b;end bitmap = getBitmapFromView(webView)pixel = bitmap.getPixel(0,0)bmwhole.setBackgroundColor(pixel)color1=0xffffffff color2=0xff000000 if pixel<-8388608 or pixel==-39581 or pixel==-585720 or pixel==-586752 or pixel==-3276800 then aqic.setColorFilter(color1)gengduoic.setColorFilter(color1)bmrefreshic.setColorFilter(color1)bmhmic.setColorFilter(color1)bmforwardic.setColorFilter(color1)bmbackic.setColorFilter(color1)end if pixel>-8388608 and pixel~=-39581 and pixel~=-585720 and pixel~=-586752 and pixel~=-3276800 then aqic.setColorFilter(color2)gengduoic.setColorFilter(color2)bmrefreshic.setColorFilter(color2)bmhmic.setColorFilter(color2)bmforwardic.setColorFilter(color2)bmbackic.setColorFilter(color2)end bitmap.recycle()
 end
 function 收到新标题事件()
+print(网页链接)
 ys=io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a")
 if ys=="关" then read_hst() add_hst() save_hst() end
 yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
