@@ -1,4 +1,249 @@
-yys=0xff7c7c7c
+import "java.io.File"
+File("/data/data/"..activity.getPackageName().."/无图模式").createNewFile()
+File("/data/data/"..activity.getPackageName().."/夜间").createNewFile()
+File("/data/data/"..activity.getPackageName().."/浏览器标识").createNewFile()
+File("/data/data/"..activity.getPackageName().."/自定义UA").createNewFile()
+File("/data/data/"..activity.getPackageName().."/搜索引擎").createNewFile()
+File("/data/data/"..activity.getPackageName().."/隐身").createNewFile()
+File("/data/data/"..activity.getPackageName().."/主页背景图地址").createNewFile()
+zybjtdz=io.open("/data/data/"..activity.getPackageName().."/主页背景图地址"):read("*a")
+function searchfz()
+  sq=io.open("/data/data/"..activity.getPackageName().."/搜索引擎"):read("*a")
+  if sq=="百度" then
+  加载网页("https://m.baidu.com/s?from=1022560l&word="..bjk)
+  end
+  if sq=="必应" then
+  加载网页("https://www2.bing.com/search?q="..bjk)
+  end
+  if sq=="神马" then
+  加载网页("https://yz.m.sm.cn/s?from=wy923961&q="..bjk) 
+  end
+  if sq=="好搜" then
+  加载网页("https://m.so.com/s?q="..bjk)
+  end
+  if sq=="搜狗" then
+  加载网页("https://wap.sogou.com/web/sl?bid=sogou-mobb-ef77022c7b788c29&keyword="..bjk)
+  end
+  if sq=="谷歌" then
+  加载网页("https://www.google.com.hk/search?q="..bjk)
+  end
+end
+function searchfz2()
+    gbzy()
+    pd4=string.sub(bjk,1,4) pd6=string.sub(bjk,1,6) pd7=string.sub(bjk,1,7) pd8=string.sub(bjk,1,8) pd12=string.sub(bjk,1,12)    
+    if bjk:find"com"then ym="com"elseif bjk:find"net"then ym="net"elseif bjk:find"edu"then ym="edu"elseif bjk:find"top"then ym="top"elseif bjk:find"xyz"then ym="xyz"elseif bjk:find"biz"then ym="biz"elseif bjk:find"gov"then ym="gov"elseif bjk:find"info"then ym="info"elseif bjk:find"int"then ym="int"elseif bjk:find"mil"then ym="mil"elseif bjk:find"name"then ym="name"elseif bjk:find"org"then ym="org"elseif bjk:find"pro"then ym="pro"elseif bjk:find"aero"then ym="aero"elseif bjk:find"cat"then ym="cat"elseif bjk:find"coop"then ym="coop"elseif bjk:find"jobs"then ym="jobs"elseif bjk:find"museum"then ym="museum"elseif bjk:find"travel"then ym="travel"elseif bjk:find"mobi"then ym="mobi"elseif bjk:find"asia"then ym="asia"elseif bjk:find"tel"then ym="tel"elseif bjk:find"xxx"then ym="xxx"elseif bjk:find"arpa"then ym="arpa"elseif bjk:find"root"then ym="root"elseif bjk:find"post"then ym="post"elseif bjk:find"geo"then ym="geo"elseif bjk:find"kid"then ym="kid"elseif bjk:find"mail"then ym="mail"elseif bjk:find"sco"then ym="sco"elseif bjk:find"web"then ym="web"elseif bjk:find"nato"then ym="nato"elseif bjk:find"test"then ym="test"elseif bjk:find"bitnet"then ym="bitnet"elseif bjk:find"csnet"then ym="csnet"elseif bjk:find"local"then ym="local"elseif bjk:find"onion"then ym="onion"elseif bjk:find"berlin"then ym="berlin"elseif bjk:find"love"then ym="love"else ym="" end
+    if bjk:find"/"then yum=bjk:match('(.-)/')gs=#yum-2 yum=string.sub(yum,gs,gs) else gs=#bjk-2 yum=string.sub(bjk,gs,gs)end
+    if bjk=="" then searchfz()
+    elseif pd4=="www."then pd=bjk:match("www.(.+)")
+    if pd==nil then
+      searchfz()
+    else 加载网页("http://"..bjk)end
+    elseif pd8=="file:///"then pd=bjk:match("file:///(.+)")
+    if pd==nil then
+      searchfz()
+    else 加载网页(bjk)end
+    elseif pd6=="ftp://" then pd=bjk:match("ftp://(.+)")
+    if pd==nil then
+      searchfz()
+    else 加载网页(bjk)end
+    elseif pd7=="http://" then pd=bjk:match("http://(.+)")
+    if pd==nil then
+      searchfz()
+    else 加载网页(bjk)end
+    elseif pd8=="https://" then pd=bjk:match("https://(.+)")
+    if pd==nil then
+      searchfz()
+    else 加载网页(bjk)end
+    elseif pd12=="view-source:"then pd=bjk:match("source:(.+)")
+    if pd:find"http://"or pd:find"https://"then
+    加载网页(bjk)
+    else searchfz()end
+    elseif yum=="."then zd=nil
+    for ym=1,26 do
+    if ym==1 then ym="a" elseif ym==2 then ym="b" elseif ym==3 then ym="c" elseif ym==4 then ym="d" elseif ym==5 then ym="e" elseif ym==6 then ym="f" elseif ym==7 then ym="g" elseif ym==8 then ym="h" elseif ym==9 then ym="i" elseif ym==10 then ym="j" elseif ym==11 then ym="k" elseif ym==12 then ym="l" elseif ym==13 then ym="m" elseif ym==14 then ym="n" elseif ym==15 then ym="o" elseif ym==16 then ym="p" elseif ym==17 then ym="q" elseif ym==18 then ym="r" elseif ym==19 then ym="s" elseif ym==20 then ym="t" elseif ym==21 then ym="u" elseif ym==22 then ym="v" elseif ym==23 then ym="w" elseif ym==24 then ym="x" elseif ym==25 then ym="y" else ym="z" end 
+    for ym2=1,27 do
+    if ym2==1 then ym2="a" elseif ym2==2 then ym2="b" elseif ym2==3 then ym2="c" elseif ym2==4 then ym2="d" elseif ym2==5 then ym2="e" elseif ym2==6 then ym2="f" elseif ym2==7 then ym2="g" elseif ym2==8 then ym2="h" elseif ym2==9 then ym2="i" elseif ym2==10 then ym2="j" elseif ym2==11 then ym2="k" elseif ym2==12 then ym2="l" elseif ym2==13 then ym2="m" elseif ym2==14 then ym2="n" elseif ym2==15 then ym2="o" elseif ym2==16 then ym2="p" elseif ym2==17 then ym2="q" elseif ym2==18 then ym2="r" elseif ym2==19 then ym2="s" elseif ym2==20 then ym2="t" elseif ym2==21 then ym2="u" elseif ym2==22 then ym2="v" elseif ym2==23 then ym2="w" elseif ym2==24 then ym2="x" elseif ym2==25 then ym2="y" elseif ym2==26 then ym2="z" else ym2="wc"end ym1=ym..ym2
+    if bjk:find(ym1)then pdz=bjk:match('(.-)'.."."..ym1)end
+    if ym==26 and ym2=="wc"then if pdz==nil or pdz=="" then searchfz()break break end end
+    if pdz~=""then
+      for i=1,#bjk do
+      pd=string.sub(bjk,i,i+2)
+      if pd=="."..ym1 then
+        zd=0加载网页("http://"..bjk)break break break
+        else
+        if ym=="z"and ym2=="wc" then
+          if i==#bjk then
+            searchfz()
+            end
+          end
+        end
+      end
+    end
+  if zd==0 then break break end
+  end
+end   
+    elseif bjk:find(ym)then pdz=bjk:match('(.-)'.."."..ym)
+    if pdz~=""then
+      for i=1,#bjk do
+        pd=string.sub(bjk,i,i+#ym)
+        if pd=="."..ym then
+          加载网页("http://"..bjk)break
+          else
+          if i==#bjk then
+            searchfz()
+            end
+          end
+        end
+      else
+      searchfz()
+      end
+    end
+  end
+import"RoundedDialog"
+w=this.getWidth()
+h=this.getHeight()
+主页背景图={
+  LinearLayout;
+  id="zybjt";
+  {
+   ImageView;
+   layout_width=w,
+   layout_height=h, 
+   id="zytp",                      
+   src=zybjtdz, 
+  };   
+};
+webView.addView(loadlayout(主页背景图))
+zybjt.onLongClick=function()
+zybjtdz=io.open("/data/data/"..activity.getPackageName().."/主页背景图地址"):read("*a")
+InputLayout={
+  LinearLayout;
+  orientation="vertical";
+  Focusable=true,
+  FocusableInTouchMode=true,
+  {
+    TextView;
+    id="srzybjtdz",
+    textSize="15sp",
+    textColor=yys;
+    layout_marginTop="10dp";
+    layout_marginLeft="3dp",
+    layout_width="80%w";
+    layout_gravity="center",
+    text="输入地址,支持链接";
+  };
+  {
+    EditText;
+    layout_marginTop="5dp";
+    layout_width="80%w";
+    layout_gravity="center",
+    id="tpdz";
+    text=zybjtdz;
+    textColor=yys;
+  };   
+};
+圆角对话框()
+.设置圆角("32dp")
+.设置标题("主页背景图")
+.添加布局(InputLayout)
+.设置积极按钮("确定",function()
+io.open("/data/data/"..activity.getPackageName().."/主页背景图地址","w+"):write(tpdz.text):close()  
+zytp.setImageBitmap(loadbitmap(tpdz.text))
+end)
+.设置消极按钮("取消")
+.显示(function()import "android.view.View$OnFocusChangeListener"tpdz.setOnFocusChangeListener(OnFocusChangeListener{ 
+    onFocusChange=function(v,hasFocus)
+      if hasFocus then
+        srzybjtdz.setTextColor(0xFD009688)
+      end
+    end})end)
+end
+主页布局={
+  LinearLayout;
+  layout_height="fill";
+  gravity="center";
+  orientation="vertical";
+  layout_width="fill";
+  id="zybj";
+  {
+     ImageView;
+     layout_width="100dp",
+     layout_height="100dp", 
+     id="yytp",                      
+     src="http://shp.qpic.cn/collector/2530648358/7bdc02c7-e1d7-40b6-84de-d2bf41a3b392/0",
+  };
+  {
+    TextView,
+    layout_width="fill",
+    layout_height="15dp",
+  };
+{
+  CardView;
+  id="k1"; 
+  layout_height="42dp";
+  radius="20dp"; --圆角角度
+  elevation="1dp";
+  CardBackgroundColor=0xffffffff;
+  {
+    LinearLayout,
+    orientation="horizontal",
+    layout_gravity="center";
+    {
+      EditText;
+      layout_gravity="center";
+      layout_marginLeft="10dp",
+      layout_width="80%w";
+      id="edit3";      
+      textSize="14sp";
+      backgroundColor=0xffffffff;
+      };
+    {
+      ImageView;
+      id="sstp",
+      visibility=4,
+      layout_width="20dp";
+      layout_height="20dp";
+      layout_gravity="center";
+      layout_marginRight="10dp",                 
+      src="http://shp.qpic.cn/collector/2530648358/56f8ece5-591b-465f-8a30-afe6503494fc/0", 
+      };
+    };
+  };
+};
+fltBtn.Parent.addView(loadlayout(主页布局))
+  edit3.addTextChangedListener({
+  onTextChanged=function()
+  if edit3.text:find"\n"then
+    bjk=edit3.text:gsub("\n","")
+    yum=nil
+    activity.getSystemService(Context.INPUT_METHOD_SERVICE).hideSoftInputFromWindow(edit3.getWindowToken(),0)
+    searchfz2()
+    edit3.text=""
+  end
+  if edit3.text==nil or edit3.text=="" then
+    sstp.setVisibility(4)
+  else
+    sstp.setVisibility(0)
+  end
+end})
+yytp.onClick=function()
+showDataDialog("Collection","书签")
+end
+sstp.onClick=function()
+  bjk=edit3.text
+  yum=nil
+  activity.getSystemService(Context.INPUT_METHOD_SERVICE).hideSoftInputFromWindow(edit3.getWindowToken(),0)
+  searchfz2()
+  edit3.text=""
+end
+function gbzy()
+zybjt.setVisibility(View.GONE)zybj.setVisibility(View.GONE)
+end
+function xszy()
+zybjt.setVisibility(View.VISIBLE)zybj.setVisibility(View.VISIBLE)
+end
+yys=0xff000000
+fltBtn.setVisibility(View.GONE)
 参数=0
 function onKeyDown(code,event) 
   if string.find(tostring(event),"KEYCODE_BACK") ~= nil then 
@@ -7,7 +252,7 @@ function onKeyDown(code,event)
     else
     if Gj==0 then gjx.setVisibility(View.GONE) Gj=nil gduo=nil elseif gduo==0 then DialogExternal.setVisibility(View.GONE) gduo=nil else
      if (webView.canGoBack()) then
-     网页后退() else
+     网页后退()if not(webView.canGoBack())then xszy()end else
      Toast.makeText(activity,"再按一次返回键退出浏览器" , Toast.LENGTH_SHORT )
       .show()
       参数=tonumber(os.time()) 
@@ -17,41 +262,39 @@ function onKeyDown(code,event)
     return true 
   end
 end
-import "java.io.File"
-File("/sdcard/Download/com.MyFusApp.zuolanqi/无图模式").createNewFile()
-File("/sdcard/Download/com.MyFusApp.zuolanqi/夜间").createNewFile()
-File("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识").createNewFile()
-File("/sdcard/Download/com.MyFusApp.zuolanqi/自定义UA").createNewFile()
-File("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎").createNewFile()
-File("/sdcard/Download/com.MyFusApp.zuolanqi/隐身").createNewFile()
-泡沫对话框(145)
+泡沫对话框(140)
 .设置消息([[初始化完成]])
 .设置积极按钮("确定",function()
-io.open("/sdcard/Download/com.MyFusApp.zuolanqi/夜间","w+"):write("关"):close()
-io.open("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎","w+"):write("百度"):close()  
-io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("默认"):close()
-io.open("/sdcard/Download/com.MyFusApp.zuolanqi/夜间","w+"):write("关"):close()
-io.open("/sdcard/Download/com.MyFusApp.zuolanqi/隐身","w+"):write("关"):close()
-io.open("/sdcard/Download/com.MyFusApp.zuolanqi/无图模式","w+"):write("关"):close()
+io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("关"):close()
+io.open("/data/data/"..activity.getPackageName().."/搜索引擎","w+"):write("百度"):close()  
+io.open("/data/data/"..activity.getPackageName().."/浏览器标识","w+"):write("默认"):close()
+io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("关"):close()
+io.open("/data/data/"..activity.getPackageName().."/隐身","w+"):write("关"):close()
+io.open("/data/data/"..activity.getPackageName().."/无图模式","w+"):write("关"):close()
 end)
+.setCancelable(false)
 .显示()
-wutu=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/无图模式"):read("*a")
+wutu=io.open("/data/data/"..activity.getPackageName().."/无图模式"):read("*a")
 if wutu=="开" then
 webView.getSettings().setLoadsImagesAutomatically(false)
 end
-llqbs=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识"):read("*a")
+llqbs=io.open("/data/data/"..activity.getPackageName().."/浏览器标识"):read("*a")
 if llqbs=="默认" then webView.getSettings().setUserAgentString("Mozilla/5.0 Dalvik/2 ( Linux; U; NEM-AL10 Build/HONORNEM-AL10;Youku;7.1.4;) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Safari/537.36 (Baidu; P1 6.0) iPhone/7.1 Android/8.0 baiduboxapp/2.7.0.10");
 elseif llqbs=="Chrome (PC)" then webView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36");
 elseif llqbs=="IE 11 (PC)" then webView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko");
 elseif llqbs=="iphone" then webView.getSettings().setUserAgentString("Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7");
 elseif llqbs=="塞班 (Symbian)" then webView.getSettings().setUserAgentString("Mozilla/5.0 (Symbian/3; Series60/5.2 NokiaN8-00/012.002; Profile/MIDP-2.1 Configuration/CLDC-1.1 ) AppleWebKit/533.4 (KHTML, like Gecko) NokiaBrowser/7.3.0 Mobile Safari/533.4 3gpp-gba");
-elseif llqbs=="自定义" then ua=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/自定义UA"):read("*a") webView.getSettings().setUserAgentString(ua);end
-加载网页("https://leftshine.gitee.io/viaindex/via-ningjing-3.5/index.html")
+elseif llqbs=="自定义" then ua=io.open("/data/data/"..activity.getPackageName().."/自定义UA"):read("*a") webView.getSettings().setUserAgentString(ua);end
+yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
+if yj=="开" then
+color=0xff000000
+colorAnim = ObjectAnimator.ofInt(zybjt,"backgroundColor",{color,color}) colorAnim.start()
+end
 import"RoundedDialog"
 import"read"
 import"zw"
 import "com.my.sc.*"
-离线页面="/sdcard/Download/com.MyFusApp.zuolanqi/离线页面/"
+离线页面="/sdcard/Download/"
 picsave="/storage/emulated/0/Pictures/浏览器/"
 File(离线页面).mkdirs()
 File(picsave).mkdirs()
@@ -85,19 +328,25 @@ function 启用快捷工具栏()
     gravity="center";
     layout_width="60dp";
     orientation="vertical";
-    layout_height="50dp";   
+    layout_height="50dp";
+    {
+      ImageView;
+      id="布局图标";
+      ColorFilter="#FF7490FF";--图标颜色
+      layout_height="25dp";
+      layout_width="25dp";
+    };
     {
       TextView;
       id="布局文字";
-      textColor="#FF757575";
+      textColor="#FF757575";--文字颜色
       textSize="12dp";
     };
   };
   列表数据={}
-  列表文字={"X5内核","隐/展顶部","刷新网页","返回顶部","显示底栏"}
-  for 列表数量=1,#列表文字 do
-    table.insert(列表数据,{布局文字=列表文字[列表数量]})
-  end
+  列表图标={"http://shp.qpic.cn/collector/2530648358/0955284a-a08a-42db-91d1-e9ae04d97be6/0","http://shp.qpic.cn/collector/2530648358/7240777b-c5dc-4478-aeba-c8ec1ed01057/0","http://shp.qpic.cn/collector/2530648358/288e725b-3651-403b-9909-95f5aee1a497/0";}
+  列表文字={"X5内核","刷新网页","返回顶部"}
+  for 列表数量=1,#列表文字 do table.insert(列表数据,{布局文字=列表文字[列表数量],布局图标=列表图标[列表数量]})end
   列表适配器=LuaAdapter(activity,列表数据,列表布局)
   drawerLayout.addView(loadlayout(快捷工具栏布局))
   侧滑列表.Adapter=列表适配器
@@ -107,33 +356,60 @@ function 启用快捷工具栏()
         进入子页面("共用",{链接="http://debugtbs.qq.com"})
         drawerLayout.closeDrawer(5)
       elseif pos==1 then
-        if dlan==nil then
-           activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-          toolbar.parent.setVisibility(View.GONE)
-          dlan=0
-          else
-           activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-          toolbar.parent.setVisibility(View.VISIBLE)
-          dlan=nil
-        end
-        drawerLayout.closeDrawer(5)
-      elseif pos == 2 then
         刷新网页()
         drawerLayout.closeDrawer(5)
-      elseif pos == 3 then
+      elseif pos==2 then
         返回网页顶部()
-        drawerLayout.closeDrawer(5)
-      elseif pos == 4 then
-        fakebmbar.setVisibility(View.VISIBLE)
-        drawerLayout.closeDrawer(5)    
+        drawerLayout.closeDrawer(5)  
       end
     end
   }) 
 快捷工具栏.LayoutParams.gravity=5
 end
 启用快捷工具栏()
+function 获取字符串个数(zfcgs)
+if zfcgs~=nil and zfcgs~="" then
+gs=#zfcgs
+for i=1,#zfcgs do
+  ges=string.byte(zfcgs,i)
+  if ges>=226 and ges<=233 then
+    gs=gs-2
+    elseif ges==239 then
+    gs=gs-2
+    elseif ges==194 then
+    gs=gs-1
+    end
+  if i==#zfcgs then
+    return gs
+    end
+  end
+  else
+  return 0
+  end
+end
+function 获取相同字符串个数(zfc,xtzfc)
+if zfc~=nil and zfc~="" then
+gs=0
+for i=1,#zfc do
+  jqzfc=string.sub(zfc,i,i-1+#xtzfc)
+  if jqzfc==xtzfc then
+    gs=gs+1
+    end
+  if i==#zfc then
+    return gs
+    end
+  end
+  else
+  return 0
+  end
+end
+function seth(view,h)
+linearParams=view.getLayoutParams()
+linearParams.height=h
+view.setLayoutParams(linearParams)
+end
 function ewm()
-yj=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/夜间"):read("*a")
+yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
 if yj=="开" then ys=0xff000000 ys2=0xffffffff else ys=0xffffffff ys2=0xff000000 end
 AboutLayout=
 {
@@ -150,7 +426,95 @@ AboutLayout=
     layout_width="fill";
     layout_marginTop="0";
     onClick=function()
-      加载网页("https://cli.im/mob")
+  InputLayout={
+  LinearLayout;
+  orientation="vertical";
+  Focusable=true,
+  FocusableInTouchMode=true,
+  {
+    TextView;
+    id="ewmic",
+    textSize="15sp",
+    textColor=yys;
+    layout_marginTop="10dp";
+    layout_marginLeft="3dp",
+    layout_width="80%w";
+    layout_gravity="center",
+    text="输入文本或链接";
+  };
+  {
+    EditText;
+    layout_marginTop="5dp";
+    layout_width="80%w";
+    layout_gravity="center",
+    id="ewmwb";
+    hint="&请用%26代替,换行符请用%0A代替,空格请用%20代替";
+    text="";
+    textColor=yys;
+    hintTextColor=yys;
+  };
+  {
+    LinearLayout;
+    orientation="horizontal";
+    layout_height="25dp";
+    {
+    TextView;
+    layout_width="26.2%w";
+    text="         &";
+    textColor=yys;
+    onClick=function()ewmwb.text=ewmwb.text.."%26";ewmwb.setSelection(获取字符串个数(ewmwb.text))end;
+    };
+    {
+    TextView;
+    layout_width="26.2%w";
+    text="       空格";
+    textColor=yys;
+    onClick=function()ewmwb.text=ewmwb.text.."%20";ewmwb.setSelection(获取字符串个数(ewmwb.text))end;
+    };
+    {
+    TextView;
+    layout_width="26.2%w";
+    text="      换行符";
+    textColor=yys;
+    onClick=function()ewmwb.text=ewmwb.text.."%0A";ewmwb.setSelection(获取字符串个数(ewmwb.text))end;
+    };
+  };   
+};
+圆角对话框()
+  .设置标题("二维码生成")
+  .添加布局(InputLayout)
+  .设置圆角("32dp")
+  .设置消极按钮("取消",nil)
+  .设置积极按钮("确定",function()
+  二维码链接="http://qr.topscan.com/api.php?&text="..ewmwb.text
+  二维码保存位置=(ewmwb.text..".png"):gsub("/","／")
+  ewmtp={
+        ImageView;
+        src=二维码链接;
+        layout_marginLeft="19%w",
+      };
+task(150,function()
+圆角对话框()
+.设置标题("二维码")
+.设置圆角("32dp")
+.添加布局(ewmtp)
+.设置积极按钮("保存",function()
+downloadManager=activity.getSystemService(Context.DOWNLOAD_SERVICE);
+url=Uri.parse(二维码链接);
+request=DownloadManager.Request(url);
+request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE|DownloadManager.Request.NETWORK_WIFI);
+request.setDestinationInExternalPublicDir("Pictures/浏览器/",二维码保存位置);
+request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+downloadManager.enqueue(request);print('已保存二维码图片到"Pictures/浏览器/'..二维码保存位置..'"')end)
+.设置消极按钮("取消")
+.显示()end)
+end).显示(function()import "android.view.View$OnFocusChangeListener"
+  ewmwb.setOnFocusChangeListener(OnFocusChangeListener{ 
+    onFocusChange=function(v,hasFocus)
+      if hasFocus then
+        ewmic.setTextColor(0xFD009688)
+      end
+    end})end)
       关闭对话框()
     end
   };
@@ -190,7 +554,7 @@ AboutLayout=
     layout_width="fill";
     layout_marginTop="fill";
     onClick=function()
-    弹出消息("请选择含有二维码的图片")
+    print"请选择含有二维码的图片"
   import "android.content.Intent"
   local intent= Intent(Intent.ACTION_PICK)
   intent.setType("image/*")
@@ -255,7 +619,7 @@ InputLayout={
 Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
   if(code==200 and content)then con=content
     dl=content:match('"url":"(.-)"')
-圆角对话框()
+task(150,function()圆角对话框()
 .设置标题("短链")
 .设置圆角("32dp")
 .设置消息(dl)
@@ -263,14 +627,14 @@ Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
   复制文本(dl)
 end)
 .设置消极按钮("取消")
-.显示()
+.显示()end)
 end end)end)   
 .设置积极按钮("确定",function() 
 url="http://suo.im/api.php?format=json&url="..cl.text
 Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
   if(code==200 and content)then con=content
     dl=content:match('"url":"(.-)"')
-圆角对话框()
+task(150,function()圆角对话框()
 .设置标题("短链")
 .设置圆角("32dp")
 .设置消息(dl)
@@ -278,7 +642,7 @@ Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
   复制文本(dl)
 end)
 .设置消极按钮("取消")
-.显示()
+.显示()end)
 end end)end).显示(function()import "android.view.View$OnFocusChangeListener"
   cl.setOnFocusChangeListener(OnFocusChangeListener{ 
     onFocusChange=function(v,hasFocus)
@@ -300,10 +664,10 @@ function 过滤(content)
   if(内容=="") then
     内容="获取失败"
   end
-  if(版本名 > "2.9.2") then
+  if(版本名 > "2.9.7") then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."2.9.2".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."2.9.7".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp") --圆角大小
     .设置积极按钮("立即更新",function()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
@@ -332,20 +696,15 @@ Http.get(url,nil,"UTF-8",nil,function(code,content,cookie,header)
 end)
 end
 function 页面即将加载事件()
-yj=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/夜间"):read("*a")
+yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
 if yj=="开" then 
 task(1000,function()
 加载Js([[javascript:(function(){var styleElem=null,doc=document,ie=doc.all,fontColor=50,sel="body,body *";styleElem=createCSS(sel,setStyle(fontColor),styleElem);function setStyle(fontColor){var colorArr=[fontColor,fontColor,fontColor];return"background-color:#000 !important;color:RGB("+colorArr.join("%,")+"%) !important;"}function createCSS(sel,decl,styleElem){var doc=document,h=doc.getElementsByTagName("head")[0],styleElem=styleElem;if(!styleElem){s=doc.createElement("style");s.setAttribute("type","text/css");styleElem=ie?doc.styleSheets[doc.styleSheets.length-1]:h.appendChild(s)}if(ie){styleElem.addRule(sel,decl)}else{styleElem.innerHTML="";styleElem.appendChild(doc.createTextNode(sel+" {"+decl+"}"))}return styleElem}})();]]) 
 end)
-color1 = 0xff000000; color2 = 0xffffffff; 
+color1 = 0xff000000
 colorAnim = ObjectAnimator.ofInt(fltBtn,"backgroundColor",{color1,color1}) colorAnim.start()
-sidebar.getBackground().setColorFilter(PorterDuffColorFilter(0xFF000000,PorterDuff.Mode.SRC_ATOP))
-colorAnim = ObjectAnimator.ofInt(bmbackic,"ColorFilter",{color2,color2}) colorAnim.start()
-colorAnim = ObjectAnimator.ofInt(bmforwardic,"ColorFilter",{color2,color2}) colorAnim.start()
-colorAnim = ObjectAnimator.ofInt(bmhmic,"ColorFilter",{color2,color2}) colorAnim.start()
-colorAnim = ObjectAnimator.ofInt(bmrefreshic,"ColorFilter",{color2,color2}) colorAnim.start()
-colorAnim = ObjectAnimator.ofInt(gengduoic,"ColorFilter",{color2,color2}) colorAnim.start()
-colorAnim = ObjectAnimator.ofInt(yincangic,"ColorFilter",{color2,color2}) colorAnim.start()
+colorAnim = ObjectAnimator.ofInt(zybjt,"backgroundColor",{color1,color1}) colorAnim.start()
+sidebar.getBackground().setColorFilter(PorterDuffColorFilter(color1,PorterDuff.Mode.SRC_ATOP))
 end
 if 网页链接:find"https://" or 网页链接:find"file://" then
   aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0"))
@@ -353,41 +712,37 @@ if 网页链接:find"https://" or 网页链接:find"file://" then
   aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/279ac7de-ee84-4457-a675-09947d84fcde/0"))
   end
 设置底栏刷新状态(true,true,1000)
+if 网页链接:find"cli.im"then ymhlj="cli.im"scys="resultbtn,foot,mobile-head"jb=""
+elseif 网页链接:find"fanyi.baidu.com"then ymhlj="fanyi.baidu.com"scys="app-bar,article-loading,article android-style,bottom-intro,go-to-download"jb=""
+elseif 网页链接:find"m.bilibili.com"then ymhlj="m.bilibili.com"scys="index__openAppBtn__src-commonComponent-topArea-,index__logo__src-commonComponent-bottomOpenApp-,index__title__src-commonComponent-bottomOpenApp-,index__body__src-commonComponent-bottomOpenApp-,index__downloadBtn__src-commonComponent-bottomOpenApp-,index__background__src-commonComponent-bottomOpenApp-"jb=""
+elseif 网页链接:find"www.coolapk.com"then ymhlj="www.coolapk.com"scys="under"jb=""
+elseif 网页链接:find"yz.m.sm.cn"then ymhlj="yz.m.sm.cn"scys="download-uc-ctainer,more-wrap,smhdx-icons smhdx-icons-strong,c-hd,c-ft,btn-voice btn-install,@ID(header),dl-banner-without-logo,searchbox"jb=""
+elseif 网页链接:find"m.so.com"then ymhlj="m.so.com"scys="msocom-bottom-banner,g-header-search-form-container"jb=""
+elseif 网页链接:find"wap.sogou.com"then ymhlj="wap.sogou.com"scys="@ID(searchform),searchBox,vr-recommend recommend-pop"jb=""
+elseif 网页链接:find"m.baidu.com"then ymhlj="m.baidu.com"scys="page-banner,searchboxtop,se-head-logo,@ID(footer-wrap)"jb=""
+elseif 网页链接:find"www.baidu.com"then ymhlj="www.baidu.com"scys="page-banner,searchboxtop,se-head-logo,@ID(footer-wrap)"jb=""
+elseif 网页链接:find"m.kuwo.cn"then ymhlj="m.kuwo.cn"scys=""jb=[[/*酷我音乐下载*/function createDownKuwoMusic() {var isDownBtn;isDownBtn = document.getElementById('downBtn');if (isDownBtn) {isDownBtn.parentNode.removeChild(isDownBtn);};var downBtn = document.createElement("div");downBtn.id = "downBtn";downBtn.onclick = function () {location.href = document.getElementsByTagName('audio')[0].src;};downBtn.innerHTML = "下载歌曲💼";downBtn.setAttribute("style","font-size:4vw !important;width:30vw !important;height:10vw !important;line-height:10vw !important;text-align:center !important;background-color:#fcba25 !important;box-shadow:0px 1px 10px rgba(0,0,0,0.5) !important;color:#fff !important;position:fixed !important;bottom:10vh !important;right:5vw !important;z-index:999999 !important;border-radius:1vw !important;display:block !important;");document.body.appendChild(downBtn);};if (location.href.match("kuwo.cn")) {createDownKuwoMusic();};]]
+elseif 网页链接:find"m.kugou.com"then ymhlj="m.kugou.com"scys=""jb=[[/*酷狗音乐下载*/function createDownKugouMusic() {var isDownBtn;isDownBtn = document.getElementById('downBtn');if (isDownBtn) {isDownBtn.parentNode.removeChild(isDownBtn);};var downBtn = document.createElement("div");downBtn.id = "downBtn";downBtn.onclick = function () {location.href = document.getElementsByTagName('audio')[0].src;};downBtn.innerHTML = "下载歌曲🐶";downBtn.setAttribute("style","font-size:4vw !important;width:30vw !important;height:10vw !important;line-height:10vw !important;text-align:center !important;background-color:#2ca2f9 !important;box-shadow:0px 1px 10px rgba(0,0,0,0.5) !important;color:#fff !important;position:fixed !important;bottom:10vh !important;right:5vw !important;z-index:999999 !important;border-radius:1vw !important;display:block !important;");document.body.appendChild(downBtn);};if (location.href.match("kugou.com")) {createDownKugouMusic();};]]
+elseif 网页链接:find"y.qq.com"then ymhlj="y.qq.com"scys=""jb=[[/*QQ音乐下载*/function createDownQQMusic() {var isDownBtn;isDownBtn = document.getElementById('downBtn');if (isDownBtn) {isDownBtn.parentNode.removeChild(isDownBtn);};var downBtn = document.createElement("div");downBtn.id = "downBtn";downBtn.onclick = function () {location.href = document.getElementsByTagName('audio')[0].src;};downBtn.innerHTML = "下载歌曲🐧";downBtn.setAttribute("style","font-size:4vw !important;width:30vw !important;height:10vw !important;line-height:10vw !important;text-align:center !important;background-color:#31c27c !important;box-shadow:0px 1px 10px rgba(0,0,0,0.5) !important;color:#fff !important;position:fixed !important;bottom:10vh !important;right:5vw !important;z-index:999999 !important;border-radius:1vw !important;display:block !important;");document.body.appendChild(downBtn);};if (location.href.match("y.qq.com")) {createDownQQMusic();};]]
+elseif 网页链接:find"music.bbbbbb.me"then ymhlj="music.bbbbbb.me"scys="footer,am-topbar am-topbar-fixed-top"jb="document.body.style.paddingTop=0"
+elseif 网页链接:find"www2.bing.com"then ymhlj="www2.bing.com"scys="@ID(sb_form),@ID(mfa_srch),@ID(opal_serpftrcta),@ID(TopApp),b_ans opal_serpftrc,@ID(sb_form),@ID(mfa_srch)"jb=""
+else ymhlj=""scys=""jb=""end
+config.web_control[1].url=(ymhlj)config.web_control[1].remove_element=(scys)config.web_control[1].js=(jb)
 end
 function 页面加载完毕()
 设置底栏刷新状态(false,true,1000)
+function getBitmapFromView(v)b=Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.RGB_565);c=Canvas(b);v.layout(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());bgDrawable=v.getBackground();if (bgDrawable ~= null) then bgDrawable.draw(c);else c.drawColor(Color.WHITE);v.draw(c);end return b;end bitmap = getBitmapFromView(webView)pixel = bitmap.getPixel(200,5)bmwhole.setBackgroundColor(pixel)color1=0xffffffff color2=0xff000000 if pixel<-8388608 or pixel==-39581 or pixel==-585720 or pixel==-3276800 then aqic.setColorFilter(color1)gengduoic.setColorFilter(color1)bmrefreshic.setColorFilter(color1)bmhmic.setColorFilter(color1)bmforwardic.setColorFilter(color1)bmbackic.setColorFilter(color1)end if pixel>-8388608 and pixel~=-39581 and pixel~=-585720 and pixel~=-3276800 then aqic.setColorFilter(color2)gengduoic.setColorFilter(color2)bmrefreshic.setColorFilter(color2)bmhmic.setColorFilter(color2)bmforwardic.setColorFilter(color2)bmbackic.setColorFilter(color2)end bitmap.recycle()
 end
 function 收到新标题事件()
-if not 网页链接:find"leftshine.gitee.io" then
-ys=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/隐身"):read("*a")
-if ys=="关" then read_hst() add_hst() save_hst() end end
-yj=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/夜间"):read("*a")
+ys=io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a")
+if ys=="关" then read_hst() add_hst() save_hst() end
+yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
 if yj=="开" then 
 task(100,function()
 加载Js([[javascript:(function(){var styleElem=null,doc=document,ie=doc.all,fontColor=50,sel="body,body *";styleElem=createCSS(sel,setStyle(fontColor),styleElem);function setStyle(fontColor){var colorArr=[fontColor,fontColor,fontColor];return"background-color:#000 !important;color:RGB("+colorArr.join("%,")+"%) !important;"}function createCSS(sel,decl,styleElem){var doc=document,h=doc.getElementsByTagName("head")[0],styleElem=styleElem;if(!styleElem){s=doc.createElement("style");s.setAttribute("type","text/css");styleElem=ie?doc.styleSheets[doc.styleSheets.length-1]:h.appendChild(s)}if(ie){styleElem.addRule(sel,decl)}else{styleElem.innerHTML="";styleElem.appendChild(doc.createTextNode(sel+" {"+decl+"}"))}return styleElem}})();]]) 
 end)end end
 function search() 
-function searchfz()
-  if sq=="百度" then
-  加载网页("https://m.baidu.com/s?from=1022560l&word="..edit.text)
-  end
-  if sq=="必应" then
-  加载网页("https://www2.bing.com/search?q="..edit.text)
-  end
-  if sq=="神马" then
-  加载网页("https://yz.m.sm.cn/s?from=wy923961&q="..edit.text) 
-  end
-  if sq=="好搜" then
-  加载网页("https://m.so.com/s?q="..edit.text)
-  end
-  if sq=="搜狗" then
-  加载网页("https://wap.sogou.com/web/sl?bid=sogou-mobb-ef77022c7b788c29&keyword="..edit.text)
-  end
-  if sq=="谷歌" then
-  加载网页("https://www.google.com.hk/search?q="..edit.text)
-  end
-end
-sq=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎"):read("*a")
+sq=io.open("/data/data/"..activity.getPackageName().."/搜索引擎"):read("*a")
 if wz==0 then swz=网页链接 wz=nil else swz=nil end
 InputLayout={
     LinearLayout;
@@ -431,7 +786,7 @@ InputLayout={
     background="";
     text="https://";
     textColor=yys;
-    onClick=function()edit.text=edit.text.."https://";edit.setSelection(#edit.text)end;
+    onClick=function()edit.text=edit.text.."https://";edit.setSelection(获取字符串个数(edit.text))end;
     };
     {
     TextView;
@@ -439,7 +794,7 @@ InputLayout={
     background="";
     text="http://";
     textColor=yys;
-    onClick=function()edit.text=edit.text.."http://";edit.setSelection(#edit.text)end;
+    onClick=function()edit.text=edit.text.."http://";edit.setSelection(获取字符串个数(edit.text))end;
     };
     {
     TextView;
@@ -447,7 +802,7 @@ InputLayout={
     background="";
     text="view-source:";
     textColor=yys;
-    onClick=function()edit.text=edit.text.."view-source:";edit.setSelection(#edit.text)end;
+    onClick=function()edit.text=edit.text.."view-source:";edit.setSelection(获取字符串个数(edit.text))end;
     };
     {
     TextView;
@@ -455,7 +810,7 @@ InputLayout={
     background="";
     text="file:///";
     textColor=yys;
-    onClick=function()edit.text=edit.text.."file:///";edit.setSelection(#edit.text)end;
+    onClick=function()edit.text=edit.text.."file:///";edit.setSelection(获取字符串个数(edit.text))end;
     };
     {
     TextView;
@@ -463,7 +818,7 @@ InputLayout={
     background="";
     text="www.";
     textColor=yys;
-    onClick=function()edit.text=edit.text.."www.";edit.setSelection(#edit.text)end;
+    onClick=function()edit.text=edit.text.."www.";edit.setSelection(获取字符串个数(edit.text))end;
     };
     {
     TextView;
@@ -471,7 +826,7 @@ InputLayout={
     background="";
     text="m.";
     textColor=yys;
-    onClick=function()edit.text=edit.text.."m.";edit.setSelection(#edit.text)end;
+    onClick=function()edit.text=edit.text.."m.";edit.setSelection(获取字符串个数(edit.text))end;
     };
     {
     TextView;
@@ -479,7 +834,7 @@ InputLayout={
     layout_width="14%w";
     background="";
     textColor=yys;
-    onClick=function()edit.text=edit.text..".";edit.setSelection(#edit.text)end;
+    onClick=function()edit.text=edit.text..".";edit.setSelection(获取字符串个数(edit.text))end;
     };
     {
     TextView;
@@ -487,7 +842,7 @@ InputLayout={
     layout_width="12%w";
     background="";
     textColor=yys;
-    onClick=function()edit.text=edit.text.."/";edit.setSelection(#edit.text)end;
+    onClick=function()edit.text=edit.text.."/";edit.setSelection(获取字符串个数(edit.text))end;
     };
     {
     TextView;
@@ -495,7 +850,7 @@ InputLayout={
     background="";
     text=".com";
     textColor=yys;
-    onClick=function()edit.text=edit.text..".com";edit.setSelection(#edit.text)end;
+    onClick=function()edit.text=edit.text..".com";edit.setSelection(获取字符串个数(edit.text))end;
     };
     {
     TextView;
@@ -503,7 +858,7 @@ InputLayout={
     background="";
     text=".cn";
     textColor=yys;
-    onClick=function()edit.text=edit.text..".cn";edit.setSelection(#edit.text)end;
+    onClick=function()edit.text=edit.text..".cn";edit.setSelection(获取字符串个数(edit.text))end;
     };
     {
     TextView;
@@ -511,7 +866,7 @@ InputLayout={
     background="";
     text=".org";
     textColor=yys;
-    onClick=function()edit.text=edit.text..".org";edit.setSelection(#edit.text)end;
+    onClick=function()edit.text=edit.text..".org";edit.setSelection(获取字符串个数(edit.text))end;
     };
     {
     TextView;
@@ -519,63 +874,21 @@ InputLayout={
     background="";
     text=".net";
     textColor=yys;
-    onClick=function()edit.text=edit.text..".net";edit.setSelection(#edit.text)end;
+    onClick=function()edit.text=edit.text..".net";edit.setSelection(获取字符串个数(edit.text))end;
     };
     };
     };   
   };
+  if not webView.canGoBack()then
+  网页链接="主页"
+  end
   圆角对话框()
-  .设置标题(webView.title)
+  .设置标题(网页链接)
   .设置圆角("32dp")
   .添加布局(InputLayout)
-  .设置积极按钮("确定",function() 
-    pd4=string.sub(edit.text,1,4) pd6=string.sub(edit.text,1,6) pd7=string.sub(edit.text,1,7) pd8=string.sub(edit.text,1,8) pd12=string.sub(edit.text,1,12)
-    if edit.text=="" then searchfz()
-    elseif pd4=="www."then pd=edit.text:match("www.(.+)")
-    if pd==nil then
-      searchfz()
-    else 加载网页("http://"..edit.text)end
-    elseif pd8=="file:///"then pd=edit.text:match("file:///(.+)")
-    if pd==nil then
-      searchfz()
-    else 加载网页(edit.text)end
-    elseif pd6=="ftp://" then pd=edit.text:match("ftp://(.+)")
-    if pd==nil then
-      searchfz()
-    else 加载网页(edit.text)end
-    elseif pd7=="http://" then pd=edit.text:match("http://(.+)")
-    if pd==nil then
-      searchfz()
-    else 加载网页(edit.text)end
-    elseif pd8=="https://" then pd=edit.text:match("https://(.+)")
-    if pd==nil then
-      searchfz()
-    else 加载网页(edit.text)end
-    elseif pd12=="view-source:"then pd=edit.text:match("source:(.+)")
-    if pd:find"http://"or pd:find"https://"then
-    加载网页(edit.text)
-    else searchfz()end
-    elseif edit.text:find"com"or edit.text:find"cn"or edit.text:find"net"or edit.text:find"edu"or edit.text:find"top"or edit.text:find"xyz"or edit.text:find"biz"or edit.text:find"gov"or edit.text:find"info"or edit.text:find"int"or edit.text:find"mil"or edit.text:find"name"or edit.text:find"org"or edit.text:find"pro"or edit.text:find"aero"or edit.text:find"cat"or edit.text:find"coop"or edit.text:find"jobs"or edit.text:find"museum"or edit.text:find"travel"or edit.text:find"mobi"or edit.text:find"asia"or edit.text:find"tel"or edit.text:find"xxx"or edit.text:find"arpa"or edit.text:find"root"or edit.text:find"post"or edit.text:find"geo"or edit.text:find"kid"or edit.text:find"mail"or edit.text:find"sco"or edit.text:find"web"or edit.text:find"nato"or edit.text:find"test"or edit.text:find"bitnet"or edit.text:find"csnet"or edit.text:find"local"or edit.text:find"onion"or edit.text:find"uucp"or edit.text:find"berlin"or edit.text:find"love"then
-    for i=2,#edit.text do pd=string.sub(edit.text,i,i)
-    if pd~="." then
-    if i==#edit.text then
-    searchfz()break end
-    elseif pd=="."then 加载网页("http://"..edit.text)break end end
-    else
-    for ym=1,26 do
-    if ym==1 then ym="a" elseif ym==2 then ym="b" elseif ym==3 then ym="c" elseif ym==4 then ym="d" elseif ym==5 then ym="e" elseif ym==6 then ym="f" elseif ym==7 then ym="g" elseif ym==8 then ym="h" elseif ym==9 then ym="i" elseif ym==10 then ym="j" elseif ym==11 then ym="k" elseif ym==12 then ym="l" elseif ym==13 then ym="m" elseif ym==14 then ym="n" elseif ym==15 then ym="o" elseif ym==16 then ym="p" elseif ym==17 then ym="q" elseif ym==18 then ym="r" elseif ym==19 then ym="s" elseif ym==20 then ym="t" elseif ym==21 then ym="u" elseif ym==22 then ym="v" elseif ym==23 then ym="w" elseif ym==24 then ym="x" elseif ym==25 then ym="y" else ym="z" end
-    for ym2=1,27 do
-    if ym2==1 then ym2="a" elseif ym2==2 then ym2="b" elseif ym2==3 then ym2="c" elseif ym2==4 then ym2="d" elseif ym2==5 then ym2="e" elseif ym2==6 then ym2="f" elseif ym2==7 then ym2="g" elseif ym2==8 then ym2="h" elseif ym2==9 then ym2="i" elseif ym2==10 then ym2="j" elseif ym2==11 then ym2="k" elseif ym2==12 then ym2="l" elseif ym2==13 then ym2="m" elseif ym2==14 then ym2="n" elseif ym2==15 then ym2="o" elseif ym2==16 then ym2="p" elseif ym2==17 then ym2="q" elseif ym2==18 then ym2="r" elseif ym2==19 then ym2="s" elseif ym2==20 then ym2="t" elseif ym2==21 then ym2="u" elseif ym2==22 then ym2="v" elseif ym2==23 then ym2="w" elseif ym2==24 then ym2="x" elseif ym2==25 then ym2="y" elseif ym2==26 then ym2="z" else ym2="wc"end
-    djym=ym..ym2 if edit.text:find(djym)then 
-    for i=2,#edit.text do pd=string.sub(edit.text,i,i)
-    if pd~="." then
-    if i==#edit.text then
-    searchfz()zd="yzd"break end
-    elseif pd=="."then 加载网页("http://"..edit.text)zd="yzd"break end end
-    elseif djym=="zwc"then if pd~="yzd"then searchfz()end pd="wzd"
-    elseif zd=="yzd"then break break break end end end zd="wzd"
-    end
-    end)
+  .设置积极按钮("确定",function()bjk=edit.text:gsub("\n","") activity.getSystemService(Context.INPUT_METHOD_SERVICE).hideSoftInputFromWindow(edit.getWindowToken(),0)yum=nil pop.dismiss()
+  searchfz2()  
+  end)
   .设置消极按钮("取消",nil)
   .设置中立按钮("搜索引擎",function()task(150,function()
   items={
@@ -583,26 +896,26 @@ InputLayout={
  id="lb",
  items={"百度","必应","神马","好搜","搜狗","谷歌(需V)"},
  layout_width="fill",
- backgroundColor=0xffffffff,
 }
 圆角对话框()
 .设置圆角("32dp")
 .设置标题("当前搜索引擎为"..sq)
 .添加布局(items)
+.设置中立按钮("取消",function()task(150,function()search()end)end)
 .显示(function() lb.setOnItemClickListener(AdapterView.OnItemClickListener{
   onItemClick=function(parent, v, pos,id)
 pop.dismiss()if id==6 then
-io.open("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎","w+"):write("谷歌"):close() search()
+io.open("/data/data/"..activity.getPackageName().."/搜索引擎","w+"):write("谷歌"):close() search()
 elseif id==2 then
-io.open("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎","w+"):write("必应"):close() search()
+io.open("/data/data/"..activity.getPackageName().."/搜索引擎","w+"):write("必应"):close() search()
 elseif id==3 then
-io.open("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎","w+"):write("神马"):close() search()
+io.open("/data/data/"..activity.getPackageName().."/搜索引擎","w+"):write("神马"):close() search()
 elseif id==4 then
-io.open("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎","w+"):write("好搜"):close() search()
+io.open("/data/data/"..activity.getPackageName().."/搜索引擎","w+"):write("好搜"):close() search()
 elseif id==5 then
-io.open("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎","w+"):write("搜狗"):close() search()
+io.open("/data/data/"..activity.getPackageName().."/搜索引擎","w+"):write("搜狗"):close() search()
 elseif id==1 then
-io.open("/sdcard/Download/com.MyFusApp.zuolanqi/搜索引擎","w+"):write("百度"):close() search()
+io.open("/data/data/"..activity.getPackageName().."/搜索引擎","w+"):write("百度"):close() search()
 end end})end)end)end)
   .显示(function()import "android.view.View$OnFocusChangeListener"
   edit.setOnFocusChangeListener(OnFocusChangeListener{ 
@@ -639,7 +952,6 @@ end
       layout_height="fill";
       {
         ImageView;
-        ColorFilter=0xFF5C5C5C;
         src=("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0");
         layout_height="20dp";
         layout_marginTop="0dp";
@@ -653,6 +965,7 @@ end
 }
 fltBtn.Parent.addView(loadlayout(安全))
 aq.onClick=function()
+  if webView.canGoBack() then
   if 网页链接:find"http://" or 网页链接:find"ftp://" then
   wzaq="您与此网站之间建立的链接不安全\n请勿在此网站上输入任何敏感信息(例如密码或信用卡信息),因为攻击者可能会盗取这些信息"
   elseif 网页链接:find"file://" then 
@@ -660,11 +973,16 @@ aq.onClick=function()
   elseif 网页链接:find"https://" then
   wzaq="链接是安全的\n您发送给这个网站的信息(例如密码或信用卡号)不会外泄"
   end
+  else
+  wzaq="您正在查看安全的UTBC浏览器主页"
+  网页链接="主页"
+  end
 圆角对话框()
 .设置标题(网页链接)
 .设置圆角("32dp")
 .设置消息(wzaq)
-.显示()
+.设置中立按钮("好的")
+.显示(function()retitle.onLongClick=function()复制文本(网页链接)print"已复制网址"end end)
 end
 toolbar.onClick=function()wz=0 search() end
 yjhy=loadlayout{
@@ -683,7 +1001,7 @@ layout_weight="1.0";
  layout_width="23dp",
  layout_height="23dp", 
  ColorFilter="#87C5C5C5",
- src=("http://shp.qpic.cn/collector/2530648358/4b24fec2-4d64-4709-9275-b3821165fbcf/0");
+ src=("http://shp.qpic.cn/collector/2530648358/ecec3906-6930-40fa-b205-be72d2edf48b/0");
 },
 {
 TextView;
@@ -934,10 +1252,10 @@ menu.add("分享天气信息").onMenuItemClick=function(a) 分享文本(help) en
 end)
 end 天气()
 webView.addJavascriptInterface({},"JsInterface")
-ll=0 ti=Ticker()ti.Period=1000 ti.onTick=function() ll=ll+1tt=os.date("时间:%H:%M:%S") if ll==3600 then 圆角对话框().设置标题("温馨提醒").设置圆角("32dp").设置消息("您已浏览网页一小时,该休息一下了").设置积极按钮("好的",function()退出程序()end).设置消极按钮("继续浏览网页").显示()end 设置顶栏标题(tt.." "..webView.title)end ti.start()
+ll=0 ti=Ticker()ti.Period=1000 ti.onTick=function() ll=ll+1tt=os.date("时间:%H:%M:%S") if ll==3600 then 圆角对话框().设置标题("温馨提醒").设置圆角("32dp").设置消息("您已浏览网页一小时,该休息一下了").设置积极按钮("好的",function()退出程序()end).设置消极按钮("继续浏览网页").显示()end if webView.canGoBack() then bt=tt.." "..webView.title else aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0"))bt=string.gsub(tt.." "..webView.title,"about:blank","主页")end 设置顶栏标题(bt)end ti.start()
 --
 function 工具箱()
-yj=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/夜间"):read("*a")
+yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
 if yj=="开" then ys=0xff000000 ys2=0xffffffff else ys=0xffffffff ys2=0xff000000 end
 gjx={
 LinearLayout,
@@ -1166,6 +1484,32 @@ LinearLayout,
                         ImageView;
                         layout_width="20dp",
                         layout_height="20dp",
+                        src=("http://shp.qpic.cn/collector/2530648358/6de7a8c6-d432-42e8-a0ef-4ab21f2b1231/0");
+                        ColorFilter="#FF009AFF",
+                        id="qp";
+                      },
+                    },
+                    {
+                      TextView,
+                      layout_width="20%w",
+                      gravity="center",
+                      text="全屏",
+                      textColor=ys2,
+                    },
+                  },
+                  {
+                    LinearLayout,
+                    layout_width="wrap_content",
+                    orientation="vertical",
+                    layout_weight="1.0",
+                    gravity="center_horizontal",
+                    {
+                      LinearLayout,
+                      layout_width="wrap_content",
+                      {
+                        ImageView;
+                        layout_width="20dp",
+                        layout_height="20dp",
                         src=("http://shp.qpic.cn/collector/2530648358/11202f6f-5ea7-4abc-b93f-3aea77761b88/0");
                         ColorFilter="#FF009AFF",
                         id="wtms";
@@ -1173,7 +1517,7 @@ LinearLayout,
                     },
                     {
                       TextView,
-                      layout_width="25%w",
+                      layout_width="20%w",
                       gravity="center",
                       text="无图模式",
                       textColor=ys2,
@@ -1200,7 +1544,7 @@ LinearLayout,
                     {
                       TextView,
                       layout_height="wrap_content",
-                      layout_width="25%w",
+                      layout_width="20%w",
                       gravity="center",
                       text="资源嗅探",
                       textColor=ys2,                    
@@ -1226,7 +1570,7 @@ LinearLayout,
                     },
                     {
                       TextView,
-                      layout_width="25%w",
+                      layout_width="20%w",
                       gravity="center",
                       text="浏览器标识",
                       textColor=ys2,
@@ -1252,7 +1596,7 @@ LinearLayout,
                     },
                     {
                       TextView,
-                      layout_width="25%w",
+                      layout_width="20%w",
                       gravity="center",
                       text="视频解析",
                       textColor=ys2,
@@ -1370,6 +1714,33 @@ LinearLayout,
                       textColor=ys2,                    
                     },
                   },
+                  {
+                    LinearLayout,
+                    layout_width="wrap_content",
+                    orientation="vertical",
+                    layout_weight="1.0",
+                    gravity="center_horizontal",
+                    {
+                      LinearLayout,
+                      layout_width="wrap_content",
+                      {
+                        ImageView;
+                        layout_width="20dp",
+                        layout_height="20dp",
+                        src=("http://shp.qpic.cn/collector/2530648358/62cc8454-c01b-4114-88a6-703d6ccfa626/0");
+                        ColorFilter="#FF009AFF",
+                        id="hcld",
+                      },
+                    },
+                    {
+                      TextView,
+                      layout_height="wrap_content",
+                      layout_width="25%w",
+                      gravity="center",
+                      text="划词朗读",
+                      textColor=ys2,                    
+                    },
+                  },
                 },
                 {
                   LinearLayout,
@@ -1423,9 +1794,219 @@ LinearLayout,
     },
   }
 fltBtn.Parent.addView(loadlayout(gjx))
+function gjx.onClick() gjx.setVisibility(View.GONE) GJX=0 Gj=nil end
+yncz.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)
+  sr={
+    LinearLayout;
+    layout_width="-1";
+    layout_height="93%h";
+    gravity="bottom";
+    id="sr";
+    Elevation="3dp";
+    orientation="vertical";
+    Focusable=true,
+    FocusableInTouchMode=true,
+    {
+    LinearLayout;
+    layout_width="fill";
+    Elevation="3dp";
+    layout_height="7%h";
+    orientation="horizontal";
+    backgroundColor=0x7FFFFFFF;
+    gravity="left|bottom";
+    layout_gravity="center|bottom";
+    id="srys";
+    {
+      EditText;
+      hint="页内查找";
+      hintTextColor=0xff000000;
+      layout_marginTop="5dp";
+      layout_width="70%w";
+      layout_gravity="left",
+      id="edit";
+      text="";
+    };
+    {
+      LinearLayout,
+      layout_width="match_parent",
+      orientation="horizontal",
+      layout_weight="1.0",
+      layout_height="-1",                 
+       {
+        LinearLayout,
+        layout_width="wrap_content",
+        orientation="vertical",
+        layout_weight="1.0",
+        gravity="center_horizontal",
+        {
+          LinearLayout,
+          layout_width="wrap_content",
+          {
+            ImageView;
+            layout_width="27dp",
+            layout_height="27dp",
+            src=("http://shp.qpic.cn/collector/2530648358/ecc5b48c-e8fd-413f-afef-76787ec5fa3e/0");
+            ColorFilter="#80000000",
+            id="gb";
+          },                                                             
+        },
+      },
+      {
+        LinearLayout,
+        layout_width="wrap_content",
+        orientation="vertical",
+        layout_weight="1.0",
+        gravity="center_horizontal",
+        {
+          LinearLayout,
+          layout_width="wrap_content",
+          {
+            ImageView;
+            layout_width="27dp",
+            layout_height="27dp",
+            src=("http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0");
+            ColorFilter="#80000000",
+            id="xg";
+          },                                                                                                
+        },
+      }, 
+    },
+  };
+};
+fltBtn.Parent.addView(loadlayout(sr))
+xg.onClick=function() 页内查找(edit.text) end gb.onClick=function() 页内查找("")sr.setVisibility(View.GONE)end end
+bcwy.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) offline="/sdcard/download/"..os.date("%Y%m%d%H%M%S")..webView.title..".mht" print("已保存网页至“"..offline.."”") webView.saveWebArchive(offline) end
+lxym.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) ChoiceOfflineFile("/sdcard/Download/") end
+fanyi.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)items={ListView,id="lb",items={"彩云小译","百度翻译","有道翻译"},layout_width="fill",}圆角对话框().设置圆角("32dp").设置标题("选择翻译引擎").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==2 then 加载网页("http://fanyi.baidu.com/transpage?query="..webView.getUrl().."&from=auto&to=zh&source=url&ie=utf8&render=1")elseif id==3 then 加载网页("http://fanyi.youdao.com/WebpageTranslate?keyfrom=webfanyi.top&url="..webView.getUrl().."&type=ZH_CN2EN")elseif id==1 then 加载Js([[(function(){if(!document.body)return;var popup=document.querySelectorAll('.cyxy-target-popup');if(popup&&popup.length>0)return;var trs=document.createElement('script');trs.type='text/javascript';trs.charset='UTF-8';trs.src=('https:'==document.location.protocol?'https://':'http://')+'caiyunapp.com/dest/trs.js';document.body.appendChild(trs);})()]])end end})end)end
+yuanma.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) 加载网页("view-source:"..webView.getUrl()) end
+qp.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)if dlan==nil then activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.GONE)fakebmbar.setVisibility(View.GONE)webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,0)fltBtn.setVisibility(View.VISIBLE)dlan=0 else activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.VISIBLE)fakebmbar.setVisibility(View.VISIBLE)webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,bmwhole.height)fltBtn.setVisibility(View.GONE)dlan=nil end end
+wtms.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) wutu=io.open("/data/data/"..activity.getPackageName().."/无图模式"):read("*a") if wutu=="开" then webView.getSettings().setLoadsImagesAutomatically(true) print"有图模式" io.open("/data/data/"..activity.getPackageName().."/无图模式","w+"):write("关"):close() else webView.getSettings().setLoadsImagesAutomatically(false) print"无图模式" io.open("/data/data/"..activity.getPackageName().."/无图模式","w+"):write("开"):close() end end
+xiutan.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) items={ListView,id="lb",items={"嗅探1","嗅探2"},layout_width="fill",}圆角对话框().设置圆角("32dp").设置标题("选择嗅探引擎").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==1 then require("import").import("qqbid/qqbid").resource_sniff();elseif id==2 then local dl=ProgressDialog.show(activity,nil,'正在嗅探')dl.show()加载Js([[window.location.assign($("iframe").attr("src"))
+]]) task(1000,function() dl.dismiss() function loadTheJs() 加载Js("function returnVideoUrl(){var theVideoUrl=document.getElementsByTagName('video')[0].currentSrc;location.href=theVideoUrl;};returnVideoUrl();"); return true; end if(loadTheJs()) then task(1000,function() intent = Intent(Intent.ACTION_VIEW); uri = Uri.parse(webView.getUrl()); intent.setDataAndType(uri, "video/mp4"); activity.startActivity(intent); end); end end)end end})end)end
+biaoshi.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)function 自定义UA()
+ua=io.open("/data/data/"..activity.getPackageName().."/自定义UA"):read("*a")
+InputLayout={
+LinearLayout;
+orientation="vertical";
+Focusable=true,
+FocusableInTouchMode=true,
+{
+TextView;
+id="Prompt",
+textSize="15sp",
+layout_marginTop="10dp";
+layout_marginLeft="3dp",
+layout_width="80%w";
+layout_gravity="center",
+text="请输入UA";
+textColor=yys;
+};
+{
+EditText;
+hint="User Agent";
+text=ua;
+layout_marginTop="5dp";
+layout_width="80%w";
+layout_gravity="center",
+id="UA";
+hintTextColor=yys;
+textColor=yys;
+};
+};
+圆角对话框()
+.设置标题("UserAgent")
+.设置圆角("32dp").添加布局(InputLayout)
+.设置积极按钮("完成设置",function()
+  if UA.text==""then
+  task(150,function()
+  自定义UA()
+  print"您还没有输入哦！"
+  end)
+  else
+  io.open("/data/data/"..activity.getPackageName().."/浏览器标识","w+"):write("自定义"):close()
+  io.open("/data/data/"..activity.getPackageName().."/自定义UA","w+"):write(UA.Text):close()
+  webView.getSettings().setUserAgentString(UA.Text)
+  刷新网页()
+  end
+  end)
+.设置消极按钮("取消",function()task(150,function()浏览器标识()end)end)
+.显示(function()
+  import "android.view.View$OnFocusChangeListener"
+  UA.setOnFocusChangeListener(OnFocusChangeListener{onFocusChange=function(v,hasFocus)
+      if hasFocus then
+        Prompt.setTextColor(0xFD009688)
+        end
+      end})
+  end)
+end
+function 浏览器标识()
+llqbs=io.open("/data/data/"..activity.getPackageName().."/浏览器标识"):read("*a")
+items={
+  ListView,
+  id="lb",
+  items={"默认","Chrome (PC)","IE 11 (PC)","iphone","塞班 (Symbian)","自定义"},
+  layout_width="fill",
+  }
+圆角对话框()
+.设置圆角("32dp")
+.设置标题("当前UA为"..llqbs)
+.添加布局(items)
+.显示(function()
+  lb.setOnItemLongClickListener(AdapterView.OnItemLongClickListener{
+  onItemLongClick=function(parent, v, pos,id)
+    if id==6 then
+      pop.dismiss()
+      自定义UA()
+      end
+  end
+})
+  lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()
+      if id==2 then
+        io.open("/data/data/"..activity.getPackageName().."/浏览器标识","w+"):write("Chrome (PC)"):close()
+        webView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36")
+        刷新网页()
+        elseif id==3 then
+        io.open("/data/data/"..activity.getPackageName().."/浏览器标识","w+"):write("IE 11 (PC)"):close()
+        webView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko")
+        刷新网页()
+        elseif id==6 then
+        ua=io.open("/data/data/"..activity.getPackageName().."/自定义UA"):read("*a")
+        if ua~=nil and ua~="" then
+        webView.getSettings().setUserAgentString(ua)
+        io.open("/data/data/"..activity.getPackageName().."/浏览器标识","w+"):write("自定义"):close()
+        刷新网页()
+        else
+        自定义UA()
+end
+elseif id==4 then
+io.open("/data/data/"..activity.getPackageName().."/浏览器标识","w+"):write("iphone"):close()
+webView.getSettings().setUserAgentString("Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7")
+刷新网页()
+elseif id==5 then
+io.open("/data/data/"..activity.getPackageName().."/浏览器标识","w+"):write("塞班 (Symbian)"):close()
+webView.getSettings().setUserAgentString("Mozilla/5.0 (Symbian/3; Series60/5.2 NokiaN8-00/012.002; Profile/MIDP-2.1 Configuration/CLDC-1.1 ) AppleWebKit/533.4 (KHTML, like Gecko) NokiaBrowser/7.3.0 Mobile Safari/533.4 3gpp-gba")
+刷新网页()
+elseif id==1 then
+io.open("/data/data/"..activity.getPackageName().."/浏览器标识","w+"):write("默认"):close()
+webView.getSettings().setUserAgentString("Mozilla/5.0 Dalvik/2 ( Linux; U; NEM-AL10 Build/HONORNEM-AL10;Youku;7.1.4;) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Safari/537.36 (Baidu; P1 6.0) iPhone/7.1 Android/8.0 baiduboxapp/2.7.0.10")
+刷新网页()
+end
+end})
+end)
+end
+浏览器标识()
+end
+spjx.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)items={ListView,id="lb",items={"1号解析接口","2号解析接口","3号解析接口","4号解析接口"},layout_width="fill",}圆角对话框().设置圆角("32dp").设置标题("选择您需要的解析接口").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==1 then 加载网页("http://wwa.ha12.xyz/jian/index.php?url="..webView.getUrl())elseif id==3 then 加载网页("http://xiaojx.two3.cn/jx/?url="..网页链接)elseif id==4 then 加载网页("http://api.qy414.cn/?url="..网页链接)elseif id==2 then 加载网页("http://www.sfsft.com/video.php?url="..网页链接)end end})end)end
+browser.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) this.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse(网页链接))) end
+wyjt.onClick=function()GJX=0 Gj=nil if dlan==nil then webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,0)end gjx.setVisibility(View.GONE) fakebmbar.setVisibility(View.GONE)activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.GONE)task(300,function()DrawingChaceCapture(picsave..os.date("%Y%m%d%H%M%S")..".png",webView)activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);if dlan==nil then toolbar.parent.setVisibility(View.VISIBLE) webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,bmwhole.height) fakebmbar.setVisibility(View.VISIBLE)end end)end
+read.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) 加载阅读() end
+dlsc.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) 短链生成() end
+hcld.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)print"请长按选择需要朗读的段落,并点击右下角的读字即可" 加载Js([[(function (){if(document.getElementById('muttsread0')){}else{var num1;function getResult1(words) {var spd=5;var per=4;var vol=5;if(words.length>0){try{words=words.replace(/\r\n/g,"");words=words.replace(/\n/g,"");}catch(e) {}var vcurrent = document.getElementsByTagName('body')[0];var newNodeTop;var n = 1600;if(/.*[\u4e00-\u9fa5]+.*$/.test(words)){n=500;}var num=0;num1=0;for (var i = 0, l = words.length; i < l/n; i++) {var a = words.slice(n*i, n*(i+1));num++;num1++;newNodeTop = document.createElement("audio");newNodeTop.id="muttsread"+i;newNodeTop.setAttribute("controls","");a=encodeURIComponent(a) ;newNodeTop.setAttribute("src","http://tts.baidu.com/text2audio?idx=1&cuid=baidu_speech_demo&cod=5&lan=zh&ctp=1&pdt=1&spd="+spd+"&vol="+vol+"&pit=3&per="+per+"&tex="+a);vcurrent.parentNode.insertBefore(newNodeTop, vcurrent);}window.scrollTo(0, 0);if(num>1){try{var str="\u5df2\u5206\u4e3a\u8bed\u97f3\u6bb5\u6570";window.mx_browser_obj.showtip(unescape(str.replace(/\\u/g, '%u'))+num);}catch(e) {}}}}var transBtn= document.createElement('span');var str1="\u8bfb";transBtn.innerHTML = ''+unescape(str1.replace(/\\u/g, '%u'));transBtn.id='myTransBtn1';var c = 'display:block!important;text-align:center;color:#fff;font-size:5vw;opacity:0.3;background:rgba(0, 0, 0, 0.9);border-radius:5px 0 0 5px;cursor:pointer;position:fixed;bottom:10%;width:10vw;height:10vw;right:0px;z-index:9999;line-height:10vw;';			transBtn.style.cssText = c;			transBtn.addEventListener('click', function () {transBtn.style.display = "none";}, false);transBtn.style.display = "none";document.body.appendChild(transBtn);var lastText;var isClickTransBtn;document.addEventListener("selectionchange", function (e1) {var text = window.getSelection().toString().trim();if(!!text){transBtn.style.display = "block";lastText = text;transBtn.ontouchstart = function () {return isClickTransBtn = true;}}else{if(!!isClickTransBtn){isClickTransBtn = false;if(document.getElementById('muttsread0')){for(var j=0;j<num1;j++){document.getElementsByTagName('html')[0].removeChild(document.getElementById('muttsread'+j));}}getResult1(lastText);transBtn.style.display = "none";}else{transBtn.style.display = "none";}}}, false);}})();]])end
+tuichu.onClick=function()  ti.stop() 退出程序()end
+gjxyc.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) end
 end
 function 更多()
-yj=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/夜间"):read("*a")
+yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
 if yj=="开" then ys=0xff000000 ys2=0xffffffff else ys=0xffffffff ys2=0xff000000 end
 gd={
 LinearLayout,
@@ -1769,6 +2350,23 @@ LinearLayout,
     },
   }
 fltBtn.Parent.addView(loadlayout(gd))
+addbook.onClick=function() addDataDialog("Collection","加入书签",webView.getTitle(),webView.getUrl()) DialogExternal.setVisibility(View.GONE) gduo=nil end
+mybook.onClick=function() showDataDialog("Collection","书签") DialogExternal.setVisibility(View.GONE) gduo=nil end
+yinshen.onClick=function() gduo=nil DialogExternal.setVisibility(View.GONE) ys=io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a") if ys=="开" then io.open("/data/data/"..activity.getPackageName().."/隐身","w+"):write("关"):close() print("退出隐身浏览") else io.open("/data/data/"..activity.getPackageName().."/隐身","w+"):write("开"):close() print("已进入隐身浏览") end end
+gdyc.onClick=function() DialogExternal.setVisibility(View.GONE) gduo=nil end
+tuichu.onClick=function()  ti.stop() 退出程序()end
+share.onClick=function() 分享文本(webView.getUrl()) DialogExternal.setVisibility(View.GONE) gduo=nil end
+xiazai.onClick=function() if pcall(function() activity.getPackageManager().getPackageInfo("com.dv.adm.pay",0) end) then packageName="com.dv.adm.pay" import "android.content.Intent" import "android.content.pm.PackageManager" manager = activity.getPackageManager() open = manager.getLaunchIntentForPackage(packageName) this.startActivity(open)
+else print("你似乎没有安装ADM下载器") import "android.content.Intent" import "android.net.Uri" intent = Intent("android.intent.action.VIEW") intent .setData(Uri.parse( "market://details?id=com.dv.adm.pay")) this.startActivity(intent) end gduo=nil DialogExternal.setVisibility(View.GONE) end
+night.onClick=function() gduo=nil color1 = 0xffffffff; ys=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
+if yj=="关" then io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("开"):close() print("夜间模式")color=0xff000000 colorAnim = ObjectAnimator.ofInt(zybjt,"backgroundColor",{color,color}) colorAnim.start()刷新网页()
+else io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("关"):close() print("白天模式") colorAnim = ObjectAnimator.ofInt(zybjt,"backgroundColor",{color1,color1}) colorAnim.start()colorAnim = ObjectAnimator.ofInt(fltBtn,"backgroundColor",{color1,color1}) colorAnim.start()
+sidebar.getBackground().setColorFilter(PorterDuffColorFilter(color1,PorterDuff.Mode.SRC_ATOP))
+刷新网页() end
+DialogExternal.setVisibility(View.GONE) end
+history.onClick=function() DialogExternal.setVisibility(View.GONE) gduo=nil read_hst() show_hst() end
+gj.onClick=function()工具箱() Gj=0 xfb=nil DialogExternal.setVisibility(View.GONE)end
+function DialogExternal.onClick() DialogExternal.setVisibility(View.GONE) gduo=nil end
 end
 --底下导航栏
 底栏布局={
@@ -1783,7 +2381,7 @@ end
     LinearLayout;
     layout_width="fill";
     Elevation="3dp";
-    layout_height="7%h";
+    layout_height="6.8%h";
     orientation="horizontal";
     backgroundColor=0x00000000;
     gravity="center|bottom";
@@ -1792,14 +2390,13 @@ end
     {
       LinearLayout;
       id="bmback";
-      layout_width="19%w";
+      layout_width="20%w";
       orientation="vertical";
       gravity="center|left";
       layout_gravity="center|left";
       layout_height="fill";
       {
         ImageView;--影像视图
-        ColorFilter=0xff000000;
         src=("http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0");
         layout_height="20dp";--高度
         layout_width="20dp";--宽度
@@ -1811,14 +2408,13 @@ end
     {
       LinearLayout;
       id="bmforward";
-      layout_width="19%w";
+      layout_width="20%w";
       layout_height="fill";
       orientation="vertical";
       gravity="center|left";
       layout_gravity="center|left";
       {
         ImageView;--影像视图
-        ColorFilter=0xff000000;
         src=("http://shp.qpic.cn/collector/2530648358/3cd13a75-c2f6-414c-8787-66ec93a08fe3/0");
         layout_height="20dp";--高度
         layout_width="20dp";--宽度
@@ -1830,7 +2426,7 @@ end
     {
       LinearLayout;
       id="bmhome";
-      layout_width="19%w";
+      layout_width="20%w";
       orientation="vertical";
       gravity="center|right";
       layout_gravity="center|right";
@@ -1838,7 +2434,6 @@ end
       {
         ImageView;--影像视图
         src=("http://shp.qpic.cn/collector/2530648358/bb695541-0c88-4195-af4d-2fb67e2915a0/0");
-        ColorFilter=0xff000000;
         layout_height="20dp";--高度
         layout_width="20dp";--宽度
         layout_gravity="center";
@@ -1849,7 +2444,7 @@ end
     {
       LinearLayout;
       id="bmrefresh";
-      layout_width="19%w";
+      layout_width="20%w";
       orientation="vertical";
       gravity="center|right";
       layout_gravity="center|right";
@@ -1857,7 +2452,6 @@ end
       {
         ImageView;--影像视图
         layout_height="20dp";--高度
-        ColorFilter=0xff000000;
         layout_width="20dp";--宽度
         id="bmrefreshic";
         layout_gravity="center";
@@ -1867,14 +2461,13 @@ end
     {
       LinearLayout;
       id="gengduo";
-      layout_width="19%w";
+      layout_width="20%w";
       orientation="vertical";
       gravity="center|left";
       layout_gravity="center|left";
       layout_height="fill";
       {
         ImageView;--影像视图
-        ColorFilter=0xff000000;
         src=("http://shp.qpic.cn/collector/2530648358/8fa2da48-d85d-4993-b34d-f696b4d8e51f/0");
         layout_height="20dp";--高度
         layout_width="20dp";--宽度
@@ -1883,28 +2476,10 @@ end
         backgroundColor="#00000000";--背景色
       };
     };
-    {
-      LinearLayout;
-      id="yincang";
-      layout_width="5%w";
-      orientation="vertical";
-      gravity="center|left";
-      layout_gravity="center|left";
-      layout_height="fill";
-      {
-        ImageView;--影像视图
-        ColorFilter=0xff000000;
-        src=("http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0");
-        layout_height="20dp";--高度
-        layout_width="15dp";--宽度
-        layout_gravity="center";
-        id="yincangic";
-        backgroundColor="#00000000";--背景色
-      };
-    };
   };
 }
 fltBtn.Parent.addView(loadlayout(底栏布局))
+task(1,function()webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,bmwhole.height)end)
 function 波纹(id,颜色)
   import "android.content.res.ColorStateList"
   local attrsArray = {android.R.attr.selectableItemBackgroundBorderless} 
@@ -1919,167 +2494,11 @@ end
 波纹(bmhome,0xFFE2E2E2)
 波纹(gengduo,0xFFE2E2E2)
 波纹(bmrefresh,0xFFE2E2E2)
-波纹(yincang,0xFFE2E2E2)
 --注意！还有一些东西写在了网页加载事件和加载完毕事件
-bmback.onClick=function()if(webView.canGoBack())then 网页后退()else 弹出消息("没有网页可以后退哦")end end
-bmforward.onClick=function()if(webView.canGoForward())then 网页前进()else 弹出消息("没有网页可以前进哦")end end
-bmhome.onClick=function()
-while(true) do 网页后退()if not(webView.canGoBack()) then break end end end
-gengduo.onClick=function() if GJX==0 then fltBtn.Parent.addView(loadlayout(gd)) GJX=nil gduo=0 elseif Gj==0 then gjx.setVisibility(View.GONE) Gj=nil gduo=nil elseif gduo==nil then 更多() gduo=0 else DialogExternal.setVisibility(View.GONE) gduo=nil end
-addbook.onClick=function() addDataDialog("Collection","加入书签",webView.getTitle(),webView.getUrl()) DialogExternal.setVisibility(View.GONE) gduo=nil end
-mybook.onClick=function() showDataDialog("Collection","书签") DialogExternal.setVisibility(View.GONE) gduo=nil end
-yinshen.onClick=function() gduo=nil DialogExternal.setVisibility(View.GONE) ys=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/隐身"):read("*a") if ys=="开" then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/隐身","w+"):write("关"):close() print("退出隐身浏览") else io.open("/sdcard/Download/com.MyFusApp.zuolanqi/隐身","w+"):write("开"):close() print("已进入隐身浏览") end end
-gdyc.onClick=function() DialogExternal.setVisibility(View.GONE) gduo=nil end
-tuichu.onClick=function()  ti.stop() 退出程序()end
-share.onClick=function() 分享文本(webView.getUrl()) DialogExternal.setVisibility(View.GONE) gduo=nil end
-xiazai.onClick=function() if pcall(function() activity.getPackageManager().getPackageInfo("com.dv.adm.pay",0) end) then packageName="com.dv.adm.pay" import "android.content.Intent" import "android.content.pm.PackageManager" manager = activity.getPackageManager() open = manager.getLaunchIntentForPackage(packageName) this.startActivity(open)
-else print("你似乎没有安装ADM下载器") import "android.content.Intent" import "android.net.Uri" intent = Intent("android.intent.action.VIEW") intent .setData(Uri.parse( "market://details?id=com.dv.adm.pay")) this.startActivity(intent) end gduo=nil DialogExternal.setVisibility(View.GONE) end
-night.onClick=function() gduo=nil color1 = 0xff000000; color2 = 0xffffffff; ys=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/夜间"):read("*a")
-if yj=="关" then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/夜间","w+"):write("开"):close() print("夜间模式")刷新网页()
-else io.open("/sdcard/Download/com.MyFusApp.zuolanqi/夜间","w+"):write("关"):close() print("白天模式") colorAnim = ObjectAnimator.ofInt(fltBtn,"backgroundColor",{color2,color2}) colorAnim.start()
-sidebar.getBackground().setColorFilter(PorterDuffColorFilter(0xFFFFFFFF,PorterDuff.Mode.SRC_ATOP))
-colorAnim = ObjectAnimator.ofInt(bmbackic,"ColorFilter",{color1,color1}) colorAnim.start()
-colorAnim = ObjectAnimator.ofInt(bmforwardic,"ColorFilter",{color1,color1}) colorAnim.start()
-colorAnim = ObjectAnimator.ofInt(bmhmic,"ColorFilter",{color1,color1}) colorAnim.start()
-colorAnim = ObjectAnimator.ofInt(bmrefreshic,"ColorFilter",{color1,color1}) colorAnim.start()
-colorAnim = ObjectAnimator.ofInt(gengduoic,"ColorFilter",{color1,color1}) colorAnim.start()
-colorAnim = ObjectAnimator.ofInt(yincangic,"ColorFilter",{color1,color1}) colorAnim.start()
-刷新网页() end
-DialogExternal.setVisibility(View.GONE) end
-history.onClick=function() DialogExternal.setVisibility(View.GONE) gduo=nil read_hst() show_hst() end
-gj.onClick=function()
-工具箱() Gj=0 xfb=nil DialogExternal.setVisibility(View.GONE) 
-function gjx.onClick() gjx.setVisibility(View.GONE) GJX=0 Gj=nil end
-yncz.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)
-  sr={
-    LinearLayout;
-    layout_width="-1";
-    layout_height="93%h";
-    gravity="bottom";
-    id="sr";
-    Elevation="3dp";
-    orientation="vertical";
-    Focusable=true,
-    FocusableInTouchMode=true,
-    {
-    LinearLayout;
-    layout_width="fill";
-    Elevation="3dp";
-    layout_height="7%h";
-    orientation="horizontal";
-    backgroundColor=0x7FFFFFFF;
-    gravity="left|bottom";
-    layout_gravity="center|bottom";
-    id="srys";
-    {
-      EditText;
-      hint="页内查找";
-      hintTextColor=0xff000000;
-      layout_marginTop="5dp";
-      layout_width="70%w";
-      layout_gravity="left",
-      id="edit";
-      text="";
-    };
-    {
-      LinearLayout,
-      layout_width="match_parent",
-      orientation="horizontal",
-      layout_weight="1.0",
-      layout_height="-1",                 
-       {
-        LinearLayout,
-        layout_width="wrap_content",
-        orientation="vertical",
-        layout_weight="1.0",
-        gravity="center_horizontal",
-        {
-          LinearLayout,
-          layout_width="wrap_content",
-          {
-            ImageView;
-            layout_width="20dp",
-            layout_height="20dp",
-            src=("http://shp.qpic.cn/collector/2530648358/ecc5b48c-e8fd-413f-afef-76787ec5fa3e/0");
-            ColorFilter="#80000000",
-            id="gb";
-          },                                                             
-        },
-      },
-      {
-        LinearLayout,
-        layout_width="wrap_content",
-        orientation="vertical",
-        layout_weight="1.0",
-        gravity="center_horizontal",
-        {
-          LinearLayout,
-          layout_width="wrap_content",
-          {
-            ImageView;
-            layout_width="20dp",
-            layout_height="20dp",
-            src=("http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0");
-            ColorFilter="#80000000",
-            id="xg";
-          },                                                                                                
-        },
-      }, 
-    },
-  };
-};
-fltBtn.Parent.addView(loadlayout(sr))
-xg.onClick=function() 页内查找(edit.text) end gb.onClick=function() 页内查找("")sr.setVisibility(View.GONE)end end
-bcwy.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) offline="/sdcard/download/com.MyFusApp.zuolanqi/离线页面/"..os.date("%Y%m%d%H%M%S")..webView.title..".mht" print("已保存网页至“"..offline.."”") webView.saveWebArchive(offline) end
-lxym.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) ChoiceOfflineFile("/sdcard/Download/com.MyFusApp.zuolanqi/离线页面/") end
-fanyi.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)items={ListView,id="lb",items={"彩云小译","百度翻译","有道翻译"},layout_width="fill",backgroundColor=0xffffffff,}圆角对话框().设置圆角("32dp").设置标题("选择翻译引擎").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==2 then 加载网页("http://fanyi.baidu.com/transpage?query="..webView.getUrl().."&from=auto&to=zh&source=url&ie=utf8&render=1")elseif id==3 then 加载网页("http://fanyi.youdao.com/WebpageTranslate?keyfrom=webfanyi.top&url="..webView.getUrl().."&type=ZH_CN2EN")elseif id==1 then 加载Js([[(function(){if(!document.body)return;var popup=document.querySelectorAll('.cyxy-target-popup');if(popup&&popup.length>0)return;var trs=document.createElement('script');trs.type='text/javascript';trs.charset='UTF-8';trs.src=('https:'==document.location.protocol?'https://':'http://')+'caiyunapp.com/dest/trs.js';document.body.appendChild(trs);})()]])end end})end)end
-yuanma.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) 加载网页("view-source:"..webView.getUrl()) end
-wtms.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) wutu=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/无图模式"):read("*a") if wutu=="开" then webView.getSettings().setLoadsImagesAutomatically(true) print"有图模式" io.open("/sdcard/Download/com.MyFusApp.zuolanqi/无图模式","w+"):write("关"):close() else webView.getSettings().setLoadsImagesAutomatically(false) print"无图模式" io.open("/sdcard/Download/com.MyFusApp.zuolanqi/无图模式","w+"):write("开"):close() end end
-xiutan.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) items={} table.insert(items,"嗅探1") table.insert(items,"嗅探2")AlertDialog.Builder(this) .setTitle("选择嗅探引擎") .setItems(items,{onClick=function(l,v) 
-if items[v+1]=="嗅探1" then require("import").import("qqbid/qqbid").resource_sniff();
-elseif items[v+1]=="嗅探2" then local dl=ProgressDialog.show(activity,nil,'正在嗅探') dl.show() 加载Js([[window.location.assign($("iframe").attr("src"))]]) task(1000,function() dl.dismiss() function loadTheJs() 加载Js("function returnVideoUrl(){var theVideoUrl=document.getElementsByTagName('video')[0].currentSrc;location.href=theVideoUrl;};returnVideoUrl();"); return true; end if(loadTheJs()) then task(1000,function() intent = Intent(Intent.ACTION_VIEW); uri = Uri.parse(webView.getUrl()); intent.setDataAndType(uri, "video/mp4"); activity.startActivity(intent); end); end end)end end}).show() end
-biaoshi.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)llqbs=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识"):read("*a")items={ListView,id="lb",items={"默认","Chrome (PC)","IE 11 (PC)","iphone","塞班 (Symbian)","自定义"},layout_width="fill",backgroundColor=0xffffffff,}圆角对话框().设置圆角("32dp").设置标题("当前UA为"..llqbs).添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==2 then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("Chrome (PC)"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36")刷新网页()elseif id==3 then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("IE 11 (PC)"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko")刷新网页()elseif id==6 then ua=io.open("/sdcard/Download/com.MyFusApp.zuolanqi/自定义UA"):read("*a")
-InputLayout={
-LinearLayout;
-orientation="vertical";
-Focusable=true,
-FocusableInTouchMode=true,
-{
-TextView;
-id="Prompt",
-textSize="15sp",
-layout_marginTop="10dp";
-layout_marginLeft="3dp",
-layout_width="80%w";
-layout_gravity="center",
-text="请输入UA";
-textColor=yys;
-};
-{
-EditText;
-hint="User Agent";
-text=ua;
-layout_marginTop="5dp";
-layout_width="80%w";
-layout_gravity="center",
-id="UA";
-hintTextColor=yys;
-textColor=yys;
-};
-};
-圆角对话框().设置标题("UserAgent").设置圆角("32dp").添加布局(InputLayout).设置积极按钮("完成设置",function()io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("自定义"):close()io.open("/sdcard/Download/com.MyFusApp.zuolanqi/自定义UA","w+"):write(UA.Text):close()webView.getSettings().setUserAgentString(UA.Text)ua=UA.Text 刷新网页()end).设置消极按钮("取消",nil).显示(function()import "android.view.View$OnFocusChangeListener"UA.setOnFocusChangeListener(OnFocusChangeListener{onFocusChange=function(v,hasFocus)if hasFocus then Prompt.setTextColor(0xFD009688)end end})end)elseif id==4 then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("iphone"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7")刷新网页()elseif id==5 then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("塞班 (Symbian)"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 (Symbian/3; Series60/5.2 NokiaN8-00/012.002; Profile/MIDP-2.1 Configuration/CLDC-1.1 ) AppleWebKit/533.4 (KHTML, like Gecko) NokiaBrowser/7.3.0 Mobile Safari/533.4 3gpp-gba")刷新网页()elseif id==1 then io.open("/sdcard/Download/com.MyFusApp.zuolanqi/浏览器标识","w+"):write("默认"):close() webView.getSettings().setUserAgentString("Mozilla/5.0 Dalvik/2 ( Linux; U; NEM-AL10 Build/HONORNEM-AL10;Youku;7.1.4;) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Safari/537.36 (Baidu; P1 6.0) iPhone/7.1 Android/8.0 baiduboxapp/2.7.0.10")刷新网页()end end})end)end
-spjx.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)items={ListView,id="lb",items={"1号解析接口","2号解析接口","3号解析接口","4号解析接口"},layout_width="fill",backgroundColor=0xffffffff,}圆角对话框().设置圆角("32dp").设置标题("选择您需要的解析接口").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==1 then 加载网页("http://wwa.ha12.xyz/jian/index.php?url="..webView.getUrl())elseif id==3 then 加载网页("http://xiaojx.two3.cn/jx/?url="..网页链接)elseif id==4 then 加载网页("http://api.qy414.cn/?url="..网页链接)elseif id==2 then 加载网页("http://www.sfsft.com/video.php?url="..网页链接)end end})end)end
-browser.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) this.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse(网页链接))) end
-wyjt.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) fakebmbar.setVisibility(View.GONE)activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.GONE)task(300,function()DrawingChaceCapture(picsave..os.date("%Y%m%d%H%M%S")..".png",webView)activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.VISIBLE)fakebmbar.setVisibility(View.VISIBLE)end)end
-read.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) 加载阅读() end
-dlsc.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) 短链生成() end
-tuichu.onClick=function()  ti.stop() 退出程序()end
-gjxyc.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) end
-end
-function DialogExternal.onClick() DialogExternal.setVisibility(View.GONE) gduo=nil end
-end
-yincang.onClick=function() fakebmbar.setVisibility(View.GONE) end
---注意！还有一些东西写在了网页加载事件和加载完毕事件
+bmback.onClick=function()if(webView.canGoBack())then 网页后退()if not(webView.canGoBack())then xszy()end else print"没有网页可以后退哦"end end
+bmforward.onClick=function()if(webView.canGoForward())then gbzy()网页前进()else print"没有网页可以前进哦"end end
+bmhome.onClick=function()停止加载()xszy()while true do 网页后退()if not(webView.canGoBack()) then break end end end
+gengduo.onClick=function() if GJX==0 then 更多() GJX=nil gduo=0 elseif Gj==0 then gjx.setVisibility(View.GONE) Gj=nil gduo=nil elseif gduo==nil then 更多() gduo=0 else DialogExternal.setVisibility(View.GONE) gduo=nil end end
 a=1
 b=1
 c=1
@@ -2268,6 +2687,7 @@ function rslz(lua)
 end
 --3.历史记录框布局
 function hstshow()
+  read_hst()
   hstlayout={
     LinearLayout,
     orientation="1",
@@ -2275,19 +2695,10 @@ function hstshow()
     layout_width="wrap_content",
     layout_height="wrap_content",
     {
-      TextView,
-      text="",
-      gravity="center",
-      layout_width="wrap_content",
-      textSize="0sp",
-      background="#000000",
-      layout_height="0dp",},
-    {
       ListView,
       id="hlst",
       items=lst,
       layout_width="fill",
-      layout_height="wrap_content",
     },
   }
 end
@@ -2331,53 +2742,58 @@ function save_hst()
 end
 --4.显示历史记录框
 function show_hst() 
-  hstshow()
-  local hl=AlertDialog.Builder(activity)
-  .setTitle("历史记录")
-  .setView(loadlayout(hstlayout))
-  .setNegativeButton("清空历史",{onClick=function()
-  圆角对话框()
-.设置标题("清空")
-.设置圆角("32dp")
-.设置消息("你是否确认?")
-.设置积极按钮("确定",function()
+hstshow()
+  local ls=圆角对话框()
+  ls.设置标题("历史记录")
+  ls.设置圆角("32dp")
+  if slst:find"[1]"then
+  ls.添加布局(hstlayout)
+  ls.设置消极按钮("清空历史",function()task(150,function()
+local ls=圆角对话框()
+ls.设置标题("清空")
+ls.设置圆角("32dp")
+ls.设置消息("你是否确认?")
+ls.设置积极按钮("确定",function()
 File(lstwebads).delete()
 File(lstads).delete()
 File(lstwebads).createNewFile()
 File(lstads).createNewFile()
 end)
-.设置中立按钮("取消",function()
-show_hst()
+ls.设置消极按钮("取消",function()task(150,function()
+show_hst()end)
 end)
-.显示()
-end})
- .setPositiveButton("关闭",DialogInterface.OnClickListener{
-    onClick=function()
-    end
-  })
-  .create()
-  hl.show()
+.显示()end)
+end)else ls.设置消息("空空如也…")end
+ls.设置积极按钮("关闭",function()
+    end)
+  ls.显示(function()if slst:find"[1]"then
+  lsgs=string.gsub(slst," ",""):gsub("123456789",""):gsub("2019",""):gsub("1080","")
+  if lsgs:find"1"and lsgs:find"2"and lsgs:find"3"and lsgs:find"4"and lsgs:find"5"and lsgs:find"6"and lsgs:find"7"and lsgs:find"8"and lsgs:find"9"and lsgs:find"10"then seth(hlst,900) end
   hlst.onItemClick=function(l,v,c,b)
+    gbzy()
     加载网页(lstweb[b])
-    hl.dismiss()
+    pop.dismiss()
   end
   hlst.onItemLongClick=function(l,v,c,b)
-    hl.dismiss()
+    pop.dismiss()
+    task(150,function()
     圆角对话框()
     .设置圆角("32dp")
     .设置消息("是否删除记录？")
-    .设置消极按钮("取消",function()
-      show_hst()
+    .设置消极按钮("取消",function()task(150,function()
+      show_hst()end)
     end)
     .设置积极按钮("确定",function()
       table.remove(lst,b)
       table.remove(lstweb,b)
-      save_hst()
-      show_hst()
-    end )
+      save_hst()task(150,function()
+      show_hst()end)
+    end)
     .显示()
     return true
+    end)end
   end
+  end)
 end
 function getAllData(name)
   local data={}
@@ -2440,10 +2856,8 @@ local listlayout={
   {
     ListView,
     id="list",
-    layout_marginTop="10dp",
     --items={"3","2","5","5","2","7","3","2"},
     layout_width="fill",
-    layout_height="wrap_content",
   }
 }
 
@@ -2491,11 +2905,6 @@ local input2layout={
 }
 
 function showDataDialog(name,title,jdpuk)
-
-  local data=getAllData(name)
-  local keys=listKeys(data)
-  local values=listValues(data)
-
   item={
     LinearLayout,
     orientation="vertical",
@@ -2508,27 +2917,39 @@ function showDataDialog(name,title,jdpuk)
       layout_width="fill",
       layout_width="70%w",
       layout_gravity="center",
+      textColor=yys,
     },
   }
-
-  local adpd=adapterData(values)
-  local items=LuaAdapter(this,adpd,item)
-
-  local dlb=对话框()
+  local data=getAllData(name)
+  local keys=listKeys(data)
+  local dlb=圆角对话框()
+  dlb.设置圆角("32dp")
   dlb.设置标题(title)
   local dl
   if #keys>0 then
-    dlb.setView(loadlayout(listlayout))
+  dlb.添加布局(listlayout) 
+  else
+  dlb.设置消息("空空如也…")end 
+  dlb.设置中立按钮("新建书签",function()task(150,function()addDataDialog(name,"新建书签")end)end)
+  dl=dlb.显示(function()local data=getAllData(name)
+  local keys=listKeys(data)
+  local values=listValues(data)
+  local adpd=adapterData(values)
+  local items=LuaAdapter(this,adpd,item)
+  local dl
+  if #keys>0 then
     list.setDividerHeight(0)
     list.Adapter=items
+    sqgs=1
+    while true do if values[sqgs]==nil then if sqgs-1>12 then seth(list,900)end break else sqgs=sqgs+1 end end
     list.onItemClick=function(adp,view,position,id)--3255273 2
       webView.loadUrl(keys[id])
-      if dl then
-        dl.dismiss()
-      end
+      gbzy()
+        pop.dismiss()
     end
     list.onItemLongClick=function(adp,view,pos,id)--325 52732
-      dl.dismiss()
+      pop.dismiss()
+      task(150,function()
       圆角对话框()
       .设置标题(title)
       .设置圆角("32dp")
@@ -2537,37 +2958,33 @@ function showDataDialog(name,title,jdpuk)
         if not(edit1.text=="") and not(edit2.text=="") or 3255==2732 then
           removeData(name,keys[id])
           putData(name,edit2.text,edit1.text)--32552732
-          if dl then
-            dl.dismiss()
-            showDataDialog(name,title)
-          end
+            pop.dismiss()
+            task(150,function()
+            showDataDialog(name,title)end)
         else
           弹出消息("请填写所有字段")
         end
       end)
-      .设置消极按钮("取消",function()showDataDialog("Collection","书签")end)
+      .设置消极按钮("取消",function()task(150,function()showDataDialog("Collection","书签")end)end)
       .设置中立按钮("删除",function()
         removeData(name,keys[id])
         items.remove(pos)
         table.remove(keys,id)
         table.remove(values,id)
         if #adpd<=0 then
-          if dl then
-            dl.dismiss()
-            showDataDialog(name,title);
-          end
+            pop.dismiss()
+            task(150,function()
+            showDataDialog(name,title);end)
         end
       end)
       .显示(function()
       edit1.setText(values[id])
       edit2.setText(keys[id])
       return true end)
+      end)
     end
-  else
-    dlb.设置消息("没有书签")
   end
-  dlb.设置积极按钮("新建书签",function()addDataDialog(name,"新建书签")end)
-  dl=dlb.show()
+  end)
 end
 
 function addDataDialog(name,title,value,key)--32552732
