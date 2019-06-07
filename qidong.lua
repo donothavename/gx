@@ -9,23 +9,23 @@ File("/data/data/"..activity.getPackageName().."/主页背景图地址").createN
 File("/data/data/"..activity.getPackageName().."/书签").createNewFile()
 File("/data/data/"..activity.getPackageName().."/书签2").createNewFile()
 function searchfz()
-  sq=io.open("/data/data/"..activity.getPackageName().."/搜索引擎"):read("*a")
-  if sq=="百度" then
+  ssyq=io.open("/data/data/"..activity.getPackageName().."/搜索引擎"):read("*a")
+  if ssyq=="百度" then
   加载网页("https://m.baidu.com/s?from=1022560l&word="..bjk)
   end
-  if sq=="必应" then
+  if ssyq=="必应" then
   加载网页("https://www2.bing.com/search?q="..bjk)
   end
-  if sq=="神马" then
+  if ssyq=="神马" then
   加载网页("https://yz.m.sm.cn/s?from=wy923961&q="..bjk) 
   end
-  if sq=="好搜" then
+  if ssyq=="好搜" then
   加载网页("https://m.so.com/s?q="..bjk)
   end
-  if sq=="搜狗" then
+  if ssyq=="搜狗" then
   加载网页("https://wap.sogou.com/web/sl?bid=sogou-mobb-ef77022c7b788c29&keyword="..bjk)
   end
-  if sq=="谷歌" then
+  if ssyq=="谷歌" then
   加载网页("https://www.google.com.hk/search?q="..bjk)
   end
 end
@@ -136,7 +136,7 @@ InputLayout={
 .添加布局(InputLayout)
 .设置积极按钮("确定",function()
 io.open("/data/data/"..activity.getPackageName().."/主页背景图地址","w+"):write(tpdz.text):close()  
-zytp.setImageBitmap(loadbitmap(tpdz.text))
+gbzy()xszy()
 end)
 .设置消极按钮("取消")
 .显示(function()import "android.view.View$OnFocusChangeListener"tpdz.setOnFocusChangeListener(OnFocusChangeListener{ 
@@ -219,7 +219,7 @@ id="sqId",
 onClick=function()gbzy()加载网页(sq.urlId)end,
 {
 CardView;
-radius="17dp";
+radius=35;
 elevation="0dp";
 CardBackgroundColor=sq.colorId;
 layout_gravity="center";
@@ -253,7 +253,7 @@ id="sqId1",
 onClick=function()gbzy()加载网页(sq.urlId1)end,
 {
 CardView;
-radius="17dp";
+radius=35;
 elevation="0dp";
 CardBackgroundColor=sq.colorId1;
 layout_gravity="center";
@@ -283,7 +283,7 @@ id="sqId2",
 onClick=function()gbzy()加载网页(sq.urlId2)end,
 {
 CardView;
-radius="17dp";
+radius=35;
 elevation="0dp";
 CardBackgroundColor=sq.colorId2;
 layout_gravity="center";
@@ -313,7 +313,7 @@ id="sqId3",
 onClick=function()gbzy()加载网页(sq.urlId3)end,
 {
 CardView;
-radius="17dp";
+radius=35;
 elevation="0dp";
 CardBackgroundColor=sq.colorId3;
 layout_gravity="center";
@@ -343,7 +343,7 @@ id="sqId4",
 onClick=function()gbzy()加载网页(sq.urlId4)end,
 {
 CardView;
-radius="17dp";
+radius=35;
 elevation="0dp";
 CardBackgroundColor=sq.colorId4;
 layout_gravity="center";
@@ -437,8 +437,8 @@ end
 {
   CardView;
   id="k1"; 
-  layout_height="42dp";
-  radius="20dp"; --圆角角度
+  layout_height=88;
+  radius=44; --圆角角度
   elevation="1dp";
   layout_marginTop="15dp";
   CardBackgroundColor=0xffffffff;
@@ -473,13 +473,18 @@ end
   id="zysq",
   {
   ScrollView;--纵向滚动
-  layout_height=420;--高
+  id="zysqlb",
   加载书签(zysq),  
   },
   },
 }
 fltBtn.Parent.addView(loadlayout(主页布局))
 setw(zysq,getw(k1))
+if sq.gs~=0 and io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")~="" then
+if hs>3 then
+seth(zysqlb,420)
+end
+end
 function zysqcz()
 items=
 {
@@ -550,13 +555,21 @@ task(150,function()
 .添加布局(Inputlayout)
 .设置消极按钮("取消")
 .设置积极按钮("确定",function()
-if string.byte(edit4.text,1)>=226 and string.byte(edit4.text,1)<=233 then
-  xwb=edit4.text:sub(1,3)
+if string.byte(edit4.text:gsub("\n",""),1)>=226 and string.byte(edit4.text:gsub("\n",""),1)<=233 then
+  xwb=edit4.text:gsub("\n",""):sub(1,3)
 else
-  xwb=edit4.text:sub(1,1)
+  xwb=edit4.text:gsub("\n",""):sub(1,1)
 end
 dqsq=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
-gxsq=dqsq:gsub("name"..sqid.."='"..name.."',","name"..sqid.."='"..edit4.text.."',"):gsub("url"..sqid.."='"..url.."',","url"..sqid.."='"..edit5.text.."',"):gsub("wb"..sqid.."='"..wb.."',","wb"..sqid.."='"..xwb.."',")
+namez=dqsq:match("(.+)name"..sqid.."='")namey="color"..sqid.."='"..dqsq:match("color"..sqid.."='(.+)")
+gxsq=(namez.."name"..sqid.."='"..edit4.text:gsub("\n","").."',"..namey):gsub("wb"..sqid.."='"..wb.."',","wb"..sqid.."='"..xwb.."',")
+if sqid==sq.gs then
+urlz=gxsq:match("(.+)url"..sqid.."='")urly=gxsq:match("--created by xm(.+)")
+gxsq=urlz.."url"..sqid.."='"..edit5.text:gsub("\n","").."',\n--created by xm"..urly
+else
+urlz=gxsq:match("(.+)url"..sqid.."='")urly=gxsq:match("wb"..(sqid+1).."='(.+)")
+gxsq=urlz.."url"..sqid.."='"..edit5.text:gsub("\n","").."',\nwb"..(sqid+1).."='"..urly
+end
 io.open("/data/data/"..activity.getPackageName().."/书签","w+"):write(gxsq):close()
 gbzy()xszy()
 end)
@@ -626,20 +639,27 @@ function onKeyDown(code,event)
     return true 
   end
 end
-泡沫对话框(142)
-.设置消息([[初始化完成]])
-.设置积极按钮("确定",function()
+if io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("关"):close()
-io.open("/data/data/"..activity.getPackageName().."/搜索引擎","w+"):write("百度"):close()  
+end
+if io.open("/data/data/"..activity.getPackageName().."/搜索引擎"):read("*a")==""then
+io.open("/data/data/"..activity.getPackageName().."/搜索引擎","w+"):write("百度"):close()
+end 
+if io.open("/data/data/"..activity.getPackageName().."/浏览器标识"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/浏览器标识","w+"):write("默认"):close()
-io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("关"):close()
+end
+if io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/隐身","w+"):write("关"):close()
+end
+if io.open("/data/data/"..activity.getPackageName().."/无图模式"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/无图模式","w+"):write("关"):close()
+end
+if io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/书签","w+"):write("{\ngs=0,\n--created by xm\n}"):close()
+end
+if io.open("/data/data/"..activity.getPackageName().."/书签2"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/书签2","w+"):write("{\nfun=function()\n--shuqian\nend\n}"):close()
-end)
-.setCancelable(false)
-.显示()
+end
 wutu=io.open("/data/data/"..activity.getPackageName().."/无图模式"):read("*a")
 if wutu=="开" then
 webView.getSettings().setLoadsImagesAutomatically(false)
@@ -992,10 +1012,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.0.0"then
+  if 版本名 > "3.0.1"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.0.0".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.0.1".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp") --圆角大小
     .设置积极按钮("立即更新",function()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
@@ -1071,7 +1091,7 @@ task(100,function()
 加载Js([[javascript:(function(){var styleElem=null,doc=document,ie=doc.all,fontColor=50,sel="body,body *";styleElem=createCSS(sel,setStyle(fontColor),styleElem);function setStyle(fontColor){var colorArr=[fontColor,fontColor,fontColor];return"background-color:#000 !important;color:RGB("+colorArr.join("%,")+"%) !important;"}function createCSS(sel,decl,styleElem){var doc=document,h=doc.getElementsByTagName("head")[0],styleElem=styleElem;if(!styleElem){s=doc.createElement("style");s.setAttribute("type","text/css");styleElem=ie?doc.styleSheets[doc.styleSheets.length-1]:h.appendChild(s)}if(ie){styleElem.addRule(sel,decl)}else{styleElem.innerHTML="";styleElem.appendChild(doc.createTextNode(sel+" {"+decl+"}"))}return styleElem}})();]]) 
 end)end end
 function search() 
-sq=io.open("/data/data/"..activity.getPackageName().."/搜索引擎"):read("*a")
+ssyq=io.open("/data/data/"..activity.getPackageName().."/搜索引擎"):read("*a")
 if wz==0 then swz=网页链接 wz=nil else swz=nil end
 InputLayout={
     LinearLayout;
@@ -1086,7 +1106,7 @@ InputLayout={
       layout_marginLeft="3dp",
       layout_width="80%w";
       layout_gravity="center",
-      text=sq.."搜索或输入网址...";
+      text=ssyq.."搜索或输入网址...";
       textColor=yys;
     };
     {
@@ -1228,7 +1248,7 @@ InputLayout={
 }
 圆角对话框()
 .设置圆角("32dp")
-.设置标题("当前搜索引擎为"..sq)
+.设置标题("当前搜索引擎为"..ssyq)
 .添加布局(items)
 .设置中立按钮("取消",function()task(150,function()search()end)end)
 .显示(function() lb.setOnItemClickListener(AdapterView.OnItemClickListener{
@@ -2960,7 +2980,6 @@ local listlayout={
     layout_width="fill",
   }
 }
-
 local inputlayout={
   LinearLayout,
   orientation="vertical",
@@ -3012,10 +3031,11 @@ local input2layout={
       layout_width=50,
       {
         CardView;
-        radius="7.5dp";
+        radius=15;
         elevation="3dp";
         layout_marginLeft=10,
         id="yuandian",
+        layout_gravity="center",
         CardBackgroundColor=0xffffffff;
         {
           TextView,  
@@ -3029,6 +3049,7 @@ local input2layout={
       TextView,  
       text="添加到浏览器主页",
       textColor=0xff000000,
+      layout_gravity="center",
       },
     },
   }
@@ -3087,26 +3108,27 @@ function showDataDialog(name,title,jdpuk)
         if tjzy==0 then
         dqsq=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
         for i=1,#dqsq do
-        url=dqsq:sub(i,i+#edit2.text-1)
-        if url==edit2.text then print"该链接已存在主页书签" break
-        elseif i==#dqsq-#edit2.text or #dqsq<#edit2.text then
+        url=dqsq:sub(i,i+#(edit2.text:gsub("\n",""))-1)
+        if url==edit2.text:gsub("\n","") then print"该链接已存在主页书签" break
+        elseif i==#dqsq-#(edit2.text:gsub("\n","")) or #dqsq<#(edit2.text:gsub("\n","")) then
         sq=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
         b=loadstring("return "..sq);
         sq=b();
-        zysqys=math.random(-1677216,-1)
+        zysqys=math.random(-16760000,-11000)
         if string.byte(edit1.text,1)>=226 and string.byte(edit1.text,1)<=233 then
         wb=edit1.text:sub(1,3)
         else
         wb=edit1.text:sub(1,1)
         end
-        xrbj="wb"..(sq.gs+1).."='"..wb.."',name"..(sq.gs+1).."='"..edit1.text.."',color"..(sq.gs+1).."='"..zysqys.."',url"..(sq.gs+1).."='"..edit2.text.."',\n--created by xm"
-        dqbj=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
-        xrbj=dqbj:gsub("--created by xm",xrbj):gsub("gs="..sq.gs,"gs="..(sq.gs+1))
-        io.open("/data/data/"..activity.getPackageName().."/书签","w+"):write(xrbj):close()
+        xrsq="wb"..(sq.gs+1).."='"..wb.."',name"..(sq.gs+1).."='"..edit1.text:gsub("\n","").."',color"..(sq.gs+1).."='"..zysqys.."',url"..(sq.gs+1).."='"..edit2.text:gsub("\n","").."',\n"
+        dqsq=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
+        xrsqz=dqsq:match("(.+)created by xm")xrsqz=xrsqz:sub(1,#xrsqz-2)xrsqy=dqsq:match("--created by xm(.+)")
+        xrsq=(xrsqz..xrsq.."--created by xm"..xrsqy):gsub("gs="..sq.gs,"gs="..(sq.gs+1))
+        io.open("/data/data/"..activity.getPackageName().."/书签","w+"):write(xrsq):close()
         dqsq2=io.open("/data/data/"..activity.getPackageName().."/书签2"):read("*a")
-        xrbj2="sq"..(sq.gs+1)..".onLongClick=function()url=sq.url"..(sq.gs+1).." name=sq.name"..(sq.gs+1).." sqid="..(sq.gs+1).." wb=sq.wb"..(sq.gs+1).." color=sq.color"..(sq.gs+1).." zysqcz()end\n--shuqian"
-        xrbj2=dqsq2:gsub("--shuqian",xrbj2)
-        io.open("/data/data/"..activity.getPackageName().."/书签2","w+"):write(xrbj2):close()
+        xrsq2="sq"..(sq.gs+1)..".onLongClick=function()url=sq.url"..(sq.gs+1).." name=sq.name"..(sq.gs+1).." sqid="..(sq.gs+1).." wb=sq.wb"..(sq.gs+1).." color=sq.color"..(sq.gs+1).." zysqcz()end\n--shuqian"
+        xrsq2=dqsq2:gsub("--shuqian",xrsq2)
+        io.open("/data/data/"..activity.getPackageName().."/书签2","w+"):write(xrsq2):close()
         break
         end
         end
@@ -3159,23 +3181,32 @@ function addDataDialog(name,title,value,key)--32552732
     if not(edit1.text=="") and not(edit2.text=="") or 325==52732 then
       if not getData(name,edit2.text) then
         if tjzy==0 then
+        dqsq=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
+        for i=1,#dqsq do
+        url=dqsq:sub(i,i+#(edit2.text:gsub("\n",""))-1)
+        if url==edit2.text:gsub("\n","") then print"该链接已存在主页书签" break
+        elseif i==#dqsq-#(edit2.text:gsub("\n","")) or #dqsq<#(edit2.text:gsub("\n","")) then
         sq=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
         b=loadstring("return "..sq);
         sq=b();
-        zysqys=math.random(-1677216,-1)
+        zysqys=math.random(-16760000,-11000)
         if string.byte(edit1.text,1)>=226 and string.byte(edit1.text,1)<=233 then
         wb=edit1.text:sub(1,3)
         else
         wb=edit1.text:sub(1,1)
         end
-        xrbj="wb"..(sq.gs+1).."='"..wb.."',name"..(sq.gs+1).."='"..edit1.text.."',color"..(sq.gs+1).."='"..zysqys.."',url"..(sq.gs+1).."='"..edit2.text.."',\n--created by xm"
-        dqbj=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
-        xrbj=dqbj:gsub("--created by xm",xrbj):gsub("gs="..sq.gs,"gs="..(sq.gs+1))
-        io.open("/data/data/"..activity.getPackageName().."/书签","w+"):write(xrbj):close()
+        xrsq="wb"..(sq.gs+1).."='"..wb.."',name"..(sq.gs+1).."='"..edit1.text:gsub("\n","").."',color"..(sq.gs+1).."='"..zysqys.."',url"..(sq.gs+1).."='"..edit2.text:gsub("\n","").."',\n"
+        dqsq=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
+        xrsqz=dqsq:match("(.+)created by xm")xrsqz=xrsqz:sub(1,#xrsqz-2)xrsqy=dqsq:match("--created by xm(.+)")
+        xrsq=(xrsqz..xrsq.."--created by xm"..xrsqy):gsub("gs="..sq.gs,"gs="..(sq.gs+1))
+        io.open("/data/data/"..activity.getPackageName().."/书签","w+"):write(xrsq):close()
         dqsq2=io.open("/data/data/"..activity.getPackageName().."/书签2"):read("*a")
-        xrbj2="sq"..(sq.gs+1)..".onLongClick=function()url=sq.url"..(sq.gs+1).." name=sq.name"..(sq.gs+1).." sqid="..(sq.gs+1).." wb=sq.wb"..(sq.gs+1).." color=sq.color"..(sq.gs+1).." zysqcz()end\n--shuqian"
-        xrbj2=dqsq2:gsub("--shuqian",xrbj2)
-        io.open("/data/data/"..activity.getPackageName().."/书签2","w+"):write(xrbj2):close()
+        xrsq2="sq"..(sq.gs+1)..".onLongClick=function()url=sq.url"..(sq.gs+1).." name=sq.name"..(sq.gs+1).." sqid="..(sq.gs+1).." wb=sq.wb"..(sq.gs+1).." color=sq.color"..(sq.gs+1).." zysqcz()end\n--shuqian"
+        xrsq2=dqsq2:gsub("--shuqian",xrsq2)
+        io.open("/data/data/"..activity.getPackageName().."/书签2","w+"):write(xrsq2):close()
+        break
+        end
+        end
         end
         putData(name,edit2.text,edit1.text)
       else
