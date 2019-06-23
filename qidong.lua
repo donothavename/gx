@@ -1150,11 +1150,9 @@ end
 toolbar.onClick=function()
 if webView.canGoBack() then
   if webView.title~="" then
-  print"hhh"
   dlsskycwb=webView.title
   else
-  print"hh"
-  dlsskycwb=" "
+  dlsskycwb="无标题"
   end
   pdyq41=网页链接:sub(1,41)
   pdyq31=网页链接:sub(1,31)
