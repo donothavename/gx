@@ -1148,6 +1148,7 @@ aq.onClick=function()
 .显示(function()retitle.onLongClick=function()复制文本(网页链接)print"已复制网址"end end)
 end
 toolbar.onClick=function()
+print(webView.title)
 if webView.canGoBack() then
   if webView.title~=nil then
   dlsskycwb=webView.title
