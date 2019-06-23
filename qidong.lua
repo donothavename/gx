@@ -1032,10 +1032,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.0.3"then
+  if 版本名 > "3.0.4"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.0.3".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.0.4".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp") --圆角大小
     .设置积极按钮("立即更新",function()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
@@ -1149,7 +1149,11 @@ aq.onClick=function()
 end
 toolbar.onClick=function()
 if webView.canGoBack() then
+  if webView.title~=nil then
   dlsskycwb=webView.title
+  else
+  dlsskycwb=""
+  end
   pdyq41=网页链接:sub(1,41)
   pdyq31=网页链接:sub(1,31)
   pdyq37=网页链接:sub(1,37)
