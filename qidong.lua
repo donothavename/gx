@@ -18,6 +18,7 @@ File("/data/data/"..activity.getPackageName().."/主页背景图地址").createN
 File("/data/data/"..activity.getPackageName().."/书签").createNewFile()
 File("/data/data/"..activity.getPackageName().."/书签2").createNewFile()
 File("/data/data/"..activity.getPackageName().."/剪切板").createNewFile()
+yys=0xFF767676
 function searchfz()
   ssyq=io.open("/data/data/"..activity.getPackageName().."/搜索引擎"):read("*a")
   if ssyq=="百度" then
@@ -93,69 +94,8 @@ function searchfz2()
       end
     end
   end
-import"RoundedDialog"
 w=this.getWidth()
 h=this.getHeight()
-function zy()
-zybjtdz=io.open("/data/data/"..activity.getPackageName().."/主页背景图地址"):read("*a")
-主页背景图={
-  LinearLayout;
-  id="zybjt";
-  gravity="center",
- {
-   ImageView;
-   layout_width=h,
-   layout_height=h, 
-   id="zytp",                      
-   src=zybjtdz,
-   layout_gravity="center", 
-  };   
-};
-webView.addView(loadlayout(主页背景图))
-zybjt.onLongClick=function()
-zybjtdz=io.open("/data/data/"..activity.getPackageName().."/主页背景图地址"):read("*a")
-InputLayout={
-  LinearLayout;
-  orientation="vertical";
-  Focusable=true,
-  FocusableInTouchMode=true,
-  {
-    TextView;
-    id="srzybjtdz",
-    textSize="15sp",
-    textColor=yys;
-    layout_marginTop="10dp";
-    layout_marginLeft="3dp",
-    layout_width="80%w";
-    layout_gravity="center",
-    text="输入地址,支持链接";
-  };
-  {
-    EditText;
-    layout_marginTop="5dp";
-    layout_width="80%w";
-    layout_gravity="center",
-    id="tpdz";
-    text=zybjtdz;
-    textColor=yys;
-  };   
-};
-圆角对话框()
-.设置圆角("32dp")
-.设置标题("主页背景图")
-.添加布局(InputLayout)
-.设置积极按钮("确定",function()
-io.open("/data/data/"..activity.getPackageName().."/主页背景图地址","w+"):write(tpdz.text):close()  
-gbzy()xszy()
-end)
-.设置消极按钮("取消")
-.显示(function()tpdz.setOnFocusChangeListener(OnFocusChangeListener{ 
-    onFocusChange=function(v,hasFocus)
-      if hasFocus then
-        srzybjtdz.setTextColor(0xFD009688)
-      end
-    end})end)
-end 
 function getw(view)
 view.measure(View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED),View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED));
 width=view.getMeasuredWidth()
@@ -212,6 +152,66 @@ view.measure(View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED),Vi
 height=view.getMeasuredHeight()
 return height
 end
+function zy()
+zybjtdz=io.open("/data/data/"..activity.getPackageName().."/主页背景图地址"):read("*a")
+主页背景图={
+  LinearLayout;
+  id="zybjt";
+  gravity="center",
+ {
+   ImageView;
+   layout_width=h,
+   layout_height=h, 
+   id="zytp",                      
+   src=zybjtdz,
+   layout_gravity="center", 
+  };   
+};
+webView.addView(loadlayout(主页背景图))
+zybjt.onLongClick=function()
+zybjtdz=io.open("/data/data/"..activity.getPackageName().."/主页背景图地址"):read("*a")
+InputLayout={
+  LinearLayout;
+  orientation="vertical";
+  Focusable=true,
+  FocusableInTouchMode=true,
+  {
+    TextView;
+    id="srzybjtdz",
+    textSize="15sp",
+    textColor=yys;
+    layout_marginTop="10dp";
+    layout_marginLeft="3dp",
+    layout_width="80%w";
+    layout_gravity="center",
+    text="输入地址,支持链接";
+  };
+  {
+    EditText;
+    layout_marginTop="5dp";
+    layout_width="80%w";
+    layout_gravity="center",
+    id="tpdz";
+    text=zybjtdz;
+    textColor=yjys;
+  };   
+};
+圆角对话框()
+.设置圆角("32dp")
+.设置标题("主页背景图")
+.添加布局(InputLayout)
+.设置积极按钮("确定",function()
+io.open("/data/data/"..activity.getPackageName().."/主页背景图地址","w+"):write(tpdz.text):close()  
+gbzy()xszy()
+end)
+.设置消极按钮("取消")
+.显示(function()tpdz.setOnFocusChangeListener(OnFocusChangeListener{ 
+    onFocusChange=function(v,hasFocus)
+      if hasFocus then
+        srzybjtdz.setTextColor(0xFD009688)
+      end
+    end})end)
+end 
 bl=math.sqrt(w^2+h^2)/math.sqrt(1280^2+720^2)
 sqjj=(0.8*w+bl*70-bl*4*105)/5
 if zybjtdz==""then sqwbys=0xff7c7c7c else sqwbys=0xffffffff end
@@ -466,6 +466,7 @@ end
         imeOptions='actionGo';
         layout_gravity="center";
         layout_marginLeft=bl*15,
+        textColor=yys,
         layout_width="80%w";
         id="edit3";      
         textSize="14sp";
@@ -557,7 +558,7 @@ Inputlayout={
     layout_width="80%w",
     layout_gravity="center",
     hintTextColor=yys,
-    textColor=yys,
+    textColor=yjys,
   },
   {
     EditText,
@@ -569,7 +570,7 @@ Inputlayout={
     layout_width="80%w",
     layout_gravity="center",
     hintTextColor=yys,
-    textColor=yys,
+    textColor=yjys,
   },
 }
 task(150,function()
@@ -645,7 +646,6 @@ end
 刷新网页()
 end
 zy()
-yys=0xff000000
 fltBtn.setVisibility(View.GONE)
 参数=0
 function onKeyDown(code,event) 
@@ -697,13 +697,6 @@ elseif llqbs=="IE 11 (PC)" then webView.getSettings().setUserAgentString("Mozill
 elseif llqbs=="iphone" then webView.getSettings().setUserAgentString("Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7");
 elseif llqbs=="塞班 (Symbian)" then webView.getSettings().setUserAgentString("Mozilla/5.0 (Symbian/3; Series60/5.2 NokiaN8-00/012.002; Profile/MIDP-2.1 Configuration/CLDC-1.1 ) AppleWebKit/533.4 (KHTML, like Gecko) NokiaBrowser/7.3.0 Mobile Safari/533.4 3gpp-gba");
 elseif llqbs=="自定义" then ua=io.open("/data/data/"..activity.getPackageName().."/自定义UA"):read("*a") webView.getSettings().setUserAgentString(ua);end
-yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
-if yj=="开" then
-color1 = 0xff000000
-fltBtn.setCardBackgroundColor(color1)
-zybjt.setBackgroundColor(color1)
-sidebar.setBackgroundColor(color1)
-end
 function 启用快捷工具栏()
   快捷工具栏布局={
     LinearLayout,
@@ -745,7 +738,7 @@ function 启用快捷工具栏()
     {
       TextView;
       id="布局文字";
-      textColor="#FF757575";--文字颜色
+      textColor=yys;--文字颜色
       textSize="12dp";
     };
   };
@@ -773,6 +766,15 @@ function 启用快捷工具栏()
 快捷工具栏.LayoutParams.gravity=5
 end
 启用快捷工具栏()
+yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
+if yj=="开" then
+color1=0xff232323 yjys=0xffffffff
+fltBtn.setCardBackgroundColor(color1)
+zybjt.setBackgroundColor(color1)
+sidebar.setBackgroundColor(color1)
+侧滑卡片.setCardBackgroundColor(color1)
+if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end
+end
 local function getStatusBarHeight(JDPUK)
   if not tostring(jdpuk)==string.byte("")..string.byte("")..string.byte("4")..string.char(55).."32" then error()end
   local resid=activity.getResources().getIdentifier("status_bar_height","dimen","android")
@@ -782,7 +784,7 @@ local function getStatusBarHeight(JDPUK)
 end
 function ewm()
 yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
-if yj=="开" then ys=0xff4c4c4c ys2=0xffffffff else ys=0xffffffff ys2=0xff000000 end
+if yj=="开" then ys=0xFF232323 ys2=0xffffffff else ys=0xffffffff ys2=0xff000000 end
 AboutLayout=
 {
   LinearLayout;
@@ -819,8 +821,7 @@ AboutLayout=
     layout_gravity="center",
     id="ewmwb";
     hint="&请用%26代替,换行符请用%0A代替,空格请用%20代替";
-    text="";
-    textColor=yys;
+    textColor=yjys;
     hintTextColor=yys;
   };
   {
@@ -859,9 +860,15 @@ AboutLayout=
   二维码链接="http://qr.topscan.com/api.php?&text="..ewmwb.text
   二维码保存位置=(ewmwb.text..".png"):gsub("/","／")
   ewmtp={
+        LinearLayout;
+        layout_width="85%w",
+        gravity="center",
+        {
         ImageView;
         src=二维码链接;
-        layout_marginLeft="19%w",
+        layout_marginLeft="-20dp",
+        layout_gravity="center",
+        },
       };
 task(150,function()
 圆角对话框()
@@ -879,6 +886,12 @@ downloadManager.enqueue(request);print('已保存二维码图片到"Pictures/UTB
 .设置消极按钮("取消")
 .显示()end)
 end).显示(function()
+ewmwb.addTextChangedListener({
+  onTextChanged=function()
+  if #ewmwb.text>240 then
+    print"输入过多文字可能会无法保存图片或扫描"
+  end
+end})
   ewmwb.setOnFocusChangeListener(OnFocusChangeListener{ 
     onFocusChange=function(v,hasFocus)
       if hasFocus then
@@ -974,7 +987,7 @@ InputLayout={
     layout_gravity="center",
     id="cl";
     text="";
-    textColor=yys;
+    textColor=yjys;
   };   
 };
 圆角对话框()
@@ -983,10 +996,10 @@ InputLayout={
   .设置圆角("32dp")
   .设置消极按钮("取消",nil)
   .设置中立按钮("当前网页",function()
-  url="http://suo.im/api.php?format=json&url="..网页链接
+  url="https://api.weibo.com/2/short_url/shorten.json?source=2849184197&url_long="..网页链接
 Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
   if(code==200 and content)then con=content
-    dl=content:match('"url":"(.-)"')
+  dl=content:match('url_short":"(.-)","url_long"')
 task(150,function()圆角对话框()
 .设置标题("短链")
 .设置圆角("32dp")
@@ -998,10 +1011,10 @@ end)
 .显示()end)
 end end)end)   
 .设置积极按钮("确定",function() 
-url="http://suo.im/api.php?format=json&url="..cl.text
+url="https://api.weibo.com/2/short_url/shorten.json?source=2849184197&url_long="..cl.text
 Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
   if(code==200 and content)then con=content
-    dl=content:match('"url":"(.-)"')
+    dl=content:match('url_short":"(.-)","url_long"')
 task(150,function()圆角对话框()
 .设置标题("短链")
 .设置圆角("32dp")
@@ -1067,7 +1080,7 @@ function 页面即将加载事件()
 yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
 if yj=="开" then 
 task(1000,function()
-加载Js([[javascript:(function(){var styleElem=null,doc=document,ie=doc.all,fontColor=50,sel="body,body *";styleElem=createCSS(sel,setStyle(fontColor),styleElem);function setStyle(fontColor){var colorArr=[fontColor,fontColor,fontColor];return"background-color:#000 !important;color:RGB("+colorArr.join("%,")+"%) !important;"}function createCSS(sel,decl,styleElem){var doc=document,h=doc.getElementsByTagName("head")[0],styleElem=styleElem;if(!styleElem){s=doc.createElement("style");s.setAttribute("type","text/css");styleElem=ie?doc.styleSheets[doc.styleSheets.length-1]:h.appendChild(s)}if(ie){styleElem.addRule(sel,decl)}else{styleElem.innerHTML="";styleElem.appendChild(doc.createTextNode(sel+" {"+decl+"}"))}return styleElem}})();]]) 
+加载Js([[var NightMode;if(!NightMode){NightMode=document.createElement("style");NightMode.type="text/css";NightMode.innerHTML="html,body{background:none !important;background-color: #1d1e2a !important;}html *{background-color: #1d1e2a !important; color:#888888 !important;border-color:#3e4f61 !important;text-shadow:none !important;box-shadow:none !important;}a,a *{border-color:#4c5b99 !important; color:#2d69b3 !important;text-decoration:none !important;}a:visited,a:visited *{color:#a600a6 !important;}a:active,a:active *{color:#5588AA !important;}input,select,textarea,option,button{background-image:none !important;color:#AAAAAA !important;border-color:#4c5b99 !important;}form,div,button,span{background-color:#1d1e2a !important; border-color:#4c5b99 !important;}img{opacity:0.5}";document.getElementsByTagName("HEAD").item(0).appendChild(NightMode)};/*QQBrowserSDKNightModeModifiedByQQ32552732*/]])
 end)
 end
 if 网页链接:find"https://" or 网页链接:find"file://" then
@@ -1104,7 +1117,7 @@ if ys=="关" then read_hst() add_hst() save_hst() end end
 yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
 if yj=="开" then 
 task(100,function()
-加载Js([[javascript:(function(){var styleElem=null,doc=document,ie=doc.all,fontColor=50,sel="body,body *";styleElem=createCSS(sel,setStyle(fontColor),styleElem);function setStyle(fontColor){var colorArr=[fontColor,fontColor,fontColor];return"background-color:#000 !important;color:RGB("+colorArr.join("%,")+"%) !important;"}function createCSS(sel,decl,styleElem){var doc=document,h=doc.getElementsByTagName("head")[0],styleElem=styleElem;if(!styleElem){s=doc.createElement("style");s.setAttribute("type","text/css");styleElem=ie?doc.styleSheets[doc.styleSheets.length-1]:h.appendChild(s)}if(ie){styleElem.addRule(sel,decl)}else{styleElem.innerHTML="";styleElem.appendChild(doc.createTextNode(sel+" {"+decl+"}"))}return styleElem}})();]]) 
+加载Js([[var NightMode;if(!NightMode){NightMode=document.createElement("style");NightMode.type="text/css";NightMode.innerHTML="html,body{background:none !important;background-color: #1d1e2a !important;}html *{background-color: #1d1e2a !important; color:#888888 !important;border-color:#3e4f61 !important;text-shadow:none !important;box-shadow:none !important;}a,a *{border-color:#4c5b99 !important; color:#2d69b3 !important;text-decoration:none !important;}a:visited,a:visited *{color:#a600a6 !important;}a:active,a:active *{color:#5588AA !important;}input,select,textarea,option,button{background-image:none !important;color:#AAAAAA !important;border-color:#4c5b99 !important;}form,div,button,span{background-color:#1d1e2a !important; border-color:#4c5b99 !important;}img{opacity:0.5}";document.getElementsByTagName("HEAD").item(0).appendChild(NightMode)};/*QQBrowserSDKNightModeModifiedByQQ32552732*/]])
 end)end end
 检查更新()
 安全={
@@ -1415,7 +1428,7 @@ onClick=function()
       id="mima";
       text=" ";
       hintTextColor=yys;
-      textColor=yys;
+      textColor=yjys;
     };
   };
   圆角对话框()
@@ -1457,7 +1470,7 @@ Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
     chltq=loadlayout{
       LinearLayout;
       orientation="vertical";
-      layout_width="67%w";
+      layout_width="240dp";
       background="#00000000";
       gravity="center";
      id="aaa";
@@ -2094,7 +2107,7 @@ layout_width="80%w";
 layout_gravity="center",
 id="UA";
 hintTextColor=yys;
-textColor=yys;
+textColor=yjys;
 };
 };
 圆角对话框()
@@ -2190,8 +2203,6 @@ tuichu.onClick=function()  ti.stop() 退出程序()end
 gjxyc.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) end
 end
 function 更多()
-yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
-if yj=="开" then ys=0xff000000 ys2=0xffffffff else ys=0xffffffff ys2=0xff000000 end
 gd={
 LinearLayout,
     background="#99000000",
@@ -2218,7 +2229,7 @@ LinearLayout,
               CardView;
               id="k1";              
               radius="32dp";
-              CardBackgroundColor=ys;
+              CardBackgroundColor=color1;
               {
                 LinearLayout,
                 layout_width="match_parent",
@@ -2250,7 +2261,7 @@ LinearLayout,
                       layout_height="wrap_content",
                       layout_width="25%w",
                       text="夜间",
-                      textColor=ys2,
+                      textColor=yjys,
                       gravity="center",
                     },
                   },
@@ -2275,7 +2286,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="书签",
-                      textColor=ys2,
+                      textColor=yjys,
                     },
                   },
                   {
@@ -2299,7 +2310,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="历史",
-                      textColor=ys2,
+                      textColor=yjys,
                     },
                   },
                 {
@@ -2323,7 +2334,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="下载",
-                      textColor=ys2,
+                      textColor=yjys,
                     },
                   },
                 },
@@ -2352,7 +2363,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="隐身",
-                      textColor=ys2,
+                      textColor=yjys,
                     },
                   },
                   {
@@ -2374,7 +2385,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="分享",
-                      textColor=ys2,
+                      textColor=yjys,
                     },
                   },
                   {
@@ -2396,7 +2407,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="添加书签",
-                      textColor=ys2,
+                      textColor=yjys,
                     },
                   },
                   {
@@ -2418,7 +2429,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="工具箱",
-                      textColor=ys2,
+                      textColor=yjys,
                     },
                   },                  
                 },
@@ -2440,7 +2451,7 @@ LinearLayout,
                     layout_width="20dp",
                     layout_height="20dp",
                     src="http://shp.qpic.cn/collector/2530648358/c45ff7b4-fb38-495b-bf7e-5271ea7603c5/0";
-                    ColorFilter=ys2,                                                 
+                    ColorFilter=yjys,                                                 
                     },
                   },
                   {
@@ -2455,7 +2466,7 @@ LinearLayout,
                     layout_width="20dp",
                     layout_height="20dp",
                     src="http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0";
-                    ColorFilter=ys2,                                                                                                           
+                    ColorFilter=yjys,                                                                                                           
                     },
                   }, 
                 },
@@ -2476,7 +2487,7 @@ tuichu.onClick=function()  ti.stop() 退出程序()end
 share.onClick=function() 分享文本(webView.getUrl()) DialogExternal.setVisibility(View.GONE) gduo=nil end
 xiazai.onClick=function() if pcall(function() activity.getPackageManager().getPackageInfo("com.dv.adm.pay",0) end) then packageName="com.dv.adm.pay" import "android.content.Intent" import "android.content.pm.PackageManager" manager = activity.getPackageManager() open = manager.getLaunchIntentForPackage(packageName) this.startActivity(open)
 else print("你似乎没有安装ADM下载器") import "android.content.Intent" import "android.net.Uri" intent = Intent("android.intent.action.VIEW") intent .setData(Uri.parse( "market://details?id=com.dv.adm.pay")) this.startActivity(intent) end gduo=nil DialogExternal.setVisibility(View.GONE) end
-night.onClick=function() gduo=nil color1 = 0xffffffff;ys=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")if yj=="关" then io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("开"):close()print"夜间模式"color1 = 0xff000000 fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)刷新网页()else io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("关"):close()print"白天模式"fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)刷新网页()end DialogExternal.setVisibility(View.GONE) end
+night.onClick=function() gduo=nil color1 = 0xffffffff;ys=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")if yj=="关" then io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("开"):close()print"夜间模式"加载Js([[var NightMode;if(!NightMode){NightMode=document.createElement("style");NightMode.type="text/css";NightMode.innerHTML="html,body{background:none !important;background-color: #1d1e2a !important;}html *{background-color: #1d1e2a !important; color:#888888 !important;border-color:#3e4f61 !important;text-shadow:none !important;box-shadow:none !important;}a,a *{border-color:#4c5b99 !important; color:#2d69b3 !important;text-decoration:none !important;}a:visited,a:visited *{color:#a600a6 !important;}a:active,a:active *{color:#5588AA !important;}input,select,textarea,option,button{background-image:none !important;color:#AAAAAA !important;border-color:#4c5b99 !important;}form,div,button,span{background-color:#1d1e2a !important; border-color:#4c5b99 !important;}img{opacity:0.5}";document.getElementsByTagName("HEAD").item(0).appendChild(NightMode)};/*QQBrowserSDKNightModeModifiedByQQ32552732*/]])task(1000,function()刷新网页()停止加载()end)color1 = 0xff232323 yjys=0xffffffff if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end 侧滑卡片.setCardBackgroundColor(0xff232323) fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)else io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("关"):close()print"白天模式"加载Js([[var NightMode;if(NightMode){document.getElementsByTagName("HEAD").item(0).removeChild(NightMode);NightMode=null};/*QQBrowserSDKNightModeModifiedByQQ32552732*/]])task(1000,function()刷新网页()停止加载()end)yjys=0xff000000 if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material_Light)else activity.setTheme(android.R.style.Theme_Holo_Light)end 侧滑卡片.setCardBackgroundColor(0xffffffff) fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)end DialogExternal.setVisibility(View.GONE) end
 history.onClick=function() DialogExternal.setVisibility(View.GONE) gduo=nil read_hst() show_hst() end
 gj.onClick=function()工具箱() Gj=0 xfb=nil DialogExternal.setVisibility(View.GONE)end
 function DialogExternal.onClick() DialogExternal.setVisibility(View.GONE) gduo=nil end
@@ -2992,7 +3003,7 @@ local input2layout={
     layout_width="80%w",
     layout_gravity="center",
     hintTextColor=yys,
-    textColor=yys,
+    textColor=yjys,
     },
   {
     EditText,
@@ -3003,7 +3014,7 @@ local input2layout={
     layout_width="80%w",
     layout_gravity="center",
     hintTextColor=yys,
-    textColor=yys,
+    textColor=yjys,
     },
   {
     LinearLayout,
@@ -3032,7 +3043,7 @@ local input2layout={
     {
       TextView,  
       text="添加到浏览器主页",
-      textColor=0xff000000,
+      textColor=yys,
       layout_gravity="center",
       },
     },
@@ -3051,7 +3062,7 @@ function showDataDialog(name,title,jdpuk)
       layout_width="fill",
       layout_width="70%w",
       layout_gravity="center",
-      textColor=yys,
+      textColor=yjys,
     },
   }
   local data=getAllData(name)
