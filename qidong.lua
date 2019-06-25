@@ -772,7 +772,7 @@ color1=0xff232323 yjys=0xffffffff
 fltBtn.setCardBackgroundColor(color1)
 zybjt.setBackgroundColor(color1)
 sidebar.setBackgroundColor(color1)
-侧滑卡片.setCardBackgroundColor(color1)
+侧滑卡片.setCardBackgroundColor(0xff232323)
 if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end
 end
 local function getStatusBarHeight(JDPUK)
@@ -784,12 +784,12 @@ local function getStatusBarHeight(JDPUK)
 end
 function ewm()
 yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
-if yj=="开" then ys=0xFF232323 ys2=0xffffffff else ys=0xffffffff ys2=0xff000000 end
+if yj=="开" then ys2=0xffffffff else ys2=0xff000000 end
 AboutLayout=
 {
   LinearLayout;
   orientation="horizontal";
-  backgroundColor=ys;
+  backgroundColor=color1;
   {
     Button;
     text="二维码生成";
@@ -1045,10 +1045,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.0.4"then
+  if 版本名 > "3.0.5"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.0.4".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.0.5".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp") --圆角大小
     .设置积极按钮("立即更新",function()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
@@ -1579,7 +1579,7 @@ ll=0 ti=Ticker()ti.Period=1000 ti.onTick=function() ll=ll+1tt=os.date("时间:%H
 --
 function 工具箱()
 yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
-if yj=="开" then ys=0xff000000 ys2=0xffffffff else ys=0xffffffff ys2=0xff000000 end
+if yj=="开" then ys2=0xffffffff else ys2=0xff000000 end
 gjx={
 LinearLayout,
     background="#99000000",
@@ -1606,7 +1606,7 @@ LinearLayout,
               CardView;
               id="k1"; 
               radius="32dp"; --圆角角度
-              CardBackgroundColor=ys;
+              CardBackgroundColor=color1;
               {
                 LinearLayout,
                 layout_width="match_parent",
@@ -2203,6 +2203,8 @@ tuichu.onClick=function()  ti.stop() 退出程序()end
 gjxyc.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) end
 end
 function 更多()
+yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
+if yj=="开" then ys2=0xffffffff else ys2=0xff000000 end
 gd={
 LinearLayout,
     background="#99000000",
@@ -2261,7 +2263,7 @@ LinearLayout,
                       layout_height="wrap_content",
                       layout_width="25%w",
                       text="夜间",
-                      textColor=yjys,
+                      textColor=ys2,
                       gravity="center",
                     },
                   },
@@ -2286,7 +2288,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="书签",
-                      textColor=yjys,
+                      textColor=ys2,
                     },
                   },
                   {
@@ -2310,7 +2312,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="历史",
-                      textColor=yjys,
+                      textColor=ys2,
                     },
                   },
                 {
@@ -2334,7 +2336,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="下载",
-                      textColor=yjys,
+                      textColor=ys2,
                     },
                   },
                 },
@@ -2363,7 +2365,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="隐身",
-                      textColor=yjys,
+                      textColor=ys2,
                     },
                   },
                   {
@@ -2385,7 +2387,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="分享",
-                      textColor=yjys,
+                      textColor=ys2,
                     },
                   },
                   {
@@ -2407,7 +2409,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="添加书签",
-                      textColor=yjys,
+                      textColor=ys2,
                     },
                   },
                   {
@@ -2429,7 +2431,7 @@ LinearLayout,
                       layout_width="25%w",
                       gravity="center",
                       text="工具箱",
-                      textColor=yjys,
+                      textColor=ys2,
                     },
                   },                  
                 },
@@ -2451,7 +2453,7 @@ LinearLayout,
                     layout_width="20dp",
                     layout_height="20dp",
                     src="http://shp.qpic.cn/collector/2530648358/c45ff7b4-fb38-495b-bf7e-5271ea7603c5/0";
-                    ColorFilter=yjys,                                                 
+                    ColorFilter=ys2,                                                 
                     },
                   },
                   {
@@ -2466,7 +2468,7 @@ LinearLayout,
                     layout_width="20dp",
                     layout_height="20dp",
                     src="http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0";
-                    ColorFilter=yjys,                                                                                                           
+                    ColorFilter=ys2,                                                                                                           
                     },
                   }, 
                 },
@@ -2487,7 +2489,7 @@ tuichu.onClick=function()  ti.stop() 退出程序()end
 share.onClick=function() 分享文本(webView.getUrl()) DialogExternal.setVisibility(View.GONE) gduo=nil end
 xiazai.onClick=function() if pcall(function() activity.getPackageManager().getPackageInfo("com.dv.adm.pay",0) end) then packageName="com.dv.adm.pay" import "android.content.Intent" import "android.content.pm.PackageManager" manager = activity.getPackageManager() open = manager.getLaunchIntentForPackage(packageName) this.startActivity(open)
 else print("你似乎没有安装ADM下载器") import "android.content.Intent" import "android.net.Uri" intent = Intent("android.intent.action.VIEW") intent .setData(Uri.parse( "market://details?id=com.dv.adm.pay")) this.startActivity(intent) end gduo=nil DialogExternal.setVisibility(View.GONE) end
-night.onClick=function() gduo=nil color1 = 0xffffffff;ys=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")if yj=="关" then io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("开"):close()print"夜间模式"加载Js([[var NightMode;if(!NightMode){NightMode=document.createElement("style");NightMode.type="text/css";NightMode.innerHTML="html,body{background:none !important;background-color: #1d1e2a !important;}html *{background-color: #1d1e2a !important; color:#888888 !important;border-color:#3e4f61 !important;text-shadow:none !important;box-shadow:none !important;}a,a *{border-color:#4c5b99 !important; color:#2d69b3 !important;text-decoration:none !important;}a:visited,a:visited *{color:#a600a6 !important;}a:active,a:active *{color:#5588AA !important;}input,select,textarea,option,button{background-image:none !important;color:#AAAAAA !important;border-color:#4c5b99 !important;}form,div,button,span{background-color:#1d1e2a !important; border-color:#4c5b99 !important;}img{opacity:0.5}";document.getElementsByTagName("HEAD").item(0).appendChild(NightMode)};/*QQBrowserSDKNightModeModifiedByQQ32552732*/]])task(1000,function()刷新网页()停止加载()end)color1 = 0xff232323 yjys=0xffffffff if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end 侧滑卡片.setCardBackgroundColor(0xff232323) fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)else io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("关"):close()print"白天模式"加载Js([[var NightMode;if(NightMode){document.getElementsByTagName("HEAD").item(0).removeChild(NightMode);NightMode=null};/*QQBrowserSDKNightModeModifiedByQQ32552732*/]])task(1000,function()刷新网页()停止加载()end)yjys=0xff000000 if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material_Light)else activity.setTheme(android.R.style.Theme_Holo_Light)end 侧滑卡片.setCardBackgroundColor(0xffffffff) fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)end DialogExternal.setVisibility(View.GONE) end
+night.onClick=function() gduo=nil color1 = 0xffffffff;ys=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")if yj=="关" then io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("开"):close()print"夜间模式"color1 = 0xff232323 yjys=0xffffffff if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end 侧滑卡片.setCardBackgroundColor(0xff232323) fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)刷新网页()else io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("关"):close()print"白天模式"yjys=0xff000000 if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material_Light)else activity.setTheme(android.R.style.Theme_Holo_Light)end 侧滑卡片.setCardBackgroundColor(0xffffffff) fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)刷新网页()end DialogExternal.setVisibility(View.GONE) end
 history.onClick=function() DialogExternal.setVisibility(View.GONE) gduo=nil read_hst() show_hst() end
 gj.onClick=function()工具箱() Gj=0 xfb=nil DialogExternal.setVisibility(View.GONE)end
 function DialogExternal.onClick() DialogExternal.setVisibility(View.GONE) gduo=nil end
