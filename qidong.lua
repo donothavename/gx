@@ -786,6 +786,187 @@ function getStatusBarHeight(JDPUK)
     return activity.getResources().getDimensionPixelSize(resid)
   end
 end
+function outPath(ret) 
+  for i,p in pairs(luajava.astable(ret)) do
+    if i==1then
+      wj='"'..p..'"'
+      wj2="url"..i..'="'..p..'"'
+    else
+      wj=wj..',"'..p..'"'
+      wj2=wj2..',url'..i..'="'..p..'"'
+    end
+  end
+if wj~=nil then
+  wj=("{"..wj.."}"):gsub("/storage/emulated/0/Download/",""):gsub(".mht",""):gsub(".html",""):gsub(".htm","")
+  b=loadstring("return "..wj);
+  wj=b();
+  wj2=("{"..wj2.."}")
+  b=loadstring("return"..wj2)
+  wj2=b()
+end
+  if zybjtdz=="" then
+  yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
+  if yj=="开"then
+    lspixel=0xFF1C1E2A lspixel2=-1
+  else
+    lspixel=-1 lspixel2=-16777216
+  end
+end
+if lspixel2<-16777214 then
+  if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material_Light)else activity.setTheme(android.R.style.Theme_Holo_Light)end
+else
+  if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end
+end
+离线页面布局={
+  LinearLayout,
+  orientation="vertical",
+  id="lxymbj",
+  layout_height=h,
+  background=io.open("/data/data/"..activity.getPackageName().."/主页背景图地址"):read("*a"),
+  {
+    LinearLayout,
+    orientation="horizontal",
+    layout_width=w,
+    layout_height=geth(toolbar),
+    backgroundColor=lspixel,
+  {
+      ImageView,
+      layout_marginLeft="7dp",
+      layout_width="18dp",
+      layout_gravity="center",
+      layout_height="18dp",
+      src="http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0",
+      ColorFilter=lspixel2,
+      onClick=function()lxym.dismiss()end,
+    },
+  {
+    LinearLayout,   
+    layout_marginLeft="7dp",
+    orientation="vertical",
+    {
+      LinearLayout,
+      layout_height=geth(toolbar),
+      layout_width=w-2*geth(toolbar),
+      {
+        TextView,
+        layout_gravity="center",
+        textColor=lspixel2,
+        text="离线页面",
+        textSize="10dp",
+        backgroundColor=lspixel,
+        },
+      },
+    },
+  {
+    ImageView,
+    layout_marginLeft="7dp",
+    layout_width="18dp",
+    layout_gravity="center",
+    layout_height="18dp",
+    src="http://shp.qpic.cn/collector/2530648358/7240777b-c5dc-4478-aeba-c8ec1ed01057/0",   
+    ColorFilter=lspixel2,
+    onClick=function()lxym.dismiss()thread(find,File("/storage/emulated/0/Download/"),".m?ht")end,
+    },
+  },
+{
+  LinearLayout,
+  layout_width=w,
+  layout_height=2*geth(toolbar)+2*getStatusBarHeight(),
+  gravity="center",
+  {
+    TextView,
+    id="ts",
+    text="下列为保存的网页. 无论手机是否联网你都可以浏览它们.",
+    textSize="10dp",
+    textColor=lspixel2,
+    },
+  },
+{
+  ListView,
+  DividerHeight=0,
+  id="lxymlb",
+  items=wj,
+  layout_width="fill",
+  layout_height=h-3*geth(toolbar)-3*getStatusBarHeight(),
+  },
+}
+lxym=PopupWindow(loadlayout(离线页面布局))
+lxym.setFocusable(true)
+lxym.setWidth(w)
+lxym.setHeight(h)
+lxym.setTouchable(true)
+lxym.setOutsideTouchable(false)
+lxym.showAtLocation(fltBtn.Parent,0,0,0)
+lxymlb.onItemClick=function(parent,v,pos,b)
+  lxym.dismiss()gbzy()加载网页("file://"..wj2["url"..b])
+  end
+lxymlb.onItemLongClick=function(parent,v,pos,b)    
+  item={
+    ListView,
+    id="lb",
+    items={"复制链接","删除"},
+    layout_width="fill",
+    }
+  圆角对话框()
+  .设置圆角("32dp")
+  .添加布局(item)
+  .显示(function()
+    lb.setOnItemClickListener(AdapterView.OnItemClickListener{
+      onItemClick=function(parent, v, pos,id)
+        pop.dismiss()
+        if id==1then
+          复制文本("file://"..wj2["url"..b])
+        else
+          File(wj2["url"..b]).delete()lxym.dismiss()thread(find,File("/storage/emulated/0/Download/"),".m?ht")
+        end
+      end})
+    end)
+  return true
+  end
+if wj==nil then
+  ts.setText("空空如也…")
+end
+if zybjtdz==""then
+lxymbj.setBackgroundColor(lspixel)
+end
+task(500,function()
+  if yj=="开"then
+    if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end
+  else
+    if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material_Light)else activity.setTheme(android.R.style.Theme_Holo_Light)end
+  end
+end)
+end
+function find(catalog,name)
+  local n=0
+  local t=os.clock()
+  local ret={}
+  require "import"
+  import "java.io.File" 
+  import "java.lang.String"
+  function FindFile(catalog,name)
+    local name=tostring(name)
+    local ls=catalog.listFiles() or File{}
+    for 次数=0,#ls-1 do
+      local f=ls[次数]
+      if f.isDirectory() then
+        FindFile(f,name)
+      else
+        n=n+1
+        if n%1000==0 then
+          print(n,os.clock()-t)
+        end
+        local nm=f.Name
+        if string.find(nm,name) then
+          table.insert(ret,tostring(f))
+        end
+      end
+      luajava.clear(f)
+    end
+  end
+  FindFile(catalog,name)
+  call("outPath",ret)
+end
 function ewm()
 yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
 if yj=="开" then ys2=0xffffffff else ys2=0xff000000 end
@@ -1049,10 +1230,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.0.7"then
+  if 版本名 > "3.0.8"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.0.7".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.0.8".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp") --圆角大小
     .设置积极按钮("立即更新",function()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
@@ -1080,13 +1261,11 @@ Http.get(url,nil,"UTF-8",nil,function(code,content,cookie,header)
   end
 end)
 end
-function 页面即将加载事件()
+function 夜间()
 yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
-if yj=="开" then 
-task(1000,function()
-加载Js([[var NightMode;if(!NightMode){NightMode=document.createElement("style");NightMode.type="text/css";NightMode.innerHTML="html,body{background:none !important;background-color: #1d1e2a !important;}html *{background-color: #1d1e2a !important; color:#888888 !important;border-color:#3e4f61 !important;text-shadow:none !important;box-shadow:none !important;}a,a *{border-color:#4c5b99 !important; color:#2d69b3 !important;text-decoration:none !important;}a:visited,a:visited *{color:#a600a6 !important;}a:active,a:active *{color:#5588AA !important;}input,select,textarea,option,button{background-image:none !important;color:#AAAAAA !important;border-color:#4c5b99 !important;}form,div,button,span{background-color:#1d1e2a !important; border-color:#4c5b99 !important;}img{opacity:0.5}";document.getElementsByTagName("HEAD").item(0).appendChild(NightMode)};/*QQBrowserSDKNightModeModifiedByQQ32552732*/]])
-end)
+if yj=="开" then task(1000,function()加载Js([[var NightMode;if(!NightMode){NightMode=document.createElement("style");NightMode.type="text/css";NightMode.innerHTML="html,body{background:none !important;background-color: #1d1e2a !important;}html *{background-color: #1d1e2a !important; color:#888888 !important;border-color:#3e4f61 !important;text-shadow:none !important;box-shadow:none !important;}a,a *{border-color:#4c5b99 !important; color:#2d69b3 !important;text-decoration:none !important;}a:visited,a:visited *{color:#a600a6 !important;}a:active,a:active *{color:#5588AA !important;}input,select,textarea,option,button{background-image:none !important;color:#AAAAAA !important;border-color:#4c5b99 !important;}form,div,button,span{background-color:#1d1e2a !important; border-color:#4c5b99 !important;}img{opacity:0.5}";document.getElementsByTagName("HEAD").item(0).appendChild(NightMode)};/*QQBrowserSDKNightModeModifiedByQQ32552732*/]])end)end
 end
+function 页面即将加载事件()夜间()
 if 网页链接:find"https://" or 网页链接:find"file://" then
   aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0"))
   else
@@ -1111,7 +1290,7 @@ else ymhlj=""scys=""jb=""end
 config.web_control[1].url=(ymhlj)config.web_control[1].remove_element=(scys)config.web_control[1].js=(jb)
 end
 function 页面加载完毕()
-设置底栏刷新状态(false,true,1000)
+夜间()设置底栏刷新状态(false,true,1000)
 task(1,function()if dlsskkq==0 then dlssk.setVisibility(View.GONE)end function getBitmapFromView(v)b=Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.RGB_565);c=Canvas(b);v.layout(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());bgDrawable=v.getBackground();if (bgDrawable ~= null) then bgDrawable.draw(c);else c.drawColor(Color.WHITE);v.draw(c);end return b;end bitmap = getBitmapFromView(fltBtn.Parent)pixel = bitmap.getPixel(1,getStatusBarHeight()+1)pixel2=bitmap.getPixel(w-0.5*geth(toolbar),getStatusBarHeight()+0.5*geth(toolbar))bmwhole.setBackgroundColor(pixel)aqic.setColorFilter(pixel2)gengduoic.setColorFilter(pixel2)bmrefreshic.setColorFilter(pixel2)bmhmic.setColorFilter(pixel2)bmforwardic.setColorFilter(pixel2)bmbackic.setColorFilter(pixel2)bitmap.recycle()if dlsskkq==0 then dlssk.setVisibility(View.VISIBLE)dlsrk.setBackgroundColor(pixel)dlsrk.setTextColor(pixel2)ssbj.setBackgroundColor(pixel)xzssyq.setColorFilter(pixel2)qwss.setColorFilter(pixel2)dlsrk.setHintTextColor(pixel2)end end)
 end
 function 收到新标题事件()
@@ -1119,10 +1298,7 @@ if webView.canGoBack() then
 ys=io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a")
 if ys=="关" then read_hst() add_hst() save_hst() end end
 yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
-if yj=="开" then 
-task(100,function()
-加载Js([[var NightMode;if(!NightMode){NightMode=document.createElement("style");NightMode.type="text/css";NightMode.innerHTML="html,body{background:none !important;background-color: #1d1e2a !important;}html *{background-color: #1d1e2a !important; color:#888888 !important;border-color:#3e4f61 !important;text-shadow:none !important;box-shadow:none !important;}a,a *{border-color:#4c5b99 !important; color:#2d69b3 !important;text-decoration:none !important;}a:visited,a:visited *{color:#a600a6 !important;}a:active,a:active *{color:#5588AA !important;}input,select,textarea,option,button{background-image:none !important;color:#AAAAAA !important;border-color:#4c5b99 !important;}form,div,button,span{background-color:#1d1e2a !important; border-color:#4c5b99 !important;}img{opacity:0.5}";document.getElementsByTagName("HEAD").item(0).appendChild(NightMode)};/*QQBrowserSDKNightModeModifiedByQQ32552732*/]])
-end)end end
+夜间()end
 检查更新()
 安全={
   LinearLayout;
@@ -1207,6 +1383,9 @@ dlsskkq=0
   LinearLayout,
   orientation="vertical",
   id="dlssk",
+  layout_height=h,
+  backgroundColor=0x86000000,
+  onClick=function()dlss.dismiss()dlsskkq=nil end,
   {
     LinearLayout,
     id="ssbj",
@@ -1291,16 +1470,6 @@ end end})end)end,
     dlsskkq=nil
     end,
     },
-  },
-{
-  LinearLayout;
-  layout_width=w;
-  layout_height=h;
-  backgroundColor=0x86000000,
-  onClick=function()
-    dlss.dismiss()
-    dlsskkq=nil
-    end,
   },
 }
 dlss=PopupWindow(loadlayout(顶栏搜索框))
@@ -2077,7 +2246,7 @@ id="xg";
 fltBtn.Parent.addView(loadlayout(sr))
 xg.onClick=function() 页内查找(edit.text) end gb.onClick=function() 页内查找("")sr.setVisibility(View.GONE)end end
 bcwy.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE) offline="/sdcard/download/"..os.date("%Y%m%d%H%M%S")..webView.title..".mht" print("已保存网页至“"..offline.."”") webView.saveWebArchive(offline)else print"不支持保存主页"end end
-lxym.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) ChoiceOfflineFile("/sdcard/Download/") end
+lxym.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)thread(find,File("/storage/emulated/0/Download/"),".m?ht")end
 fanyi.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE)items={ListView,id="lb",items={"彩云小译","百度翻译","有道翻译"},layout_width="fill",}圆角对话框().设置圆角("32dp").设置标题("选择翻译引擎").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==2 then 加载网页("http://fanyi.baidu.com/transpage?query="..webView.getUrl().."&from=auto&to=zh&source=url&ie=utf8&render=1")elseif id==3 then 加载网页("http://fanyi.youdao.com/WebpageTranslate?keyfrom=webfanyi.top&url="..webView.getUrl().."&type=ZH_CN2EN")elseif id==1 then 加载Js([[(function(){if(!document.body)return;var popup=document.querySelectorAll('.cyxy-target-popup');if(popup&&popup.length>0)return;var trs=document.createElement('script');trs.type='text/javascript';trs.charset='UTF-8';trs.src=('https:'==document.location.protocol?'https://':'http://')+'caiyunapp.com/dest/trs.js';document.body.appendChild(trs);})()]])end end})end)else print"不支持翻译主页"end end
 yuanma.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE) 加载网页("view-source:"..webView.getUrl())else print"不支持查看主页源码"end end
 qp.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)if dlan==nil then activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.GONE)fakebmbar.setVisibility(View.GONE)webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,0)fltBtn.setVisibility(View.VISIBLE)dlan=0 else activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.VISIBLE)fakebmbar.setVisibility(View.VISIBLE)webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,bmwhole.height)fltBtn.setVisibility(View.GONE)dlan=nil end end
@@ -2854,7 +3023,7 @@ if zybjtdz=="" then
     lspixel=-1 lspixel2=-16777216
   end
 end
-if lspixel2<-8388608 then
+if lspixel2<-16777214 then
   if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material_Light)else activity.setTheme(android.R.style.Theme_Holo_Light)end
 else
   if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end
@@ -3227,7 +3396,6 @@ if #keys>0then
     gbzy()加载网页(keys[b])xssq.dismiss()
   end
   list.onItemLongClick=function(adp,view,position,b)
-    xssq.dismiss()showDataDialog(name,title)
     item={
     ListView,
     id="lb",
@@ -3306,6 +3474,7 @@ if #keys>0then
         end
       end})
     end)
+    return true
   end
 else
   wsq.setVisibility(0)
