@@ -169,6 +169,7 @@ zybjtdz=io.open("/data/data/"..activity.getPackageName().."/主页背景图地�
 };
 webView.addView(loadlayout(主页背景图))
 zybjt.onLongClick=function()
+function szbjt()
 zybjtdz=io.open("/data/data/"..activity.getPackageName().."/主页背景图地址"):read("*a")
 InputLayout={
   LinearLayout;
@@ -201,8 +202,10 @@ InputLayout={
 .设置标题("主页背景图")
 .添加布局(InputLayout)
 .设置积极按钮("确定",function()
-io.open("/data/data/"..activity.getPackageName().."/主页背景图地址","w+"):write(tpdz.text):close()  
-gbzy()xszy()
+if File(tpdz.text).isFile() or tpdz.text:sub(1,7)=="http://"or tpdz.text:sub(1,8)=="https://"or tpdz.text==""then
+io.open("/data/data/"..activity.getPackageName().."/主页背景图地址","w+"):write(tpdz.text):close()gbzy()xszy()
+else
+task(150,function()print"请输入正确的地址"szbjt()end)end
 end)
 .设置消极按钮("取消")
 .显示(function()tpdz.setOnFocusChangeListener(OnFocusChangeListener{ 
@@ -210,7 +213,7 @@ end)
       if hasFocus then
         srzybjtdz.setTextColor(0xFD009688)
       end
-    end})end)
+    end})end)end szbjt()
 end 
 bl=math.sqrt(w^2+h^2)/math.sqrt(1280^2+720^2)
 sqjj=(0.8*w+bl*70-bl*4*105)/5
@@ -774,8 +777,9 @@ zybjt.setBackgroundColor(color1)
 sidebar.setBackgroundColor(color1)
 侧滑卡片.setCardBackgroundColor(0xff232323)
 if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end
+else yjys=0xff000000
 end
-local function getStatusBarHeight(JDPUK)
+function getStatusBarHeight(JDPUK)
   if not tostring(jdpuk)==string.byte("")..string.byte("")..string.byte("4")..string.char(55).."32" then error()end
   local resid=activity.getResources().getIdentifier("status_bar_height","dimen","android")
   if resid>0 then
@@ -1045,10 +1049,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.0.5"then
+  if 版本名 > "3.0.7"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.0.5".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.0.7".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp") --圆角大小
     .设置积极按钮("立即更新",function()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
@@ -1108,7 +1112,7 @@ config.web_control[1].url=(ymhlj)config.web_control[1].remove_element=(scys)conf
 end
 function 页面加载完毕()
 设置底栏刷新状态(false,true,1000)
-task(1,function()if dlsskkq==0 then dlssk.setVisibility(View.GONE)end function getBitmapFromView(v)b=Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.RGB_565);c=Canvas(b);v.layout(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());bgDrawable=v.getBackground();if (bgDrawable ~= null) then bgDrawable.draw(c);else c.drawColor(Color.WHITE);v.draw(c);end return b;end bitmap = getBitmapFromView(fltBtn.Parent)pixel = bitmap.getPixel(0,getStatusBarHeight()+1)pixel2=bitmap.getPixel(w-0.5*geth(toolbar),getStatusBarHeight()+0.5*geth(toolbar))bmwhole.setBackgroundColor(pixel)aqic.setColorFilter(pixel2)gengduoic.setColorFilter(pixel2)bmrefreshic.setColorFilter(pixel2)bmhmic.setColorFilter(pixel2)bmforwardic.setColorFilter(pixel2)bmbackic.setColorFilter(pixel2)bitmap.recycle()if dlsskkq==0 then dlssk.setVisibility(View.VISIBLE)dlsrk.setBackgroundColor(pixel)dlsrk.setTextColor(pixel2)ssbj.setBackgroundColor(pixel)xzssyq.setColorFilter(pixel2)qwss.setColorFilter(pixel2)dlsrk.setHintTextColor(pixel2)end end)
+task(1,function()if dlsskkq==0 then dlssk.setVisibility(View.GONE)end function getBitmapFromView(v)b=Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.RGB_565);c=Canvas(b);v.layout(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());bgDrawable=v.getBackground();if (bgDrawable ~= null) then bgDrawable.draw(c);else c.drawColor(Color.WHITE);v.draw(c);end return b;end bitmap = getBitmapFromView(fltBtn.Parent)pixel = bitmap.getPixel(1,getStatusBarHeight()+1)pixel2=bitmap.getPixel(w-0.5*geth(toolbar),getStatusBarHeight()+0.5*geth(toolbar))bmwhole.setBackgroundColor(pixel)aqic.setColorFilter(pixel2)gengduoic.setColorFilter(pixel2)bmrefreshic.setColorFilter(pixel2)bmhmic.setColorFilter(pixel2)bmforwardic.setColorFilter(pixel2)bmbackic.setColorFilter(pixel2)bitmap.recycle()if dlsskkq==0 then dlssk.setVisibility(View.VISIBLE)dlsrk.setBackgroundColor(pixel)dlsrk.setTextColor(pixel2)ssbj.setBackgroundColor(pixel)xzssyq.setColorFilter(pixel2)qwss.setColorFilter(pixel2)dlsrk.setHintTextColor(pixel2)end end)
 end
 function 收到新标题事件()
 if webView.canGoBack() then
@@ -1575,7 +1579,7 @@ menu.add("分享天气信息").onMenuItemClick=function(a) 分享文本(help) en
 end)
 end 天气()
 webView.addJavascriptInterface({},"JsInterface")
-ll=0 ti=Ticker()ti.Period=1000 ti.onTick=function() ll=ll+1tt=os.date("时间:%H:%M:%S") if ll==3600 then 圆角对话框().设置标题("温馨提醒").设置圆角("32dp").设置消息("您已浏览网页一小时,该休息一下了").设置积极按钮("好的",function()退出程序()end).设置消极按钮("继续浏览网页").显示()end if webView.canGoBack() then bt=tt.." "..webView.title else aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0"))bt=tt.." ".."主页"end 设置顶栏标题(bt)end ti.start()
+ll=0 ti=Ticker()ti.Period=1000 ti.onTick=function() ll=ll+1tt=os.date("时间:%H:%M:%S") if ll==3600 then 圆角对话框().设置标题("温馨提醒").设置圆角("32dp").设置消息("您已浏览网页一小时,该休息一下了").设置积极按钮("好的",function()退出程序()end).设置消极按钮("继续浏览网页").显示()end if webView.canGoBack() then bt=tt.." "..webView.title else lspixel=pixel lspixel2=pixel2 aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0"))bt=tt.." ".."主页"end 设置顶栏标题(bt)end ti.start()
 --
 function 工具箱()
 yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
@@ -2379,7 +2383,7 @@ LinearLayout,
                       ImageView;
                       layout_width="20dp",
                       layout_height="20dp",                        
-                      src="http://shp.qpic.cn/collector/2530648358/83fdbc58-9c2d-4975-a02a-94ff4bdd8a5c/0";
+                      src="http://shp.qpic.cn/collector/2530648358/1f91175e-20d9-4112-95fd-120579e2eb2a/0";
                       ColorFilter="#FF009AFF",
                     },
                     {
@@ -2803,23 +2807,6 @@ function rslz(lua)
   return func() 
 end
 --3.历史记录框布局
-function hstshow()
-  read_hst()
-  hstlayout={
-    LinearLayout,
-    orientation="1",
-    gravity="center",
-    layout_width="wrap_content",
-    layout_height="wrap_content",
-    {
-      ListView,
-      id="hlst",
-      items=lst,
-      layout_width="fill",
-    },
-  }
-end
---##功能函数##
 --1.读取历史文件
 function read_hst()
   import "java.io.File"
@@ -2859,58 +2846,144 @@ function save_hst()
 end
 --4.显示历史记录框
 function show_hst() 
-hstshow()
-  local ls=圆角对话框()
-  ls.设置标题("历史记录")
-  ls.设置圆角("32dp")
-  if slst:find"[1]"then
-  ls.添加布局(hstlayout)
-  ls.设置消极按钮("清空历史",function()task(150,function()
-local ls=圆角对话框()
-ls.设置标题("清空")
-ls.设置圆角("32dp")
-ls.设置消息("你是否确认?")
-ls.设置积极按钮("确定",function()
-File(lstwebads).delete()
-File(lstads).delete()
-File(lstwebads).createNewFile()
-File(lstads).createNewFile()
-end)
-ls.设置消极按钮("取消",function()task(150,function()
-show_hst()end)
-end)
-.显示()end)
-end)else ls.设置消息("空空如也…")end
-ls.设置积极按钮("关闭",function()
-    end)
-  ls.显示(function()if slst:find"[1]"then
-  if (cardh+(获取相同字符串个数(slst,"\n")-1)*geth(hlst))>0.78*h then seth(hlst,0.7*h)end
-  hlst.onItemClick=function(l,v,c,b)
-    gbzy()
-    加载网页(lstweb[b])
-    pop.dismiss()
+if zybjtdz=="" then
+  yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
+  if yj=="开"then
+    lspixel=0xFF1C1E2A lspixel2=-1
+  else
+    lspixel=-1 lspixel2=-16777216
   end
-  hlst.onItemLongClick=function(l,v,c,b)
-    pop.dismiss()
-    task(150,function()
+end
+if lspixel2<-8388608 then
+  if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material_Light)else activity.setTheme(android.R.style.Theme_Holo_Light)end
+else
+  if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end
+end
+read_hst()
+历史布局={
+  LinearLayout,
+  orientation="vertical",
+  id="lsbj",
+  layout_height=h,
+  background=io.open("/data/data/"..activity.getPackageName().."/主页背景图地址"):read("*a"),
+  {
+    LinearLayout,
+    orientation="horizontal",
+    layout_width=w,
+    layout_height=geth(toolbar),
+    backgroundColor=lspixel,
+  {
+      ImageView,
+      layout_marginLeft="7dp",
+      layout_width="18dp",
+      layout_gravity="center",
+      layout_height="18dp",
+      src="http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0",
+      ColorFilter=lspixel2,
+      onClick=function()ls.dismiss()end,
+    },
+  {
+    LinearLayout,   
+    layout_marginLeft="7dp",
+    orientation="vertical",
+    {
+      LinearLayout,
+      layout_height=geth(toolbar),
+      layout_width=w-2*geth(toolbar),
+      {
+        TextView,
+        layout_gravity="center",
+        textColor=lspixel2,
+        text="历史",
+        textSize="10dp",
+        backgroundColor=lspixel,
+        },
+      },
+    },
+  {
+    ImageView,
+    layout_marginLeft="7dp",
+    layout_width="18dp",
+    layout_gravity="center",
+    layout_height="18dp",
+    src="http://shp.qpic.cn/collector/2530648358/7240777b-c5dc-4478-aeba-c8ec1ed01057/0",   
+    ColorFilter=lspixel2,
+    onClick=function()ls.dismiss()show_hst()end,
+    },
+  },
+{
+  ListView,
+  DividerHeight=0,
+  id="hlst",
+  items=lst,
+  layout_width="fill",
+  layout_height=h-geth(toolbar)-getStatusBarHeight(),
+  },
+{
+  LinearLayout,
+  id="wls",
+  visibility=4,
+  layout_marginTop=-(h-geth(toolbar)-getStatusBarHeight()),
+  layout_width=w,
+  layout_height=2*geth(toolbar)+2*getStatusBarHeight(),
+  gravity="center",
+  {
+    TextView,
+    text="空空如也…",
+    textSize="10dp",
+    textColor=lspixel2,
+    },
+  },
+}
+ls=PopupWindow(loadlayout(历史布局))
+ls.setFocusable(true)
+ls.setWidth(w)
+ls.setHeight(h)
+ls.setTouchable(true)
+ls.setOutsideTouchable(false)
+ls.showAtLocation(fltBtn.Parent,0,0,0)
+if zybjtdz==""then
+lsbj.setBackgroundColor(lspixel)
+end
+task(500,function()
+  if yj=="开"then
+    if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end
+  else
+    if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material_Light)else activity.setTheme(android.R.style.Theme_Holo_Light)end
+  end
+end)
+if not slst:find"[1]"then
+  wls.setVisibility(0)
+  end
+hlst.onItemClick=function(l,v,c,b)
+gbzy()加载网页(lstweb[b])ls.dismiss()
+end
+hlst.onItemLongClick=function(l,v,c,b)
+items={
+  ListView,
+  id="lb",
+  items={"复制链接","删除","清空"},
+  layout_width="fill",
+  }
     圆角对话框()
     .设置圆角("32dp")
-    .设置消息("是否删除记录？")
-    .设置消极按钮("取消",function()task(150,function()
-      show_hst()end)
-    end)
-    .设置积极按钮("确定",function()
-      table.remove(lst,b)
-      table.remove(lstweb,b)
-      save_hst()task(150,function()
-      show_hst()end)
-    end)
-    .显示()
+    .添加布局(items)
+    .显示(function()
+      lb.setOnItemClickListener(AdapterView.OnItemClickListener{
+        onItemClick=function(parent, v, pos,id)
+          pop.dismiss()
+            if id==1 then
+            复制文本(lstweb[b])
+            elseif id==2 then
+            table.remove(lst,b)table.remove(lstweb,b)save_hst()ls.dismiss()show_hst()
+            elseif id==3 then
+            File(lstwebads).delete()File(lstads).delete()File(lstwebads).createNewFile()File(lstads).createNewFile()ls.dismiss()show_hst()
+            end
+          end})
+      end)
     return true
-    end)end
+    end
   end
-  end)
-end
 function getAllData(name)
   local data={}
   for d in each(this.getApplicationContext().getSharedPreferences(name,0).getAll().entrySet()) do
@@ -2963,19 +3036,6 @@ function adapterData(data,jdpuk)
   end
   return adpd
 end
-
-local listlayout={
-  LinearLayout,
-  orientation="1",
-  layout_width="fill",
-  layout_height="wrap_content",
-  {
-    ListView,
-    id="list",
-    --items={"3","2","5","5","2","7","3","2"},
-    layout_width="fill",
-  }
-}
 local inputlayout={
   LinearLayout,
   orientation="vertical",
@@ -2991,7 +3051,7 @@ local inputlayout={
     layout_gravity="center",
   },
 }
-local input2layout={
+input2layout={
   LinearLayout,
   orientation="vertical",
   Focusable=true,
@@ -3005,7 +3065,6 @@ local input2layout={
     layout_width="80%w",
     layout_gravity="center",
     hintTextColor=yys,
-    textColor=yjys,
     },
   {
     EditText,
@@ -3016,7 +3075,6 @@ local input2layout={
     layout_width="80%w",
     layout_gravity="center",
     hintTextColor=yys,
-    textColor=yjys,
     },
   {
     LinearLayout,
@@ -3052,7 +3110,15 @@ local input2layout={
   }
 
 function showDataDialog(name,title,jdpuk)
-  item={
+if zybjtdz=="" then
+  yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
+  if yj=="开"then
+    lspixel=0xFF1C1E2A lspixel2=-1
+  else
+    lspixel=-1 lspixel2=-16777216
+  end
+end
+item={
     LinearLayout,
     orientation="vertical",
     layout_width="fill",
@@ -3060,113 +3126,190 @@ function showDataDialog(name,title,jdpuk)
       TextView,
       id="text",
       textSize="16sp",
-      layout_margin="10dp",
+      layout_margin="15dp",
       layout_width="fill",
-      layout_width="70%w",
-      layout_gravity="center",
-      textColor=yjys,
+      textColor=lspixel2,
     },
   }
-  local data=getAllData(name)
-  local keys=listKeys(data)
-  local dlb=圆角对话框()
-  dlb.设置圆角("32dp")
-  dlb.设置标题(title)
-  local dl
-  if #keys>0 then
-  dlb.添加布局(listlayout) 
-  else
-  dlb.设置消息("空空如也…")end 
-  dlb.设置中立按钮("新建书签",function()task(150,function()addDataDialog(name,"新建书签")end)end)
-  dl=dlb.显示(function()local data=getAllData(name)
-  local keys=listKeys(data)
-  local values=listValues(data)
-  local adpd=adapterData(values)
-  local items=LuaAdapter(this,adpd,item)
-  local dl
-  if #keys>0 then
-    list.setDividerHeight(0)
-    list.Adapter=items
-    if (cardh+(#adpd)*geth(list))>0.78*h then seth(list,0.7*h)end
-    list.onItemClick=function(adp,view,position,id)--3255273 2
-      webView.loadUrl(keys[id])
-      gbzy()
-        pop.dismiss()
-    end
-    list.onItemLongClick=function(adp,view,pos,id)--325 52732
-      pop.dismiss()
-      task(150,function()
-      圆角对话框()
-      .设置标题(title)
-      .设置圆角("32dp")
-      .添加布局(input2layout)
-      .设置积极按钮("保存",function()--32552732
-        if not(edit1.text=="") and not(edit2.text=="") or 3255==2732 then
-        if tjzy==0 then
-        dqsq=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
-        for i=1,#dqsq do
-        url=dqsq:sub(i,i+#(edit2.text)-1)
-        if url==edit2.text then print"该链接已存在主页书签" break
-        elseif i==#dqsq-#(edit2.text) or #dqsq<#(edit2.text) then
-        sq=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
-        b=loadstring("return "..sq);
-        sq=b();
-        zysqys=math.random(-16760000,-11000)
-        if string.byte(edit1.text,1)>=226 and string.byte(edit1.text,1)<=233 then
-        wb=edit1.text:sub(1,3)
-        else
-        wb=edit1.text:sub(1,1)
-        end
-        xrsq="wb"..(sq.gs+1).."='"..wb.."',name"..(sq.gs+1).."='"..edit1.text.."',color"..(sq.gs+1).."='"..zysqys.."',url"..(sq.gs+1).."='"..edit2.text.."',\n"
-        dqsq=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
-        xrsqz=dqsq:match("(.+)created by xm")xrsqz=xrsqz:sub(1,#xrsqz-2)xrsqy=dqsq:match("--created by xm(.+)")
-        xrsq=(xrsqz..xrsq.."--created by xm"..xrsqy):gsub("gs="..sq.gs,"gs="..(sq.gs+1))
-        io.open("/data/data/"..activity.getPackageName().."/书签","w+"):write(xrsq):close()
-        dqsq2=io.open("/data/data/"..activity.getPackageName().."/书签2"):read("*a")
-        xrsq2="sq"..(sq.gs+1)..".onLongClick=function()url=sq.url"..(sq.gs+1).." name=sq.name"..(sq.gs+1).." sqid="..(sq.gs+1).." wb=sq.wb"..(sq.gs+1).." color=sq.color"..(sq.gs+1).." zysqcz()end\n--shuqian"
-        xrsq2=dqsq2:gsub("--shuqian",xrsq2)
-        io.open("/data/data/"..activity.getPackageName().."/书签2","w+"):write(xrsq2):close()
-        break
-        end
-        end
-        end
-        removeData(name,keys[id])
-          putData(name,edit2.text,edit1.text)--32552732
-            pop.dismiss()
-            task(150,function()
-            showDataDialog(name,title)end)
-        else
-          弹出消息("请填写所有字段")
-        end
-      end)
-      .设置消极按钮("取消",function()task(150,function()showDataDialog("Collection","书签")end)end)
-      .设置中立按钮("删除",function()
-        removeData(name,keys[id])
-        items.remove(pos)
-        table.remove(keys,id)
-        table.remove(values,id)
-        pop.dismiss()
-        task(150,function()
-        showDataDialog(name,title);end)
-      end)
-      .显示(function()
-      tjzy=nil
-  tjdzy.onClick=function()
-    if tjzy==nil then
-      tjzy=0
-      yuandian.setCardBackgroundColor(0xFF6D8DE0)
-      else
-      tjzy=nil
-      yuandian.setCardBackgroundColor(0x00000000)
-      end
-    end
-    edit1.setText(values[id])
-      edit2.setText(keys[id])
-      return true end)
-      end)
-    end
+书签布局={
+  LinearLayout,
+  orientation="vertical",
+  id="sqbj",
+  layout_height=h,
+  background=io.open("/data/data/"..activity.getPackageName().."/主页背景图地址"):read("*a"),
+  {
+    LinearLayout,
+    orientation="horizontal",
+    layout_width=w,
+    layout_height=geth(toolbar),
+    backgroundColor=lspixel,
+  {
+      ImageView,
+      layout_marginLeft="7dp",
+      layout_width="18dp",
+      layout_gravity="center",
+      layout_height="18dp",
+      src="http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0",
+      ColorFilter=lspixel2,
+      onClick=function()xssq.dismiss()end,
+    },
+  {
+    LinearLayout,   
+    layout_marginLeft="7dp",
+    orientation="vertical",
+    {
+      LinearLayout,
+      layout_height=geth(toolbar),
+      layout_width=w-2*geth(toolbar),
+      {
+        TextView,
+        layout_gravity="center",
+        textColor=lspixel2,
+        text="书签",
+        textSize="10dp",
+        backgroundColor=lspixel,
+        },
+      },
+    },
+  {
+    ImageView,
+    layout_marginLeft="7dp",
+    layout_width="18dp",
+    layout_gravity="center",
+    layout_height="18dp",
+    src="http://shp.qpic.cn/collector/2530648358/7240777b-c5dc-4478-aeba-c8ec1ed01057/0",   
+    ColorFilter=lspixel2,
+    onClick=function()xssq.dismiss()showDataDialog(name,title)end,
+    },
+  },
+{
+  ListView,
+  id="list",
+  layout_width=w,
+  layout_height=h-geth(toolbar)-getStatusBarHeight(),
+  },
+{
+  LinearLayout,
+  id="wsq",
+  visibility=4,
+  layout_marginTop=-(h-geth(toolbar)-getStatusBarHeight()),
+  layout_width=w,
+  layout_height=2*geth(toolbar)+2*getStatusBarHeight(),
+  gravity="center",
+  {
+    TextView,
+    text="空空如也…",
+    textSize="10dp",
+    textColor=lspixel2,
+    },
+  },
+}
+xssq=PopupWindow(loadlayout(书签布局))
+xssq.setFocusable(true)
+xssq.setWidth(w)
+xssq.setHeight(h)
+xssq.setTouchable(true)
+xssq.setOutsideTouchable(false)
+xssq.showAtLocation(fltBtn.Parent,0,0,0)
+local data=getAllData(name)
+local keys=listKeys(data)
+local values=listValues(data)
+local adpd=adapterData(values)
+local items=LuaAdapter(this,adpd,item)
+local dl
+if zybjtdz==""then
+sqbj.setBackgroundColor(lspixel)
+end
+if #keys>0then
+  list.setDividerHeight(0)
+  list.Adapter=items
+  list.onItemClick=function(adp,view,position,b)--3255273 2
+    gbzy()加载网页(keys[b])xssq.dismiss()
   end
-  end)
+  list.onItemLongClick=function(adp,view,position,b)
+    xssq.dismiss()showDataDialog(name,title)
+    item={
+    ListView,
+    id="lb",
+    items={"复制链接","编辑","删除"},
+    layout_width="fill",
+    }
+      圆角对话框()
+      .设置圆角("32dp")
+      .添加布局(item)
+      .显示(function()
+         lb.setOnItemClickListener(AdapterView.OnItemClickListener{
+         onItemClick=function(parent, v, pos,id)
+         pop.dismiss()
+         if id==1 then
+           复制文本(keys[b])
+         elseif id==2 then
+           task(150,function()
+             圆角对话框()
+             .设置标题(title)
+             .设置圆角("32dp")
+             .添加布局(input2layout)
+             .设置积极按钮("保存",function()
+               if not(edit1.text=="") and not(edit2.text=="") or 3255==2732 then
+                 if tjzy==0 then
+                   dqsq=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
+                   for i=1,#dqsq do
+                     url=dqsq:sub(i,i+#(edit2.text)-1)
+                     if url==edit2.text then print"该链接已存在主页书签" break
+                       elseif i==#dqsq-#(edit2.text) or #dqsq<#(edit2.text) then
+                       sq=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
+                       b=loadstring("return "..sq);
+                       sq=b();
+                       zysqys=math.random(-16760000,-11000)
+                       if string.byte(edit1.text,1)>=226 and string.byte(edit1.text,1)<=233 then
+                         wb=edit1.text:sub(1,3)
+                         else
+                         wb=edit1.text:sub(1,1)
+                         end
+                       xrsq="wb"..(sq.gs+1).."='"..wb.."',name"..(sq.gs+1).."='"..edit1.text.."',color"..(sq.gs+1).."='"..zysqys.."',url"..(sq.gs+1).."='"..edit2.text.."',\n"
+                       dqsq=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
+                       xrsqz=dqsq:match("(.+)created by xm")xrsqz=xrsqz:sub(1,#xrsqz-2)xrsqy=dqsq:match("--created by xm(.+)")
+                       xrsq=(xrsqz..xrsq.."--created by xm"..xrsqy):gsub("gs="..sq.gs,"gs="..(sq.gs+1))
+                       io.open("/data/data/"..activity.getPackageName().."/书签","w+"):write(xrsq):close()
+                       dqsq2=io.open("/data/data/"..activity.getPackageName().."/书签2"):read("*a")
+                       xrsq2="sq"..(sq.gs+1)..".onLongClick=function()url=sq.url"..(sq.gs+1).." name=sq.name"..(sq.gs+1).." sqid="..(sq.gs+1).." wb=sq.wb"..(sq.gs+1).." color=sq.color"..(sq.gs+1).." zysqcz()end\n--shuqian"
+                       xrsq2=dqsq2:gsub("--shuqian",xrsq2)
+                       io.open("/data/data/"..activity.getPackageName().."/书签2","w+"):write(xrsq2):close()
+                       break
+                       end
+                     end
+                   end
+                 removeData(name,keys[b])
+                 putData(name,edit2.text,edit1.text)
+                 xssq.dismiss()showDataDialog(name,title)
+                 else
+                 print"请填写所有字段"
+                 end
+               end)
+             .设置消极按钮("取消")
+             .显示(function()
+               tjzy=nil
+               tjdzy.onClick=function()
+                 if tjzy==nil then
+                   tjzy=0yuandian.setCardBackgroundColor(0xFF6D8DE0)
+                   else
+                   tjzy=nil yuandian.setCardBackgroundColor(0x00000000)
+                   end
+                 end
+               edit1.setText(values[b])
+               edit2.setText(keys[b])
+               edit1.setTextColor(yjys)edit2.setTextColor(yjys)
+               return true end)
+             end)
+         elseif id==3 then
+           removeData(name,keys[b])items.remove(position)table.remove(keys,b)table.remove(values,b)xssq.dismiss()showDataDialog(name,title)
+        end
+      end})
+    end)
+  end
+else
+  wsq.setVisibility(0)
+  end
 end
 
 function addDataDialog(name,title,value,key)--32552732
@@ -3219,7 +3362,7 @@ function addDataDialog(name,title,value,key)--32552732
   end)
   .设置消极按钮("取消",function()end)
   .显示(function()
-  tjzy=nil
+  edit1.setTextColor(yjys)edit2.setTextColor(yjys)tjzy=nil
   tjdzy.onClick=function()
     if tjzy==nil then
       tjzy=0
