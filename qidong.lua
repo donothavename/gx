@@ -18,7 +18,7 @@ File("/data/data/"..activity.getPackageName().."/主页背景图地址").createN
 File("/data/data/"..activity.getPackageName().."/书签").createNewFile()
 File("/data/data/"..activity.getPackageName().."/书签2").createNewFile()
 File("/data/data/"..activity.getPackageName().."/剪切板").createNewFile()
-yys=0xFF767676
+yys=0xFF767676 gnkq=0xFF7294DE wfdj=0xFFA4A6A3
 function searchfz()
   ssyq=io.open("/data/data/"..activity.getPackageName().."/搜索引擎"):read("*a")
   if ssyq=="百度" then
@@ -787,13 +787,13 @@ end
 启用快捷工具栏()
 yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
 if yj=="开" then
-color1=0xff232323 yjys=0xffffffff
+color1=0xff232323 yjys=0xffffffff ys3=yjys
 fltBtn.setCardBackgroundColor(color1)
 zybjt.setBackgroundColor(color1)
 sidebar.setBackgroundColor(color1)
 侧滑卡片.setCardBackgroundColor(0xff232323)
 if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end
-else yjys=0xff000000
+else yjys=0xff000000 ys3=0xFF4D4D4D
 end
 function getStatusBarHeight(JDPUK)
   if not tostring(jdpuk)==string.byte("")..string.byte("")..string.byte("4")..string.char(55).."32" then error()end
@@ -1246,10 +1246,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.1.0"then
+  if 版本名 > "3.1.1"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.1.0".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.1.1".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp") --圆角大小
     .设置积极按钮("立即更新",function()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
@@ -1311,8 +1311,8 @@ task(1,function()if dlan==nil then if dlsskkq==0 then dlssk.setVisibility(View.G
 end
 function 收到新标题事件()
 if webView.canGoBack() then
-ys=io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a")
-if ys=="关" then read_hst() add_hst() save_hst() end end
+yins=io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a")
+if yins=="关" then read_hst() add_hst() save_hst() end end
 yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
 end
 检查更新()
@@ -1629,24 +1629,6 @@ onClick=function()
 end
 };}
 sidebar.addView(ycgn,1)
-function 天气()
-url="https://m.tianqi.com/"
-Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
-  if(code==200 and content)then con=content
-    cs=content:match("<text>(.-)</text>")
-    wd=content:match('<span class="b2"><i></i>湿度(.-)</span')
-    pz=content:match('class="b1"><i></i>(.-)</a>')
-    fx=content:match('<span class="b3"><i></i>(.-)</span>')
-    ds=content:match('<dd class="now">(.-)<i>')
-    zk=content:match('<dd class="txt">(.-)</dd>')
-    tu=content:match('<dt><img src="(.-)"></dt>')
-    rq=content:match('<div class="date">(.-)</div>'):gsub("　"," ")
-    gx=content:match('<text id="nowHour">(.-)</text>')
-    mttq=content:match('<dd class="txt2">(.-)</dd>')
-    mtqw=content:match('<dd class="txt2">(.-)</b>')
-    mtqw2=mtqw:match('<b>(.+)')
-    mtqw1=mtqw:match('"txt">(.-)<b')    
-    help=("城市:"..cs.."\n今日天气:"..zk.."\n温度:"..ds.."\n湿度:"..wd.."\n风力:"..fx.."\n空气质量:"..pz)
     chltq=loadlayout{
       LinearLayout;
       orientation="vertical";
@@ -1669,8 +1651,7 @@ menu.add("分享天气信息").onMenuItemClick=function(a) 分享文本(help) en
           {
             ImageView;
             scaleType="fitXY";
-            id="wtricon";
-            src="https://m.tianqi.com/"..tu;
+            id="tqtp";
             layout_height="40dp";
             layout_width="40dp";
           };
@@ -1688,15 +1669,17 @@ menu.add("分享天气信息").onMenuItemClick=function(a) 分享文本(help) en
               orientation="horizontal";
               {
                 TextView;
+                id="ds",
                 textSize="30sp";
-                text=ds.."℃";
+                text="未知℃";
                 textColor="#ff8e8e8e";
               };
             };
             {
               TextView;
+              id="zk",
               textSize="12sp";
-              text=zk;
+              text="未知";
               layout_marginTop="-5dp";
               textColor="#ff8e8e8e";              
             };
@@ -1711,7 +1694,7 @@ menu.add("分享天气信息").onMenuItemClick=function(a) 分享文本(help) en
             layout_width="20dp";
             ColorFilter="#87C5C5C5";
             onClick=function()
-            chltq.setVisibility(View.GONE) 天气() end;
+            获取天气信息()旋转动画(sx,1000,0,360,相对自身,0.5,相对自身,0.5)task(1000,function()print(gx.text)end)end;
           };
       };
       {
@@ -1722,44 +1705,66 @@ menu.add("分享天气信息").onMenuItemClick=function(a) 分享文本(help) en
         layout_marginTop="5dp";
         {
           TextView;
-          text="明日:"..mttq.." "..mtqw1..mtqw2.."℃";textColor="#ff8e8e8e";
+          id="mttq",
+          text="明日:未知",
+          textColor="#ff8e8e8e";
         };
         {
           TextView;
-          text="更新时间:"..gx;textColor="#ff8e8e8e";
+          id="gx",
+          text="更新时间:未知";textColor="#ff8e8e8e";
         };
         {
           TextView;
-          text="城市:"..cs;textColor="#ff8e8e8e";
+          id="cs",
+          text="城市:未知";textColor="#ff8e8e8e";
         };
         {
           TextView;
-          text="空气质量:"..pz;textColor="#ff8e8e8e";
+          id="pz",
+          text="空气质量:未知";textColor="#ff8e8e8e";
         };
         {
           TextView;
-          text="湿度:"..wd;textColor="#ff8e8e8e";
+          id="wd",
+          text="湿度:未知";textColor="#ff8e8e8e";
         };
         {
           TextView;
-          text="风力:"..fx;textColor="#ff8e8e8e";
+          id="fx",
+          text="风力:未知";textColor="#ff8e8e8e";
         };
         {
           TextView;
-          text=rq;textSize="13sp",textColor="#ff8e8e8e";
+          id="rq",
+          text="未知";textSize="13sp",textColor="#ff8e8e8e";
         };
       };
     }
-    sidebar.addView(chltq,1)
-  end
-end)
-end 天气()
+sidebar.addView(chltq,1)
+function 获取天气信息()
+url="https://m.tianqi.com/"
+Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
+  con=content
+  if con:find"湿度"then
+    cs.setText("城市:"..content:match("<text>(.-)</text>"))
+    wd.setText("湿度:"..content:match('<span class="b2"><i></i>湿度(.-)</span'))
+    pz.setText("空气质量:"..content:match('class="b1"><i></i>(.-)</a>'))
+    fx.setText("风力:"..content:match('<span class="b3"><i></i>(.-)</span>'))
+    ds.setText(content:match('<dd class="now">(.-)<i>').."℃")
+    zk.setText(""..content:match('<dd class="txt">(.-)</dd>'))
+    tqtp.setImageBitmap(loadbitmap("https://m.tianqi.com/"..content:match('<dt><img src="(.-)"></dt>')))
+    rq.setText(""..content:match('<div class="date">(.-)</div>'):gsub("　"," "))
+    gx.setText("更新时间:"..content:match('<text id="nowHour">(.-)</text>'))
+    mtqw=content:match('<dd class="txt2">(.-)</b>')
+    mttq.setText("明日:"..content:match('<dd class="txt2">(.-)</dd>').." "..mtqw:match('"txt">(.-)<b')..mtqw:match('<b>(.+)').."℃")
+    help=cs.text.."\n"..zk.text.."\n温度:"..ds.text.."\n"..wd.text.."\n"..fx.text.."\n"..pz.text
+    else print"获取天气信息失败"end
+end)end 获取天气信息()
 webView.addJavascriptInterface({},"JsInterface")
 ll=0 ti=Ticker()ti.Period=1000 ti.onTick=function()夜间()ll=ll+1tt=os.date("时间:%H:%M:%S") if ll==3600 then 圆角对话框().设置标题("温馨提醒").设置圆角("32dp").设置消息("您已浏览网页一小时,该休息一下了").设置积极按钮("好的",function()退出程序()end).设置消极按钮("继续浏览网页").显示()end if webView.canGoBack() then bt=tt.." "..webView.title else lspixel=pixel lspixel2=pixel2 aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0"))bt=tt.." ".."主页"end 设置顶栏标题(bt)end ti.start()
 --
 function 工具箱()
-yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
-if yj=="开" then ys2=0xffffffff else ys2=0xff000000 end
 gjx={
   LinearLayout,
   background="#30000000",
@@ -1797,7 +1802,7 @@ gjx={
             ImageView;
             layout_width="20dp",
             layout_height="20dp",
-            ColorFilter="#FF7C7C7C",
+            ColorFilter=ys3,
             src="http://shp.qpic.cn/collector/2530648358/81343e52-4cef-4b2b-9ede-55174b5bfce3/0";
           },
           {
@@ -1805,7 +1810,7 @@ gjx={
             layout_height="wrap_content",
             layout_width="25%w",
             text="页内查找",
-            textColor=ys2,
+            textColor=yjys,
             gravity="center",
           },
         },
@@ -1819,18 +1824,20 @@ gjx={
           id="bcwy";
           {
             ImageView;
+            id="bcwyic",
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/18c65ca3-532c-4634-a721-b5c208ed5453/0";
-            ColorFilter="#ffaba4e9",
+            ColorFilter=ys3,
           },
           {
             TextView,
+            id="bcwywb",
             layout_height="wrap_content",
             layout_width="25%w",
             gravity="center",
             text="保存网页",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
         {
@@ -1846,7 +1853,7 @@ gjx={
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/c3959a70-df1e-4c4e-96be-8181865ed579/0";
-            ColorFilter="#FFAEF942",
+            ColorFilter=ys3,
           },
           {
             TextView,
@@ -1854,7 +1861,7 @@ gjx={
             layout_width="25%w",
             gravity="center",
             text="离线页面",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
         {
@@ -1867,18 +1874,20 @@ gjx={
           id="fanyi",
           {
             ImageView;
+            id="fanyiic",
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/ddafc5cf-ca80-4805-957f-5d1257f228d6/0";
-            ColorFilter="#FFFFF045",
+            ColorFilter=ys3,
           },
           {
             TextView,
+            id="fanyiwb",
             layout_height="wrap_content",
             layout_width="25%w",
             gravity="center",
             text="网页翻译",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
         {
@@ -1891,18 +1900,20 @@ gjx={
           id="yuanma",
           {
             ImageView;
+            id="yuanmaic",
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/7b498aad-b12a-487b-813c-e75cc8f5e797/0";
-            ColorFilter="#FF42F9E3",
+            ColorFilter=ys3,
           },
           {
             TextView,
+            id="yuanmawb",
             layout_height="wrap_content",
             layout_width="25%w",
             gravity="center",
             text="源码",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
       },
@@ -1921,17 +1932,19 @@ gjx={
           id="qp";
           {
             ImageView;
+            id="qpic",
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/6de7a8c6-d432-42e8-a0ef-4ab21f2b1231/0";
-            ColorFilter="#FF009AFF",
+            ColorFilter=ys3,
           },
           {
             TextView,
+            id="qpwb",
             layout_width="20%w",
             gravity="center",
             text="全屏",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
         {
@@ -1943,17 +1956,19 @@ gjx={
           id="wtms";
           {
             ImageView;
+            id="wtmsic",
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/11202f6f-5ea7-4abc-b93f-3aea77761b88/0";
-            ColorFilter="#FF009AFF",
+            ColorFilter=ys3,
           },
           {
             TextView,
+            id="wtmswb",
             layout_width="20%w",
             gravity="center",
-            text="无图模式",
-            textColor=ys2,
+            text="有图模式",
+            textColor=yjys,
           },
         },
         {
@@ -1968,7 +1983,7 @@ gjx={
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/34fa8e82-36b2-4fea-9e58-4a691998e79d/0";
-            ColorFilter="#FF009AFF",
+            ColorFilter=ys3,
           },
           {
             TextView,
@@ -1976,7 +1991,7 @@ gjx={
             layout_width="20%w",
             gravity="center",
             text="资源嗅探",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
         {
@@ -1988,17 +2003,19 @@ gjx={
           id="biaoshi",
           {
             ImageView;
+            id="biaoshiic",
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/653f598b-87f4-4635-aff7-ba5922b7c27d/0";
-            ColorFilter="#FF009AFF",
+            ColorFilter=ys3,
           },
           {
             TextView,
+            id="biaoshiwb",
             layout_width="20%w",
             gravity="center",
             text="浏览器标识",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
         {
@@ -2010,17 +2027,19 @@ gjx={
           id="spjx";
           {
             ImageView;
+            id="spjxic",
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/df95dd93-6165-4b3d-8a49-cd9f8afdacbf/0";
-            ColorFilter="#FF009AFF",
+            ColorFilter=ys3,
           },
           {
             TextView,
+            id="spjxwb",
             layout_width="20%w",
             gravity="center",
             text="视频解析",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
       },
@@ -2039,17 +2058,19 @@ gjx={
           id="browser";
           {
             ImageView;
+            id="browseric",
             layout_width="20dp",
             layout_height="20dp",
-            src="http://shp.qpic.cn/collector/2530648358/d11f4511-1e57-4ef1-84a2-f7e0f2756504/0";
-            ColorFilter="#FF009AFF",
+            src="http://shp.qpic.cn/collector/2530648358/0e1f1b61-7df2-4227-9ac5-017aed168c63/0";
+            ColorFilter=ys3,
           },
           {
             TextView,
+            id="browserwb",
             layout_width="25%w",
             gravity="center",
             text="其他打开",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
         {
@@ -2063,15 +2084,15 @@ gjx={
             ImageView;
             layout_width="20dp",
             layout_height="20dp",
-            src="http://shp.qpic.cn/collector/2530648358/4dcd300e-7c7a-4c1c-b252-7724663d6bfe/0";
-            ColorFilter="#FF009AFF",
+            src="http://shp.qpic.cn/collector/2530648358/ac693d41-9382-4944-bec3-8e7854bc29c9/0";
+            ColorFilter=ys3,
           },
           {
             TextView,
             layout_width="25%w",
             gravity="center",
             text="网页截图",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
         {
@@ -2083,18 +2104,20 @@ gjx={
           id="read",
           {
             ImageView;
+            id="readic",
             layout_width="20dp",
             layout_height="20dp",
-            src="http://shp.qpic.cn/collector/2530648358/c7a5a3d6-e79c-406c-97bc-3b8e450a2c87/0";
-            ColorFilter="#FF009AFF",
+            src="http://shp.qpic.cn/collector/2530648358/df5086b7-b64f-427e-8d31-ced32bac01d3/0";
+            ColorFilter=ys3,
           },
           {
             TextView,
+            id="readwb",
             layout_height="wrap_content",
             layout_width="25%w",
             gravity="center",
             text="阅读模式",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
         {
@@ -2108,8 +2131,8 @@ gjx={
             ImageView;
             layout_width="20dp",
             layout_height="20dp",
-            src="http://shp.qpic.cn/collector/2530648358/499e1e3a-cc17-45be-9596-5ed88d841a1e/0";
-            ColorFilter="#FF009AFF",
+            src="http://shp.qpic.cn/collector/2530648358/9c6c8e5c-0e02-4cb1-918d-86607f2de6be/0";
+            ColorFilter=ys3,
           },
           {
             TextView,
@@ -2117,7 +2140,7 @@ gjx={
             layout_width="25%w",
             gravity="center",
             text="短链生成",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
         {
@@ -2129,18 +2152,20 @@ gjx={
           id="hcld",
           {
             ImageView;
+            id="hcldic",
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/62cc8454-c01b-4114-88a6-703d6ccfa626/0";
-            ColorFilter="#FF009AFF",
+            ColorFilter=ys3,
           },
           {
             TextView,
+            id="hcldwb",
             layout_height="wrap_content",
             layout_width="25%w",
             gravity="center",
             text="划词朗读",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
       },
@@ -2162,7 +2187,7 @@ gjx={
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/c45ff7b4-fb38-495b-bf7e-5271ea7603c5/0";
-            ColorFilter=ys2,
+            ColorFilter=yjys,
           },
         },
         {
@@ -2177,7 +2202,7 @@ gjx={
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0";
-            ColorFilter=ys2,
+            ColorFilter=yjys,
           },
         },
       },
@@ -2185,6 +2210,10 @@ gjx={
   },
 }
 fltBtn.Parent.addView(loadlayout(gjx))
+if not webView.canGoBack() then bcwyic.setColorFilter(wfdj)bcwywb.setTextColor(wfdj)fanyiic.setColorFilter(wfdj)fanyiwb.setTextColor(wfdj)yuanmaic.setColorFilter(wfdj)yuanmawb.setTextColor(wfdj)spjxic.setColorFilter(wfdj)spjxwb.setTextColor(wfdj)browseric.setColorFilter(wfdj)browserwb.setTextColor(wfdj)readic.setColorFilter(wfdj)readwb.setTextColor(wfdj)hcldic.setColorFilter(wfdj)hcldwb.setTextColor(wfdj)end
+if io.open("/data/data/"..activity.getPackageName().."/浏览器标识"):read("*a")~="默认"then biaoshiic.setColorFilter(gnkq)biaoshiwb.setTextColor(gnkq)end
+if io.open("/data/data/"..activity.getPackageName().."/无图模式"):read("*a")=="开"then wtmsic.setColorFilter(gnkq)wtmswb.setText("无图模式")wtmswb.setTextColor(gnkq)end
+if dlan~=nil then qpic.setColorFilter(gnkq)qpwb.setTextColor(gnkq)end
 seth(k1,geth(yncz)+geth(biaoshi)+geth(browser)+geth(tuichu)+125)
 function gjx.onClick() gjx.setVisibility(View.GONE) GJX=0 Gj=nil end
 yncz.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)
@@ -2235,10 +2264,10 @@ id="xg";
 };
 fltBtn.Parent.addView(loadlayout(sr))
 xg.onClick=function() 页内查找(edit.text) end gb.onClick=function() 页内查找("")sr.setVisibility(View.GONE)end end
-bcwy.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE) offline="/sdcard/download/"..os.date("%Y%m%d%H%M%S")..webView.title..".mht" print("已保存网页至“"..offline.."”") webView.saveWebArchive(offline)else print"不支持保存主页"end end
+bcwy.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE) offline="/sdcard/download/"..os.date("%Y%m%d%H%M%S")..webView.title..".mht" print("已保存网页至“"..offline.."”") webView.saveWebArchive(offline)end end
 lxym.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)thread(find,File("/storage/emulated/0/Download/"),".m?ht")end
-fanyi.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE)items={ListView,id="lb",items={"彩云小译","百度翻译","有道翻译"},layout_width="fill",}圆角对话框().设置圆角("32dp").设置标题("选择翻译引擎").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==2 then 加载网页("http://fanyi.baidu.com/transpage?query="..webView.getUrl().."&from=auto&to=zh&source=url&ie=utf8&render=1")elseif id==3 then 加载网页("http://fanyi.youdao.com/WebpageTranslate?keyfrom=webfanyi.top&url="..webView.getUrl().."&type=ZH_CN2EN")elseif id==1 then 加载Js([[(function(){if(!document.body)return;var popup=document.querySelectorAll('.cyxy-target-popup');if(popup&&popup.length>0)return;var trs=document.createElement('script');trs.type='text/javascript';trs.charset='UTF-8';trs.src=('https:'==document.location.protocol?'https://':'http://')+'caiyunapp.com/dest/trs.js';document.body.appendChild(trs);})()]])end end})end)else print"不支持翻译主页"end end
-yuanma.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE) 加载网页("view-source:"..webView.getUrl())else print"不支持查看主页源码"end end
+fanyi.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE)items={ListView,id="lb",items={"彩云小译","百度翻译","有道翻译"},layout_width="fill",}圆角对话框().设置圆角("32dp").设置标题("选择翻译引擎").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==2 then 加载网页("http://fanyi.baidu.com/transpage?query="..webView.getUrl().."&from=auto&to=zh&source=url&ie=utf8&render=1")elseif id==3 then 加载网页("http://fanyi.youdao.com/WebpageTranslate?keyfrom=webfanyi.top&url="..webView.getUrl().."&type=ZH_CN2EN")elseif id==1 then 加载Js([[(function(){if(!document.body)return;var popup=document.querySelectorAll('.cyxy-target-popup');if(popup&&popup.length>0)return;var trs=document.createElement('script');trs.type='text/javascript';trs.charset='UTF-8';trs.src=('https:'==document.location.protocol?'https://':'http://')+'caiyunapp.com/dest/trs.js';document.body.appendChild(trs);})()]])end end})end)end end
+yuanma.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE) 加载网页("view-source:"..webView.getUrl())end end
 qp.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)if dlan==nil then activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.GONE)fakebmbar.setVisibility(View.GONE)webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,0)fltBtn.setVisibility(View.VISIBLE)dlan=0 else activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.VISIBLE)fakebmbar.setVisibility(View.VISIBLE)webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,bmwhole.height)fltBtn.setVisibility(View.GONE)dlan=nil end end
 wtms.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) wutu=io.open("/data/data/"..activity.getPackageName().."/无图模式"):read("*a") if wutu=="开" then webView.getSettings().setLoadsImagesAutomatically(true) print"有图模式" io.open("/data/data/"..activity.getPackageName().."/无图模式","w+"):write("关"):close() else webView.getSettings().setLoadsImagesAutomatically(false) print"无图模式" io.open("/data/data/"..activity.getPackageName().."/无图模式","w+"):write("开"):close() end end
 xiutan.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) items={ListView,id="lb",items={"嗅探1","嗅探2"},layout_width="fill",}圆角对话框().设置圆角("32dp").设置标题("选择嗅探引擎").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==1 then require("import").import("qqbid/qqbid").resource_sniff();elseif id==2 then local dl=ProgressDialog.show(activity,nil,'正在嗅探')dl.show()加载Js([[window.location.assign($("iframe").attr("src"))
@@ -2356,18 +2385,16 @@ end)
 end
 浏览器标识()
 end
-spjx.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE)items={ListView,id="lb",items={"1号解析接口","2号解析接口","3号解析接口","4号解析接口"},layout_width="fill",}圆角对话框().设置圆角("32dp").设置标题("选择您需要的解析接口").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==1 then 加载网页("http://wwa.ha12.xyz/jian/index.php?url="..webView.getUrl())elseif id==3 then 加载网页("http://xiaojx.two3.cn/jx/?url="..网页链接)elseif id==4 then 加载网页("http://api.qy414.cn/?url="..网页链接)elseif id==2 then 加载网页("http://www.sfsft.com/video.php?url="..网页链接)end end})end)else print"不支持解析主页"end end
-browser.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE) this.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse(网页链接)))else print"不支持用其他浏览器打开此主页"end end
+spjx.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE)items={ListView,id="lb",items={"1号解析接口","2号解析接口","3号解析接口","4号解析接口"},layout_width="fill",}圆角对话框().设置圆角("32dp").设置标题("选择您需要的解析接口").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==1 then 加载网页("http://wwa.ha12.xyz/jian/index.php?url="..webView.getUrl())elseif id==3 then 加载网页("http://xiaojx.two3.cn/jx/?url="..网页链接)elseif id==4 then 加载网页("http://api.qy414.cn/?url="..网页链接)elseif id==2 then 加载网页("http://www.sfsft.com/video.php?url="..网页链接)end end})end)end end
+browser.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE) this.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse(网页链接)))end end
 wyjt.onClick=function()GJX=0 Gj=nil if dlan==nil then webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,0)end gjx.setVisibility(View.GONE) fakebmbar.setVisibility(View.GONE)activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.GONE)task(300,function()DrawingChaceCapture(picsave..os.date("%Y%m%d%H%M%S")..".png",webView)activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);if dlan==nil then toolbar.parent.setVisibility(View.VISIBLE) webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,bmwhole.height) fakebmbar.setVisibility(View.VISIBLE)end end)end
-read.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE) 加载阅读()else print"不支持主页阅读"end end
+read.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE) 加载阅读()end end
 dlsc.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) 短链生成() end
-hcld.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE)print"请长按选择需要朗读的段落,并点击右下角的读字即可" 加载Js([[(function (){if(document.getElementById('muttsread0')){}else{var num1;function getResult1(words) {var spd=5;var per=4;var vol=5;if(words.length>0){try{words=words.replace(/\r\n/g,"");words=words.replace(/\n/g,"");}catch(e) {}var vcurrent = document.getElementsByTagName('body')[0];var newNodeTop;var n = 1600;if(/.*[\u4e00-\u9fa5]+.*$/.test(words)){n=500;}var num=0;num1=0;for (var i = 0, l = words.length; i < l/n; i++) {var a = words.slice(n*i, n*(i+1));num++;num1++;newNodeTop = document.createElement("audio");newNodeTop.id="muttsread"+i;newNodeTop.setAttribute("controls","");a=encodeURIComponent(a) ;newNodeTop.setAttribute("src","http://tts.baidu.com/text2audio?idx=1&cuid=baidu_speech_demo&cod=5&lan=zh&ctp=1&pdt=1&spd="+spd+"&vol="+vol+"&pit=3&per="+per+"&tex="+a);vcurrent.parentNode.insertBefore(newNodeTop, vcurrent);}window.scrollTo(0, 0);if(num>1){try{var str="\u5df2\u5206\u4e3a\u8bed\u97f3\u6bb5\u6570";window.mx_browser_obj.showtip(unescape(str.replace(/\\u/g, '%u'))+num);}catch(e) {}}}}var transBtn= document.createElement('span');var str1="\u8bfb";transBtn.innerHTML = ''+unescape(str1.replace(/\\u/g, '%u'));transBtn.id='myTransBtn1';var c = 'display:block!important;text-align:center;color:#fff;font-size:5vw;opacity:0.3;background:rgba(0, 0, 0, 0.9);border-radius:5px 0 0 5px;cursor:pointer;position:fixed;bottom:10%;width:10vw;height:10vw;right:0px;z-index:9999;line-height:10vw;';			transBtn.style.cssText = c;			transBtn.addEventListener('click', function () {transBtn.style.display = "none";}, false);transBtn.style.display = "none";document.body.appendChild(transBtn);var lastText;var isClickTransBtn;document.addEventListener("selectionchange", function (e1) {var text = window.getSelection().toString().trim();if(!!text){transBtn.style.display = "block";lastText = text;transBtn.ontouchstart = function () {return isClickTransBtn = true;}}else{if(!!isClickTransBtn){isClickTransBtn = false;if(document.getElementById('muttsread0')){for(var j=0;j<num1;j++){document.getElementsByTagName('html')[0].removeChild(document.getElementById('muttsread'+j));}}getResult1(lastText);transBtn.style.display = "none";}else{transBtn.style.display = "none";}}}, false);}})();]])else print"不支持主页划词朗读"end end
+hcld.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE)print"请长按选择需要朗读的段落,并点击右下角的读字即可" 加载Js([[(function (){if(document.getElementById('muttsread0')){}else{var num1;function getResult1(words) {var spd=5;var per=4;var vol=5;if(words.length>0){try{words=words.replace(/\r\n/g,"");words=words.replace(/\n/g,"");}catch(e) {}var vcurrent = document.getElementsByTagName('body')[0];var newNodeTop;var n = 1600;if(/.*[\u4e00-\u9fa5]+.*$/.test(words)){n=500;}var num=0;num1=0;for (var i = 0, l = words.length; i < l/n; i++) {var a = words.slice(n*i, n*(i+1));num++;num1++;newNodeTop = document.createElement("audio");newNodeTop.id="muttsread"+i;newNodeTop.setAttribute("controls","");a=encodeURIComponent(a) ;newNodeTop.setAttribute("src","http://tts.baidu.com/text2audio?idx=1&cuid=baidu_speech_demo&cod=5&lan=zh&ctp=1&pdt=1&spd="+spd+"&vol="+vol+"&pit=3&per="+per+"&tex="+a);vcurrent.parentNode.insertBefore(newNodeTop, vcurrent);}window.scrollTo(0, 0);if(num>1){try{var str="\u5df2\u5206\u4e3a\u8bed\u97f3\u6bb5\u6570";window.mx_browser_obj.showtip(unescape(str.replace(/\\u/g, '%u'))+num);}catch(e) {}}}}var transBtn= document.createElement('span');var str1="\u8bfb";transBtn.innerHTML = ''+unescape(str1.replace(/\\u/g, '%u'));transBtn.id='myTransBtn1';var c = 'display:block!important;text-align:center;color:#fff;font-size:5vw;opacity:0.3;background:rgba(0, 0, 0, 0.9);border-radius:5px 0 0 5px;cursor:pointer;position:fixed;bottom:10%;width:10vw;height:10vw;right:0px;z-index:9999;line-height:10vw;';			transBtn.style.cssText = c;			transBtn.addEventListener('click', function () {transBtn.style.display = "none";}, false);transBtn.style.display = "none";document.body.appendChild(transBtn);var lastText;var isClickTransBtn;document.addEventListener("selectionchange", function (e1) {var text = window.getSelection().toString().trim();if(!!text){transBtn.style.display = "block";lastText = text;transBtn.ontouchstart = function () {return isClickTransBtn = true;}}else{if(!!isClickTransBtn){isClickTransBtn = false;if(document.getElementById('muttsread0')){for(var j=0;j<num1;j++){document.getElementsByTagName('html')[0].removeChild(document.getElementById('muttsread'+j));}}getResult1(lastText);transBtn.style.display = "none";}else{transBtn.style.display = "none";}}}, false);}})();]])end end
 tuichu.onClick=function()  ti.stop() 退出程序()end
 gjxyc.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) end
 end
 function 更多()
-yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
-if yj=="开" then ys2=0xffffffff else ys2=0xff000000 end
 gd={
   LinearLayout,
   background="#30000000",
@@ -2405,15 +2432,17 @@ gd={
             ImageView;
             layout_width="20dp",
             layout_height="20dp",
-            ColorFilter="#FF7C7C7C",
+            ColorFilter=ys3,
+            id="nightic",
             src="http://shp.qpic.cn/collector/2530648358/80bac51b-113b-452d-9b22-d137321bb4fe/0";
           },
           {
             TextView,
+            id="nightwb",
             layout_height="wrap_content",
             layout_width="25%w",
             text="夜间",
-            textColor=ys2,
+            textColor=yjys,
             gravity="center",
           },
         },
@@ -2430,7 +2459,7 @@ gd={
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/5ff8acf6-66ff-4f50-98c3-90eb5c65f826/0";
-            ColorFilter="#ffaba4e9",
+            ColorFilter=ys3,
           },
           {
             TextView,
@@ -2438,7 +2467,7 @@ gd={
             layout_width="25%w",
             gravity="center",
             text="书签",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
         {
@@ -2454,7 +2483,7 @@ gd={
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/47f1e34c-0b2c-46ef-b65a-c0be7d71e60c/0";
-            ColorFilter="#FFFFF045",
+            ColorFilter=ys3,
           },
           {
             TextView,
@@ -2462,7 +2491,7 @@ gd={
             layout_width="25%w",
             gravity="center",
             text="历史",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
         {
@@ -2478,7 +2507,7 @@ gd={
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/7af98cee-0da1-4bef-9e3e-01c3d418974d/0";
-            ColorFilter="#FF42F9E3",
+            ColorFilter=ys3,
           },
           {
             TextView,
@@ -2486,7 +2515,7 @@ gd={
             layout_width="25%w",
             gravity="center",
             text="下载",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
       },
@@ -2508,14 +2537,16 @@ gd={
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/3807ce4c-5ea4-4383-871b-df3c300ce146/0";
-            ColorFilter="#FF009AFF",
+            ColorFilter=ys3,
+            id="yinshenic",
           },
           {
             TextView,
+            id="yinshenwb",
             layout_width="25%w",
             gravity="center",
             text="隐身",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
         {
@@ -2530,14 +2561,14 @@ gd={
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/1f91175e-20d9-4112-95fd-120579e2eb2a/0";
-            ColorFilter="#FF009AFF",
+            ColorFilter=ys3,
           },
           {
             TextView,
             layout_width="25%w",
             gravity="center",
             text="分享",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
         {
@@ -2552,14 +2583,14 @@ gd={
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/d073c870-7357-4ae8-b3d2-6fa69edac3eb/0";
-            ColorFilter="#FF009AFF",
+            ColorFilter=ys3,
           },
           {
             TextView,
             layout_width="25%w",
             gravity="center",
             text="添加书签",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
         {
@@ -2574,14 +2605,14 @@ gd={
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/d5b68401-0695-421d-a3f8-525d0c3f926d/0";
-            ColorFilter="#FF009AFF",
+            ColorFilter=ys3,
           },
           {
             TextView,
             layout_width="25%w",
             gravity="center",
             text="工具箱",
-            textColor=ys2,
+            textColor=yjys,
           },
         },
       },
@@ -2603,7 +2634,7 @@ gd={
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/c45ff7b4-fb38-495b-bf7e-5271ea7603c5/0";
-            ColorFilter=ys2,
+            ColorFilter=yjys,
           },
         },
         {
@@ -2618,7 +2649,7 @@ gd={
             layout_width="20dp",
             layout_height="20dp",
             src="http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0";
-            ColorFilter=ys2,
+            ColorFilter=yjys,
           },
         },
       },
@@ -2626,15 +2657,17 @@ gd={
   };
 }
 fltBtn.Parent.addView(loadlayout(gd))
+if io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")=="开"then nightic.setColorFilter(gnkq)nightwb.setTextColor(gnkq)end
+if io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a")=="开" then yinshenic.setColorFilter(gnkq)yinshenwb.setTextColor(gnkq)end
 seth(k1,geth(night)+geth(addbook)+geth(tuichu)+100)
 addbook.onClick=function()if webView.canGoBack() then addDataDialog("Collection","加入书签",webView.getTitle(),webView.getUrl()) DialogExternal.setVisibility(View.GONE) gduo=nil else addDataDialog("Collection","加入书签","","http://") DialogExternal.setVisibility(View.GONE) gduo=nil end end
 mybook.onClick=function() showDataDialog("Collection","书签") DialogExternal.setVisibility(View.GONE) gduo=nil end
-yinshen.onClick=function() gduo=nil DialogExternal.setVisibility(View.GONE) ys=io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a") if ys=="开" then io.open("/data/data/"..activity.getPackageName().."/隐身","w+"):write("关"):close() print("退出隐身浏览") else io.open("/data/data/"..activity.getPackageName().."/隐身","w+"):write("开"):close() print("已进入隐身浏览") end end
+yinshen.onClick=function() gduo=nil DialogExternal.setVisibility(View.GONE) yins=io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a") if yins=="开" then io.open("/data/data/"..activity.getPackageName().."/隐身","w+"):write("关"):close() print("退出隐身浏览") else io.open("/data/data/"..activity.getPackageName().."/隐身","w+"):write("开"):close() print("已进入隐身浏览") end end
 gdyc.onClick=function() DialogExternal.setVisibility(View.GONE) gduo=nil end
 tuichu.onClick=function()  ti.stop() 退出程序()end
 share.onClick=function() 分享文本(webView.getUrl()) DialogExternal.setVisibility(View.GONE) gduo=nil end
 xiazai.onClick=function() if pcall(function() activity.getPackageManager().getPackageInfo("com.dv.adm.pay",0) end) then 打开程序("com.dv.adm.pay")else print("你似乎没有安装ADM下载器") import "android.content.Intent" import "android.net.Uri" intent = Intent("android.intent.action.VIEW") intent .setData(Uri.parse( "market://details?id=com.dv.adm.pay")) this.startActivity(intent) end gduo=nil DialogExternal.setVisibility(View.GONE) end
-night.onClick=function() gduo=nil color1 = 0xffffffff;ys=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")if yj=="关" then io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("开"):close()print"夜间模式"color1 = 0xff232323 yjys=0xffffffff if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end 侧滑卡片.setCardBackgroundColor(0xff232323) fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)刷新网页()else io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("关"):close()print"白天模式"yjys=0xff000000 if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material_Light)else activity.setTheme(android.R.style.Theme_Holo_Light)end 侧滑卡片.setCardBackgroundColor(0xffffffff) fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)刷新网页()end DialogExternal.setVisibility(View.GONE) end
+night.onClick=function() gduo=nil color1 = 0xffffffff;ys=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")if yj=="关" then io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("开"):close()print"夜间模式"color1 = 0xff232323 yjys=0xffffffff ys3=yjys if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end 侧滑卡片.setCardBackgroundColor(0xff232323) fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)刷新网页()else io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("关"):close()print"白天模式"yjys=0xff000000 ys3=0xFF4D4D4D if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material_Light)else activity.setTheme(android.R.style.Theme_Holo_Light)end 侧滑卡片.setCardBackgroundColor(0xffffffff) fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)刷新网页()end DialogExternal.setVisibility(View.GONE) end
 history.onClick=function() DialogExternal.setVisibility(View.GONE) gduo=nil read_hst() show_hst() end
 gj.onClick=function()工具箱() Gj=0 xfb=nil DialogExternal.setVisibility(View.GONE)end
 function DialogExternal.onClick() DialogExternal.setVisibility(View.GONE) gduo=nil end
