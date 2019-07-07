@@ -4,6 +4,7 @@ import"RoundedDialog"
 import"read"
 import"zw"
 import "com.my.sc.*"
+import "com.my.sc.MainActivity"
 离线页面="/sdcard/Download/"
 picsave="/storage/emulated/0/Pictures/UTBC浏览器/"
 File(离线页面).mkdirs()
@@ -49,7 +50,7 @@ end
 function searchfz2()
     gbzy()
     pd4=string.sub(bjk,1,4) pd6=string.sub(bjk,1,6) pd7=string.sub(bjk,1,7) pd8=string.sub(bjk,1,8) pd12=string.sub(bjk,1,12)    
-    if bjk:find"com"then ym="com"elseif bjk:find"net"then ym="net"elseif bjk:find"edu"then ym="edu"elseif bjk:find"top"then ym="top"elseif bjk:find"xyz"then ym="xyz"elseif bjk:find"biz"then ym="biz"elseif bjk:find"gov"then ym="gov"elseif bjk:find"info"then ym="info"elseif bjk:find"int"then ym="int"elseif bjk:find"mil"then ym="mil"elseif bjk:find"name"then ym="name"elseif bjk:find"org"then ym="org"elseif bjk:find"pro"then ym="pro"elseif bjk:find"aero"then ym="aero"elseif bjk:find"cat"then ym="cat"elseif bjk:find"coop"then ym="coop"elseif bjk:find"jobs"then ym="jobs"elseif bjk:find"museum"then ym="museum"elseif bjk:find"travel"then ym="travel"elseif bjk:find"mobi"then ym="mobi"elseif bjk:find"asia"then ym="asia"elseif bjk:find"tel"then ym="tel"elseif bjk:find"xxx"then ym="xxx"elseif bjk:find"arpa"then ym="arpa"elseif bjk:find"root"then ym="root"elseif bjk:find"post"then ym="post"elseif bjk:find"geo"then ym="geo"elseif bjk:find"kid"then ym="kid"elseif bjk:find"mail"then ym="mail"elseif bjk:find"sco"then ym="sco"elseif bjk:find"web"then ym="web"elseif bjk:find"nato"then ym="nato"elseif bjk:find"test"then ym="test"elseif bjk:find"bitnet"then ym="bitnet"elseif bjk:find"csnet"then ym="csnet"elseif bjk:find"local"then ym="local"elseif bjk:find"onion"then ym="onion"elseif bjk:find"berlin"then ym="berlin"elseif bjk:find"love"then ym="love"elseif bjk:find"vip"then ym="vip"else ym="" end
+    if bjk:find"com"then ym="com"elseif bjk:find"net"then ym="net"elseif bjk:find"edu"then ym="edu"elseif bjk:find"top"then ym="top"elseif bjk:find"xyz"then ym="xyz"elseif bjk:find"biz"then ym="biz"elseif bjk:find"gov"then ym="gov"elseif bjk:find"info"then ym="info"elseif bjk:find"int"then ym="int"elseif bjk:find"mil"then ym="mil"elseif bjk:find"name"then ym="name"elseif bjk:find"org"then ym="org"elseif bjk:find"pro"then ym="pro"elseif bjk:find"aero"then ym="aero"elseif bjk:find"cat"then ym="cat"elseif bjk:find"coop"then ym="coop"elseif bjk:find"jobs"then ym="jobs"elseif bjk:find"museum"then ym="museum"elseif bjk:find"travel"then ym="travel"elseif bjk:find"mobi"then ym="mobi"elseif bjk:find"asia"then ym="asia"elseif bjk:find"tel"then ym="tel"elseif bjk:find"xxx"then ym="xxx"elseif bjk:find"arpa"then ym="arpa"elseif bjk:find"root"then ym="root"elseif bjk:find"post"then ym="post"elseif bjk:find"geo"then ym="geo"elseif bjk:find"kid"then ym="kid"elseif bjk:find"mail"then ym="mail"elseif bjk:find"sco"then ym="sco"elseif bjk:find"web"then ym="web"elseif bjk:find"nato"then ym="nato"elseif bjk:find"test"then ym="test"elseif bjk:find"bitnet"then ym="bitnet"elseif bjk:find"csnet"then ym="csnet"elseif bjk:find"local"then ym="local"elseif bjk:find"onion"then ym="onion"elseif bjk:find"berlin"then ym="berlin"elseif bjk:find"love"then ym="love"elseif bjk:find"vip"then ym="vip"elseif bjk:find"tools"then ym="tools"else ym="" end
     if bjk:find"/"then yum=bjk:match('(.-)/')gs=#yum-2 yum=string.sub(yum,gs,#yum) else gs=#bjk-2 yum=string.sub(bjk,gs,#bjk)end
     if bjk=="" then xszy()
     elseif pd4=="www."then pd=bjk:match("www.(.+)")
@@ -674,7 +675,7 @@ function onKeyDown(code,event)
     else
     if Gj==0 then gjx.setVisibility(View.GONE) Gj=nil gduo=nil elseif gduo==0 then DialogExternal.setVisibility(View.GONE) gduo=nil else
      if webView.canGoBack() then
-     网页后退()if not(webView.canGoBack())then xszy()end else
+     网页后退()if not(webView.canGoBack())then while true do 网页后退()if not webView.canGoBack()then xszy()break end end end else
      Toast.makeText(activity,"再按一次返回键退出浏览器" , Toast.LENGTH_SHORT )
       .show()
       参数=tonumber(os.time()) 
@@ -868,7 +869,7 @@ end
         layout_gravity="center",
         textColor=lspixel2,
         text="离线页面",
-        textSize="10dp",
+        textSize="10sp",
         backgroundColor=lspixel,
         },
       },
@@ -983,255 +984,651 @@ function find(catalog,name)
   FindFile(catalog,name)
   call("outPath",ret)
 end
-function ewm()
-yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
-if yj=="开" then ys2=0xffffffff else ys2=0xff000000 end
-AboutLayout=
-{
-  LinearLayout;
-  orientation="horizontal";
-  backgroundColor=color1;
+function 颜色(id,color)
+  import 'android.graphics.*'
+  local mEditorField = TextView.getDeclaredField('mEditor')
+  mEditorField.setAccessible(true)
+  local mEditor = mEditorField.get(id)
+  local field = Editor.getDeclaredField('mCursorDrawable')
+  field.setAccessible(true)
+  local mCursorDrawable = field.get(mEditor)
+  local mccdf = TextView.getDeclaredField('mCursorDrawableRes')
+  mccdf.setAccessible(true)
+  local mccd = activity.getResources().getDrawable(mccdf.getInt(id))
+  mccd.setColorFilter(PorterDuffColorFilter(color,PorterDuff.Mode.SRC_ATOP))
+  mCursorDrawable[0] = mccd
+  mCursorDrawable[1] = mccd
+end
+function 二维码工具()
+if qrbm~=nil then qrbm=nil end
+选择扫描内容布局={
+  LinearLayout,
+  layout_height="70dp",
+  orientation="vertical",
   {
-    Button;
-    text="二维码生成";
-    textSize="15";
-    textColor=ys2;
-    background="#00000000";
-    layout_gravity="center",
-    onClick=function()
-  InputLayout={
-  LinearLayout;
-  orientation="vertical";
-  Focusable=true,
-  FocusableInTouchMode=true,
-  {
-    TextView;
-    id="ewmic",
-    textSize="15sp",
-    textColor=yys;
-    layout_marginTop="10dp";
-    layout_marginLeft="3dp",
-    layout_width="80%w";
-    layout_gravity="center",
-    text="输入文本或链接";
-  };
-  {
-    EditText;
-    layout_marginTop="5dp";
-    layout_width="80%w";
-    layout_gravity="center",
-    id="ewmwb";
-    hint="&请用%26代替,换行符请用%0A代替,空格请用%20代替";
-    textColor=yjys;
-    hintTextColor=yys;
-  };
-  {
-    LinearLayout;
-    orientation="horizontal";
-    layout_height="25dp";
+    LinearLayout,
+    id="jcwyewm",
+    gravity="center",
+    layout_width="fill",
+    layout_height="35dp",
     {
-    TextView;
-    layout_width="26.2%w";
-    text="         &";
-    textColor=yys;
-    onClick=function()ewmwb.text=ewmwb.text.."%26";ewmwb.setSelection(获取字符串个数(ewmwb.text))end;
-    };
+      TextView,
+      textSize="17sp",
+      text="检测网页二维码",
+      textColor=yjys,
+    },
+  },
+  {
+    TextView,
+    backgroundColor=0xFFDFDFE1,
+    layout_width=w,
+    layout_height="1dp",
+  },
+  {
+    LinearLayout,
+    id="jcbdewm",
+    gravity="center",
+    layout_width="fill",
+    layout_height="35dp",
     {
-    TextView;
-    layout_width="26.2%w";
-    text="       空格";
-    textColor=yys;
-    onClick=function()ewmwb.text=ewmwb.text.."%20";ewmwb.setSelection(获取字符串个数(ewmwb.text))end;
-    };
+      TextView,
+      textSize="17sp",
+      text="检测本地二维码",
+      textColor=yjys,
+    },
+  },
+}
+function 解析二维码(ms,xznr)
+  function 解析二维码动画()
+    缩放动画(scewmtp,200,1,1.2,1,1.2,相对自身,0.5,相对自身,0.5)
+    task(200,function()
+      缩放动画(scewmtp,200,1.2,0.8,1.2,0.8,相对自身,0.5,相对自身,0.5)
+      task(200,function()
+        scewmtp.setVisibility(4)
+        缩放动画(fztxf,520,1,0.35,1,0.35,相对自身,0.5,相对自身,0.5)
+        task(520,function()
+          fztxf.setVisibility(4)
+          fztx2.setVisibility(0)
+          位移动画(fztx2,200,0,0.5*w-42/360*w,0,0.5*(h-86/360*w-getStatusBarHeight())-42/360*w)
+          task(199,function()
+            fztx2.setX(w-70/360*w)fztx2.setY(h-156/360*w-getStatusBarHeight())
+          end)
+        end)
+      end)
+    end)
+  end
+  if xznr==1then
+    import "android.content.Intent"
+    local intent= Intent(Intent.ACTION_PICK)
+    intent.setType("image/*")
+    this.startActivityForResult(intent,1)
+    function onActivityResult(requestCode,resultCode,intent)
+      if intent then
+        local cursor =this.getContentResolver ().query(intent.getData(), nil, nil, nil, nil)
+        cursor.moveToFirst()
+        import "android.provider.MediaStore"
+        local idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+        fileSrc = cursor.getString(idx)
+        bit=nil
+        import "android.graphics.BitmapFactory"
+        bit =BitmapFactory.decodeFile(fileSrc)
+        jg=MainActivity.handleQRCodeFormBitmap(bit)
+        if ms==1then
+          解析二维码动画()yssj=1120
+         else
+          yssj=1
+        end
+        task(yssj,function()
+          scewmtp.setVisibility(View.GONE)
+          smjg.setVisibility(View.VISIBLE)
+          if jg~=nil then
+            smwb=jg.getText()
+            显示了qr检测=0
+            smjg.setText(smwb)
+            显示了qr检测=1
+           else
+            显示了qr检测=0
+            smjg.setText("")
+            显示了qr检测=1
+          end
+        end)
+      end
+    end
+   else
+    webView.setDrawingCacheEnabled(true);
+    webView.buildDrawingCache();
+    bitmap = webView.getDrawingCache();
+    jg=MainActivity.handleQRCodeFormBitmap(bitmap)
+    webView.setDrawingCacheEnabled(false)
+    if ms==1 then
+      解析二维码动画()yssj=1120
+     else yssj=1
+    end
+    task(yssj,function()
+      scewmtp.setVisibility(View.GONE)
+      smjg.setVisibility(View.VISIBLE)
+      if jg~=nil then
+        smwb=jg.getText()
+        显示了qr检测=0
+        smjg.setText(smwb)
+        显示了qr检测=1
+       else
+        显示了qr检测=0
+        smjg.setText("")
+        显示了qr检测=1
+      end
+    end)
+  end
+end
+二维码布局={
+  LinearLayout,
+  orientation="vertical",
+  backgroundColor=0xFF9AAEC7,
+  {
+    LinearLayout,
+    layout_marginTop=getStatusBarHeight(),
+    orientation="horizontal",
+    layout_width=w,
+    layout_height="32dp",
+    backgroundColor=0xFF9AAEC7,
     {
-    TextView;
-    layout_width="26.2%w";
-    text="      换行符";
-    textColor=yys;
-    onClick=function()ewmwb.text=ewmwb.text.."%0A";ewmwb.setSelection(获取字符串个数(ewmwb.text))end;
-    };
-  };   
-};
-圆角对话框()
-  .设置标题("二维码生成")
-  .添加布局(InputLayout)
-  .设置圆角("32dp")
-  .设置消极按钮("取消",nil)
-  .设置积极按钮("确定",function()
-  二维码链接="http://qr.topscan.com/api.php?&text="..ewmwb.text
-  二维码保存位置=(ewmwb.text..".png"):gsub("/","／")
-  ewmtp={
-        LinearLayout;
-        layout_width="85%w",
+      ImageView,
+      layout_marginLeft="14dp",
+      layout_width="18dp",
+      layout_gravity="center",
+      layout_height="18dp",
+      src="http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0",
+      ColorFilter=0xffffffff,
+      onClick=function()ewm.dismiss()end,
+    },
+    {
+      LinearLayout,
+      layout_marginLeft="14dp",
+      layout_height="32dp",
+      {
+        TextView,
+        layout_gravity="center",
+        textColor=0xffffffff,
+        text="二维码工具",
+        textSize="10sp",
+        backgroundColor=0xFF9AAEC7,
+      },
+    },
+  },
+  {
+    LinearLayout,
+    layout_marginLeft="14dp",
+    layout_height="54dp",
+    layout_width=w,
+    {
+      LinearLayout,
+      layout_gravity="center",
+      orientation="horizontal",
+      id="huatk",
+      {
+        CardView,
+        id="huat",
+        elevation=0,
+        cardBackgroundColor=0xFFB6C3D3,
+        layout_height="27sp",
+        layout_width="43sp",
+        radius="13.5sp",
+      },
+      {
+        LinearLayout,
+        layout_marginLeft="-43sp",
+        layout_height="27sp",
+        layout_width="43sp",
+        gravity="center",
+        onClick=function()pagev.showPage(0)end,
+        {
+          TextView,
+          id="scewm",
+          text="生成",
+          layout_gravity="center",
+        },
+      },
+      {
+        LinearLayout,
+        layout_height="27sp",
+        layout_width="43sp",
+        gravity="center",
+        onClick=function()pagev.showPage(1)end,
+        {
+          TextView,
+          id="jxewm",
+          text="解析",
+        },
+      },
+    },
+  },
+  {
+    PageView;
+    backgroundColor=0xffffffff,
+    layout_height="fill",
+    layout_width=w,
+    id="pagev",
+    pages={
+      {
+        LinearLayout,
+        orientation="vertical",
+        Focusable=true,
+        FocusableInTouchMode=true,
+        {
+          TextView,
+          textColor=0xffffffff,
+          id="srkts",
+          textSize="13sp",
+          gravity="center",
+          layout_marginLeft="28dp",
+          layout_marginTop="22dp",
+          text="请输入二维码文本，如网址..",
+        },
+        {
+          EditText,
+          id="ewmwb",
+          singleLine=true,
+          textColor=0xff000000,
+          backgroundColor=0xffffffff,
+          layout_width="310dp",
+          layout_marginLeft="25dp",
+          hint="请输入二维码文本，如网址..",
+          hintTextColor=0xFFA1A1A1,
+        },
+        {
+          TextView,
+          id="srkdx",
+          layout_marginTop="-8dp",
+          layout_width="302dp",
+          layout_height="1dp",
+          layout_marginLeft="29dp",
+          backgroundColor=0xff000000,
+        },
+        {
+          ImageView,
+          id="ewmtp",
+          layout_marginTop="10dp",
+          layout_width=300,
+          layout_gravity="center",
+          layout_height=300,
+        },
+        {
+          LinearLayout,
+          orientation="horizontal",
+          layout_marginTop="10dp",
+          layout_gravity="center",
+          {
+            CardView,
+            elevation=0,
+            radius="3dp",
+            cardBackgroundColor=0xff5eabe3,
+            layout_width="29%w",
+            layout_height="12%w",
+            {
+              TextView,
+              id="dqwy",
+              text="当前网页",
+              textColor=0xffffffff,
+              layout_width="fill",
+              layout_height="fill",
+              gravity="center",
+              onClick=function()
+                if qrbm~=nil then
+                  qrbm.recycle()qrbm=nil
+                end
+                qrbm=MainActivity.Create2DCode(tostring(网页链接))
+                ewmtp.setImageBitmap((qrbm))
+                ewmwb.setText(网页链接)
+              end,
+            },
+          },
+          {
+            CardView,
+            elevation=0,
+            radius="3dp",
+            cardBackgroundColor=0xff5eabe3,
+            layout_marginLeft="2%w",
+            layout_width="29%w",
+            layout_height="12%w",
+            {
+              TextView,
+              id="scewm",
+              text="生成",
+              layout_width="fill",
+              layout_height="fill",
+              textColor=0xffffffff,
+              gravity="center",
+              onClick=function()
+                if ewmwb.text~=""then
+                  if qrbm~=nil then
+                    qrbm.recycle()qrbm=nil
+                  end
+                  qrbm=MainActivity.Create2DCode(tostring(ewmwb.text))
+                  ewmtp.setImageBitmap((qrbm))
+                 else
+                  print"没有输入二维码文本!"
+                  qrbm=nil
+                  ewmtp.setImageBitmap((qrbm))
+                end
+              end,
+            },
+          },
+        },
+        {
+          CardView,
+          elevation=0,
+          radius="3dp",
+          layout_marginTop="2%w",
+          cardBackgroundColor=0xff5eabe3,
+          layout_gravity="center",
+          layout_width="60%w",
+          layout_height="12%w",
+          {
+            TextView,
+            id="bcewm",
+            text="保存",
+            layout_width="fill",
+            layout_height="fill",
+            textColor=0xffffffff,
+            gravity="center",
+            onClick=function()
+              if qrbm~=nil then
+                存图片(picsave..os.date("%Y%m%d%H%M%S")..".png",qrbm,nil)
+              end
+            end,
+          },
+        },
+      },
+      {
+        LinearLayout,
+        orientation="vertical",
         gravity="center",
         {
-        ImageView;
-        src=二维码链接;
-        layout_marginLeft="-20dp",
-        layout_gravity="center",
+          CardView,
+          id="scewmtp",
+          Elevation='0',
+          layout_width='200dp',
+          layout_height='200dp',
+          radius='100dp',
+          CardBackgroundColor=0xFFC3DFF4,
         },
-      };
-task(150,function()
-圆角对话框()
-.设置标题("二维码")
-.设置圆角("32dp")
-.添加布局(ewmtp)
-.设置积极按钮("保存",function()
-downloadManager=activity.getSystemService(Context.DOWNLOAD_SERVICE);
-url=Uri.parse(二维码链接);
-request=DownloadManager.Request(url);
-request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE|DownloadManager.Request.NETWORK_WIFI);
-request.setDestinationInExternalPublicDir("Pictures/UTBC浏览器/",二维码保存位置);
-request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-downloadManager.enqueue(request);print('已保存二维码图片到"Pictures/UTBC浏览器/'..二维码保存位置..'"')end)
-.设置消极按钮("取消")
-.显示()end)
-end).显示(function()
-ewmwb.addTextChangedListener({
-  onTextChanged=function()
-  if #ewmwb.text>240 then
-    print"输入过多文字可能会无法保存图片或扫描"
-  end
-end})
-  ewmwb.setOnFocusChangeListener(OnFocusChangeListener{ 
-    onFocusChange=function(v,hasFocus)
-      if hasFocus then
-        ewmic.setTextColor(0xFD009688)
+        {
+          CardView,
+          id="fztxf",
+          layout_marginTop="-180dp",
+          layout_gravity="center",
+          Elevation=0,
+          layout_width='160dp',
+          layout_height='160dp',
+          radius='80dp',
+          CardBackgroundColor=0xFF68AFE5,
+          {
+            LinearLayout,
+            id="fztx",
+            layout_width="fill",
+            layout_height="fill",
+            gravity="center",
+            onClick=function()
+              圆角对话框()
+              .设置圆角("32dp")
+              .添加布局(选择扫描内容布局)
+              .显示(function()
+                jcwyewm.onClick=function()pop.dismiss()解析二维码(1)end
+                jcbdewm.onClick=function()pop.dismiss()解析二维码(1,1)end
+              end)
+            end,
+            {
+              ImageView,
+              id="fztxtp",
+              layout_width="48dp",
+              layout_height="48dp",
+              src="http://shp.qpic.cn/collector/2530648358/1257faf7-f07c-46a0-b237-cc8183490eea/0",
+            },
+          },
+        },
+        {
+          TextView,
+          textSize="17sp",
+          layout_marginTop="40dp",
+          layout_height=h-getStatusBarHeight()-86/360*w,
+          gravity="center",
+          layout_width="85%w",
+          id="smjg",
+          textColor=0xff000000,
+          textIsSelectable=true,
+        },
+        {
+          CardView,
+          visibility=4,
+          id="fztx2",
+          layout_marginTop="-108dp",
+          elevation=0,
+          layout_width="56dp",
+          layout_height="56dp",
+          radius="28dp",
+          CardBackgroundColor=0xFF68AFE5,
+          {
+            LinearLayout,
+            id="fztxtp2",
+            gravity="center",
+            layout_width="fill",
+            layout_height="fill",
+            onClick=function()
+              圆角对话框()
+              .设置圆角("32dp")
+              .添加布局(选择扫描内容布局)
+              .显示(function()
+                jcwyewm.onClick=function()pop.dismiss()解析二维码()end
+                jcbdewm.onClick=function()pop.dismiss()解析二维码(nil,1)end
+              end)
+            end,
+            {
+              ImageView,
+              layout_width="16.8dp",
+              layout_height="16.8dp",
+              src="http://shp.qpic.cn/collector/2530648358/1257faf7-f07c-46a0-b237-cc8183490eea/0",
+            },
+          },
+        },
+      },
+    },
+  },
+}
+ewm=PopupWindow(loadlayout(二维码布局))
+ewm.setFocusable(true)
+ewm.setWidth(w)
+ewm.setHeight(h)
+ewm.setTouchable(true)
+ewm.setOutsideTouchable(true)
+ewm.showAtLocation(fltBtn.Parent,0,0,0)
+颜色(ewmwb,0xFF5EABE3)
+波纹(dqwy,0xFF63A5D7)波纹(scewm,0xFF63A5D7)波纹(bcewm,0xFF63A5D7)波纹(fztx,0xFF5D9BCA)波纹(fztxtp2,0xFF5D9BCA)
+ewmwb.setOnFocusChangeListener(OnFocusChangeListener{
+  onFocusChange=function(v,hasFocus)
+    if hasFocus then
+      ewmwb.setHint("")
+      srkts.setTextColor(0xff5eabe3)
+      srkdx.setBackgroundColor(0xff5eabe3)
+      seth(srkdx,4)
+    end
+  end})
+smjg.setVisibility(View.GONE)
+smjg.onLongClick=function()复制文本(smjg.text)print"已复制识别到的文本内容"end
+local kuan=0.5*getw(huatk)
+pagev.setOnPageChangeListener(PageView.OnPageChangeListener{
+  onPageScrolled=function(a,b,c)
+    huat.setX(kuan*(b+a))
+    if c==0then
+      if a==0then
+        scewm.setTextColor(0xffffffff)
+        jxewm.setTextColor(0xFFDEDEDE)
+       else
+        scewm.setTextColor(0xFFDEDEDE)
+        jxewm.setTextColor(0xffffffff)
       end
-    end})end)
-      关闭对话框()
     end
-  };
-  {
-    TextView,
-    layout_width="1dp",
-    layout_height="fill",
-    background="#FFDDDDDD";
-  };
-  {
-    Button;
-    text="检测网页图片二维码";
-    textSize="15";
-    textColor=ys2;
-    background="#00000000";
-    layout_weight="1.0"; 
-    layout_gravity="center",
-    onClick=function()
-      qrcode()
-      关闭对话框()
-    end
-  };
-  {
-    TextView,
-    layout_width="1dp",
-    layout_height="fill",
-    background="#FFDDDDDD";
-  };
-  {
-    Button;
-    text="检测本地图片二维码";
-    textSize="15";
-    textColor=ys2;
-    background="#00000000";
-    layout_weight="1.0"; 
-    layout_gravity="center",
-    onClick=function()
-    print"请选择含有二维码的图片"
-  import "android.content.Intent"
-  local intent= Intent(Intent.ACTION_PICK)
-  intent.setType("image/*")
-  this.startActivityForResult(intent,1)
-  function onActivityResult(requestCode,resultCode,intent)
-    if intent then
-      local cursor =this.getContentResolver ().query(intent.getData(), nil, nil, nil, nil)
-      cursor.moveToFirst()
-      import "android.provider.MediaStore"
-      local idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-      fileSrc = cursor.getString(idx)
-      bit=nil
-      import "android.graphics.BitmapFactory"
-      bit =BitmapFactory.decodeFile(fileSrc)
-      qrpic()
-    end
-  end
-      关闭对话框()
-    end
-  };
-};
-dlg=AlertDialog.Builder(this).setView(loadlayout(AboutLayout)).show()
-function 关闭对话框()
-  return dlg and dlg.dismiss()
-end
-import "android.graphics.Paint"
+  end})
 end
 function 短链生成()
-InputLayout={
-  LinearLayout;
-  orientation="vertical";
-  Focusable=true,
-  FocusableInTouchMode=true,
+local dbh=h-geth(toolbar)-getStatusBarHeight()
+短链生成布局={
+  LinearLayout,
+  orientation="vertical",
+  backgroundColor=0xFF9AAEC7,
   {
-    TextView;
-    id="clian",
-    textSize="15sp",
-    textColor=yys;
-    layout_marginTop="10dp";
-    layout_marginLeft="3dp",
-    layout_width="80%w";
-    layout_gravity="center",
-    text="输入长链";
-  };
+    LinearLayout,
+    layout_marginTop=getStatusBarHeight(),
+    layout_width=w,
+    layout_height=geth(toolbar),
+    backgroundColor=0xFF9AAEC7,
+    {
+      TextView,
+      layout_marginLeft="14dp",
+      layout_gravity="center",
+      textColor=0xffffffff,
+      text="短链 生成与还原",
+      textSize="10sp",
+    },
+  },
   {
-    EditText;
-    layout_marginTop="5dp";
-    layout_width="80%w";
-    layout_gravity="center",
-    id="cl";
-    text="";
-    textColor=yjys;
-  };   
-};
-圆角对话框()
-  .设置标题("短链生成")
-  .添加布局(InputLayout)
-  .设置圆角("32dp")
-  .设置消极按钮("取消",nil)
-  .设置中立按钮("当前网页",function()
-  url="https://api.weibo.com/2/short_url/shorten.json?source=2849184197&url_long="..网页链接
-Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
-  if(code==200 and content)then con=content
-  dl=content:match('url_short":"(.-)","url_long"')
-task(150,function()圆角对话框()
-.设置标题("短链")
-.设置圆角("32dp")
-.设置消息(dl)
-.设置积极按钮("复制",function()
-  复制文本(dl)
-end)
-.设置消极按钮("取消")
-.显示()end)
-end end)end)   
-.设置积极按钮("确定",function() 
-url="https://api.weibo.com/2/short_url/shorten.json?source=2849184197&url_long="..cl.text
-Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
-  if(code==200 and content)then con=content
-    dl=content:match('url_short":"(.-)","url_long"')
-task(150,function()圆角对话框()
-.设置标题("短链")
-.设置圆角("32dp")
-.设置消息(dl)
-.设置积极按钮("复制",function()
-  复制文本(dl)
-end)
-.设置消极按钮("取消")
-.显示()end)
-end end)end).显示(function()
-  cl.setOnFocusChangeListener(OnFocusChangeListener{ 
-    onFocusChange=function(v,hasFocus)
-      if hasFocus then
-        clian.setTextColor(0xFD009688)
-      end
-    end})end)end
+    LinearLayout,
+    layout_width=w,
+    layout_height=dbh,
+    backgroundColor=0xffffffff,
+    orientation="vertical",
+    {
+      LinearLayout,
+      layout_width=w,
+      layout_height=0.4*dbh,
+      {
+        EditText,
+        id="ljwb",
+        layout_marginLeft="10dp",
+        layout_width="340dp",
+        hint="请输入链接..",
+        hintTextColor=0xffa1a1a1,
+        textColor=0xff000000,
+        backgroundColor=0xffffffff,
+      },
+    },
+    {
+      LinearLayout,
+      layout_height=0.15*dbh,
+      layout_width=w,
+      backgroundColor=0xFFF5F5F5,
+      orientation="horizontal",
+      {
+        CardView,
+        layout_marginLeft=0.07*w,
+        layout_gravity="center",
+        layout_height=0.075*dbh,
+        layout_width=0.395*w,
+        radius=0.0375*dbh,
+        elevation=0,
+        cardBackgroundColor=0xFF9AAEC7,
+        {
+          TextView,
+          id="hycl",
+          text="还原长链",
+          textColor=0xffffffff,
+          layout_width="fill",
+          layout_height="fill",
+          gravity="center",
+          onClick=function()
+            if ljwb.text~=""then
+              Http.get(ljwb.text,nil,"utf8",nil,function(code,content,cookie,header)
+                if code==302then
+                  scwb.text=content:match('<A HREF="(.-)">here</A>')
+                end
+              end)
+             else print"请输入文本.."
+            end
+          end,
+        },
+      },
+      {
+        CardView,
+        layout_marginLeft=0.07*w,
+        layout_gravity="center",
+        layout_height=0.075*dbh,
+        layout_width=0.395*w,
+        radius=0.0375*dbh,
+        elevation=0,
+        cardBackgroundColor=0xFF68AFE5,
+        {
+          TextView,
+          id="scdl",
+          text="生成短链",
+          textColor=0xffffffff,
+          gravity="center",
+          layout_width="fill",
+          layout_height="fill",
+          onClick=function()
+            if ljwb.text~=""then
+              Http.get("https://api.weibo.com/2/short_url/shorten.json?source=2849184197&url_long="..ljwb.text,nil,"utf8",nil,function(code,content,cookie,header)
+                if content:find"url_short"then
+                  scwb.text=content:match('url_short":"(.-)","url_long"')
+                 else print"转换失败。"
+                end
+              end)
+             else print"请输入文本.."
+            end
+          end,
+        },
+      },
+    },
+    {
+      LinearLayout,
+      layout_width=w,
+      layout_height=0.35*dbh,
+      {
+        EditText,
+        id="scwb",
+        layout_marginLeft="10dp",
+        layout_width="340dp",
+        hint="转换输出..",
+        hintTextColor=0xffa1a1a1,
+        textColor=0xff000000,
+        backgroundColor=0xffffffff,
+      },
+    },
+    {
+      LinearLayout,
+      layout_width=w,
+      layout_height=0.1*dbh,
+      {
+        LinearLayout,
+        id="fzsc",
+        gravity="center",
+        layout_width=0.1*dbh,
+        layout_height=0.1*dbh,
+        layout_gravity="bottom",
+        layout_marginLeft=w-0.1*dbh,
+        onClick=function()复制文本(scwb.text)print"复制完成"end,
+        {
+          ImageView,
+          LinearLayout,
+          layout_width="25dp",
+          layout_height="25dp",
+          src="http://shp.qpic.cn/collector/2530648358/936bf7ca-d0f1-4f81-b0d1-ddd28b7255a3/0",
+        },
+      },
+    },
+  },
+}
+dlscbj=PopupWindow(loadlayout(短链生成布局))
+dlscbj.setFocusable(true)
+dlscbj.setWidth(w)
+dlscbj.setHeight(h)
+dlscbj.setTouchable(true)
+dlscbj.setOutsideTouchable(true)
+dlscbj.showAtLocation(fltBtn.Parent,0,0,0)
+剪切板=tostring(activity.getSystemService(Context.CLIPBOARD_SERVICE).getText())
+if 剪切板:sub(1,7)=="http://"or 剪切板:sub(1,8)=="https://"then
+ljwb.text=剪切板
+end
+颜色(ljwb,0xFF68AFE5)颜色(scwb,0xFF68AFE5)
+波纹(fzsc,0xFFE2E2E2)波纹(hycl,0xFF92A4BC)波纹(scdl,0xFF63A5D7)end
 function 检查更新()
 packinfo=this.getPackageManager().getPackageInfo(this.getPackageName(),((32552732/2/2-8183)/10000-6-231)/9)
 version=tostring(packinfo.versionName)
@@ -1246,10 +1643,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.1.1"then
+  if 版本名 > "3.1.3"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.1.1".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.1.3".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp") --圆角大小
     .设置积极按钮("立即更新",function()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
@@ -1327,7 +1724,7 @@ end
     id="aq",
     {
       ImageView;
-      src=("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0");
+      src="http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0";
       layout_height="18dp";
       layout_width="18dp";
       layout_gravity="center";
@@ -1567,7 +1964,7 @@ end
 开关保存(kg,"a1",[[webView.addView(loadlayout{
     LinearLayout,
     id="overla",
-    layout_width="fill",
+    layout_width=10*h,
     layout_height=32552732*6,
     orientation="vertical",
     backgroundColor="#86000000",
@@ -1671,7 +2068,7 @@ menu.add("分享天气信息").onMenuItemClick=function(a) 分享文本(help) en
                 TextView;
                 id="ds",
                 textSize="30sp";
-                text="未知℃";
+                text="--℃";
                 textColor="#ff8e8e8e";
               };
             };
@@ -1679,7 +2076,7 @@ menu.add("分享天气信息").onMenuItemClick=function(a) 分享文本(help) en
               TextView;
               id="zk",
               textSize="12sp";
-              text="未知";
+              text="--";
               layout_marginTop="-5dp";
               textColor="#ff8e8e8e";              
             };
@@ -1706,38 +2103,38 @@ menu.add("分享天气信息").onMenuItemClick=function(a) 分享文本(help) en
         {
           TextView;
           id="mttq",
-          text="明日:未知",
+          text="明日:--",
           textColor="#ff8e8e8e";
         };
         {
           TextView;
           id="gx",
-          text="更新时间:未知";textColor="#ff8e8e8e";
+          text="更新时间:--:--";textColor="#ff8e8e8e";
         };
         {
           TextView;
           id="cs",
-          text="城市:未知";textColor="#ff8e8e8e";
+          text="城市:--";textColor="#ff8e8e8e";
         };
         {
           TextView;
           id="pz",
-          text="空气质量:未知";textColor="#ff8e8e8e";
+          text="空气质量:--";textColor="#ff8e8e8e";
         };
         {
           TextView;
           id="wd",
-          text="湿度:未知";textColor="#ff8e8e8e";
+          text="湿度:--";textColor="#ff8e8e8e";
         };
         {
           TextView;
           id="fx",
-          text="风力:未知";textColor="#ff8e8e8e";
+          text="风力:--";textColor="#ff8e8e8e";
         };
         {
           TextView;
           id="rq",
-          text="未知";textSize="13sp",textColor="#ff8e8e8e";
+          text="--年--月--日";textSize="13sp",textColor="#ff8e8e8e";
         };
       };
     }
@@ -1747,18 +2144,24 @@ url="https://m.tianqi.com/"
 Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
   con=content
   if con:find"湿度"then
-    cs.setText("城市:"..content:match("<text>(.-)</text>"))
-    wd.setText("湿度:"..content:match('<span class="b2"><i></i>湿度(.-)</span'))
-    pz.setText("空气质量:"..content:match('class="b1"><i></i>(.-)</a>'))
-    fx.setText("风力:"..content:match('<span class="b3"><i></i>(.-)</span>'))
-    ds.setText(content:match('<dd class="now">(.-)<i>').."℃")
-    zk.setText(""..content:match('<dd class="txt">(.-)</dd>'))
-    tqtp.setImageBitmap(loadbitmap("https://m.tianqi.com/"..content:match('<dt><img src="(.-)"></dt>')))
-    rq.setText(""..content:match('<div class="date">(.-)</div>'):gsub("　"," "))
-    gx.setText("更新时间:"..content:match('<text id="nowHour">(.-)</text>'))
-    mtqw=content:match('<dd class="txt2">(.-)</b>')
-    mttq.setText("明日:"..content:match('<dd class="txt2">(.-)</dd>').." "..mtqw:match('"txt">(.-)<b')..mtqw:match('<b>(.+)').."℃")
-    help=cs.text.."\n"..zk.text.."\n温度:"..ds.text.."\n"..wd.text.."\n"..fx.text.."\n"..pz.text
+    gxsj=content:match('<text id="nowHour">(.-)</text>')
+    rqsj=content:match('<div class="date">(.-)</div>')
+    jqrq=rq.text:gsub("--","")
+    if (rqsj:match("(.-)年")..rqsj:match("年(.-)月")..rqsj:match("月(.-)日").."0:"..gxsj)>(jqrq:match("(.-)年")..jqrq:match("年(.-)月")..jqrq:match("月(.-)日").."0:"..gx.text:gsub("更新时间:",""))then
+      cs.setText("城市:"..content:match("<text>(.-)</text>"))
+      wd.setText("湿度:"..content:match('<span class="b2"><i></i>湿度(.-)</span'))
+      pz.setText("空气质量:"..content:match('class="b1"><i></i>(.-)</a>'))
+      fx.setText("风力:"..content:match('<span class="b3"><i></i>(.-)</span>'))
+      ds.setText(content:match('<dd class="now">(.-)<i>').."℃")
+      zk.setText(""..content:match('<dd class="txt">(.-)</dd>'))
+      tqtp.setImageBitmap(loadbitmap("https://m.tianqi.com/"..content:match('<dt><img src="(.-)"></dt>')))
+      rq.setText(""..rqsj:gsub("　"," "))
+      gx.setText("更新时间:"..gxsj)
+      mtqw=content:match('<dd class="txt2">(.-)</b>')
+      mttq.setText("明日:"..content:match('<dd class="txt2">(.-)</dd>').." "..mtqw:match('"txt">(.-)<b')..mtqw:match('<b>(.+)').."℃")
+      help=cs.text.."\n"..zk.text.."\n温度:"..ds.text.."\n"..wd.text.."\n"..fx.text.."\n"..pz.text
+      else print"暂无更新数据"
+      end
     else print"获取天气信息失败"end
 end)end 获取天气信息()
 webView.addJavascriptInterface({},"JsInterface")
@@ -2785,9 +3188,9 @@ end
 波纹(gengduo,0xFFE2E2E2)
 波纹(bmrefresh,0xFFE2E2E2)
 --注意！还有一些东西写在了网页加载事件和加载完毕事件
-bmback.onClick=function()if(webView.canGoBack())then 网页后退()if not(webView.canGoBack())then xszy()end else print"没有网页可以后退哦"end end
-bmforward.onClick=function()if(webView.canGoForward())then gbzy()网页前进()else print"没有网页可以前进哦"end end
-bmhome.onClick=function()停止加载()gbzy()xszy()while true do 网页后退()if not(webView.canGoBack()) then break end end end
+bmback.onClick=function()if webView.canGoBack()then 网页后退()if not webView.canGoBack()then while true do 网页后退()if not webView.canGoBack()then xszy()break end end end else print"没有网页可以后退哦"end end
+bmforward.onClick=function()if webView.canGoForward()then gbzy()网页前进()else print"没有网页可以前进哦"end end
+bmhome.onClick=function()停止加载()gbzy()xszy()while true do 网页后退()if not webView.canGoBack()then break end end end
 gengduo.onClick=function() if GJX==0 then 更多() GJX=nil gduo=0 elseif Gj==0 then gjx.setVisibility(View.GONE) Gj=nil gduo=nil elseif gduo==nil then 更多() gduo=0 else DialogExternal.setVisibility(View.GONE) gduo=nil end end
 a=1
 b=1
@@ -3056,7 +3459,7 @@ read_hst()
         layout_gravity="center",
         textColor=lspixel2,
         text="历史",
-        textSize="10dp",
+        textSize="10sp",
         backgroundColor=lspixel,
         },
       },
@@ -3138,7 +3541,15 @@ items={
             elseif id==2 then
             table.remove(lst,b)table.remove(lstweb,b)save_hst()ls.dismiss()show_hst()
             elseif id==3 then
+            圆角对话框()
+            .设置圆角("32dp")
+            .设置标题("清空")
+            .设置消息("你是否确认？")
+            .设置消极按钮("取消")
+            .设置积极按钮("确定",function()
             File(lstwebads).delete()File(lstads).delete()File(lstwebads).createNewFile()File(lstads).createNewFile()ls.dismiss()show_hst()
+            end)
+            .显示()
             end
           end})
       end)
@@ -3327,7 +3738,7 @@ function showDataDialog(name,title,jdpuk)
             layout_gravity="center",
             textColor=lspixel2,
             text="书签",
-            textSize="10dp",
+            textSize="10sp",
             backgroundColor=lspixel,
           },
         },
