@@ -1003,7 +1003,7 @@ function 二维码工具()
 if qrbm~=nil then qrbm=nil end
 选择扫描内容布局={
   LinearLayout,
-  layout_height="70dp",
+  layout_height="105dp",
   orientation="vertical",
   {
     LinearLayout,
@@ -1015,6 +1015,25 @@ if qrbm~=nil then qrbm=nil end
       TextView,
       textSize="17sp",
       text="检测网页二维码",
+      textColor=yjys,
+    },
+  },
+  {
+    TextView,
+    backgroundColor=0xFFDFDFE1,
+    layout_width=w,
+    layout_height="1dp",
+  },
+  {
+    LinearLayout,
+    id="pzjcewm",
+    gravity="center",
+    layout_width="fill",
+    layout_height="35dp",
+    {
+      TextView,
+      textSize="17sp",
+      text="拍照检测二维码",
       textColor=yjys,
     },
   },
@@ -1094,7 +1113,36 @@ function 解析二维码(ms,xznr)
         end)
       end
     end
-   else
+   elseif xznr==2then
+    import 'android.provider.MediaStore'
+    intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+    this.startActivityForResult(intent,1)
+    function onActivityResult(requestCode, resultCode, data)
+      if data then
+        bundle = data.getExtras()
+        bitmap = bundle.get("data")
+        jg=MainActivity.handleQRCodeFormBitmap(bitmap)
+        if ms==1 then
+         解析二维码动画()yssj=1120
+        else yssj=1
+        end
+        task(yssj,function()
+          scewmtp.setVisibility(View.GONE)
+          smjg.setVisibility(View.VISIBLE)
+          if jg~=nil then
+            smwb=jg.getText()
+            显示了qr检测=0
+            smjg.setText(smwb)
+            显示了qr检测=1
+          else
+            显示了qr检测=0
+            smjg.setText("")
+            显示了qr检测=1
+          end
+        end)
+      end
+    end
+  else
     webView.setDrawingCacheEnabled(true);
     webView.buildDrawingCache();
     bitmap = webView.getDrawingCache();
@@ -1183,7 +1231,7 @@ end
         onClick=function()pagev.showPage(0)end,
         {
           TextView,
-          id="scewm",
+          id="scewmwz",
           text="生成",
           layout_gravity="center",
         },
@@ -1196,7 +1244,7 @@ end
         onClick=function()pagev.showPage(1)end,
         {
           TextView,
-          id="jxewm",
+          id="jxewmwz",
           text="解析",
         },
       },
@@ -1333,7 +1381,7 @@ end
             gravity="center",
             onClick=function()
               if qrbm~=nil then
-                存图片(picsave..os.date("%Y%m%d%H%M%S")..".png",qrbm,nil)
+                存图片(picsave..ewmwb.text:gsub("/","／")..".png",qrbm,nil)
               end
             end,
           },
@@ -1374,6 +1422,7 @@ end
               .添加布局(选择扫描内容布局)
               .显示(function()
                 jcwyewm.onClick=function()pop.dismiss()解析二维码(1)end
+                pzjcewm.onClick=function()pop.dismiss()解析二维码(1,2)end
                 jcbdewm.onClick=function()pop.dismiss()解析二维码(1,1)end
               end)
             end,
@@ -1419,6 +1468,7 @@ end
               .添加布局(选择扫描内容布局)
               .显示(function()
                 jcwyewm.onClick=function()pop.dismiss()解析二维码()end
+                pzjcewm.onClick=function()pop.dismiss()解析二维码(nil,2)end
                 jcbdewm.onClick=function()pop.dismiss()解析二维码(nil,1)end
               end)
             end,
@@ -1460,11 +1510,11 @@ pagev.setOnPageChangeListener(PageView.OnPageChangeListener{
     huat.setX(kuan*(b+a))
     if c==0then
       if a==0then
-        scewm.setTextColor(0xffffffff)
-        jxewm.setTextColor(0xFFDEDEDE)
+        scewmwz.setTextColor(0xFFFFFFFF)
+        jxewmwz.setTextColor(0xFFDEDEDE)
        else
-        scewm.setTextColor(0xFFDEDEDE)
-        jxewm.setTextColor(0xffffffff)
+        scewmwz.setTextColor(0xFFDEDEDE)
+        jxewmwz.setTextColor(0xFFFFFFFF)
       end
     end
   end})
@@ -1536,12 +1586,33 @@ local dbh=h-geth(toolbar)-getStatusBarHeight()
           gravity="center",
           onClick=function()
             if ljwb.text~=""then
-              Http.get(ljwb.text,nil,"utf8",nil,function(code,content,cookie,header)
-                if code==302then
-                  scwb.text=content:match('<A HREF="(.-)">here</A>')
+              jzdl.stopLoading()jzdl.loadUrl(ljwb.text)yljwb=ljwb.text
+              task(500,function()
+                jzdllj=jzdl.getUrl()
+                if jzdllj~="about:blank"then
+                  if jzdllj~=yljwb then
+                    scwb.text=jzdllj jzdl.stopLoading()
+                  end
                 end
+                task(13500,function()
+                  if jzdl.getUrl()==yljwb and ljwb.text:find"t.cn"then
+                    print"转换失败。"
+                  end
+                end)
               end)
-             else print"请输入文本.."
+              jzdl.setWebViewClient{
+                onPageFinished=function(view,url)
+                  jzdllj=jzdl.getUrl()
+                  if ljwb.text:find"http"and ljwb.text:find"t.cn"then
+                    if jzdllj~=yljwb then
+                      scwb.text=jzdllj
+                    end
+                  elseif ljwb.text:find"http://"or ljwb.text:find"https://"then
+                    scwb.text=jzdllj
+                  else print"转换失败"
+                 end
+              end}
+            else print"请输入文本.."
             end
           end,
         },
@@ -1615,6 +1686,10 @@ local dbh=h-geth(toolbar)-getStatusBarHeight()
       },
     },
   },
+  {
+    LuaWebView,
+    id="jzdl",
+  },
 }
 dlscbj=PopupWindow(loadlayout(短链生成布局))
 dlscbj.setFocusable(true)
@@ -1623,6 +1698,7 @@ dlscbj.setHeight(h)
 dlscbj.setTouchable(true)
 dlscbj.setOutsideTouchable(true)
 dlscbj.showAtLocation(fltBtn.Parent,0,0,0)
+jzdl.setVisibility(View.GONE)
 剪切板=tostring(activity.getSystemService(Context.CLIPBOARD_SERVICE).getText())
 if 剪切板:sub(1,7)=="http://"or 剪切板:sub(1,8)=="https://"then
 ljwb.text=剪切板
@@ -1643,10 +1719,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.1.3"then
+  if 版本名 > "3.1.4"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.1.3".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.1.4".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp") --圆角大小
     .设置积极按钮("立即更新",function()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
