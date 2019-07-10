@@ -4,7 +4,10 @@ import"RoundedDialog"
 import"read"
 import"zw"
 import "com.my.sc.*"
+import'com.yuxuan.widget.*'
 import "com.my.sc.MainActivity"
+webView.getSettings().setAppCacheMaxSize(Long.MAX_VALUE)
+webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK)
 离线页面="/sdcard/Download/"
 picsave="/storage/emulated/0/Pictures/UTBC浏览器/"
 File(离线页面).mkdirs()
@@ -675,7 +678,7 @@ function onKeyDown(code,event)
     else
     if Gj==0 then gjx.setVisibility(View.GONE) Gj=nil gduo=nil elseif gduo==0 then DialogExternal.setVisibility(View.GONE) gduo=nil else
      if webView.canGoBack() then
-     网页后退()if not(webView.canGoBack())then while true do 网页后退()if not webView.canGoBack()then xszy()break end end end else
+     网页后退()if not(webView.canGoBack())then xszy()end else
      Toast.makeText(activity,"再按一次返回键退出浏览器" , Toast.LENGTH_SHORT )
       .show()
       参数=tonumber(os.time()) 
@@ -1078,16 +1081,24 @@ function 解析二维码(ms,xznr)
   end
   if xznr==1then
     import "android.content.Intent"
-    local intent= Intent(Intent.ACTION_PICK)
+    local intent= Intent(Intent.ACTION_GET_CONTENT)
     intent.setType("image/*")
     this.startActivityForResult(intent,1)
     function onActivityResult(requestCode,resultCode,intent)
       if intent then
-        local cursor =this.getContentResolver ().query(intent.getData(), nil, nil, nil, nil)
-        cursor.moveToFirst()
-        import "android.provider.MediaStore"
-        local idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-        fileSrc = cursor.getString(idx)
+        if tostring(intent):find"file://"then
+          ewmtpdz=tostring(intent):match("file://(.-) }")
+          if ewmtpdz:find".j?pn?g"then
+            fileSrc=ewmtpdz
+          else fileSrc=this.luaDir.."/drawable/iqiyi.png"
+          end
+        else
+          local cursor =this.getContentResolver ().query(intent.getData(), nil, nil, nil, nil)
+          cursor.moveToFirst()
+          import "android.provider.MediaStore"
+          local idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+          fileSrc = cursor.getString(idx)
+        end
         bit=nil
         import "android.graphics.BitmapFactory"
         bit =BitmapFactory.decodeFile(fileSrc)
@@ -1381,7 +1392,7 @@ end
             gravity="center",
             onClick=function()
               if qrbm~=nil then
-                存图片(picsave..ewmwb.text:gsub("/","／")..".png",qrbm,nil)
+                存图片(picsave..os.date("%Y%m%d%H%M%S")..".png",qrbm)
               end
             end,
           },
@@ -1706,47 +1717,130 @@ end
 颜色(ljwb,0xFF68AFE5)颜色(scwb,0xFF68AFE5)
 波纹(fzsc,0xFFE2E2E2)波纹(hycl,0xFF92A4BC)波纹(scdl,0xFF63A5D7)end
 function 检查更新()
-packinfo=this.getPackageManager().getPackageInfo(this.getPackageName(),((32552732/2/2-8183)/10000-6-231)/9)
-version=tostring(packinfo.versionName)
-versioncode=tostring(packinfo.versionCode)
 url="https://sharechain.qq.com/dc2f311c2b314a5edc35f3d9204964f7";
 function 过滤(content)
-  版本名=content:match("【版本名】(.-)【版本名】") 
-  内容=content:match("【内容】(.-)【内容】") 
+  版本名=content:match("【版本名】(.-)【版本名】")
+  内容=content:match("【内容】(.-)【内容】")
   if 版本名==""then
     版本名="获取失败"
   end
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.1.4"then
+  if 版本名 > "3.1.6"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.1.4".."→"..版本名.."\n更新内容："..内容)
-    .设置圆角("32dp") --圆角大小
+    .设置消息("版本：".."3.1.6".."→"..版本名.."\n更新内容："..内容)
+    .设置圆角("32dp")
     .设置积极按钮("立即更新",function()
+      gxq=200/360*w
+      更新动画=
+      {
+        LinearLayout;
+        id='gxtx',
+        layout_width='fill';
+        layout_height='fill';
+        backgroundColor=0x00;
+        Gravity="center",
+        {
+          CardView;
+          CardElevation='10';
+          layout_width='200dp';
+          layout_height='200dp';
+          radius='100dp';
+          CardBackgroundColor=0xFF68AFE5;
+          {
+            FrameLayout,
+            layout_width='fill',
+            layout_height='fill',
+            {
+              WaveView;
+              layout_height=gxq,
+              layout_width="fill",
+              id="wave",
+            };
+            {
+              TextView,
+              id='jd',
+              textSize='20sp',
+              layout_gravity='center',
+            },
+          },
+        };
+      };
+      gxdh=PopupWindow(loadlayout(更新动画))
+      gxdh.setFocusable(false)
+      gxdh.setWidth(w)
+      gxdh.setHeight(h)
+      gxdh.setTouchable(true)
+      gxdh.setOutsideTouchable(true)
+      gxdh.showAtLocation(fltBtn.Parent,0,0,0)
+      wave.setStartColor(0xFF68AFE5)
+      wave.setCloseColor(0xffffffff)
+      wave.setWaveHeight(10)
+      wave.setVelocity(10)
+      ti=Ticker()
+      ti.Period=1
+      i=1
+      ti.onTick=function()
+        seth(wave,gxq-0.1*i)
+        jd.setText(tointeger((10*i)/gxq)..'%')
+        if i==gxq*9then
+          ti.stop()
+          task(5000,function()
+            ti=Ticker()
+            ti.Period=1
+            i=1
+            ti.onTick=function()
+              seth(wave,0.1*(gxq-i))
+              jd.setText(tointeger((10*(gxq*9+i))/gxq)..'%')
+              if i==0.9*gxq then
+                ti.stop()
+                ti=Ticker()
+                ti.Period=1000
+                ti.onTick=function()
+                  if ygx then
+                    ti.stop()
+                    task(500,function()
+                      jd.setText('即将完成')
+                      task(1000,function()
+                        jd.setText('更新完成,重启生效.')
+                        gxtx.onClick=function()gxdh.dismiss()end
+                      end)
+                    end)
+                  end
+                end
+                ti.start()
+              end
+              i=i+1
+            end
+            ti.start()
+          end)
+        end
+        i=i+1
+      end
+      ti.start()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
-Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
-  if(code==200 and content)then con=content
-    io.open(this.luaDir.."/qidong.lua","w+"):write(content):close()
-    print"更新完成，重启生效"
-    end
-  end)
-      print"更新中…\n请不要退出浏览器"
+      Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
+        if(code==200 and content)then con=content
+          io.open(this.luaDir.."/qidong.lua","w+"):write(content):close()
+          ygx=true
+        end
+      end)
     end)
     .设置消极按钮("暂不更新",function()
     end)
     .显示()
-  else
-    Toast.makeText(activity, "当前已是最新版本",Toast.LENGTH_SHORT).show()
+   else
+    print"当前已是最新版本"
   end
 end
 Http.get(url,nil,"UTF-8",nil,function(code,content,cookie,header)
   if(code==200 and content)then
     content=content:match("\"html_content\":(.-),"):gsub("\\u003C/?.-%>",""):gsub("\\\\","&revs;"):gsub("\\n","\n"):gsub("&nbsp;"," "):gsub("&lt;","<"):gsub("&gt;",">"):gsub("&quot;","\""):gsub("&apos;","'"):gsub("&revs;","\\"):gsub("&amp;","&");
     过滤(content)
-  else
-    Toast.makeText(activity,"本地网络或服务器异常 "..code, Toast.LENGTH_SHORT).show()
+   else
+    print("本地网络或服务器异常 "..code)
   end
 end)
 end
@@ -2864,7 +2958,7 @@ end)
 end
 浏览器标识()
 end
-spjx.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE)items={ListView,id="lb",items={"1号解析接口","2号解析接口","3号解析接口","4号解析接口"},layout_width="fill",}圆角对话框().设置圆角("32dp").设置标题("选择您需要的解析接口").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==1 then 加载网页("http://wwa.ha12.xyz/jian/index.php?url="..webView.getUrl())elseif id==3 then 加载网页("http://xiaojx.two3.cn/jx/?url="..网页链接)elseif id==4 then 加载网页("http://api.qy414.cn/?url="..网页链接)elseif id==2 then 加载网页("http://www.sfsft.com/video.php?url="..网页链接)end end})end)end end
+spjx.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE)加载网页("http://www.sfsft.com/video.php?url="..网页链接)end end
 browser.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE) this.startActivity(Intent(Intent.ACTION_VIEW,Uri.parse(网页链接)))end end
 wyjt.onClick=function()GJX=0 Gj=nil if dlan==nil then webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,0)end gjx.setVisibility(View.GONE) fakebmbar.setVisibility(View.GONE)activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.GONE)task(300,function()DrawingChaceCapture(picsave..os.date("%Y%m%d%H%M%S")..".png",webView)activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);if dlan==nil then toolbar.parent.setVisibility(View.VISIBLE) webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,bmwhole.height) fakebmbar.setVisibility(View.VISIBLE)end end)end
 read.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE) 加载阅读()end end
@@ -3264,7 +3358,7 @@ end
 波纹(gengduo,0xFFE2E2E2)
 波纹(bmrefresh,0xFFE2E2E2)
 --注意！还有一些东西写在了网页加载事件和加载完毕事件
-bmback.onClick=function()if webView.canGoBack()then 网页后退()if not webView.canGoBack()then while true do 网页后退()if not webView.canGoBack()then xszy()break end end end else print"没有网页可以后退哦"end end
+bmback.onClick=function()if webView.canGoBack()then 网页后退()if not webView.canGoBack()then xszy()end else print"没有网页可以后退哦"end end
 bmforward.onClick=function()if webView.canGoForward()then gbzy()网页前进()else print"没有网页可以前进哦"end end
 bmhome.onClick=function()停止加载()gbzy()xszy()while true do 网页后退()if not webView.canGoBack()then break end end end
 gengduo.onClick=function() if GJX==0 then 更多() GJX=nil gduo=0 elseif Gj==0 then gjx.setVisibility(View.GONE) Gj=nil gduo=nil elseif gduo==nil then 更多() gduo=0 else DialogExternal.setVisibility(View.GONE) gduo=nil end end
