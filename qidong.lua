@@ -534,11 +534,11 @@ sq=b();
 function 删除主页书签()
 dqsq=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
 if sqid==sq.gs then
-xrb=dqsq:match("(.+)wb"..sq.gs)xrj=dqsq:match("--created by xm(.+)")
-xrbj=(xrb.."--created by xm"..xrj):gsub("gs="..sq.gs,"gs="..(sq.gs-1))
+  xrb=dqsq:match("(.+)wb"..sq.gs.."='")xrj=dqsq:match("--created by xm(.+)")
+  xrbj=(xrb.."--created by xm"..xrj)
 else
-xrb=dqsq:match("(.+)wb"..sqid)xrj=dqsq:match("wb"..(sqid+1).."(.+)")
-xrbj=(xrb.."wb"..(sqid+1)..xrj):gsub("gs="..sq.gs,"gs="..(sq.gs-1))
+  xrb=dqsq:match("(.+)wb"..sqid.."='")xrj=dqsq:match("wb"..(sqid+1).."='(.+)")
+  xrbj=(xrb.."wb"..(sqid+1).."='"..xrj):gsub("gs="..sq.gs,"gs="..(sq.gs-1))
 end
 for i=sqid,sq.gs do
 xrbj=xrbj:gsub("wb"..(i+1).."='","wb"..i.."='"):gsub("name"..(i+1).."='","name"..i.."='"):gsub("color"..(i+1).."='","color"..i.."='"):gsub("url"..(i+1).."='","url"..i.."='")
@@ -607,11 +607,11 @@ task(150,function()
     else
       dqsq=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
       if sqid==sq.gs then
-        xrb=dqsq:match("(.+)wb"..sq.gs)xrj=dqsq:match("--created by xm(.+)")
+        xrb=dqsq:match("(.+)wb"..sq.gs.."='")xrj=dqsq:match("--created by xm(.+)")
         xrbj=(xrb.."--created by xm"..xrj)
       else
-        xrb=dqsq:match("(.+)wb"..sqid)xrj=dqsq:match("wb"..(sqid+1).."(.+)")
-        xrbj=(xrb.."wb"..(sqid+1)..xrj)
+        xrb=dqsq:match("(.+)wb"..sqid.."='")xrj=dqsq:match("wb"..(sqid+1).."='(.+)")
+        xrbj=(xrb.."wb"..(sqid+1).."='"..xrj)
       end
       if srwz<sqid then
         for i=sqid-1,srwz,-1 do
@@ -625,8 +625,8 @@ task(150,function()
       if srwz==sq.gs then
         xrb=xrbj:match("(.+)created by xm")xrb=xrb:sub(1,#xrb-2)xrj="\n--created by xm"..xrbj:match("--created by xm(.+)")
       else
-        xrb=xrbj:match("(.+)wb"..srwz+1)
-        xrj="\nwb"..(srwz+1)..xrbj:match("wb"..(srwz+1).."(.+)")
+        xrb=xrbj:match("(.+)wb"..(srwz+1).."='")
+        xrj="\nwb"..(srwz+1).."='"..xrbj:match("wb"..(srwz+1).."='(.+)")
       end
       xrbj=xrb.."wb"..srwz.."='"..sq["wb"..sqid].."',".."name"..srwz.."='"..sq["name"..sqid].."',".."color"..srwz.."='"..sq["color"..sqid].."',".."url"..srwz.."='"..sq["url"..sqid].."',"..xrj
       io.open("/data/data/"..activity.getPackageName().."/书签","w+"):write(xrbj):close()
