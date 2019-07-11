@@ -1,3 +1,8 @@
+function geth(view)
+view.measure(View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED),View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED));
+height=view.getMeasuredHeight()
+return height
+end
 import "java.io.File"
 import "android.view.View$OnFocusChangeListener"
 import"RoundedDialog"
@@ -161,11 +166,6 @@ function setw(view,w)
 linearParams=view.getLayoutParams()
 linearParams.width=w
 view.setLayoutParams(linearParams)
-end
-function geth(view)
-view.measure(View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED),View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED));
-height=view.getMeasuredHeight()
-return height
 end
 function zy()
 zybjtdz=io.open("/data/data/"..activity.getPackageName().."/主页背景图地址"):read("*a")
@@ -535,7 +535,7 @@ function 删除主页书签()
 dqsq=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
 if sqid==sq.gs then
   xrb=dqsq:match("(.+)wb"..sq.gs.."='")xrj=dqsq:match("--created by xm(.+)")
-  xrbj=(xrb.."--created by xm"..xrj)
+  xrbj=(xrb.."--created by xm"..xrj):gsub("gs="..sq.gs,"gs="..(sq.gs-1))
 else
   xrb=dqsq:match("(.+)wb"..sqid.."='")xrj=dqsq:match("wb"..(sqid+1).."='(.+)")
   xrbj=(xrb.."wb"..(sqid+1).."='"..xrj):gsub("gs="..sq.gs,"gs="..(sq.gs-1))
@@ -1807,10 +1807,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.1.9"then
+  if 版本名 > "3.2.0"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.1.9".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.2.0".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
