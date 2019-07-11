@@ -4,13 +4,6 @@ height=view.getMeasuredHeight()
 return height
 end
 import "java.io.File"
-import "android.view.View$OnFocusChangeListener"
-import"RoundedDialog"
-import"read"
-import"zw"
-import "com.my.sc.*"
-import'com.yuxuan.widget.*'
-import "com.my.sc.MainActivity"
 离线页面="/sdcard/Download/"
 picsave="/storage/emulated/0/Pictures/UTBC浏览器/"
 File(离线页面).mkdirs()
@@ -25,6 +18,13 @@ File("/data/data/"..activity.getPackageName().."/主页背景图地址").createN
 File("/data/data/"..activity.getPackageName().."/书签").createNewFile()
 File("/data/data/"..activity.getPackageName().."/书签2").createNewFile()
 File("/data/data/"..activity.getPackageName().."/剪切板").createNewFile()
+import "android.view.View$OnFocusChangeListener"
+import"RoundedDialog"
+import"read"
+import"zw"
+import "com.my.sc.*"
+import'com.yuxuan.widget.*'
+import "com.my.sc.MainActivity"
 yys=0xFF767676 gnkq=0xFF7294DE wfdj=0xFFA4A6A3
 function searchfz()
   ssyq=io.open("/data/data/"..activity.getPackageName().."/搜索引擎"):read("*a")
@@ -651,6 +651,7 @@ Inputlayout={
   {
     EditText,
     singleLine=true,
+    selectAllOnFocus=true,
     id="edit4",
     hint="标题",
     text=name,
@@ -663,6 +664,7 @@ Inputlayout={
   {
     EditText,
     singleLine=true,
+    selectAllOnFocus=true,
     id="edit5",
     hint="链接",
     text=url,
@@ -1807,10 +1809,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.2.0"then
+  if 版本名 > "3.2.1"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.2.0".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.2.1".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
@@ -2106,6 +2108,7 @@ end end})end)end,
     {
       EditText,       
       singleLine=true,
+      selectAllOnFocus=true,
       imeOptions='actionGo';
       textColor=pixel2,
       hintTextColor=pixel2,
@@ -2146,7 +2149,7 @@ dlss.setHeight(h)
 dlss.setTouchable(true)
 dlss.setOutsideTouchable(false)
 dlss.showAtLocation(fltBtn.Parent,0,0,0)
-activity.getSystemService(Context.INPUT_METHOD_SERVICE).showSoftInput(dlsrk,InputMethodManager.SHOW_FORCED)
+activity.getSystemService(Context.INPUT_METHOD_SERVICE).toggleSoftInput(0,InputMethodManager.RESULT_SHOWN)
 dlhc.setOnFocusChangeListener(OnFocusChangeListener{ 
     onFocusChange=function(v,hasFocus)
       if hasFocus then
@@ -2968,6 +2971,7 @@ textColor=yys;
 {
 EditText;
 hint="User Agent";
+selectAllOnFocus=true,
 text=ua;
 layout_marginTop="5dp";
 layout_width="80%w";
@@ -3904,6 +3908,7 @@ input2layout={
     EditText,
     id="edit1",
     singleLine=true,
+    selectAllOnFocus=true,
     hint="标题",
     layout_marginTop="5dp",
     layout_width="80%w",
@@ -3914,6 +3919,7 @@ input2layout={
     EditText,
     id="edit2",
     singleLine=true,
+    selectAllOnFocus=true,
     hint="链接",
     layout_margiTop="5dp",
     layout_width="80%w",
