@@ -1,5 +1,3 @@
-io.open("/data/data/"..activity.getPackageName().."/书签","w+"):write("{\ngs=0,\n--created by xm\n}"):close()
-io.open("/data/data/"..activity.getPackageName().."/书签2","w+"):write("{\nfun=function()\n--shuqian\nend\n}"):close()
 import "java.io.File"
 import "android.view.View$OnFocusChangeListener"
 import"RoundedDialog"
@@ -8,8 +6,6 @@ import"zw"
 import "com.my.sc.*"
 import'com.yuxuan.widget.*'
 import "com.my.sc.MainActivity"
-webView.getSettings().setAppCacheMaxSize(Long.MAX_VALUE)
-webView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK)
 离线页面="/sdcard/Download/"
 picsave="/storage/emulated/0/Pictures/UTBC浏览器/"
 File(离线页面).mkdirs()
@@ -545,7 +541,7 @@ xrb=dqsq:match("(.+)wb"..sqid)xrj=dqsq:match("wb"..(sqid+1).."(.+)")
 xrbj=(xrb.."wb"..(sqid+1)..xrj):gsub("gs="..sq.gs,"gs="..(sq.gs-1))
 end
 for i=sqid,sq.gs do
-xrbj=xrbj:gsub("wb"..(i+1),"wb"..i):gsub("name"..(i+1),"name"..i):gsub("color"..(i+1),"color"..i):gsub("url"..(i+1),"url"..i)
+xrbj=xrbj:gsub("wb"..(i+1).."='","wb"..i.."='"):gsub("name"..(i+1).."='","name"..i.."='"):gsub("color"..(i+1).."='","color"..i.."='"):gsub("url"..(i+1).."='","url"..i.."='")
 end
 io.open("/data/data/"..activity.getPackageName().."/书签","w+"):write(xrbj):close()
 dqsq2=io.open("/data/data/"..activity.getPackageName().."/书签2"):read("*a")
@@ -619,11 +615,11 @@ task(150,function()
       end
       if srwz<sqid then
         for i=sqid-1,srwz,-1 do
-          xrbj=xrbj:gsub("wb"..i,"wb"..(i+1)):gsub("name"..i,"name"..(i+1)):gsub("color"..i,"color"..(i+1)):gsub("url"..i,"url"..(i+1))
+          xrbj=xrbj:gsub("wb"..i.."='","wb"..(i+1).."='"):gsub("name"..i.."='","name"..(i+1).."='"):gsub("color"..i.."='","color"..(i+1).."='"):gsub("url"..i.."='","url"..(i+1).."='")
         end
       else
         for i=sqid,srwz-1 do
-          xrbj=xrbj:gsub("wb"..(i+1),"wb"..i):gsub("name"..(i+1),"name"..i):gsub("color"..(i+1),"color"..i):gsub("url"..(i+1),"url"..i)
+          xrbj=xrbj:gsub("wb"..(i+1).."='","wb"..i.."='"):gsub("name"..(i+1).."='","name"..i.."='"):gsub("color"..(i+1).."='","color"..i.."='"):gsub("url"..(i+1).."='","url"..i.."='")
         end
       end
       if srwz==sq.gs then
@@ -1811,10 +1807,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.1.8"then
+  if 版本名 > "3.1.9"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.1.8".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.1.9".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
