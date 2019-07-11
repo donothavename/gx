@@ -147,6 +147,13 @@ for i=1,#zfc do
   return 0
   end
 end
+function getStatusBarHeight(JDPUK)
+  if not tostring(jdpuk)==string.byte("")..string.byte("")..string.byte("4")..string.char(55).."32" then error()end
+  local resid=activity.getResources().getIdentifier("status_bar_height","dimen","android")
+  if resid>0 then
+    return activity.getResources().getDimensionPixelSize(resid)
+  end
+end
 function seth(view,h)
 linearParams=view.getLayoutParams()
 linearParams.height=h
@@ -170,7 +177,7 @@ zybjtdz=io.open("/data/data/"..activity.getPackageName().."/主页背景图地�
   gravity="center",
  {
    ImageView;
-   layout_width=h,
+   layout_width=w,
    layout_height=h, 
    id="zytp",                      
    src=zybjtdz,
@@ -549,7 +556,7 @@ items=
 {
 ListView,
 id="lb",
-items={"复制链接","编辑","删除"},
+items={"复制链接","编辑","删除","移动"},
 layout_width="fill",
 }
 圆角对话框()
@@ -562,6 +569,81 @@ if id==1 then
 复制文本(url)print"已复制链接"
 elseif id==3 then
 删除主页书签()
+elseif id==4then
+InputLayout={
+  LinearLayout,
+  orientation="vertical",
+  Focusable=true,
+  FocusableInTouchMode=true,
+  {
+    TextView;
+    id="mbwzwb",
+    textSize="15sp",
+    layout_marginTop="10dp",
+    layout_marginLeft="3dp",
+    layout_width="80%w",
+    layout_gravity="center",
+    text="请输入目标位置:1—"..sq.gs..",当前:"..sqid,
+    textColor=yys;
+  };
+  {
+    EditText;
+    layout_marginTop="5dp",
+    layout_width="80%w",
+    layout_gravity="center",
+    InputType="number",
+    id="mbwz",
+    textColor=yjys,
+  };
+}
+task(150,function()
+  圆角对话框()
+  .设置圆角("32dp")
+  .设置标题("修改主页书签位置")
+  .添加布局(InputLayout)
+  .设置消极按钮("取消")
+  .设置积极按钮("确定",function()
+    srwz=tonumber(mbwz.text)
+    if mbwz.text==""or srwz>sq.gs or mbwz.text=="0"then print"你想移到火星上吗?😂"
+    elseif srwz==sqid then print"此书签太重了,我也无能为力😔,要不,换一个位置?😛"
+    else
+      dqsq=io.open("/data/data/"..activity.getPackageName().."/书签"):read("*a")
+      if sqid==sq.gs then
+        xrb=dqsq:match("(.+)wb"..sq.gs)xrj=dqsq:match("--created by xm(.+)")
+        xrbj=(xrb.."--created by xm"..xrj)
+      else
+        xrb=dqsq:match("(.+)wb"..sqid)xrj=dqsq:match("wb"..(sqid+1).."(.+)")
+        xrbj=(xrb.."wb"..(sqid+1)..xrj)
+      end
+      if srwz<sqid then
+        for i=sqid-1,srwz,-1 do
+          xrbj=xrbj:gsub("wb"..i,"wb"..(i+1)):gsub("name"..i,"name"..(i+1)):gsub("color"..i,"color"..(i+1)):gsub("url"..i,"url"..(i+1))
+        end
+      else
+        for i=sqid,srwz-1 do
+          xrbj=xrbj:gsub("wb"..(i+1),"wb"..i):gsub("name"..(i+1),"name"..i):gsub("color"..(i+1),"color"..i):gsub("url"..(i+1),"url"..i)
+        end
+      end
+      if srwz==sq.gs then
+        xrb=xrbj:match("(.+)created by xm")xrb=xrb:sub(1,#xrb-2)xrj="\n--created by xm"..xrbj:match("--created by xm(.+)")
+      else
+        xrb=xrbj:match("(.+)wb"..srwz+1)
+        xrj="\nwb"..(srwz+1)..xrbj:match("wb"..(srwz+1).."(.+)")
+      end
+      xrbj=xrb.."wb"..srwz.."='"..sq["wb"..sqid].."',".."name"..srwz.."='"..sq["name"..sqid].."',".."color"..srwz.."='"..sq["color"..sqid].."',".."url"..srwz.."='"..sq["url"..sqid].."',"..xrj
+      io.open("/data/data/"..activity.getPackageName().."/书签","w+"):write(xrbj):close()
+      gbzy()xszy()
+    end
+  end)
+  .显示(function()
+  mbwz.setOnFocusChangeListener(OnFocusChangeListener{ 
+    onFocusChange=function(v,hasFocus)
+      if hasFocus then
+        mbwzwb.setTextColor(0xFD009688)
+      end
+    end})
+  end)
+end)
 elseif id==2 then
 Inputlayout={
   LinearLayout,
@@ -798,13 +880,6 @@ sidebar.setBackgroundColor(color1)
 侧滑卡片.setCardBackgroundColor(0xff232323)
 if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end
 else yjys=0xff000000 ys3=0xFF4D4D4D
-end
-function getStatusBarHeight(JDPUK)
-  if not tostring(jdpuk)==string.byte("")..string.byte("")..string.byte("4")..string.char(55).."32" then error()end
-  local resid=activity.getResources().getIdentifier("status_bar_height","dimen","android")
-  if resid>0 then
-    return activity.getResources().getDimensionPixelSize(resid)
-  end
 end
 function outPath(ret) 
   for i,p in pairs(luajava.astable(ret)) do
@@ -1304,12 +1379,19 @@ end
           backgroundColor=0xff000000,
         },
         {
-          ImageView,
-          id="ewmtp",
-          layout_marginTop="10dp",
+          CardView,
           layout_width=300,
-          layout_gravity="center",
           layout_height=300,
+          layout_gravity='center',
+          layout_marginTop='10dp',
+          radius='10dp',
+          elevation='8dp',
+          {
+            ImageView,
+            id="ewmtp",
+            layout_width=300,
+            layout_height=300,
+          },
         },
         {
           LinearLayout,
@@ -1727,10 +1809,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.1.6"then
+  if 版本名 > "3.1.8"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.1.6".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.1.8".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
@@ -1926,7 +2008,11 @@ end
 toolbar.onClick=function()
 if webView.canGoBack() then
   if webView.title~="" then
-  dlsskycwb=webView.title
+    if webView.title=="404"then
+      dlsskycwb="4 0 4"
+    else
+      dlsskycwb=webView.title
+    end
   else
   dlsskycwb="无标题"
   end
@@ -2802,41 +2888,59 @@ backgroundColor=0x7FFFFFFF;
 {
 EditText;
 hint="页内查找";
-hintTextColor=0xff000000,
-layout_width="70%w";
+hintTextColor=0xFF959696,
+textColor=0xff000000,
+layout_width="61%w";
 id="edit";
 };
 {
 LinearLayout,
-layout_height="fill",
-layout_width="15%w";
+layout_gravity="center",
+layout_height="3.9%h",
+layout_width="13%w";
 gravity="center";
+onClick=function()webView.findAllAsync("")sr.setVisibility(View.GONE)end,
 {
 ImageView;
-layout_width="20dp",
-layout_height="20dp",
+layout_width="14dp",
+layout_height="14dp",
+colorFilter=0xFF4D504F,
 src="http://shp.qpic.cn/collector/2530648358/ecc5b48c-e8fd-413f-afef-76787ec5fa3e/0";
-id="gb";
 },
 },
 {
 LinearLayout,
-layout_height="fill",
-layout_width="15%w";
+layout_height="3.9%h",
+layout_width="13%w";
 gravity="center";
+layout_gravity="center",
+onClick=function()webView.findNext(false)end,
 {
 ImageView;
-layout_gravity="center";
-layout_width="20dp",
-layout_height="20dp",
+layout_width="14dp",
+layout_height="14dp",
+colorFilter=0xFF4D504F,
+src="http://shp.qpic.cn/collector/2530648358/1d1a4250-2a5e-419b-a39e-4c852a18df49/0";
+},                                                                                                
+},
+{
+LinearLayout,
+layout_height="3.9%h",
+layout_width="13%w";
+gravity="center";
+layout_gravity="center",
+onClick=function()webView.findAllAsync(edit.text)end,
+{
+ImageView;
+layout_width="14dp",
+layout_height="14dp",
+colorFilter=0xFF4D504F,
 src="http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a95/0";
-id="xg";
 },                                                                                                
 },
 },
 };
-fltBtn.Parent.addView(loadlayout(sr))
-xg.onClick=function() 页内查找(edit.text) end gb.onClick=function() 页内查找("")sr.setVisibility(View.GONE)end end
+fltBtn.Parent.addView(loadlayout(sr))end
 bcwy.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE) offline="/sdcard/download/"..os.date("%Y%m%d%H%M%S")..webView.title..".mht" print("已保存网页至“"..offline.."”") webView.saveWebArchive(offline)end end
 lxym.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)thread(find,File("/storage/emulated/0/Download/"),".m?ht")end
 fanyi.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE)items={ListView,id="lb",items={"彩云小译","百度翻译","有道翻译"},layout_width="fill",}圆角对话框().设置圆角("32dp").设置标题("选择翻译引擎").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==2 then 加载网页("http://fanyi.baidu.com/transpage?query="..webView.getUrl().."&from=auto&to=zh&source=url&ie=utf8&render=1")elseif id==3 then 加载网页("http://fanyi.youdao.com/WebpageTranslate?keyfrom=webfanyi.top&url="..webView.getUrl().."&type=ZH_CN2EN")elseif id==1 then 加载Js([[(function(){if(!document.body)return;var popup=document.querySelectorAll('.cyxy-target-popup');if(popup&&popup.length>0)return;var trs=document.createElement('script');trs.type='text/javascript';trs.charset='UTF-8';trs.src=('https:'==document.location.protocol?'https://':'http://')+'caiyunapp.com/dest/trs.js';document.body.appendChild(trs);})()]])end end})end)end end
