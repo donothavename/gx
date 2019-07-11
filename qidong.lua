@@ -1,3 +1,5 @@
+io.open("/data/data/"..activity.getPackageName().."/书签","w+"):write("{\ngs=0,\n--created by xm\n}"):close()
+io.open("/data/data/"..activity.getPackageName().."/书签2","w+"):write("{\nfun=function()\n--shuqian\nend\n}"):close()
 import "java.io.File"
 import "android.view.View$OnFocusChangeListener"
 import"RoundedDialog"
