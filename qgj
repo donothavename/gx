@@ -520,7 +520,7 @@ function 翻译动画()
     else
       fyjgwb=content:match('"translateResult"(.-)"}]]}')
       fyjgwb=fyjgwb:sub(4,#fyjgwb)..'"}'
-      JSON=import"json"
+      JSON=import"cjson"
       json_o=JSON.decode("["..fyjgwb.."]")
         for i,v in ipairs(json_o) do
         if i==1then
