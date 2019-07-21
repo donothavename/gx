@@ -18,6 +18,7 @@ File("/data/data/"..activity.getPackageName().."/主页背景图地址").createN
 File("/data/data/"..activity.getPackageName().."/书签").createNewFile()
 File("/data/data/"..activity.getPackageName().."/书签2").createNewFile()
 File("/data/data/"..activity.getPackageName().."/剪切板").createNewFile()
+File("/data/data/"..activity.getPackageName().."/qgj").createNewFile()
 import "android.view.View$OnFocusChangeListener"
 import"RoundedDialog"
 import"read"
@@ -753,8 +754,8 @@ end
 zy()
 fltBtn.setVisibility(View.GONE)
 参数=0
-function onKeyDown(code,event) 
-  if string.find(tostring(event),"KEYCODE_BACK") ~= nil then 
+function onKeyDown(code,event)
+  if string.find(tostring(event),"KEYCODE_BACK") ~= nil then
     if 参数+2 > tonumber(os.time()) then 
      ti.stop() activity.finish()
     else
@@ -1809,10 +1810,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.2.1"then
+  if 版本名 > "3.2.4"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.2.1".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.2.4".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
@@ -1925,6 +1926,153 @@ Http.get(url,nil,"UTF-8",nil,function(code,content,cookie,header)
     print("本地网络或服务器异常 "..code)
   end
 end)
+end
+function 打开轻工具()
+  qgjx=io.open("/data/data/"..activity.getPackageName().."/qgj"):read("*a")
+  if qgjx==""then
+    圆角对话框()
+    .设置标题("提示")
+    .设置消息("是否下载轻工具?不下载将无法使用哦!\n")
+    .设置积极按钮("确定",function()
+      下载轻工具("下载")
+    end)
+    .设置中立按钮("取消")
+    .显示()
+   else
+    b=nil
+    b=loadstring("return "..qgjx);
+    qgjx=b()
+    url="https://sharechain.qq.com/dc2f311c2b314a5edc35f3d9204964f7"
+    Http.get(url,nil,"UTF-8",nil,function(code,content,cookie,header)
+      if(code==200 and content)then
+        content=content:match("\"html_content\":(.-),"):gsub("\\u003C/?.-%>",""):gsub("\\\\","&revs;"):gsub("\\n","\n"):gsub("&nbsp;"," "):gsub("&lt;","<"):gsub("&gt;",">"):gsub("&quot;","\""):gsub("&apos;","'"):gsub("&revs;","\\"):gsub("&amp;","&");
+        if content:match("【工具箱】(.-)【工具箱】")>tostring(qgjx.版本) then
+          圆角对话框()
+          .设置标题("检测到更新")
+          .设置消息("是否更新?")
+          .设置积极按钮("确定",function()
+            下载轻工具("更新")
+          end)
+          .设置消极按钮("取消",function()
+            function xgj()end
+            xgj=qgjx.fun
+            xgj()
+          end)
+          .显示()
+         else
+          function xgj()end
+          xgj=qgjx.fun
+          xgj()
+        end
+      end
+    end)
+  end
+end
+function 下载轻工具(ghx)
+  yxz=nil
+  gxq=200/360*w
+  下载动画=
+  {
+    LinearLayout;
+    id='xztx',
+    layout_width='fill';
+    layout_height='fill';
+    backgroundColor=0x00;
+    Gravity="center",
+    {
+      CardView;
+      CardElevation='10';
+      layout_width='200dp';
+      layout_height='200dp';
+      radius='100dp';
+      CardBackgroundColor=0xFF68AFE5;
+      {
+        FrameLayout,
+        layout_width='fill',
+        layout_height='fill',
+        {
+          WaveView;
+          layout_height=gxq,
+          layout_width="fill",
+          id="wave",
+        };
+        {
+          TextView,
+          id='jd',
+          textSize='20sp',
+          layout_gravity='center',
+        },
+      },
+    };
+  };
+  xzdh=PopupWindow(loadlayout(下载动画))
+  xzdh.setFocusable(false)
+  xzdh.setWidth(w)
+  xzdh.setHeight(h)
+  xzdh.setTouchable(true)
+  xzdh.setOutsideTouchable(true)
+  xzdh.showAtLocation(fltBtn.Parent,0,0,0)
+  wave.setStartColor(0xFF68AFE5)
+  wave.setCloseColor(0xffffffff)
+  wave.setWaveHeight(10)
+  wave.setVelocity(10)
+  ti=Ticker()
+  ti.Period=1
+  i=1
+  ti.onTick=function()
+    seth(wave,gxq-0.1*i)
+    jd.setText(tointeger((10*i)/gxq)..'%')
+    if i==gxq*9then
+      ti.stop()
+      task(5000,function()
+        ti=Ticker()
+        ti.Period=1
+        i=1
+        ti.onTick=function()
+          seth(wave,0.1*(gxq-i))
+          jd.setText(tointeger((10*(gxq*9+i))/gxq)..'%')
+          if i==0.9*gxq then
+            ti.stop()
+            ti=Ticker()
+            ti.Period=1000
+            ti.onTick=function()
+              if yxz then
+                ti.stop()
+                task(500,function()
+                  jd.setText('即将完成')
+                  task(1000,function()
+                    jd.setText(ghx..'完成')
+                    task(800,function()
+                      xzdh.dismiss()
+                      qgjx=io.open("/data/data/"..activity.getPackageName().."/qgj"):read("*a")
+                      b=nil
+                      b=loadstring("return "..qgjx)
+                      qgjx=b()
+                      function xgj()end
+                      xgj=qgjx.fun
+                      xgj()
+                    end)
+                  end)
+                end)
+              end
+            end
+            ti.start()
+          end
+          i=i+1
+        end
+        ti.start()
+      end)
+    end
+    i=i+1
+  end
+  ti.start()
+  url="https://raw.githubusercontent.com/donothavename/gx/master/qgj"
+  Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
+    if(code==200 and content)then con=content
+      io.open("/data/data/"..activity.getPackageName().."/qgj","w+"):write(content):close()
+      yxz=true
+    end
+  end)
 end
 function 夜间()
 yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
