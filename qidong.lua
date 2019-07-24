@@ -1285,7 +1285,6 @@ end
         layout_gravity="center",
         textColor=0xffffffff,
         text="二维码工具",
-        textSize="10sp",
         backgroundColor=0xFF9AAEC7,
       },
     },
@@ -1631,7 +1630,6 @@ local dbh=h-geth(toolbar)-getStatusBarHeight()
       layout_gravity="center",
       textColor=0xffffffff,
       text="短链 生成与还原",
-      textSize="10sp",
     },
   },
   {
@@ -1810,10 +1808,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.2.4"then
+  if 版本名 > "3.2.5"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.2.4".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.2.5".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
