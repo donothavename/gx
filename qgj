@@ -1,4 +1,4 @@
-{版本="1.0.4",fun=function()
+{版本="1.0.5",fun=function()
 File("/data/data/"..activity.getPackageName().."/翻译收藏").createNewFile()
 if io.open("/data/data/"..activity.getPackageName().."/翻译收藏"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/翻译收藏","w+"):write("{\n--翻译收藏\n}"):close()
@@ -1429,6 +1429,285 @@ cpv2.onTouch=function()
 cpvys.setText("#"..Integer.toHexString(cpv.getSelectedColor()))
 end
 end
+function 快递查询Lite()
+kdxqbj=nil
+快递查询Lite布局={
+  LinearLayout,
+  layout_height=h,
+  orientation="vertical",
+  backgroundColor=0xFFFFFFFF,
+  {
+    LinearLayout,
+    padding="24dp",
+    layout_width=w,
+    elevation="2dp",
+    orientation="vertical",
+    layout_marginTop="-24dp",
+    backgroundColor=0xFF9AAEC7,
+    {
+      LinearLayout,
+      layout_height="32dp",
+      {
+        TextView,
+        text="快递查询Lite",
+        textColor=0xffffffff,
+        layout_gravity="center",
+        Typeface=Typeface.DEFAULT_BOLD,
+      },
+    },
+    {
+      CardView,
+      id="kddhk",
+      radius="4dp",
+      elevation=0,
+      Focusable=true,
+      layout_width="fill",
+      layout_height="48dp",
+      FocusableInTouchMode=true,
+      CardBackgroundColor=0xffffffff,
+      {
+        LinearLayout,
+        orientation="horizontal",
+        {
+          FrameLayout,
+          layout_weight="1",
+          layout_gravity="center",
+          {
+            LinearLayout,
+            layout_width=w,
+          },
+          {
+            EditText,
+            id="kddh",
+            textSize="14sp",
+            singleLine=true,
+            layout_width="fill",
+            paddingLeft="16dp",
+            hint="请输入订单号..",
+            textColor=0xff000000,
+            hintTextColor=0xFFB6B6B6,
+            backgroundColor=0xffffffff,
+          },
+        },
+        {
+          ImageView,
+          id="cxddh",
+          padding="11dp",
+          layout_width="48dp",
+          layout_height="48dp",
+          layout_gravity="center",
+          ColorFilter=0xFFB6B6B6,
+          src="http://shp.qpic.cn/collector/2530648358/4801ab8c-3258-4d1b-aad2-40740e2456f8/0",
+          onClick=function()
+            if kddh.text~=""then
+              jzkdxqbm.loadUrl("https://sp0.baidu.com/9_Q4sjW91Qh3otqbppnN2DJv/pae/channel/data/asyncqury?cb=jQuery110204759692032715892_1499865778178&appid=4001&com=&nu="..kddh.text)
+            end
+          end,
+        },
+      },
+    },
+  },
+  {
+    FrameLayout,
+    id="wlxqlb",
+    {
+      ScrollView,
+      id="kdxq",
+      layout_height="fill",
+      VerticalScrollBarEnabled=false,
+      {
+        LinearLayout,
+        layout_wodth=w,
+        orientation="vertical",
+        backgroundColor=0xFFF3F5F4,
+        {
+          LinearLayout,
+          layout_width=w,
+          padding="24dp",
+          orientation="vertical",
+          backgroundColor=0xffffffff,
+          {
+            TextView,
+            id="zxkdwz",
+            textColor=0xFF60ACE5,
+          },
+          {
+            LinearLayout,
+            layout_width="fill",
+            orientation="horizontal",
+            {
+              TextView,
+              id="yqs",
+              visibility=4,
+              text="已签收",
+              layout_weight="1",
+              textColor=0xFF60ACE5,
+              layout_marginTop="12.5dp",
+              Typeface=Typeface.DEFAULT_BOLD,
+            },
+            {
+              TextView,
+              id="zxkdsj",
+              textColor=0xFF707070,
+              layout_marginTop="12.5dp",
+              Typeface=Typeface.MONOSPACE,
+            },
+          },
+        },
+        {
+          LinearLayout,
+          id="wlxqbj",
+          layout_width=w,
+        },
+      },
+    },
+    {
+      LinearLayout,
+      id="cxkdjl",
+      layout_width=w,
+      visibility=4,
+      orientation="horizontal",
+      background="#FFF5F5F5",
+      {
+        TextView,
+        id="sckddh",
+        layout_weight="1",
+        textColor=0xff000000,
+        layout_gravity="center",
+        layout_marginLeft="24dp",
+      },
+      {
+        TextView,
+        id="cxsckd",
+        padding="24dp",
+        text="查询上次快递",
+        textColor=0xFF60ACE5,
+        layout_gravity="center",
+        onClick=function()end,
+      },
+    },
+    {
+      LuaWebView,
+      visibility=4,
+      id="jzkdxqbm",
+    },
+  },
+}
+快递详情布局=[[{
+  LinearLayout,
+  layout_width=w,
+  padding="24dp",
+  orientation="vertical",
+  backgroundColor=0xffffffff,
+  layout_marginTop="3dp",
+  {
+    TextView,
+    text="快递位置",
+    textColor=0xff000000,
+  },
+  {
+    LinearLayout,
+    layout_width="fill",
+    orientation="horizontal",
+    {
+      TextView,
+      layout_weight="1",
+      layout_marginTop="12.5dp",
+    },
+    {
+      TextView,
+      text="快递时间",
+      textColor=0xFF707070,
+      layout_marginTop="12.5dp",
+      Typeface=Typeface.MONOSPACE,
+    },
+  },
+},]]
+kdcxLite=PopupWindow(loadlayout(快递查询Lite布局))
+kdcxLite.setFocusable(true)
+kdcxLite.setWidth(w)
+kdcxLite.setHeight(h)
+kdcxLite.setTouchable(true)
+kdcxLite.setOutsideTouchable(true)
+kdcxLite.showAtLocation(fltBtn.Parent,0,0,0)
+jzkdxqbm.setWebViewClient{
+  onPageFinished=function(view,url)
+    jzkdxqbm.saveWebArchive("/data/data/"..activity.getPackageName().."/保存快递详情编码")
+    task(100,function()
+      解析快递编码(io.open("/data/data/"..activity.getPackageName().."/保存快递详情编码"):read("*a"))
+    end)
+  end}
+function ms2time(ms)
+  date=tostring(Date(ms))
+  year=date:sub(#date-4,#date)
+  month=(date:sub(5,7)):gsub("Jan","01"):gsub("Feb","02"):gsub("Mar","03"):gsub("Apr","04"):gsub("May","05"):gsub("Jun","06"):gsub("Jul","07"):gsub("Aug","08"):gsub("Sep","09"):gsub("Oct","10"):gsub("Nov","11"):gsub("Dec","12")
+  day=date:sub(9,10)
+  time=date:sub(12,19)
+  return (year.."-"..month.."-"..day.." "..time)
+end
+function 解析快递编码(kdxqbm)
+  if kdxqbj then
+  kdxqbj.setVisibility(View.GONE)
+  end
+  yqs.setVisibility(4)
+  zxkdwz.text=""zxkdsj.text=""
+  JSON=import"cjson"
+  kdxqbm='{"msg":'..kdxqbm:match('{"msg":(.-)</pre>')
+  kdxqbm=kdxqbm:sub(1,#kdxqbm-1)
+  kdxqb=""
+  for i=1,#kdxqbm do
+    xdwb=kdxqbm:sub(i,i)
+    if xdwb=="("then
+      kdxqb=kdxqb.."（"
+    elseif xdwb==")"then
+      kdxqb=kdxqb.."）"
+    elseif string.byte(xdwb,1)==91 or string.byte(xdwb,1)==92 or('1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ?{}]",:_-/. '):find(xdwb)then
+      kdxqb=kdxqb..xdwb
+    end
+  end
+  kdxqbm="["..kdxqb.."]"
+  json_o=JSON.decode(kdxqbm)
+  for i,v in ipairs(json_o) do
+    cxjg=v.msg
+  end
+  if cxjg:find"未查到"then
+    print"暂无该快递信息"
+  elseif cxjg:find"不是合法"then
+    print"查询错误。"
+  elseif cxjg==""then
+    if not kdxqbm:find'","_source_com"'then
+      kdxqbm=kdxqbm:match('"context":(.-),"_source_com"')
+    else
+      kdxqbm=kdxqbm:match('"context":(.-),"send_time"')
+    end
+    kdxqbm=kdxqbm:sub(2,#kdxqbm-1)
+    json_str="["..kdxqbm.."]"
+    json_o=JSON.decode(json_str)
+    for i,v in ipairs(json_o) do
+      if i==1 then
+        zxkdwz.setText(v.desc)
+        zxkdsj.setText(ms2time(v.time*1000))
+        if v.desc:find"签收"then yqs.setVisibility(0)end
+      elseif i==2 then
+        快递详情局=快递详情布局:gsub("快递位置",v.desc):gsub("快递时间",ms2time(v.time*1000))
+        快递详情布=快递详情局
+      else
+        快递详情局=快递详情布局:gsub("快递位置",v.desc):gsub("快递时间",ms2time(v.time*1000))
+        快递详情布=快递详情布.."\n"..快递详情局
+      end
+    end
+    快递详情布局bj='{LinearLayout,id="kdxqbj",orientation="vertical",'..快递详情布.."}"
+    b=loadstring("return "..快递详情布局bj)快递详情布局bj=b()
+    wlxqbj.addView(loadlayout(快递详情布局bj))
+  end
+end
+seth(wlxqlb,h-getStatusBarHeight()-geth(toolbar)-1.5*geth(kddhk))
+颜色(kddh,0xFF60ACE5)
+波纹(cxsckd,0xFFD9D9D9)波纹(cxddh,0xFFE2E2E2)
+import "android.text.method.DigitsKeyListener"
+kddh.setKeyListener(DigitsKeyListener.getInstance("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"))
+end
+import"android.support.v4.widget.*"
     轻工具布局={
       LinearLayout,
       orientation="vertical",
@@ -1436,7 +1715,7 @@ end
       backgroundColor=0xFF9AAEC7,
       {
         LinearLayout,
-        --layout_marginTop=getStatusBarHeight(),
+        layout_marginTop=getStatusBarHeight(),
         orientation="horizontal",
         layout_width=w,
         layout_height="32dp",
@@ -1468,7 +1747,7 @@ end
             orientation="vertical",
           },
           {
-            ScrollView;
+            NestedScrollView;
             layout_width=w,
             layout_height="fill",
             VerticalScrollBarEnabled=false,
@@ -1617,11 +1896,13 @@ end
                         cardBackgroundColor=0xFFF8F8F8,
                         {
                           TextView,
+                          id="kdcxliteid",
                           paddingLeft="12dp",
                           paddingRight="12dp",
                           text="快递查询Lite",
                           textColor=0xFF4E4E4E,
                           layout_gravity="center",
+                          onClick=function()快递查询Lite()end,
                         },
                       },
                       {
@@ -2617,7 +2898,7 @@ end
             },
           },
           {
-            ScrollView;
+            NestedScrollView;
             layout_width=w,
             layout_height="fill",
             VerticalScrollBarEnabled=false,
@@ -2675,13 +2956,13 @@ end
                         cardBackgroundColor=0xFFF8F8F8,
                         {
                           TextView,
-                          id="qsqid2",
+                          id="kdcxliteid2",
                           paddingLeft="12dp",
                           paddingRight="12dp",
-                          text="取色器",
+                          text="快递查询Lite",
                           textColor=0xFF4E4E4E,
                           layout_gravity="center",
-                          onClick=function()取色器()end,
+                          onClick=function()快递查询Lite()end,
                         },
                       },
                     },
@@ -2801,8 +3082,8 @@ end
     qgj.setOutsideTouchable(true)
     qgj.showAtLocation(fltBtn.Parent,0,0,0)
     波纹(zydj,0xFFE2E2E2)波纹(fldj,0xFFE2E2E2)波纹(zhdj,0xFFE2E2E2)
-    波纹(dlscid,0xFFE8E8E8)波纹(ewmgjid,0xFFE8E8E8)波纹(sjpmid,0xFFE8E8E8)波纹(fyid,0xFFE8E8E8)波纹(czid,0xFFE8E8E8)波纹(znzid,0xFFE8E8E8)波纹(qsqid,0xFFE8E8E8)
-    波纹(qsqid2,0xFFE8E8E8)
+    波纹(dlscid,0xFFE8E8E8)波纹(ewmgjid,0xFFE8E8E8)波纹(sjpmid,0xFFE8E8E8)波纹(fyid,0xFFE8E8E8)波纹(czid,0xFFE8E8E8)波纹(znzid,0xFFE8E8E8)波纹(qsqid,0xFFE8E8E8)波纹(kdcxliteid,0xFFE8E8E8)
+    波纹(kdcxliteid2,0xFFE8E8E8)
     pagev2.setOnPageChangeListener(PageView.OnPageChangeListener{
       onPageScrolled=function(a,b,c)
         if c==0then
