@@ -1,8 +1,12 @@
-{版本="1.1.0",fun=function()
+{版本="1.1.5",fun=function()
 File("/data/data/"..activity.getPackageName().."/翻译收藏").createNewFile()
 File("/data/data/"..activity.getPackageName().."/上次查询快递单号").createNewFile()
+File("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用").createNewFile()
 if io.open("/data/data/"..activity.getPackageName().."/翻译收藏"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/翻译收藏","w+"):write("{\n--翻译收藏\n}"):close()
+end
+if io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a")==""then
+io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用","w+"):write("{}"):close()
 end
 local f=io.open(this.luaDir.."/libs/ColorPicker.dex",'r')
 if f~=nil then
@@ -11,6 +15,8 @@ else
   软件内下载("正在下载资源,请耐心等待下载完成","https://raw.githubusercontent.com/donothavename/gx/master/ColorPicker.dex",this.luaDir.."/libs/ColorPicker.dex")
 end
 import 'android.graphics.*'
+全部应用左列={"时间屏幕","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","Base64编码转换"}
+全部应用右列={"翻译","短链生成","指南针","取色器","获取当前壁纸","摩斯电码","随机数生成"}
 function 提示(t)
   local tsbj={
     LinearLayout,
@@ -41,6 +47,420 @@ function 提示(t)
   end
   toast=Toast.makeText(activity,t,Toast.LENGTH_SHORT).setGravity(Gravity.BOTTOM|Gravity.CENTER, 0, 0).setView(loadlayout(tsbj))
   toast.show()
+end
+function 全部应用()
+全部应用布局={
+  LinearLayout,
+  layout_width=w,
+  layout_height=h,
+  orientation="vertical",
+  backgroundColor=0xffffffff,
+  {
+    LinearLayout,
+    layout_width=w,
+    elevation="5dp",
+    backgroundColor=0xFF9AAEC7,
+    layout_height=getStatusBarHeight()+geth(toolbar),
+    {
+      LinearLayout,
+      layout_width=w,
+      layout_gravity="bottom",
+      orientation="horizontal",
+      layout_height=geth(toolbar),
+      {
+        ImageView,
+        padding="15dp",
+        layout_width="48dp",
+        layout_height="48dp",
+        ColorFilter=0xffffffff,
+        layout_gravity="center",
+        src="http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0",
+        onClick=function()qbyybj.dismiss()end,
+      },
+      {
+        TextView,
+        text="全部",
+        layout_weight="1",
+        textColor=0xffffffff,
+        layout_gravity="center",
+        backgroundColor=0xFF9AAEC7,
+      },
+      {
+        ImageView,
+        padding="14dp",
+        layout_width="48dp",
+        ColorFilter=0xffffffff,
+        layout_height="48dp",
+        layout_gravity="center",
+        onClick=function()应用添加收藏()end,
+        src="http://shp.qpic.cn/collector/2530648358/f52d39f7-e879-4117-bdb9-a0d0f8f0ac4d/0",
+      },
+    },
+  },
+  {
+    NestedScrollView,
+    layout_width="fill",
+    layout_height="fill",
+    layout_marginTop="8dp",
+    layout_marginLeft="8dp",
+    layout_marginRight="8dp",
+    {
+      LinearLayout,
+      layout_width="fill",
+      layout_height="fill",
+      orientation="horizontal",
+      {
+        LinearLayout,
+        id="qbyyzl",
+        orientation="vertical",
+        layout_width=0.5*w-geth(toolbar)/4,
+      },
+      {
+        LinearLayout,
+        id="qbyyyl",
+        orientation="vertical",
+        layout_width=0.5*w-geth(toolbar)/4,
+      },
+    },
+  },
+}
+qbyybj=PopupWindow(loadlayout(全部应用布局))
+qbyybj.setFocusable(true)
+qbyybj.setWidth(w)
+qbyybj.setHeight(h)
+qbyybj.setTouchable(true)
+qbyybj.setOutsideTouchable(true)
+qbyybj.showAtLocation(fltBtn.Parent,0,0,0)
+全部应用适配布局=[[
+{
+  CardView,
+  elevation=0,
+  radius="4dp",
+  layout_width="fill",
+  layout_margin="8dp",
+  cardBackgroundColor=0xFFF8F8F8,
+  {
+    LinearLayout,
+    id="应用id",
+    padding="8dp",
+    layout_width="fill",
+    paddingTop="16dp",
+    paddingBottom="16dp",
+    onClick=function()应用名称()end,
+    {
+      TextView,
+      gravity="center",
+      text="应用名称",
+      layout_width="fill",
+      textColor=0xFF424242,
+    },
+  },
+},
+]]
+应用左列id={"qysjpmid","qykdcxliteid","qyczid","qyewmgjid","qytpzljid","qycksbxxxxid","qybase64bmzhid"}
+for i=1,#全部应用左列 do
+  if i==1 then
+    全部应用左列布局=全部应用适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用左列id[1])
+  else
+    全部应用左列布局=全部应用左列布局..全部应用适配布局:gsub("应用名称",全部应用左列[i]):gsub("应用id",应用左列id[i])
+  end
+end
+全部应用左列布局=[[{
+LinearLayout,
+layout_width="fill",
+layout_height="fill",
+orientation="vertical",
+]]..全部应用左列布局.."}"
+应用右列id={"qyfyid","qydlscid","qyznzid","qyqsqid","qyhqdqbzid","qymsdmid","qysjsscid"}
+for i=1,#全部应用右列 do
+  if i==1 then
+    全部应用右列布局=全部应用适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用右列id[1])
+  else
+    if 全部应用右列[i]=="短链生成" then
+      全部应用右列布局=全部应用右列布局..全部应用适配布局:gsub("应用名称","短链生成"):gsub('text="短链生成"','text="短链 生成与还原"'):gsub("应用id",应用右列id[i])
+    else
+      全部应用右列布局=全部应用右列布局..全部应用适配布局:gsub("应用名称",全部应用右列[i]):gsub("应用id",应用右列id[i])
+    end
+  end
+end
+全部应用右列布局=[[{
+LinearLayout,
+layout_width="fill",
+layout_height="fill",
+orientation="vertical",
+]]..全部应用右列布局.."}"
+b=loadstring("return "..全部应用左列布局)全部应用左列布局=b()
+qbyyzl.addView(loadlayout(全部应用左列布局))
+b=loadstring("return "..全部应用右列布局)全部应用右列布局=b()
+qbyyyl.addView(loadlayout(全部应用右列布局))
+for i=1,#应用左列id do
+  if i==1 then
+    全部应用左列事件="波纹("..应用左列id[1]..",0xFFE9E9E9)"..应用左列id[1]..".onLongClick=function()应用添加收藏()if ytc"..应用左列id[1]:sub(3,#应用左列id[1]).."fxk.isChecked()==false then "..[[轻工具主页待添加收藏应用='"'..全部应用左列[1]..'",']].."end ytc"..应用左列id[1]:sub(3,#应用左列id[1]).."fxk.setChecked(true)return true end "
+  else
+    全部应用左列事件=全部应用左列事件.."波纹("..应用左列id[i]..",0xFFE9E9E9)"..应用左列id[i]..".onLongClick=function()应用添加收藏()待添加收藏应用名称='"..全部应用左列[i].."'if ytc"..应用左列id[i]:sub(3,#应用左列id[i]).."fxk.isChecked()==false then "..[[轻工具主页待添加收藏应用='"'..待添加收藏应用名称..'",']].."end ytc"..应用左列id[i]:sub(3,#应用左列id[i]).."fxk.setChecked(true)return true end "
+  end
+end
+for i=1,#应用右列id do
+  if i==1 then
+    全部应用右列事件="波纹("..应用右列id[1]..",0xFFE9E9E9)"..应用右列id[1]..".onLongClick=function()应用添加收藏()if ytc"..应用右列id[1]:sub(3,#应用右列id[1]).."fxk.isChecked()==false then "..[[轻工具主页待添加收藏应用='"'..全部应用右列[1]..'",']].."end ytc"..应用右列id[1]:sub(3,#应用右列id[1]).."fxk.setChecked(true)return true end "
+  else
+    全部应用右列事件=全部应用右列事件.."波纹("..应用右列id[i]..",0xFFE9E9E9)"..应用右列id[i]..".onLongClick=function()应用添加收藏()待添加收藏应用名称='"..全部应用右列[i].."'if ytc"..应用右列id[i]:sub(3,#应用右列id[i]).."fxk.isChecked()==false then "..[[轻工具主页待添加收藏应用='"'..待添加收藏应用名称..'",']].."end ytc"..应用右列id[i]:sub(3,#应用右列id[i]).."fxk.setChecked(true)return true end "
+  end
+end
+b=loadstring("return ".."function()"..全部应用左列事件..全部应用右列事件.."end")全部应用事件=b()
+function qbyysj()end
+qbyysj=全部应用事件
+qbyysj()
+end
+function 应用添加收藏()
+轻工具主页待添加收藏应用=""
+应用添加收藏布局={
+  LinearLayout,
+  layout_width=w,
+  layout_height=h,
+  orientation="vertical",
+  backgroundColor=0xffffffff,
+  {
+    FrameLayout,
+    layout_width=w,
+    layout_height=h,
+    {
+      LinearLayout,
+      layout_width=w,
+      elevation="5dp",
+      backgroundColor=0xFF9AAEC7,
+      layout_height=getStatusBarHeight()+geth(toolbar),
+      {
+        LinearLayout,
+        layout_width=w,
+        layout_gravity="bottom",
+        orientation="horizontal",
+        layout_height=geth(toolbar),
+        {
+          ImageView,
+          padding="15dp",
+          layout_width="48dp",
+          layout_height="48dp",
+          ColorFilter=0xffffffff,
+          layout_gravity="center",
+          src="http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0",
+          onClick=function()yytjscbj.dismiss()end,
+        },
+        {
+          TextView,
+          text="添加收藏",
+          layout_weight="1",
+          textColor=0xffffffff,
+          layout_gravity="center",
+          backgroundColor=0xFF9AAEC7,
+        },
+        {
+          ImageView,
+          padding="14dp",
+          layout_width="48dp",
+          ColorFilter=0xffffffff,
+          layout_height="48dp",
+          layout_gravity="center",
+          onClick=function()yytjscbj.dismiss()end,
+          src="http://shp.qpic.cn/collector/2530648358/17ef4ca4-70b8-4288-ace7-b965b13caa89/0",
+        },
+      },
+    },
+    {
+      NestedScrollView,
+      layout_width="fill",
+      layout_height="fill",
+      layout_marginTop=40/32*geth(toolbar)+getStatusBarHeight(),
+      layout_marginLeft="8dp",
+      layout_marginRight="8dp",
+      {
+        LinearLayout,
+        layout_width="fill",
+        layout_height="fill",
+        orientation="horizontal",
+        {
+          LinearLayout,
+          id="yysczl",
+          orientation="vertical",
+          layout_width=0.5*w-geth(toolbar)/4,
+        },
+        {
+          LinearLayout,
+          id="yyscyl",
+          orientation="vertical",
+          layout_width=0.5*w-geth(toolbar)/4,
+        },
+      },
+    },
+    {
+      CardView,
+      radius="28dp",
+      elevation="5dp",
+      layout_width="56dp",
+      layout_height="56dp",
+      layout_margin="16dp",
+      layout_gravity="right|bottom",
+      cardBackgroundColor=0xFF68AFE5,
+      {
+        ImageView,
+        padding="14dp",
+        layout_width="fill",
+        layout_height="fill",
+        ColorFilter=0xffffffff,
+        layout_gravity="center",
+        src="http://shp.qpic.cn/collector/2530648358/63f0b437-8922-485c-8f85-8c2077fca763/0",
+        onClick=function()
+          if 轻工具主页待添加收藏应用=="" then
+            提示"未添加。"
+          else
+            轻工具主页收藏应用=io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a")
+            io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用","w+"):write(轻工具主页收藏应用:sub(1,#轻工具主页收藏应用-1)..轻工具主页待添加收藏应用:gsub("短链 生成与还原","短链生成").."}"):close()
+            提示"添加收藏成功。"
+            yytjscbj.dismiss()
+            主页收藏应用()
+          end
+        end,
+      },
+    },
+  },
+}
+yytjscbj=PopupWindow(loadlayout(应用添加收藏布局))
+yytjscbj.setFocusable(true)
+yytjscbj.setWidth(w)
+yytjscbj.setHeight(h)
+yytjscbj.setTouchable(true)
+yytjscbj.setOutsideTouchable(true)
+yytjscbj.showAtLocation(fltBtn.Parent,0,0,0)
+应用添加收藏适配布局=[[
+{
+  CardView,
+  elevation=0,
+  radius="4dp",
+  layout_width="fill",
+  layout_margin="8dp",
+  cardBackgroundColor=0xFFF8F8F8,
+  {
+    LinearLayout,
+    id="应用id",
+    padding="8dp",
+    layout_width="fill",
+    orientation="horizontal",
+    onClick=function()
+      if 已添加==nil then
+        if 应用idfxk.isChecked()==false then
+          应用idfxk.setChecked(true)
+          轻工具主页待添加收藏应用=轻工具主页待添加收藏应用..'"应用名称",'
+        else
+          应用idfxk.setChecked(false)
+          轻工具主页待添加收藏应用=轻工具主页待添加收藏应用:gsub('"应用名称",',"")
+        end
+      end
+    end,
+    {
+      TextView,
+      gravity="center",
+      text="应用名称",
+      layout_weight="1",
+      layout_gravity="center",
+      textColor=0xFF424242,
+    },
+    {
+      CheckBox,
+      id="应用idfxk",
+      checked=已勾选,
+      enabled=可勾选,
+      onClick=function()
+        if 已添加==nil then
+          if 应用idfxk.isChecked()==true then
+            轻工具主页待添加收藏应用=轻工具主页待添加收藏应用..'"应用名称",'
+          else
+            轻工具主页待添加收藏应用=轻工具主页待添加收藏应用:gsub('"应用名称",',"")
+          end
+        end
+      end,
+    },
+  },
+},
+]]
+b=loadstring("return "..io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a"))轻工具主页收藏应用=b()
+应用添加收藏左列id={"ytcsjpmid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcbase64bmzhid"}
+for i=1,#全部应用左列 do
+  if i==1 then
+    应用添加收藏左列布局=应用添加收藏适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用添加收藏左列id[1])
+    for n=1,#轻工具主页收藏应用+1 do
+      if n==#轻工具主页收藏应用+1 then
+        应用添加收藏左列布局=应用添加收藏左列布局:gsub("已添加","nil"):gsub("已勾选","false"):gsub("可勾选","true")
+      elseif 轻工具主页收藏应用[n]:find(全部应用左列[i]) then
+        应用添加收藏左列布局=应用添加收藏左列布局:gsub("已添加","true"):gsub("已勾选","true"):gsub("可勾选","false")break
+      end
+    end
+  else
+    应用添加收藏左列布局=应用添加收藏左列布局..应用添加收藏适配布局:gsub("应用名称",全部应用左列[i]):gsub("应用id",应用添加收藏左列id[i])
+    for n=1,#轻工具主页收藏应用+1 do
+      if n==#轻工具主页收藏应用+1 then
+        应用添加收藏左列布局=应用添加收藏左列布局:gsub("已添加","nil"):gsub("已勾选","false"):gsub("可勾选","true")
+      elseif 轻工具主页收藏应用[n]:find(全部应用左列[i]) then
+        应用添加收藏左列布局=应用添加收藏左列布局:gsub("已添加","true"):gsub("已勾选","true"):gsub("可勾选","false")break
+      end
+    end
+  end
+end
+应用添加收藏左列布局=[[{
+LinearLayout,
+layout_width="fill",
+layout_height="fill",
+orientation="vertical",
+]]..应用添加收藏左列布局.."}"
+应用添加收藏右列id={"ytcfyid","ytcdlscid","ytcznzid","ytcqsqid","ytchqdqbzid","ytcmsdmid","ytcsjsscid"}
+for i=1,#全部应用右列 do
+  if i==1 then
+    应用添加收藏右列布局=应用添加收藏适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用添加收藏右列id[1])
+    for n=1,#轻工具主页收藏应用+1 do
+      if n==#轻工具主页收藏应用+1 then
+        应用添加收藏右列布局=应用添加收藏右列布局:gsub("已添加","nil"):gsub("已勾选","false"):gsub("可勾选","true")
+      elseif 轻工具主页收藏应用[n]:find(全部应用右列[i]) then
+        应用添加收藏右列布局=应用添加收藏右列布局:gsub("已添加","true"):gsub("已勾选","true"):gsub("可勾选","false")break
+      end
+    end
+  else
+    应用添加收藏右列布局=应用添加收藏右列布局..应用添加收藏适配布局:gsub("应用名称",全部应用右列[i]):gsub("应用id",应用添加收藏右列id[i]):gsub("短链生成","短链 生成与还原")
+    for n=1,#轻工具主页收藏应用+1 do
+      if n==#轻工具主页收藏应用+1 then
+        应用添加收藏右列布局=应用添加收藏右列布局:gsub("已添加","nil"):gsub("已勾选","false"):gsub("可勾选","true")
+      elseif 轻工具主页收藏应用[n]:find(全部应用右列[i]) then
+        应用添加收藏右列布局=应用添加收藏右列布局:gsub("已添加","true"):gsub("已勾选","true"):gsub("可勾选","false")break
+      end
+    end
+  end
+end
+应用添加收藏右列布局=[[{
+LinearLayout,
+layout_width="fill",
+layout_height="fill",
+orientation="vertical",
+]]..应用添加收藏右列布局.."}"
+b=loadstring("return "..应用添加收藏左列布局)应用添加收藏左列布局=b()
+yysczl.addView(loadlayout(应用添加收藏左列布局))
+b=loadstring("return "..应用添加收藏右列布局)应用添加收藏右列布局=b()
+yyscyl.addView(loadlayout(应用添加收藏右列布局))
+for i=1,#应用左列id do
+  if i==1 then
+    应用添加收藏左列点击波纹="波纹("..应用添加收藏左列id[1]..",0xFFE9E9E9)"
+  else
+    应用添加收藏左列点击波纹=应用添加收藏左列点击波纹.."波纹("..应用添加收藏左列id[i]..",0xFFE9E9E9)"
+  end
+end
+for i=1,#应用右列id do
+  if i==1 then
+    应用添加收藏右列点击波纹="波纹("..应用添加收藏右列id[1]..",0xFFE9E9E9)"
+  else
+    应用添加收藏右列点击波纹=应用添加收藏右列点击波纹.."波纹("..应用添加收藏右列id[i]..",0xFFE9E9E9)"
+  end
+end
+b=loadstring("return ".."function()"..应用添加收藏左列点击波纹..应用添加收藏右列点击波纹.."end")应用添加收藏点击波纹=b()
+function yytjscdjbw()end
+yytjscdjbw=应用添加收藏点击波纹
+yytjscdjbw()
 end
 function 时间屏幕()
 io.open(this.luaDir.."/sub/1552308105/sj.lua","w+"):write([[
@@ -1478,6 +1898,14 @@ task(500,function()
   end
 end)
 end
+function ms2time(ms)
+  date=tostring(Date(ms))
+  year=date:sub(#date-4,#date)
+  month=(date:sub(5,7)):gsub("Jan","01"):gsub("Feb","02"):gsub("Mar","03"):gsub("Apr","04"):gsub("May","05"):gsub("Jun","06"):gsub("Jul","07"):gsub("Aug","08"):gsub("Sep","09"):gsub("Oct","10"):gsub("Nov","11"):gsub("Dec","12")
+  day=date:sub(9,10)
+  time=date:sub(12,19)
+  return (year.."-"..month.."-"..day.." "..time)
+end
 function 快递查询Lite()
 kdxqbj=nil
 快递查询Lite布局={
@@ -1695,14 +2123,6 @@ jzkdxqbm.setWebViewClient{
       解析快递编码(io.open("/data/data/"..activity.getPackageName().."/保存快递详情编码"):read("*a"))
     end)
   end}
-function ms2time(ms)
-  date=tostring(Date(ms))
-  year=date:sub(#date-4,#date)
-  month=(date:sub(5,7)):gsub("Jan","01"):gsub("Feb","02"):gsub("Mar","03"):gsub("Apr","04"):gsub("May","05"):gsub("Jun","06"):gsub("Jul","07"):gsub("Aug","08"):gsub("Sep","09"):gsub("Oct","10"):gsub("Nov","11"):gsub("Dec","12")
-  day=date:sub(9,10)
-  time=date:sub(12,19)
-  return (year.."-"..month.."-"..day.." "..time)
-end
 function 解析快递编码(kdxqbm)
   if kdxqbj then
   kdxqbj.setVisibility(View.GONE)
@@ -1795,6 +2215,479 @@ function 获取当前壁纸()
     存图片("/storage/emulated/0/Pictures/UTBC浏览器/"..os.date("%Y%m%d%H%M%S").."_wallpaper.png",bztp)
   end)
 end
+function getScreenPhysicalSize(ctx)
+  import "android.util.DisplayMetrics"
+  dm = DisplayMetrics();
+  ctx.getWindowManager().getDefaultDisplay().getMetrics(dm);
+  diagonalPixels = Math.sqrt(Math.pow(dm.widthPixels, 2) + Math.pow(dm.heightPixels, 2));
+  return diagonalPixels / (160 * dm.density);
+end
+function 查看设备详细信息()
+--print(Date(1493007016000))
+设备信息="品牌:"..Build.BRAND.."\n\n设备型号:"..Build.MODEL.."\n\n主板:"..Build.BOARD.."\n\n产品型号:"..Build.DEVICE.."\n\n指纹认证:"..Build.FINGERPRINT.."\n\n出厂日期:"..ms2time(Build.TIME).."\n\n标签:"..Build.TAGS.."\n\n用户:"..Build.USER.."\n\nID:"..Build.ID.."\n\n安卓版本:"..Build.VERSION.RELEASE.."\n\nSDK版本号:"..Build.VERSION.SDK.."\n\n制造商:"..Build.MANUFACTURER.."\n\n主机:"..Build.HOST.."\n\n类型:"..Build.TYPE.."\n\n代号:"..Build.VERSION.CODENAME.."\n\nCPU架构:"..Build.CPU_ABI.."\n\n广播:"..Build.RADIO
+圆角对话框()
+.设置消息(设备信息)
+.设置积极按钮("复制所有",function()
+  复制文本(设备信息)
+end)
+.设置中立按钮("更多",function()
+  task(150,function()
+    batteryInfoIntent =activity.getApplicationContext().registerReceiver(null,IntentFilter(Intent.ACTION_BATTERY_CHANGED))
+    圆角对话框()
+    .设置标题("更多信息")
+    .设置消息("电池电量："..batteryInfoIntent.getIntExtra("level",0).."%\n\n电池温度："..(batteryInfoIntent.getIntExtra("temperature",0)/10).."℃\n\n电池电压："..batteryInfoIntent.getIntExtra("voltage",0).."mV\n\n屏幕尺寸："..getScreenPhysicalSize(activity))
+    .显示()
+  end)
+end)
+.显示()
+end
+function 摩斯电码()
+local dbh=h-geth(toolbar)-getStatusBarHeight()
+摩斯电码布局={
+  LinearLayout,
+  orientation="vertical",
+  backgroundColor=0xFF9AAEC7,
+  {
+    LinearLayout,
+    layout_marginTop=getStatusBarHeight(),
+    layout_width=w,
+    layout_height=geth(toolbar),
+    backgroundColor=0xFF9AAEC7,
+    {
+      TextView,
+      layout_marginLeft="16dp",
+      layout_gravity="center",
+      textColor=0xffffffff,
+      text="摩斯电码",
+    },
+  },
+  {
+    LinearLayout,
+    layout_width=w,
+    layout_height=dbh,
+    backgroundColor=0xffffffff,
+    orientation="vertical",
+    {
+      EditText,
+      id="srwb",
+      gravity="top",
+      padding="16dp",
+      layout_width="fill",
+      layout_weight="1",
+      hint="请输入需要转换成摩斯电码的文本（不支持中文）",
+      hintTextColor=0xffa1a1a1,
+      textColor=0xff000000,
+      backgroundColor=0xffffffff,
+    },
+    {
+      LinearLayout,
+      padding="24dp",
+      layout_width=w,
+      backgroundColor=0xFFF5F5F5,
+      orientation="horizontal",
+      {
+        CardView,
+        layout_weight="1",
+        layout_height="45dp",
+        radius="22.5dp",
+        layout_marginRight="12dp",
+        elevation=0,
+        cardBackgroundColor=0xFF9AAEC7,
+        {
+          TextView,
+          id="hyzmw",
+          text="还原至明文",
+          textColor=0xffffffff,
+          layout_width="fill",
+          layout_height="fill",
+          gravity="center",
+          onClick=function()
+          电码文本=""
+            if srwb.text~=""then
+              for i=1,#srwb.text do
+                if string.byte(srwb.text,i)==46 then
+                  电码文本=电码文本.."点"
+                elseif string.byte(srwb.text,i)==45 then
+                  电码文本=电码文本.."杠"
+                else
+                  电码文本=电码文本..srwb.text:sub(i,i)
+                end
+              end
+              if 电码文本:sub(#电码文本,#电码文本)~=" " then
+                电码文本=电码文本.." "
+              end
+              scwb.text=电码文本:sub(2,#电码文本):gsub("/"," "):gsub("杠杠杠点点点 ",":"):gsub("杠杠点点杠杠 ",","):gsub("杠点杠点杠点 ",";"):gsub("点点杠杠点点 ","?"):gsub("杠点杠点杠杠 ","!"):gsub("点点杠杠点杠 ","_"):gsub("点杠点点杠点 ",'"'):gsub("点杠杠点杠点 ","@"):gsub("点杠杠杠杠点 ","'"):gsub("点杠点杠点杠 ","."):gsub("杠点杠杠点杠 ",")"):gsub("杠点点点杠 ","="):gsub("杠杠杠杠杠 ","0"):gsub("点杠杠杠杠 ","1"):gsub("点点杠杠杠 ","2"):gsub("点点点杠杠 ","3"):gsub("点点点点杠 ","4"):gsub("点点点点点 ","5"):gsub("杠点点点点 ","6"):gsub("杠杠点点点 ","7"):gsub("杠杠杠点点 ","8"):gsub("杠杠杠杠点 ","9"):gsub("杠点杠杠点 ","("):gsub("点杠杠点 ","p"):gsub("杠杠点 ","g"):gsub("杠点杠点 ","c"):gsub("杠点点杠点 ","/"):gsub("点点杠点 ","f"):gsub("点杠点 ","r"):gsub("杠点 ","n"):gsub("杠点点点 ","b"):gsub("点点点点 ","h"):gsub("点杠点点 ","l"):gsub("杠杠点点 ","z"):gsub("杠点点 ","d"):gsub("点点点 ","s"):gsub("点点 ","i"):gsub("杠点杠杠 ","y"):gsub("点杠杠 ","w"):gsub("点杠杠杠 ","j"):gsub("杠杠杠 ","o"):gsub("杠杠 ","m"):gsub("杠杠点杠 ","q"):gsub("杠点杠 ","k"):gsub("点点点杠 ","v"):gsub("杠点点杠 ","x"):gsub("点点杠 ","u"):gsub("点杠 ","a"):gsub("点 ","e"):gsub("杠 ","t")
+            else
+              提示"请输入文本.."
+            end
+          end,
+        },
+      },
+      {
+        CardView,
+        layout_marginLeft="12dp",
+        layout_gravity="center",
+        layout_weight="1",
+        layout_height="45dp",
+        radius="22.5dp",
+        elevation=0,
+        cardBackgroundColor=0xFF68AFE5,
+        {
+          TextView,
+          id="zwmsdm",
+          text="转为摩斯电码",
+          textColor=0xffffffff,
+          gravity="center",
+          layout_width="fill",
+          layout_height="fill",
+          onClick=function()
+          正常文本=""
+            if srwb.text~=""then
+              for i=1,#srwb.text do
+                if string.byte(srwb.text,i)==46 then
+                  正常文本=正常文本..".-.-.- "
+                elseif string.byte(srwb.text,i)==40 then
+                  正常文本=正常文本.."-.--. "
+                elseif string.byte(srwb.text,i)==41 then
+                  正常文本=正常文本.."-.--.- "
+                else
+                  正常文本=正常文本..srwb.text:sub(i,i)
+                end
+              end
+              scwb.text=" "..string.lower(正常文本):gsub("a",".- "):gsub("b","-... "):gsub("c","-.-. "):gsub("d","-.. "):gsub("e",". "):gsub("f","..-. "):gsub("g","--. "):gsub("h",".... "):gsub("i",".. "):gsub("j",".--- "):gsub("k","-.- "):gsub("l",".-.. "):gsub("m","-- "):gsub("n","-. "):gsub("o","--- "):gsub("p",".--. "):gsub("q","--.- "):gsub("r",".-. "):gsub("s","... "):gsub("t","- "):gsub("u","..- "):gsub("v","...- "):gsub("w",".-- "):gsub("x","-..- "):gsub("y","-.-- "):gsub("z","--.. "):gsub("1",".---- "):gsub("2","..--- "):gsub("3","...-- "):gsub("4","....- "):gsub("5","..... "):gsub("6","-.... "):gsub("7","--... "):gsub("8","---.. "):gsub("9","----. "):gsub("0","----- "):gsub(":","---... "):gsub(",","--..-- "):gsub(";","-.-.-. "):gsub("?","..--.. "):gsub("=","-...- "):gsub("'",".----. "):gsub("/","-..-. "):gsub("!","-.-.-- "):gsub("_","..--.- "):gsub('"',".-..-. "):gsub("@",".--.-. ")
+            else
+              提示"请输入文本.."
+            end
+          end,
+        },
+      },
+    },
+    {
+      LinearLayout,
+      layout_width=w,
+      orientation="vertical",
+      layout_weight="1",
+      {
+        EditText,
+        id="scwb",
+        gravity="top",
+        padding="16dp",
+        layout_width=w,
+        layout_weight="1",
+        hint="内容输出..",
+        hintTextColor=0xffa1a1a1,
+        textColor=0xff000000,
+        backgroundColor=0xffffffff,
+      },
+      {
+        LinearLayout,
+        layout_height=math.sqrt(2*(28/32*geth(toolbar)^2))-(28/32*geth(toolbar)),
+      },
+      {
+        ImageView,
+        id="fznr",
+        padding="16dp",
+        layout_width="56dp",
+        layout_height="56dp",
+        layout_gravity="right",
+        src="http://shp.qpic.cn/collector/2530648358/936bf7ca-d0f1-4f81-b0d1-ddd28b7255a3/0",
+        onClick=function()复制文本(scwb.text)提示"复制完成"end,
+      },
+    },
+  },
+}
+msdmbj=PopupWindow(loadlayout(摩斯电码布局))
+msdmbj.setFocusable(true)
+msdmbj.setWidth(w)
+msdmbj.setHeight(h)
+msdmbj.setTouchable(true)
+msdmbj.setOutsideTouchable(true)
+msdmbj.showAtLocation(fltBtn.Parent,0,0,0)
+波纹(fznr,0xFFE2E2E2)波纹(hyzmw,0xFF92A4BC)波纹(zwmsdm,0xFF63A5D7)
+颜色(scwb,0xFF68AFE5)颜色(srwb,0xFF68AFE5)
+end
+function encode(data)
+  local Base64=luajava.bindClass("android.util.Base64")
+  return Base64.encodeToString(String(data).getBytes(),Base64.NO_WRAP);
+end
+function decode(data)
+  local Base64=luajava.bindClass("android.util.Base64")
+  return String(Base64.decode(data,Base64.DEFAULT)).toString()
+end
+function Base64编码转换()
+local dbh=h-geth(toolbar)-getStatusBarHeight()
+Base64编码转换布局={
+  LinearLayout,
+  orientation="vertical",
+  backgroundColor=0xFF9AAEC7,
+  {
+    LinearLayout,
+    layout_marginTop=getStatusBarHeight(),
+    layout_width=w,
+    layout_height=geth(toolbar),
+    backgroundColor=0xFF9AAEC7,
+    {
+      TextView,
+      layout_marginLeft="16dp",
+      layout_gravity="center",
+      textColor=0xffffffff,
+      text="Base64编码转换",
+    },
+  },
+  {
+    LinearLayout,
+    layout_width=w,
+    layout_height=dbh,
+    backgroundColor=0xffffffff,
+    orientation="vertical",
+    {
+      EditText,
+      id="srwb",
+      gravity="top",
+      padding="16dp",
+      layout_width="fill",
+      layout_weight="1",
+      hint="请输入内容..",
+      hintTextColor=0xffa1a1a1,
+      textColor=0xff000000,
+      backgroundColor=0xffffffff,
+    },
+    {
+      LinearLayout,
+      padding="24dp",
+      layout_width=w,
+      backgroundColor=0xFFF5F5F5,
+      orientation="horizontal",
+      {
+        CardView,
+        layout_weight="1",
+        layout_height="45dp",
+        radius="22.5dp",
+        layout_marginRight="12dp",
+        elevation=0,
+        cardBackgroundColor=0xFF9AAEC7,
+        {
+          TextView,
+          id="jiema",
+          text="解码",
+          textColor=0xffffffff,
+          layout_width="fill",
+          layout_height="fill",
+          gravity="center",
+          onClick=function()
+            if srwb.text~=""then
+              scwb.text=decode(srwb.text)
+            else
+              提示"请输入文本.."
+            end
+          end,
+        },
+      },
+      {
+        CardView,
+        layout_marginLeft="12dp",
+        layout_gravity="center",
+        layout_weight="1",
+        layout_height="45dp",
+        radius="22.5dp",
+        elevation=0,
+        cardBackgroundColor=0xFF68AFE5,
+        {
+          TextView,
+          id="bianma",
+          text="编码",
+          textColor=0xffffffff,
+          gravity="center",
+          layout_width="fill",
+          layout_height="fill",
+          onClick=function()
+            if srwb.text~=""then
+              scwb.text=encode(srwb.text)
+            else
+              提示"请输入文本.."
+            end
+          end,
+        },
+      },
+    },
+    {
+      LinearLayout,
+      layout_width=w,
+      orientation="vertical",
+      layout_weight="1",
+      {
+        EditText,
+        id="scwb",
+        gravity="top",
+        padding="16dp",
+        layout_width=w,
+        layout_weight="1",
+        hint="转换输出..",
+        hintTextColor=0xffa1a1a1,
+        textColor=0xff000000,
+        backgroundColor=0xffffffff,
+      },
+      {
+        LinearLayout,
+        layout_height=math.sqrt(2*(28/32*geth(toolbar)^2))-(28/32*geth(toolbar)),
+      },
+      {
+        ImageView,
+        id="fzsc",
+        padding="16dp",
+        layout_width="56dp",
+        layout_height="56dp",
+        layout_gravity="right",
+        src="http://shp.qpic.cn/collector/2530648358/936bf7ca-d0f1-4f81-b0d1-ddd28b7255a3/0",
+        onClick=function()复制文本(scwb.text)提示"复制完成"end,
+      },
+    },
+  },
+}
+base64bmzhbj=PopupWindow(loadlayout(Base64编码转换布局))
+base64bmzhbj.setFocusable(true)
+base64bmzhbj.setWidth(w)
+base64bmzhbj.setHeight(h)
+base64bmzhbj.setTouchable(true)
+base64bmzhbj.setOutsideTouchable(true)
+base64bmzhbj.showAtLocation(fltBtn.Parent,0,0,0)
+波纹(fzsc,0xFFE2E2E2)波纹(jiema,0xFF92A4BC)波纹(bianma,0xFF63A5D7)
+颜色(scwb,0xFF68AFE5)颜色(srwb,0xFF68AFE5)
+end
+function 随机数生成()
+随机数生成布局={
+  LinearLayout,
+  layout_width=w,
+  layout_height=h,
+  orientation="vertical",
+  backgroundColor=0xFF9AAEC7,
+  {
+    LinearLayout,
+    layout_width=w,
+    layout_height=geth(toolbar),
+    backgroundColor=0xFF9AAEC7,
+    layout_marginTop=getStatusBarHeight(),
+    {
+      TextView,
+      layout_marginLeft="16dp",
+      layout_gravity="center",
+      textColor=0xffffffff,
+      text="随机数生成",
+    },
+  },
+  {
+    FrameLayout,
+    layout_width=w,
+    layout_height="fill",
+    backgroundColor=0xFFFFFFFF,
+    {
+      LinearLayout,
+      layout_width="fill",
+      layout_height="56dp",
+      layout_margin="24dp",
+      orientation="horizontal",
+      {
+        EditText,
+        id="zxz",
+        textSize="13sp",
+        paddingLeft="8dp",
+        layout_height="fill",
+        paddingRight="8dp",
+        inputType="number",
+        hint="请输入最小值..",
+        textColor=0xFF000000,
+        hintTextColor=0xFF979797,
+        backgroundColor=0xFFF5F5F5,
+        layout_width=(w-104/32*geth(toolbar))/2,
+      },
+      {
+        ImageView,
+        padding="16dp",
+        layout_height="fill",
+        layout_width="56dp",
+        ColorFilter=0xFF747474,
+        backgroundColor=0xFFEEEEEE,
+        src="http://shp.qpic.cn/collector/2530648358/46da9399-5069-47b4-b596-fdae5f4bab8f/0",
+      },
+      {
+        EditText,
+        id="zdz",
+        textSize="13sp",
+        layout_weight="1",
+        paddingLeft="8dp",
+        layout_height="fill",
+        paddingRight="8dp",
+        inputType="number",
+        hint="请输入最大值..",
+        textColor=0xFF000000,
+        hintTextColor=0xFF979797,
+        backgroundColor=0xFFF5F5F5,
+        layout_width=(w-104/32*geth(toolbar))/2,
+      },
+    },
+    {
+      CardView,
+      elevation=0,
+      radius="120dp",
+      layout_width="240dp",
+      layout_height="240dp",
+      layout_gravity="center",
+      cardBackgroundColor=0xFFC2CEDC,
+      {
+        CardView,
+        elevation=0,
+        radius="100dp",
+        layout_width="200dp",
+        layout_height="200dp",
+        layout_gravity="center",
+        cardBackgroundColor=0xFF9AAEC7,
+        {
+          TextView,
+          id="sjs",
+          gravity="center",
+          textSize="28sp",
+          layout_gravity="center",
+          textColor=0xFFFFFFFF,
+          Typeface=Typeface.DEFAULT_BOLD,
+        },
+      },
+    },
+    {
+      CardView,
+      elevation=0,
+      radius="24dp",
+      layout_height="48dp",
+      layout_width="240dp",
+      layout_marginBottom="56dp",
+      layout_gravity="center|bottom",
+      cardBackgroundColor=0xFF68AFE5,
+      onClick=function()
+        if zxz.text~="" and zdz.text~="" then
+          sjs.setText(tostring(math.random(zxz.text,zdz.text)))
+          scsjs.setText("继续")
+        else
+          提示"值为空,请先输入值。"
+        end
+      end,
+      {
+        TextView,
+        id="scsjs",
+        text="生成",
+        textColor=0xFFFFFFFF,
+        layout_gravity="center",
+      },
+    },
+  },
+}
+sjsscbj=PopupWindow(loadlayout(随机数生成布局))
+sjsscbj.setFocusable(true)
+sjsscbj.setWidth(w)
+sjsscbj.setHeight(h)
+sjsscbj.setTouchable(true)
+sjsscbj.setOutsideTouchable(true)
+sjsscbj.showAtLocation(fltBtn.Parent,0,0,0)
+颜色(zxz,0xFF68AFE5)颜色(zdz,0xFF68AFE5)
+end
 import"android.support.v4.widget.*"
 轻工具布局={
   FrameLayout,
@@ -1836,10 +2729,70 @@ import"android.support.v4.widget.*"
       id="pagev2",
       pages={
         {
-          LinearLayout,
+          FrameLayout,
           layout_width=w,
           layout_height="fill",
-          orientation="vertical",
+          {
+            NestedScrollView;
+            layout_width="fill",
+            layout_height="fill",
+            layout_marginTop="8dp",
+            layout_marginLeft="8dp",
+            layout_marginRight="8dp",
+            VerticalScrollBarEnabled=false,
+            {
+              LinearLayout,
+              layout_width="fill",
+              layout_height="fill",
+              orientation="horizontal",
+              {
+                LinearLayout,
+                id="zyyyzl",
+                orientation="vertical",
+                layout_width=0.5*w-geth(toolbar)/4,
+              },
+              {
+                LinearLayout,
+                id="zyyyyl",
+                orientation="vertical",
+                layout_width=0.5*w-geth(toolbar)/4,
+              },
+            },
+          },
+          {
+            CardView,
+            id="scscyy",
+            visibility=4,
+            radius="28dp",
+            elevation="5dp",
+            layout_width="56dp",
+            layout_height="56dp",
+            layout_margin="16dp",
+            layout_gravity="right|bottom",
+            cardBackgroundColor=0xFF68AFE5,
+            layout_marginBottom=0.068*h+16/32*geth(toolbar),
+            {
+              ImageView,
+              padding="14dp",
+              layout_width="fill",
+              layout_height="fill",
+              ColorFilter=0xffffffff,
+              layout_gravity="center",
+              src="http://shp.qpic.cn/collector/2530648358/42fcb38e-779a-4622-886d-fade6f7a08f7/0",
+              onClick=function()
+                if 轻工具主页待删除应用~=""then
+                  b=loadstring("return ".."{"..轻工具主页待删除应用.."}")轻工具主页待删除应用=b()
+                  轻工具主页收藏应用=io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a")
+                  for i=1,#轻工具主页待删除应用 do
+                    轻工具主页收藏应用=轻工具主页收藏应用:gsub('"'..轻工具主页待删除应用[i]..'",',"")
+                  end
+                  io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用","w+"):write(轻工具主页收藏应用):close()
+                  scscyy.setVisibility(4)
+                  主页收藏应用()
+                end
+              end,
+            },
+          },
         },
         {
           NestedScrollView;
@@ -1858,6 +2811,7 @@ import"android.support.v4.widget.*"
               layout_width=w,
               orientation="horizontal",
               backgroundColor=0xffffffff,
+              onClick=function()全部应用()end,
               {
                 ImageView,
                 layout_width="24dp",
@@ -2502,11 +3456,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
+                        id="cksbxxxxid",
                         paddingLeft="12dp",
                         paddingRight="12dp",
                         text="查看设备详细信息",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
+                        onClick=function()查看设备详细信息()end,
                       },
                     },
                   },
@@ -2724,11 +3680,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
+                        id="msdmid",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="摩斯密码",
+                        text="摩斯电码",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
+                        onClick=function()摩斯电码()end,
                       },
                     },
                     {
@@ -2777,11 +3735,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
+                        id="base64bmzhid",
                         paddingLeft="12dp",
                         paddingRight="12dp",
                         text="Base64编码转换",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
+                        onClick=function()Base64编码转换()end,
                       },
                     },
                     {
@@ -2866,11 +3826,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
+                        id="sjsscid",
                         paddingLeft="12dp",
                         paddingRight="12dp",
                         text="随机数生成",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
+                        onClick=function()随机数生成()end,
                       },
                     },
                   },
@@ -3024,13 +3986,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
-                        id="tpzljid2",
+                        id="cksbxxxxid2",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="图片转链接",
+                        text="查看设备详细信息",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
-                        onClick=function()图片转链接()end,
+                        onClick=function()查看设备详细信息()end,
                       },
                     },
                     {
@@ -3042,13 +4004,54 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
-                        id="hqdqbzid2",
+                        id="msdmid2",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="获取当前壁纸",
+                        text="摩斯电码",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
-                        onClick=function()获取当前壁纸()end,
+                        onClick=function()摩斯电码()end,
+                      },
+                    },
+                  },
+                  {
+                    LinearLayout,
+                    layout_height="32dp",
+                    orientation="horizontal",
+                    layout_marginTop="10dp",
+                    {
+                      CardView,
+                      layout_height="fill",
+                      elevation=0,
+                      radius="16dp",
+                      cardBackgroundColor=0xFFF8F8F8,
+                      {
+                        TextView,
+                        id="base64bmzhid2",
+                        paddingLeft="12dp",
+                        paddingRight="12dp",
+                        text="Base64编码转换",
+                        textColor=0xFF4E4E4E,
+                        layout_gravity="center",
+                        onClick=function()Base64编码转换()end,
+                      },
+                    },
+                    {
+                      CardView,
+                      layout_height="fill",
+                      elevation=0,
+                      radius="16dp",
+                      layout_marginLeft="10dp",
+                      cardBackgroundColor=0xFFF8F8F8,
+                      {
+                        TextView,
+                        id="sjsscid2",
+                        paddingLeft="12dp",
+                        paddingRight="12dp",
+                        text="随机数生成",
+                        textColor=0xFF4E4E4E,
+                        layout_gravity="center",
+                        onClick=function()随机数生成()end,
                       },
                     },
                   },
@@ -3165,7 +4168,7 @@ import"android.support.v4.widget.*"
         TextView,
         id="zhwb",
         text="综合",
-        TextSize=12,
+        textSize=12,
       },
     },
   },
@@ -3177,9 +4180,103 @@ qgj.setHeight(h)
 qgj.setTouchable(true)
 qgj.setOutsideTouchable(true)
 qgj.showAtLocation(fltBtn.Parent,0,0,0)
+主页收藏应用适配布局=[[
+{
+  CardView,
+  elevation=0,
+  radius="4dp",
+  layout_width="fill",
+  layout_margin="8dp",
+  cardBackgroundColor=0xFFF8F8F8,
+  {
+    LinearLayout,
+    id="应用名称id",
+    padding="8dp",
+    layout_width="fill",
+    orientation="horizontal",
+    onClick=function()
+      if 触发了长按事件 then
+        if 应用名称fxk.isChecked()==false then
+          应用名称fxk.setChecked(true)
+          轻工具主页待删除应用=轻工具主页待删除应用..'"应用名称",'
+        else
+          应用名称fxk.setChecked(false)
+          轻工具主页待删除应用=轻工具主页待删除应用:gsub('"应用名称",',"")
+        end
+      else
+        应用名称()
+      end
+    end,
+    {
+      TextView,
+      paddingTop="7dp",
+      paddingBottom="7dp",
+      gravity="center",
+      text="应用名称",
+      layout_weight="1",
+      layout_gravity="center",
+      textColor=0xFF424242,
+    },
+    {
+      CheckBox,
+      id="应用名称fxk",
+      visibility=8,
+      onClick=function()
+        if 应用名称fxk.isChecked()==true then
+          轻工具主页待删除应用=轻工具主页待删除应用..'"应用名称",'
+        else
+          轻工具主页待删除应用=轻工具主页待删除应用:gsub('"应用名称",',"")
+        end
+      end,
+    },
+  },
+},
+]]
+function zyscyysj()end
+function 主页收藏应用()
+  if zyscyyzlbj then
+    zyscyyzlbj.setVisibility(View.GONE)zyscyyylbj.setVisibility(View.GONE)
+  end
+  触发了长按事件=nil 主页收藏应用左列布局="" 主页收藏应用右列布局="" 主页收藏应用事件="" 恢复复选框="" 隐藏复选框=""
+  b=loadstring("return "..io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a"))轻工具主页收藏应用=b()
+  for i=1,#轻工具主页收藏应用 do
+    恢复复选框=恢复复选框..轻工具主页收藏应用[i].."fxk.setVisibility(0)"
+    隐藏复选框=隐藏复选框..轻工具主页收藏应用[i].."fxk.setVisibility(8)"..轻工具主页收藏应用[i].."fxk.setChecked(false)"
+  end
+  for i=1,#轻工具主页收藏应用 do
+    if i%2==1 then
+      主页收藏应用事件=主页收藏应用事件.."波纹("..轻工具主页收藏应用[i].."id,0xFFE9E9E9)"..轻工具主页收藏应用[i].."id.onLongClick=function()if 触发了长按事件 then "..隐藏复选框.."scscyy.setVisibility(4)触发了长按事件=nil else 轻工具主页待删除应用名称='"..轻工具主页收藏应用[i].."'"..恢复复选框..轻工具主页收藏应用[i].."fxk.setChecked(true)scscyy.setVisibility(0)"..[[轻工具主页待删除应用='"'..轻工具主页待删除应用名称..'",']].."触发了长按事件=true end return true end "
+      主页收藏应用左列布局=主页收藏应用左列布局..主页收藏应用适配布局:gsub("应用名称",轻工具主页收藏应用[i]):gsub('text="短链生成"','text="短链 生成与还原"')
+    else
+      主页收藏应用事件=主页收藏应用事件.."波纹("..轻工具主页收藏应用[i].."id,0xFFE9E9E9)"..轻工具主页收藏应用[i].."id.onLongClick=function()if 触发了长按事件 then "..隐藏复选框.."scscyy.setVisibility(4)触发了长按事件=nil else 轻工具主页待删除应用名称='"..轻工具主页收藏应用[i].."'"..恢复复选框..轻工具主页收藏应用[i].."fxk.setChecked(true)scscyy.setVisibility(0)"..[[轻工具主页待删除应用='"'..轻工具主页待删除应用名称..'",']].."触发了长按事件=true end return true end "
+      主页收藏应用右列布局=主页收藏应用右列布局..主页收藏应用适配布局:gsub("应用名称",轻工具主页收藏应用[i]):gsub('text="短链生成"','text="短链 生成与还原"')
+    end
+  end
+  主页收藏应用左列布局=[[{
+  LinearLayout,
+  id="zyscyyzlbj",
+  layout_width="fill",
+  layout_height="fill",
+  orientation="vertical",
+  ]]..主页收藏应用左列布局.."}"
+  主页收藏应用右列布局=[[{
+  LinearLayout,
+  id="zyscyyylbj",
+  layout_width="fill",
+  layout_height="fill",
+  orientation="vertical",
+  ]]..主页收藏应用右列布局.."}"
+  b=loadstring("return "..主页收藏应用左列布局)主页收藏应用左列布局=b()
+  b=loadstring("return "..主页收藏应用右列布局)主页收藏应用右列布局=b()
+  b=loadstring("return ".."function()"..主页收藏应用事件.."end")主页收藏应用事件=b()
+  zyyyzl.addView(loadlayout(主页收藏应用左列布局))
+  zyyyyl.addView(loadlayout(主页收藏应用右列布局))
+  zyscyysj=主页收藏应用事件 主页收藏应用事件()
+end
+主页收藏应用()
 波纹(zydj,0xFFE2E2E2)波纹(fldj,0xFFE2E2E2)波纹(zhdj,0xFFE2E2E2)
-波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)
-波纹(tpzljid2,0xFFD0D0D0)波纹(hqdqbzid2,0xFFD0D0D0)
+波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)
+波纹(cksbxxxxid2,0xFFD0D0D0)波纹(msdmid2,0xFFD0D0D0)波纹(base64bmzhid2,0xFFD0D0D0)波纹(sjsscid2,0xFFD0D0D0)
 pagev2.setOnPageChangeListener(PageView.OnPageChangeListener{
   onPageScrolled=function(a,b,c)
     if c==0then
@@ -3217,6 +4314,7 @@ flhd.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{
       qgjdingl.setY(-dlsety)
       seth(pagev2,pvseth)
       pagev2.setY(pvsety)
+      fdd=nowy-oldy
      else
       if dlsety+nowy-oldy>geth(toolbar)then
         dlsety=geth(toolbar)
