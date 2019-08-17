@@ -3368,7 +3368,7 @@ function KSA(key)
     S[i]=i-1
   end
   j=0
-  for i=1,255 do
+  for i=1,256 do
     if i%#key==0 then
       j=(j+S[i]+key[#key])%256
     else
