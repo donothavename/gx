@@ -10,6 +10,7 @@ File(离线页面).mkdirs()
 File(picsave).mkdirs()
 File("/data/data/"..activity.getPackageName().."/无图模式").createNewFile()
 File("/data/data/"..activity.getPackageName().."/夜间").createNewFile()
+File("/data/data/"..activity.getPackageName().."/夜间2").createNewFile()
 File("/data/data/"..activity.getPackageName().."/浏览器标识").createNewFile()
 File("/data/data/"..activity.getPackageName().."/自定义UA").createNewFile()
 File("/data/data/"..activity.getPackageName().."/搜索引擎").createNewFile()
@@ -196,7 +197,7 @@ function 提示(t)
     toast.cancel()
     toast=nil
   end
-  toast=Toast.makeText(activity,t,Toast.LENGTH_SHORT).setGravity(Gravity.BOTTOM|Gravity.CENTER, 0, 0).setView(loadlayout(tsbj))
+  toast=Toast.makeText(activity,"",Toast.LENGTH_SHORT).setGravity(Gravity.BOTTOM|Gravity.CENTER, 0, 0).setView(loadlayout(tsbj))
   toast.show()
 end
 function 存图片(文件名,位图,msg)
@@ -227,18 +228,18 @@ end
 function zy()
 zybjtdz=io.open("/data/data/"..activity.getPackageName().."/主页背景图地址"):read("*a")
 主页背景图={
-  LinearLayout;
-  id="zybjt";
+  LinearLayout,
+  id="zybjt",
   gravity="center",
  {
-   ImageView;
+   ImageView,
    layout_width=w,
    layout_height=h, 
    id="zytp",                      
    src=zybjtdz,
-   layout_gravity="center", 
-  };   
-};
+   scaleType="fitXY",
+  },
+}
 webView.addView(loadlayout(主页背景图))
 zybjt.onLongClick=function()
 function szbjt()
@@ -270,7 +271,7 @@ InputLayout={
   };   
 };
 圆角对话框()
-.设置圆角("32dp")
+.设置圆角("10dp")
 .设置标题("主页背景图")
 .添加布局(InputLayout)
 .设置积极按钮("确定",function()
@@ -602,11 +603,12 @@ items=
 {
 ListView,
 id="lb",
+dividerHeight=0,
 items={"复制链接","编辑","删除","移动"},
 layout_width="fill",
 }
 圆角对话框()
-.设置圆角("32dp")
+.设置圆角("10dp")
 .添加布局(items)
 .显示(function()
 lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)
@@ -644,7 +646,7 @@ InputLayout={
 }
 task(150,function()
   圆角对话框()
-  .设置圆角("32dp")
+  .设置圆角("10dp")
   .设置标题("修改主页书签位置")
   .添加布局(InputLayout)
   .设置消极按钮("取消")
@@ -725,7 +727,7 @@ Inputlayout={
 }
 task(150,function()
 圆角对话框()
-.设置圆角("32dp")
+.设置圆角("10dp")
 .设置标题("编辑书签")
 .添加布局(Inputlayout)
 .设置消极按钮("取消")
@@ -784,12 +786,13 @@ edit3.addTextChangedListener({
             arr=b();
             arrayAdapter=LuaArrayAdapter(activity,{TextView,padding="10dp",textSize="10dp",layout_width="fill",textColor=0xff000000,backgroundColor=0xffffffff,}, String(arr))
             edit3.setAdapter(arrayAdapter)
+            gbwz=edit3.getSelectionStart()
             edit3.text=edit3.text..""
-            for i=1,#edit3.text+1 do
-              local status,error=pcall(loadstring("edit3.setSelection("..i..")"))
-              if not status then
-                edit3.setSelection(i-1)
-                break
+            for i=1,#arr+1 do
+              if i==#arr+1 then
+                edit3.setSelection(gbwz)
+              elseif arr[i]:find(edit3.text) and #edit3.text~=#editsc3 then
+                edit3.setSelection(utf8.len(edit3.text))break
               end
             end
           end
@@ -836,13 +839,12 @@ fltBtn.setVisibility(View.GONE)
 function onKeyDown(code,event)
   if string.find(tostring(event),"KEYCODE_BACK") ~= nil then
     if 参数+2 > tonumber(os.time()) then 
-     ti.stop() activity.finish()
+    activity.finish()
     else
     if Gj==0 then gjx.setVisibility(View.GONE) Gj=nil gduo=nil elseif gduo==0 then DialogExternal.setVisibility(View.GONE) gduo=nil else
      if webView.canGoBack() then
      网页后退()if not(webView.canGoBack())then xszy()end else
-     Toast.makeText(activity,"再按一次返回键退出浏览器" , Toast.LENGTH_SHORT )
-      .show()
+      提示"再按一次返回键退出浏览器"
       参数=tonumber(os.time()) 
       end
     end
@@ -852,6 +854,9 @@ function onKeyDown(code,event)
 end
 if io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("关"):close()
+end
+if io.open("/data/data/"..activity.getPackageName().."/夜间2"):read("*a")==""then
+io.open("/data/data/"..activity.getPackageName().."/夜间2","w+"):write("禁用网页暗色"):close()
 end
 if io.open("/data/data/"..activity.getPackageName().."/搜索引擎"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/搜索引擎","w+"):write("百度"):close()
@@ -953,6 +958,7 @@ end
 启用快捷工具栏()
 yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
 if yj=="开" then
+webView.addView(loadlayout{LinearLayout,id="overla",layout_width=10*h,layout_height=32552732*6,backgroundColor="#86000000",})
 color1=0xff232323 yjys=0xffffffff ys3=yjys
 fltBtn.setCardBackgroundColor(color1)
 zybjt.setBackgroundColor(color1)
@@ -961,186 +967,167 @@ sidebar.setBackgroundColor(color1)
 if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end
 else yjys=0xff000000 ys3=0xFF4D4D4D
 end
-function outPath(ret) 
-  for i,p in pairs(luajava.astable(ret)) do
-    if i==1then
-      wj='"'..p..'"'
-      wj2="url"..i..'="'..p..'"'
+function 离线页面()
+  if zybjtdz=="" then
+    yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
+    if yj=="开"then
+      lspixel=0xFF1C1E2A lspixel2=-1
     else
-      wj=wj..',"'..p..'"'
-      wj2=wj2..',url'..i..'="'..p..'"'
+      lspixel=-1 lspixel2=-16777216
     end
   end
-if wj~=nil then
-  wj=("{"..wj.."}"):gsub("/storage/emulated/0/Download/",""):gsub(".mht",""):gsub(".html",""):gsub(".htm","")
-  b=loadstring("return "..wj);
-  wj=b();
-  wj2=("{"..wj2.."}")
-  b=loadstring("return"..wj2)
-  wj2=b()
-end
-  if zybjtdz=="" then
-  yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
-  if yj=="开"then
-    lspixel=0xFF1C1E2A lspixel2=-1
-  else
-    lspixel=-1 lspixel2=-16777216
-  end
-end
-if lspixel2<-16777214 then
-  if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material_Light)else activity.setTheme(android.R.style.Theme_Holo_Light)end
-else
-  if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end
-end
-离线页面布局={
-  LinearLayout,
-  orientation="vertical",
-  id="lxymbj",
-  layout_height=h,
-  background=io.open("/data/data/"..activity.getPackageName().."/主页背景图地址"):read("*a"),
-  {
+  item={
     LinearLayout,
+    padding="10dp",
     orientation="horizontal",
     layout_width=w,
-    layout_height=geth(toolbar),
-    backgroundColor=lspixel,
-  {
+    {
       ImageView,
-      layout_marginLeft="7dp",
-      layout_width="18dp",
+      layout_marginLeft="6dp",
+      layout_width="24dp",
       layout_gravity="center",
-      layout_height="18dp",
-      src="http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0",
+      layout_height="24dp",
+      src="http://shp.qpic.cn/collector/2530648358/e57ee811-0970-4196-b53c-62044dc83975/0",
       ColorFilter=lspixel2,
-      onClick=function()lxym.dismiss()end,
     },
-  {
-    LinearLayout,   
-    layout_marginLeft="7dp",
+    {
+      TextView,
+      id="离线文字",
+      textSize="12sp",
+      layout_margin="8dp",
+      layout_weight="1",
+      textColor=lspixel2,
+    },
+  }
+  离线页面布局={
+    LinearLayout,
     orientation="vertical",
+    id="lxymbj",
+    layout_height=h,
+    background=io.open("/data/data/"..activity.getPackageName().."/主页背景图地址"):read("*a"),
     {
       LinearLayout,
+      orientation="horizontal",
+      layout_width=w,
       layout_height=geth(toolbar),
-      layout_width=w-2*geth(toolbar),
+      backgroundColor=lspixel,
       {
-        TextView,
+        ImageView,
+        layout_marginLeft="7dp",
+        layout_width="18dp",
         layout_gravity="center",
-        textColor=lspixel2,
-        text="离线页面",
-        textSize="10sp",
-        backgroundColor=lspixel,
+        layout_height="18dp",
+        src="http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0",
+        ColorFilter=lspixel2,
+        onClick=function()lxym.dismiss()end,
+      },
+      {
+        LinearLayout, 
+        layout_marginLeft="7dp",
+        orientation="vertical",
+        {
+          LinearLayout,
+          layout_height=geth(toolbar),
+          layout_width=w-2*geth(toolbar),
+          {
+            TextView,
+            layout_gravity="center",
+            textColor=lspixel2,
+            text="离线页面",
+            textSize="10sp",
+            backgroundColor=lspixel,
+          },
         },
       },
+      {
+        ImageView,
+        layout_marginLeft="7dp",
+        layout_width="18dp",
+        layout_gravity="center",
+        layout_height="18dp",
+        src="http://shp.qpic.cn/collector/2530648358/7240777b-c5dc-4478-aeba-c8ec1ed01057/0", 
+        ColorFilter=lspixel2,
+        onClick=function()sxlxym()end,
+      },
     },
-  {
-    ImageView,
-    layout_marginLeft="7dp",
-    layout_width="18dp",
-    layout_gravity="center",
-    layout_height="18dp",
-    src="http://shp.qpic.cn/collector/2530648358/7240777b-c5dc-4478-aeba-c8ec1ed01057/0",   
-    ColorFilter=lspixel2,
-    onClick=function()lxym.dismiss()thread(find,File("/storage/emulated/0/Download/"),".m?ht")end,
+    {
+      LinearLayout,
+      layout_width=w,
+      layout_height=2*geth(toolbar)+2*getStatusBarHeight(),
+      gravity="center",
+      {
+        TextView,
+        id="ts",
+        textSize="10dp",
+        textColor=lspixel2,
+      },
     },
-  },
-{
-  LinearLayout,
-  layout_width=w,
-  layout_height=2*geth(toolbar)+2*getStatusBarHeight(),
-  gravity="center",
-  {
-    TextView,
-    id="ts",
-    text="下列为保存的网页. 无论手机是否联网你都可以浏览它们.",
-    textSize="10dp",
-    textColor=lspixel2,
+    {
+      ListView,
+      DividerHeight=0,
+      id="lxymlb",
+      layout_width="fill",
+      layout_height=h-3*geth(toolbar)-3*getStatusBarHeight(),
     },
-  },
-{
-  ListView,
-  DividerHeight=0,
-  id="lxymlb",
-  items=wj,
-  layout_width="fill",
-  layout_height=h-3*geth(toolbar)-3*getStatusBarHeight(),
-  },
-}
-lxym=PopupWindow(loadlayout(离线页面布局))
-lxym.setFocusable(true)
-lxym.setWidth(w)
-lxym.setHeight(h)
-lxym.setTouchable(true)
-lxym.setOutsideTouchable(false)
-lxym.showAtLocation(fltBtn.Parent,0,0,0)
-lxymlb.onItemClick=function(parent,v,pos,b)
-  lxym.dismiss()gbzy()加载网页("file://"..wj2["url"..b])
-  end
-lxymlb.onItemLongClick=function(parent,v,pos,b)    
-  item={
-    ListView,
-    id="lb",
-    items={"复制链接","删除"},
-    layout_width="fill",
-    }
-  圆角对话框()
-  .设置圆角("32dp")
-  .添加布局(item)
-  .显示(function()
-    lb.setOnItemClickListener(AdapterView.OnItemClickListener{
-      onItemClick=function(parent, v, pos,id)
-        pop.dismiss()
-        if id==1then
-          复制文本("file://"..wj2["url"..b])
-        else
-          File(wj2["url"..b]).delete()lxym.dismiss()thread(find,File("/storage/emulated/0/Download/"),".m?ht")
-        end
-      end})
-    end)
-  return true
-  end
-if wj==nil then
-  ts.setText("空空如也…")
-end
-if zybjtdz==""then
-lxymbj.setBackgroundColor(lspixel)
-end
-task(500,function()
-  if yj=="开"then
-    if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end
-  else
-    if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material_Light)else activity.setTheme(android.R.style.Theme_Holo_Light)end
-  end
-end)
-end
-function find(catalog,name)
-  local n=0
-  local t=os.clock()
-  local ret={}
-  require "import"
-  import "java.io.File" 
-  import "java.lang.String"
-  function FindFile(catalog,name)
-    local name=tostring(name)
-    local ls=catalog.listFiles() or File{}
-    for 次数=0,#ls-1 do
-      local f=ls[次数]
-      if f.isDirectory() then
-        FindFile(f,name)
-      else
-        n=n+1
-        if n%1000==0 then
-          print(n,os.clock()-t)
-        end
-        local nm=f.Name
-        if string.find(nm,name) then
-          table.insert(ret,tostring(f))
-        end
+  }
+  lxym=PopupWindow(loadlayout(离线页面布局))
+  lxym.setFocusable(true)
+  lxym.setWidth(w)
+  lxym.setHeight(h)
+  lxym.setTouchable(true)
+  lxym.setOutsideTouchable(false)
+  lxym.showAtLocation(fltBtn.Parent,0,0,0)
+  function sxlxym()
+    离线文本={}
+    i=1
+    wjlb=luajava.astable(File("/storage/emulated/0/Download/").listFiles())
+    for index,c in ipairs(wjlb) do
+      if not c.isDirectory() and c.name:find".m?ht" then
+        离线文本[i]=c
+        i=i+1
       end
-      luajava.clear(f)
+    end
+    data={}
+    for i=1,#离线文本 do table.insert(data,{离线文字=tostring(离线文本[i]):gsub("/storage/emulated/0/Download/","")})end
+    adp=LuaAdapter(activity,data,item)
+    lxymlb.Adapter=adp
+    if zybjtdz==""then
+      lxymbj.setBackgroundColor(lspixel)
+    end
+    if #离线文本==0 then
+      ts.text="空空如也.."
+    else
+      ts.text="下列为保存的网页. 无论手机是否联网你都可以浏览它们."
+    end
+    lxymlb.onItemClick=function(parent,v,pos,b)
+      lxym.dismiss()gbzy()加载网页("file://"..tostring(离线文本[b]))
+    end
+    lxymlb.onItemLongClick=function(parent,v,pos,b) 
+      items={
+        ListView,
+        id="lb",
+        dividerHeight=0,
+        items={"复制链接","删除"},
+        layout_width="fill",
+      }
+      圆角对话框()
+      .设置圆角("10dp")
+      .添加布局(items)
+      .显示(function()
+        lb.setOnItemClickListener(AdapterView.OnItemClickListener{
+          onItemClick=function(parent, v, pos,id)
+            pop.dismiss()
+            if id==1then
+              复制文本("file://"..tostring(离线文本[b]))
+            else
+              File(tostring(离线文本[b])).delete()sxlxym()
+            end
+          end})
+      end)
+      return true
     end
   end
-  FindFile(catalog,name)
-  call("outPath",ret)
+  sxlxym()
 end
 function 颜色(id,color)
   import 'android.graphics.*'
@@ -1597,7 +1584,7 @@ end
             gravity="center",
             onClick=function()
               圆角对话框()
-              .设置圆角("32dp")
+              .设置圆角("10dp")
               .添加布局(选择扫描内容布局)
               .显示(function()
                 jcwyewm.onClick=function()pop.dismiss()解析二维码(1)end
@@ -1643,7 +1630,7 @@ end
             layout_height="fill",
             onClick=function()
               圆角对话框()
-              .设置圆角("32dp")
+              .设置圆角("10dp")
               .添加布局(选择扫描内容布局)
               .显示(function()
                 jcwyewm.onClick=function()pop.dismiss()解析二维码()end
@@ -1943,10 +1930,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.2.7"then
+  if 版本名 > "3.2.9"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.2.7".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.2.9".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
@@ -2209,7 +2196,8 @@ function 下载轻工具(ghx)
 end
 function 夜间()
 yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
-if yj=="开" then 加载Js([[var NightMode;if(!NightMode){NightMode=document.createElement("style");NightMode.type="text/css";NightMode.innerHTML="html,body{background:none !important;background-color: #1d1e2a !important;}html *{background-color: #1d1e2a !important; color:#888888 !important;border-color:#3e4f61 !important;text-shadow:none !important;box-shadow:none !important;}a,a *{border-color:#4c5b99 !important; color:#2d69b3 !important;text-decoration:none !important;}a:visited,a:visited *{color:#a600a6 !important;}a:active,a:active *{color:#5588AA !important;}input,select,textarea,option,button{background-image:none !important;color:#AAAAAA !important;border-color:#4c5b99 !important;}form,div,button,span{background-color:#1d1e2a !important; border-color:#4c5b99 !important;}img{opacity:0.5}";document.getElementsByTagName("HEAD").item(0).appendChild(NightMode)};/*QQBrowserSDKNightModeModifiedByQQ32552732*/]])end
+yj2=io.open("/data/data/"..activity.getPackageName().."/夜间2"):read("*a")
+if yj=="开" and yj2=="启用网页暗色" then 加载Js([[var NightMode;if(!NightMode){NightMode=document.createElement("style");NightMode.type="text/css";NightMode.innerHTML="html,body{background:none !important;background-color: #1d1e2a !important;}html *{background-color: #1d1e2a !important; color:#888888 !important;border-color:#3e4f61 !important;text-shadow:none !important;box-shadow:none !important;}a,a *{border-color:#4c5b99 !important; color:#2d69b3 !important;text-decoration:none !important;}a:visited,a:visited *{color:#a600a6 !important;}a:active,a:active *{color:#5588AA !important;}input,select,textarea,option,button{background-image:none !important;color:#AAAAAA !important;border-color:#4c5b99 !important;}form,div,button,span{background-color:#1d1e2a !important; border-color:#4c5b99 !important;}img{opacity:0.5}";document.getElementsByTagName("HEAD").item(0).appendChild(NightMode)};/*QQBrowserSDKNightModeModifiedByQQ32552732*/]])end
 end
 function 页面即将加载事件()
 if 网页链接:find"fanyi.baidu.com"then ymhlj="fanyi.baidu.com"scys="app-bar,article-loading,article android-style,bottom-intro,go-to-download"jb=""
@@ -2236,10 +2224,19 @@ if 网页链接:find"https://" or 网页链接:find"file://" then
 设置底栏刷新状态(true,true,1000)
 end
 function 页面加载完毕()
+夜间()
+task(1,function()
+if not webView.canGoBack() then
+设置顶栏标题("主页")
+aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0"))
+end
 设置底栏刷新状态(false,true,1000)
-task(1,function()if dlan==nil then if dlsskkq==0 then dlssk.setVisibility(View.GONE)end function getBitmapFromView(v)b=Bitmap.createBitmap(v.getWidth(), v.getHeight(), Bitmap.Config.RGB_565);c=Canvas(b);v.layout(v.getLeft(), v.getTop(), v.getRight(), v.getBottom());bgDrawable=v.getBackground();if (bgDrawable ~= null) then bgDrawable.draw(c);else c.drawColor(Color.WHITE);v.draw(c);end return b;end bitmap = getBitmapFromView(fltBtn.Parent)pixel = bitmap.getPixel(2,getStatusBarHeight()+2)pixel2=bitmap.getPixel(w-0.5*geth(toolbar),getStatusBarHeight()+0.5*geth(toolbar))bmwhole.setBackgroundColor(pixel)aqic.setColorFilter(pixel2)gengduoic.setColorFilter(pixel2)bmrefreshic.setColorFilter(pixel2)bmhmic.setColorFilter(pixel2)bmforwardic.setColorFilter(pixel2)bmbackic.setColorFilter(pixel2)bitmap.recycle()if dlsskkq==0 then dlssk.setVisibility(View.VISIBLE)dlsrk.setBackgroundColor(pixel)dlsrk.setTextColor(pixel2)ssbj.setBackgroundColor(pixel)xzssyq.setColorFilter(pixel2)qwss.setColorFilter(pixel2)dlsrk.setHintTextColor(pixel2)end end end)
+end)
+task(400,function()if dlan==nil then if dlsskkq==0 then dlssk.setVisibility(View.GONE)end bitmap=getViewBitmap(fltBtn.Parent)pixel=bitmap.getPixel(geth(toolbar)/8,getStatusBarHeight()+geth(toolbar)/8)pixel2=bitmap.getPixel(w-0.5*geth(toolbar),getStatusBarHeight()+0.5*geth(toolbar))if not webView.canGoBack() then lspixel=pixel lspixel2=pixel2 end bmwhole.setBackgroundColor(pixel)aqic.setColorFilter(pixel2)gengduoic.setColorFilter(pixel2)bmrefreshic.setColorFilter(pixel2)bmhmic.setColorFilter(pixel2)bmforwardic.setColorFilter(pixel2)bmbackic.setColorFilter(pixel2)bitmap.recycle()if dlsskkq==0 then dlssk.setVisibility(View.VISIBLE)dlsrk.setBackgroundColor(pixel)dlsrk.setTextColor(pixel2)ssbj.setBackgroundColor(pixel)xzssyq.setColorFilter(pixel2)qwss.setColorFilter(pixel2)dlsrk.setHintTextColor(pixel2)end end end)
 end
 function 收到新标题事件()
+夜间()
+设置顶栏标题(webView.title)
 if webView.canGoBack() then
 yins=io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a")
 if yins=="关" then read_hst() add_hst() save_hst() end end
@@ -2281,7 +2278,7 @@ aq.onClick=function()
   end
 圆角对话框()
 .设置标题(网页链接)
-.设置圆角("32dp")
+.设置圆角("10dp")
 .设置消息(wzaq)
 .设置中立按钮("好的")
 .显示(function()retitle.onLongClick=function()复制文本(网页链接)提示"已复制网址"end end)
@@ -2358,11 +2355,12 @@ dlsskkq=0
       items={
         ListView,
         id="lb",
+        dividerHeight=0,
         items={"百度","必应","神马","好搜","搜狗","谷歌(需V)"},
         layout_width="fill",
         }
 圆角对话框()
-.设置圆角("32dp")
+.设置圆角("10dp")
 .设置标题("当前搜索引擎为"..ssyq)
 .添加布局(items)
 .显示(function() lb.setOnItemClickListener(AdapterView.OnItemClickListener{
@@ -2433,83 +2431,17 @@ dlsrk.setOnKeyListener({
   end
 })
 end
-yjhy=loadlayout{
-LinearLayout;
-orientation="vertical";
-{
-LinearLayout;
-layout_height="45dp", 
-layout_marginTop=getStatusBarHeight();
-{
- ImageView;                        
- layout_marginLeft="8dp",
- layout_width="45dp",
- layout_height="fill", 
- ColorFilter="#87C5C5C5",
- src="http://shp.qpic.cn/collector/2530648358/31cff98e-62da-47e8-a254-affa78cfc1c1/0";
-},
-{
-TextView;
-id="kgsss";
-layout_marginLeft="8dp",
-layout_gravity="center";
-textColor="#FF5C5C5C";
-text="夜间护眼               ";
-textSize="14";--文本大小
-layout_weight="1.0"; 
-layout_width="fill";--宽度
-layout_marginTop="fill";--边顶
-};
-{
-Switch;
-id="kg";
-layout_gravity="center";
-};
-};
-}
-sidebar.addView(yjhy,0)
---开关绑定的工作
-function 开关保存(kg,wj,k,j)
-pref = this.getSharedPreferences("kg",0)
-kg.setChecked(pref.getBoolean(wj,false))
-if pref.getBoolean(wj,false) then
-  loadstring(k)()
-  else
- loadstring(j)()
-  end
-editor=activity.getSharedPreferences("kg",0).edit()
-kg.setOnCheckedChangeListener{
-  onCheckedChanged=function(g,c)
-    if c then
-    loadstring(k)()
-    else 
-    loadstring(j)()
-    end
-  end}
-kg.onClick=function(v)
-  editor.putBoolean(wj,v.isChecked())
-  editor.commit()
-  end
-end
-开关保存(kg,"a1",[[webView.addView(loadlayout{
-    LinearLayout,
-    id="overla",
-    layout_width=10*h,
-    layout_height=32552732*6,
-    orientation="vertical",
-    backgroundColor="#86000000",
-  })]],[[webView.removeView(overla)]])
 ycgn=loadlayout{
 LinearLayout;
 layout_width="fill";
 layout_height="5%h";
-gravity="bottom";--center中间 bottom底部
-orientation="horizontal" ;--vertical竖 horizontal横
+gravity="bottom";
+orientation="horizontal",
 {
-Button;--钮扣
-backgroundColor="#00000000";--背景色
-layout_width="fill";--宽度
-layout_marginTop="fill";--边顶
+Button;
+backgroundColor="#00000000";
+layout_width="fill";
+layout_marginTop="fill";
 onClick=function()
   InputLayout={
     LinearLayout;
@@ -2540,7 +2472,7 @@ onClick=function()
   };
   圆角对话框()
   .设置标题("请输入密码")
-  .设置圆角("32dp")
+  .设置圆角("10dp")
   .添加布局(InputLayout)
   .设置积极按钮("确定",function() 
     if mima.text=="" then 进入子页面("xx") else 提示"密码错误" end  
@@ -2570,6 +2502,7 @@ menu.add("复制天气信息").onMenuItemClick=function(a) 复制文本(help) �
 menu.add("分享天气信息").onMenuItemClick=function(a) 分享文本(help) end pop.show()end;
       {
         LinearLayout;
+        layout_marginTop=getStatusBarHeight()+geth(toolbar),
         orientation="horizontal";
         layout_width="fill";
         gravity="center";        
@@ -2695,8 +2628,6 @@ Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
     else 提示"获取天气信息失败"end
 end)end 获取天气信息()
 webView.addJavascriptInterface({},"JsInterface")
-ll=0 ti=Ticker()ti.Period=1000 ti.onTick=function()夜间()ll=ll+1tt=os.date("时间:%H:%M:%S") if ll==3600 then 圆角对话框().设置标题("温馨提醒").设置圆角("32dp").设置消息("您已浏览网页一小时,该休息一下了").设置积极按钮("好的",function()退出程序()end).设置消极按钮("继续浏览网页").显示()end if webView.canGoBack() then bt=tt.." "..webView.title else lspixel=pixel lspixel2=pixel2 aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0"))bt=tt.." ".."主页"end 设置顶栏标题(bt)end ti.start()
---
 function 工具箱()
 gjx={
   LinearLayout,
@@ -2707,7 +2638,7 @@ gjx={
   {
     CardView;
     id="k1";
-    radius="32dp";
+    radius="10dp";
     CardBackgroundColor=color1;
     layout_marginLeft="2%w";
     layout_marginRight="2%w";
@@ -3216,12 +3147,12 @@ src="http://shp.qpic.cn/collector/2530648358/b61c6a0e-98db-4a8a-ac6a-1c8cbc154a9
 };
 fltBtn.Parent.addView(loadlayout(sr))end
 bcwy.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE) offline="/sdcard/download/"..os.date("%Y%m%d%H%M%S")..webView.title..".mht" 提示("已保存网页至“"..offline.."”") webView.saveWebArchive(offline)end end
-lxym.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)thread(find,File("/storage/emulated/0/Download/"),".m?ht")end
-fanyi.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE)items={ListView,id="lb",items={"彩云小译","百度翻译","有道翻译"},layout_width="fill",}圆角对话框().设置圆角("32dp").设置标题("选择翻译引擎").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==2 then 加载网页("http://fanyi.baidu.com/transpage?query="..webView.getUrl().."&from=auto&to=zh&source=url&ie=utf8&render=1")elseif id==3 then 加载网页("http://fanyi.youdao.com/WebpageTranslate?keyfrom=webfanyi.top&url="..webView.getUrl().."&type=ZH_CN2EN")elseif id==1 then 加载Js([[(function(){if(!document.body)return;var popup=document.querySelectorAll('.cyxy-target-popup');if(popup&&popup.length>0)return;var trs=document.createElement('script');trs.type='text/javascript';trs.charset='UTF-8';trs.src=('https:'==document.location.protocol?'https://':'http://')+'caiyunapp.com/dest/trs.js';document.body.appendChild(trs);})()]])end end})end)end end
+lxym.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)离线页面()end
+fanyi.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE)items={ListView,id="lb",dividerHeight=0,items={"彩云小译","百度翻译","有道翻译"},layout_width="fill",}圆角对话框().设置圆角("10dp").设置标题("选择翻译引擎").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==2 then 加载网页("http://fanyi.baidu.com/transpage?query="..webView.getUrl().."&from=auto&to=zh&source=url&ie=utf8&render=1")elseif id==3 then 加载网页("http://fanyi.youdao.com/WebpageTranslate?keyfrom=webfanyi.top&url="..webView.getUrl().."&type=ZH_CN2EN")elseif id==1 then 加载Js([[(function(){if(!document.body)return;var popup=document.querySelectorAll('.cyxy-target-popup');if(popup&&popup.length>0)return;var trs=document.createElement('script');trs.type='text/javascript';trs.charset='UTF-8';trs.src=('https:'==document.location.protocol?'https://':'http://')+'caiyunapp.com/dest/trs.js';document.body.appendChild(trs);})()]])end end})end)end end
 yuanma.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE) 加载网页("view-source:"..webView.getUrl())end end
 qp.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)if dlan==nil then activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.GONE)fakebmbar.setVisibility(View.GONE)webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,0)fltBtn.setVisibility(View.VISIBLE)dlan=0 else activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.VISIBLE)fakebmbar.setVisibility(View.VISIBLE)webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,bmwhole.height)fltBtn.setVisibility(View.GONE)dlan=nil end end
 wtms.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) wutu=io.open("/data/data/"..activity.getPackageName().."/无图模式"):read("*a") if wutu=="开" then webView.getSettings().setLoadsImagesAutomatically(true) 提示"有图模式" io.open("/data/data/"..activity.getPackageName().."/无图模式","w+"):write("关"):close() else webView.getSettings().setLoadsImagesAutomatically(false) 提示"无图模式" io.open("/data/data/"..activity.getPackageName().."/无图模式","w+"):write("开"):close() end end
-xiutan.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) items={ListView,id="lb",items={"嗅探1","嗅探2"},layout_width="fill",}圆角对话框().设置圆角("32dp").设置标题("选择嗅探引擎").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==1 then require("import").import("qqbid/qqbid").resource_sniff();elseif id==2 then local dl=ProgressDialog.show(activity,nil,'正在嗅探')dl.show()加载Js([[window.location.assign($("iframe").attr("src"))
+xiutan.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) items={ListView,id="lb",dividerHeight=0,items={"嗅探1","嗅探2"},layout_width="fill",}圆角对话框().设置圆角("10dp").设置标题("选择嗅探引擎").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==1 then require("import").import("qqbid/qqbid").resource_sniff();elseif id==2 then local dl=ProgressDialog.show(activity,nil,'正在嗅探')dl.show()加载Js([[window.location.assign($("iframe").attr("src"))
 ]]) task(1000,function() dl.dismiss() function loadTheJs() 加载Js("function returnVideoUrl(){var theVideoUrl=document.getElementsByTagName('video')[0].currentSrc;location.href=theVideoUrl;};returnVideoUrl();"); return true; end if(loadTheJs()) then task(1000,function() intent = Intent(Intent.ACTION_VIEW); uri = Uri.parse(webView.getUrl()); intent.setDataAndType(uri, "video/mp4"); activity.startActivity(intent); end); end end)end end})end)end
 biaoshi.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)function 自定义UA()
 ua=io.open("/data/data/"..activity.getPackageName().."/自定义UA"):read("*a")
@@ -3256,7 +3187,7 @@ textColor=yjys;
 };
 圆角对话框()
 .设置标题("UserAgent")
-.设置圆角("32dp").添加布局(InputLayout)
+.设置圆角("10dp").添加布局(InputLayout)
 .设置积极按钮("完成设置",function()
   if UA.text==""then
   task(150,function()
@@ -3285,11 +3216,12 @@ llqbs=io.open("/data/data/"..activity.getPackageName().."/浏览器标识"):read
 items={
   ListView,
   id="lb",
+  dividerHeight=0,
   items={"默认","Chrome (PC)","IE 11 (PC)","iphone","塞班 (Symbian)","自定义"},
   layout_width="fill",
   }
 圆角对话框()
-.设置圆角("32dp")
+.设置圆角("10dp")
 .设置标题("当前UA为"..llqbs)
 .添加布局(items)
 .显示(function()
@@ -3343,7 +3275,7 @@ wyjt.onClick=function()GJX=0 Gj=nil if dlan==nil then webView.Parent.LayoutParam
 read.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE) 加载阅读()end end
 dlsc.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) 短链生成() end
 hcld.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE)提示"请长按选择需要朗读的段落,并点击右下角的读字即可" 加载Js([[(function (){if(document.getElementById('muttsread0')){}else{var num1;function getResult1(words) {var spd=5;var per=4;var vol=5;if(words.length>0){try{words=words.replace(/\r\n/g,"");words=words.replace(/\n/g,"");}catch(e) {}var vcurrent = document.getElementsByTagName('body')[0];var newNodeTop;var n = 1600;if(/.*[\u4e00-\u9fa5]+.*$/.test(words)){n=500;}var num=0;num1=0;for (var i = 0, l = words.length; i < l/n; i++) {var a = words.slice(n*i, n*(i+1));num++;num1++;newNodeTop = document.createElement("audio");newNodeTop.id="muttsread"+i;newNodeTop.setAttribute("controls","");a=encodeURIComponent(a) ;newNodeTop.setAttribute("src","http://tts.baidu.com/text2audio?idx=1&cuid=baidu_speech_demo&cod=5&lan=zh&ctp=1&pdt=1&spd="+spd+"&vol="+vol+"&pit=3&per="+per+"&tex="+a);vcurrent.parentNode.insertBefore(newNodeTop, vcurrent);}window.scrollTo(0, 0);if(num>1){try{var str="\u5df2\u5206\u4e3a\u8bed\u97f3\u6bb5\u6570";window.mx_browser_obj.showtip(unescape(str.replace(/\\u/g, '%u'))+num);}catch(e) {}}}}var transBtn= document.createElement('span');var str1="\u8bfb";transBtn.innerHTML = ''+unescape(str1.replace(/\\u/g, '%u'));transBtn.id='myTransBtn1';var c = 'display:block!important;text-align:center;color:#fff;font-size:5vw;opacity:0.3;background:rgba(0, 0, 0, 0.9);border-radius:5px 0 0 5px;cursor:pointer;position:fixed;bottom:10%;width:10vw;height:10vw;right:0px;z-index:9999;line-height:10vw;';			transBtn.style.cssText = c;			transBtn.addEventListener('click', function () {transBtn.style.display = "none";}, false);transBtn.style.display = "none";document.body.appendChild(transBtn);var lastText;var isClickTransBtn;document.addEventListener("selectionchange", function (e1) {var text = window.getSelection().toString().trim();if(!!text){transBtn.style.display = "block";lastText = text;transBtn.ontouchstart = function () {return isClickTransBtn = true;}}else{if(!!isClickTransBtn){isClickTransBtn = false;if(document.getElementById('muttsread0')){for(var j=0;j<num1;j++){document.getElementsByTagName('html')[0].removeChild(document.getElementById('muttsread'+j));}}getResult1(lastText);transBtn.style.display = "none";}else{transBtn.style.display = "none";}}}, false);}})();]])end end
-tuichu.onClick=function()  ti.stop() 退出程序()end
+tuichu.onClick=function()退出程序()end
 gjxyc.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) end
 end
 function 更多()
@@ -3356,7 +3288,7 @@ gd={
   {
     CardView;
     id="k1";
-    radius="32dp";
+    radius="10dp";
     CardBackgroundColor=color1;
     layout_marginLeft="2%w";
     layout_marginRight="2%w";
@@ -3616,10 +3548,11 @@ addbook.onClick=function()if webView.canGoBack() then addDataDialog("Collection"
 mybook.onClick=function() showDataDialog("Collection","书签") DialogExternal.setVisibility(View.GONE) gduo=nil end
 yinshen.onClick=function() gduo=nil DialogExternal.setVisibility(View.GONE) yins=io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a") if yins=="开" then io.open("/data/data/"..activity.getPackageName().."/隐身","w+"):write("关"):close() 提示("退出隐身浏览") else io.open("/data/data/"..activity.getPackageName().."/隐身","w+"):write("开"):close() 提示("已进入隐身浏览") end end
 gdyc.onClick=function() DialogExternal.setVisibility(View.GONE) gduo=nil end
-tuichu.onClick=function()  ti.stop() 退出程序()end
+tuichu.onClick=function()退出程序()end
 share.onClick=function() 分享文本(webView.getUrl()) DialogExternal.setVisibility(View.GONE) gduo=nil end
 xiazai.onClick=function() if pcall(function() activity.getPackageManager().getPackageInfo("com.dv.adm.pay",0) end) then 打开程序("com.dv.adm.pay")else 提示("你似乎没有安装ADM下载器") import "android.content.Intent" import "android.net.Uri" intent = Intent("android.intent.action.VIEW") intent .setData(Uri.parse( "market://details?id=com.dv.adm.pay")) this.startActivity(intent) end gduo=nil DialogExternal.setVisibility(View.GONE) end
-night.onClick=function() gduo=nil color1 = 0xffffffff;ys=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")if yj=="关" then io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("开"):close()提示"夜间模式"color1 = 0xff232323 yjys=0xffffffff ys3=yjys if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end 侧滑卡片.setCardBackgroundColor(0xff232323) fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)刷新网页()else io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("关"):close()提示"白天模式"yjys=0xff000000 ys3=0xFF4D4D4D if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material_Light)else activity.setTheme(android.R.style.Theme_Holo_Light)end 侧滑卡片.setCardBackgroundColor(0xffffffff) fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)刷新网页()end DialogExternal.setVisibility(View.GONE) end
+night.onClick=function() gduo=nil color1 = 0xffffffff;yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")if yj=="关" then io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("开"):close()提示"夜间模式"webView.addView(loadlayout{LinearLayout,id="overla",layout_width=10*h,layout_height=32552732*6,backgroundColor="#86000000",})color1 = 0xff232323 yjys=0xffffffff ys3=yjys if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end 侧滑卡片.setCardBackgroundColor(0xff232323) fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)else io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("关"):close()提示"白天模式"webView.removeView(overla)yjys=0xff000000 ys3=0xFF4D4D4D if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material_Light)else activity.setTheme(android.R.style.Theme_Holo_Light)end 侧滑卡片.setCardBackgroundColor(0xffffffff) fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)end DialogExternal.setVisibility(View.GONE) yj2=io.open("/data/data/"..activity.getPackageName().."/夜间2"):read("*a")if yj2=="启用网页暗色" then 刷新网页()end end
+night.onLongClick=function()yj2=io.open("/data/data/"..activity.getPackageName().."/夜间2"):read("*a")if yj2=="启用网页暗色" then io.open("/data/data/"..activity.getPackageName().."/夜间2","w+"):write("禁用网页暗色"):close() 提示"禁用了夜间模式网页暗色支持." else io.open("/data/data/"..activity.getPackageName().."/夜间2","w+"):write("启用网页暗色"):close() 提示"启用了夜间模式网页暗色支持." end return true end
 history.onClick=function() DialogExternal.setVisibility(View.GONE) gduo=nil read_hst() show_hst() end
 gj.onClick=function()工具箱() Gj=0 xfb=nil DialogExternal.setVisibility(View.GONE)end
 function DialogExternal.onClick() DialogExternal.setVisibility(View.GONE) gduo=nil end
@@ -4038,7 +3971,7 @@ function show_hst()
         layout_height="18dp",
         src="http://shp.qpic.cn/collector/2530648358/7240777b-c5dc-4478-aeba-c8ec1ed01057/0",
         ColorFilter=lspixel2,
-        onClick=function()ls.dismiss()show_hst()end,
+        onClick=function()sxls()end,
       },
     },
     {
@@ -4091,11 +4024,12 @@ function show_hst()
       items={
         ListView,
         id="lb",
+        dividerHeight=0,
         items={"复制链接","删除","清空"},
         layout_width="fill",
       }
       圆角对话框()
-      .设置圆角("32dp")
+      .设置圆角("10dp")
       .添加布局(items)
       .显示(function()
         lb.setOnItemClickListener(AdapterView.OnItemClickListener{
@@ -4107,7 +4041,7 @@ function show_hst()
               table.remove(lst,b)table.remove(lstweb,b)save_hst()sxls()
              elseif id==3 then
               圆角对话框()
-              .设置圆角("32dp")
+              .设置圆角("10dp")
               .设置标题("清空")
               .设置消息("你是否确认？")
               .设置消极按钮("取消")
@@ -4330,7 +4264,7 @@ function showDataDialog(name,title,jdpuk)
         layout_height="18dp",
         src="http://shp.qpic.cn/collector/2530648358/7240777b-c5dc-4478-aeba-c8ec1ed01057/0",
         ColorFilter=lspixel2,
-        onClick=function()xssq.dismiss()showDataDialog(name,title)end,
+        onClick=function()sxsq()end,
       },
     },
     {
@@ -4382,11 +4316,12 @@ function showDataDialog(name,title,jdpuk)
         item2={
           ListView,
           id="lb",
+          dividerHeight=0,
           items={"复制链接","编辑","删除"},
           layout_width="fill",
         }
         圆角对话框()
-        .设置圆角("32dp")
+        .设置圆角("10dp")
         .添加布局(item2)
         .显示(function()
           lb.setOnItemClickListener(AdapterView.OnItemClickListener{
@@ -4398,7 +4333,7 @@ function showDataDialog(name,title,jdpuk)
                 task(150,function()
                   圆角对话框()
                   .设置标题(title)
-                  .设置圆角("32dp")
+                  .设置圆角("10dp")
                   .添加布局(input2layout)
                   .设置积极按钮("保存",function()
                     if not(edit1.text=="") and not(edit2.text=="") or 3255==2732 then
@@ -4472,7 +4407,7 @@ end
 function addDataDialog(name,title,value,key)--32552732
   圆角对话框()
   .设置标题(title)
-  .设置圆角("32dp")
+  .设置圆角("10dp")
   .添加布局(input2layout)
   .设置积极按钮("保存",function()
     if not(edit1.text=="") and not(edit2.text=="") or 325==52732 then
