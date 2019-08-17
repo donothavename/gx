@@ -1,4 +1,4 @@
-{版本="1.1.5",fun=function()
+{版本="1.1.9",fun=function()
 File("/data/data/"..activity.getPackageName().."/翻译收藏").createNewFile()
 File("/data/data/"..activity.getPackageName().."/上次查询快递单号").createNewFile()
 File("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用").createNewFile()
@@ -15,8 +15,32 @@ else
   软件内下载("正在下载资源,请耐心等待下载完成","https://raw.githubusercontent.com/donothavename/gx/master/ColorPicker.dex",this.luaDir.."/libs/ColorPicker.dex")
 end
 import 'android.graphics.*'
-全部应用左列={"时间屏幕","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","Base64编码转换"}
-全部应用右列={"翻译","短链生成","指南针","取色器","获取当前壁纸","摩斯电码","随机数生成"}
+全部应用左列={"时间屏幕","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","摩斯电码","Base64编码转换","随机数生成"}
+全部应用右列={"翻译","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","RC4加解密","MD5加密","网页源码获取"}
+function 波纹方(id,color)
+  ripples=activity.obtainStyledAttributes({android.R.attr.selectableItemBackground}).getResourceId(0,0)
+  id.setBackgroundDrawable(activity.Resources.getDrawable(ripples).setColor(ColorStateList(int[0].class{int{}},int{color})))
+end
+function 保存链接图片(链接,文件名)
+  local ur=URL(链接)
+  file=File(文件名);
+  local con=ur.openConnection();
+  local co=con.getContentLength();
+  local is=con.getInputStream();
+  local bs=byte[1024]
+  local len,read=0,0
+  import "java.io.FileOutputStream"
+  local wj=FileOutputStream(文件名);
+  len=is.read(bs)
+  while len~=-1 do
+    wj.write(bs,0,len)
+    read=read+len
+    len=is.read(bs)
+  end
+  提示("已保存在: "..文件名)
+  wj.close()
+  is.close()
+end
 function 提示(t)
   local tsbj={
     LinearLayout,
@@ -45,7 +69,7 @@ function 提示(t)
     toast.cancel()
     toast=nil
   end
-  toast=Toast.makeText(activity,t,Toast.LENGTH_SHORT).setGravity(Gravity.BOTTOM|Gravity.CENTER, 0, 0).setView(loadlayout(tsbj))
+  toast=Toast.makeText(activity,'',Toast.LENGTH_SHORT).setGravity(Gravity.BOTTOM|Gravity.CENTER, 0, 0).setView(loadlayout(tsbj))
   toast.show()
 end
 function 全部应用()
@@ -157,7 +181,7 @@ qbyybj.showAtLocation(fltBtn.Parent,0,0,0)
   },
 },
 ]]
-应用左列id={"qysjpmid","qykdcxliteid","qyczid","qyewmgjid","qytpzljid","qycksbxxxxid","qybase64bmzhid"}
+应用左列id={"qysjpmid","qykdcxliteid","qyczid","qyewmgjid","qytpzljid","qycksbxxxxid","qymsdmid","qybase64bmzhid","qysjsscid"}
 for i=1,#全部应用左列 do
   if i==1 then
     全部应用左列布局=全部应用适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用左列id[1])
@@ -171,7 +195,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..全部应用左列布局.."}"
-应用右列id={"qyfyid","qydlscid","qyznzid","qyqsqid","qyhqdqbzid","qymsdmid","qysjsscid"}
+应用右列id={"qyfyid","qydlscid","qyznzid","qyqsqid","qybilibilifmhqid","qyhqdqbzid","qyrc4jjmid","qymd5jmid","qywyymhqid"}
 for i=1,#全部应用右列 do
   if i==1 then
     全部应用右列布局=全部应用适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用右列id[1])
@@ -369,6 +393,7 @@ yytjscbj.showAtLocation(fltBtn.Parent,0,0,0)
       id="应用idfxk",
       checked=已勾选,
       enabled=可勾选,
+      layout_gravity="center",
       onClick=function()
         if 已添加==nil then
           if 应用idfxk.isChecked()==true then
@@ -383,7 +408,7 @@ yytjscbj.showAtLocation(fltBtn.Parent,0,0,0)
 },
 ]]
 b=loadstring("return "..io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a"))轻工具主页收藏应用=b()
-应用添加收藏左列id={"ytcsjpmid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcbase64bmzhid"}
+应用添加收藏左列id={"ytcsjpmid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcmsdmid","ytcbase64bmzhid","ytcsjsscid"}
 for i=1,#全部应用左列 do
   if i==1 then
     应用添加收藏左列布局=应用添加收藏适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用添加收藏左列id[1])
@@ -411,7 +436,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..应用添加收藏左列布局.."}"
-应用添加收藏右列id={"ytcfyid","ytcdlscid","ytcznzid","ytcqsqid","ytchqdqbzid","ytcmsdmid","ytcsjsscid"}
+应用添加收藏右列id={"ytcfyid","ytcdlscid","ytcznzid","ytcqsqid","ytcbilibilifmhqid","ytchqdqbzid","ytcrc4jjmid","ytcmd5jmid","ytcwyymhqid"}
 for i=1,#全部应用右列 do
   if i==1 then
     应用添加收藏右列布局=应用添加收藏适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用添加收藏右列id[1])
@@ -2688,6 +2713,1158 @@ sjsscbj.setOutsideTouchable(true)
 sjsscbj.showAtLocation(fltBtn.Parent,0,0,0)
 颜色(zxz,0xFF68AFE5)颜色(zdz,0xFF68AFE5)
 end
+function BiliBili封面获取()
+bilibili封面获取布局={
+  LinearLayout,
+  id="bjbj",
+  layout_width=w,
+  layout_height=h,
+  backgroundColor=0x80000000,
+  {
+    CardView,
+    id="bjkp",
+    radius="10dp",
+    layout_width=w,
+    layout_gravity="bottom",
+    layout_marginBottom="-10dp",
+    cardBackgroundColor=0xFFFFFFFF,
+    {
+      LinearLayout,
+      layout_width=w,
+      orientation="vertical",
+      {
+        LinearLayout,
+        layout_width=w,
+        paddingTop="24dp",
+        paddingLeft="32dp",
+        paddingRight="24dp",
+        orientation="horizontal",
+        {
+          TextView,
+          textSize="17sp",
+          layout_weight="1",
+          text="BiliBili封面获取",
+          layout_gravity="center",
+          textColor=0xFF000000,
+          Typeface=Typeface.DEFAULT_BOLD,
+        },
+        {
+          ImageView,
+          padding="15dp",
+          id="gbbilibilifmhqbj",
+          layout_width="55dp",
+          layout_height="55dp",
+          layout_gravity="center",
+          ColorFilter=0xFF707070,
+          src="http://shp.qpic.cn/collector/2530648358/6a4d61ec-a43b-454e-87c7-3a471e95e51a/0",
+          onClick=function()关闭BiliBili封面获取布局()end,
+        },
+      },
+      {
+        LinearLayout,
+        layout_height="7dp",
+      },
+      {
+        LinearLayout,
+        layout_width=w,
+        paddingLeft="32dp",
+        paddingRight="32dp",
+        orientation="vertical",
+        {
+          TextView,
+          textSize="12sp",
+          paddingLeft="2dp",
+          textColor=0xFF68AFE5,
+          text="请输入视频Av号..",
+        },
+        {
+          EditText,
+          id="avh",
+          singleLine=true,
+          layout_width="fill",
+          textColor=0xFF000000,
+        },
+      },
+      {
+        LinearLayout,
+        gravity="right",
+        layout_width=w,
+        paddingTop="17dp",
+        paddingRight="32dp",
+        paddingBottom="43dp",
+        {
+          LinearLayout,
+          layout_height="46dp",
+          {
+            CardView,
+            radius="5dp",
+            layout_gravity="center",
+            cardBackgroundColor=0xFF68AFE5,
+            {
+              TextView,
+              text="获取",
+              gravity="center",
+              layout_height="36dp",
+              layout_width="87.5dp",
+              textColor=0xFFFFFFFF,
+              onClick=function()
+                关闭BiliBili封面获取布局()
+                Http.get("https://m.bilibili.com/video/av"..avh.text..".html?",nil,"utf8",nil,function(code,content)
+                  获取标题=content:match("<title>(.-)</title>")
+                  if 获取标题=="什么都没找到" then
+                    提示("获取失败。")
+                  else
+                    图片链接=content:match('<meta property="og:image" content="(.-)"/>'):match("(.+)@")
+                    获取到BiliBili封面布局={
+                      LinearLayout,
+                      id="bjbj",
+                      layout_width=w,
+                      layout_height=h,
+                      background="#80000000",
+                      {
+                        CardView,
+                        id="bjkp",
+                        visibility=4,
+                        radius="10dp",
+                        layout_width=w,
+                        layout_gravity="bottom",
+                        layout_marginBottom="-10dp",
+                        cardBackgroundColor=0xFFFFFFFF,
+                        {
+                          LinearLayout,
+                          layout_width=w,
+                          padding="36.5dp",
+                          orientation="vertical",
+                          paddingBottom="46.5dp",
+                          {
+                            ImageView,
+                            id="fmtp",
+                            src=图片链接,
+                            layout_gravity="center",
+                            layout_marginTop="8.5dp",
+                          },
+                          {
+                            LinearLayout,
+                            layout_width="fill",
+                            orientation="horizontal",
+                            layout_marginTop="25dp",
+                            {
+                              LinearLayout,
+                              id="xzfm",
+                              padding="16.25dp",
+                              orientation="horizontal",
+                              layout_width=0.5*(w-73/32*geth(toolbar)),
+                              onClick=function()
+                                保存链接图片(图片链接,"/storage/emulated/0/Pictures/UTBC浏览器/"..os.date("%Y%m%d%H%M%S").."_bilibili.png")
+                              end,
+                              {
+                                ImageView,
+                                layout_width="23.5dp",
+                                layout_height="23.5dp",
+                                ColorFilter=0xFF68AFE5,
+                                src="http://shp.qpic.cn/collector/2530648358/57e3e182-77f4-4dae-afab-85fc5363a9b0/0",
+                              },
+                              {
+                                TextView,
+                                gravity="right",
+                                text="保存封面",
+                                layout_width="fill",
+                                layout_gravity="center",
+                                textColor=0xFF000000,
+                              },
+                            },
+                            {
+                              LinearLayout,
+                              id="fxfm",
+                              padding="16.25dp",
+                              orientation="horizontal",
+                              layout_width=0.5*(w-73/32*geth(toolbar)),
+                              onClick=function()分享文本(图片链接)end,
+                              {
+                                ImageView,
+                                layout_width="23.5dp",
+                                layout_height="23.5dp",
+                                ColorFilter=0xFF68AFE5,
+                                src="http://shp.qpic.cn/collector/2530648358/83fdbc58-9c2d-4975-a02a-94ff4bdd8a5c/0",
+                              },
+                              {
+                                TextView,
+                                gravity="right",
+                                text="分享封面",
+                                layout_width="fill",
+                                layout_gravity="center",
+                                textColor=0xFF000000,
+                              },
+                            },
+                          },
+                        },
+                      },
+                    }
+                    hqdbilibilifmbj=PopupWindow(loadlayout(获取到BiliBili封面布局))
+                    hqdbilibilifmbj.setFocusable(true)
+                    hqdbilibilifmbj.setWidth(w)
+                    hqdbilibilifmbj.setHeight(h)
+                    hqdbilibilifmbj.setTouchable(true)
+                    hqdbilibilifmbj.setOutsideTouchable(true)
+                    hqdbilibilifmbj.showAtLocation(fltBtn.Parent,0,0,0)
+                    波纹方(xzfm,0xFFB3D7F1)波纹方(fxfm,0xFFB3D7F1)
+                    ti=Ticker()
+                    ti.Period=10
+                    ti.onTick=function()
+                      if geth(fmtp)~=0 then
+                        ti.stop()
+                        bjkp.setVisibility(0)
+                        位移动画(bjkp,200,0,0,geth(bjkp),0)
+                        bjkpsety=0
+                        bjbj.onTouch=function(v,e)
+                        a=e.getAction()&255
+                        if a==MotionEvent.ACTION_DOWN then
+                          if e.getY()>=h-geth(bjkp) then
+                            csdjwz=e.getY()
+                          else
+                            csdjwz=h+1
+                          end
+                        elseif a==MotionEvent.ACTION_MOVE then
+                          if csdjwz==h+1 then
+                          elseif csdjwz>e.getY() then
+                            csdjwz=e.getY()
+                          else
+                            bjkpsety=h-geth(bjkp)+e.getY()-csdjwz+10/32*geth(toolbar)
+                            bjkp.setY(bjkpsety)
+                          end
+                        elseif  a==MotionEvent.ACTION_UP then
+                          if csdjwz==h+1 then
+                            位移动画(bjkp,200,0,0,0,geth(bjkp))
+                            task(199,function()
+                              hqdbilibilifmbj.dismiss()
+                            end)
+                          elseif bjkpsety>=h-0.5*geth(bjkp) then
+                            位移动画(bjkp,200,0,0,0,geth(bjkp))
+                            task(199,function()
+                              hqdbilibilifmbj.dismiss()
+                            end)
+                          else
+                            bjkp.setY(h-geth(bjkp)+10/32*geth(toolbar))
+                            位移动画(bjkp,150,0,0,bjkpsety-(h-geth(bjkp)+10/32*geth(toolbar)),0)
+                          end
+                        end
+                        return true
+                        end
+                      end
+                    end
+                    ti.start()
+                  end
+                end)
+              end,
+            },
+          },
+        },
+      },
+    },
+  },
+}
+bilibilifmhqbj=PopupWindow(loadlayout(bilibili封面获取布局))
+bilibilifmhqbj.setFocusable(true)
+bilibilifmhqbj.setWidth(w)
+bilibilifmhqbj.setHeight(h)
+bilibilifmhqbj.setTouchable(true)
+bilibilifmhqbj.setOutsideTouchable(true)
+bilibilifmhqbj.showAtLocation(fltBtn.Parent,0,0,0)
+波纹(gbbilibilifmhqbj,0xFFE2E2E2)
+位移动画(bjkp,200,0,0,geth(bjkp),0)
+activity.getSystemService(Context.INPUT_METHOD_SERVICE).toggleSoftInput(0,InputMethodManager.RESULT_SHOWN)
+function 关闭BiliBili封面获取布局()
+  位移动画(bjkp,200,0,0,0,geth(bjkp))
+  task(199,function()
+    activity.getSystemService(Context.INPUT_METHOD_SERVICE).hideSoftInputFromWindow(avh.getWindowToken(),0)
+    bilibilifmhqbj.dismiss()
+  end)
+end
+颜色(avh,0xFF68AFE5)
+avh.getBackground().setColorFilter(PorterDuffColorFilter(0xFF68AFE5,PorterDuff.Mode.SRC_ATOP));
+bjkpsety=0
+bjbj.onTouch=function(v,e)
+  a=e.getAction()&255
+  if a==MotionEvent.ACTION_DOWN then
+    if e.getY()>=h-geth(bjkp) then
+      csdjwz=e.getY()
+    else
+      csdjwz=h+1
+    end
+  elseif a==MotionEvent.ACTION_MOVE then
+    if csdjwz==h+1 then
+    elseif csdjwz>e.getY() then
+      csdjwz=e.getY()
+    else
+      bjkpsety=h-geth(bjkp)+e.getY()-csdjwz+10/32*geth(toolbar)
+      bjkp.setY(bjkpsety)
+    end
+  elseif  a==MotionEvent.ACTION_UP then
+    if csdjwz==h+1 then
+      关闭BiliBili封面获取布局()
+    elseif bjkpsety>=h-0.5*geth(bjkp) then
+      关闭BiliBili封面获取布局()
+    else
+      bjkp.setY(h-geth(bjkp)+10/32*geth(toolbar))
+      位移动画(bjkp,150,0,0,bjkpsety-(h-geth(bjkp)+10/32*geth(toolbar)),0)
+    end
+  end
+  return true
+end
+end
+function MD5(str)
+  local HexTable = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"}
+  local A = 0x67452301
+  local B = 0xefcdab89
+  local C = 0x98badcfe
+  local D = 0x10325476
+  local S11 = 7
+  local S12 = 12
+  local S13 = 17
+  local S14 = 22
+  local S21 = 5
+  local S22 = 9
+  local S23 = 14
+  local S24 = 20
+  local S31 = 4
+  local S32 = 11
+  local S33 = 16
+  local S34 = 23
+  local S41 = 6
+  local S42 = 10
+  local S43 = 15
+  local S44 = 21
+  local function F(x,y,z)
+    return (x & y) | ((~x) & z)
+  end
+  local function G(x,y,z)
+    return (x & z) | (y & (~z))
+  end
+  local function H(x,y,z)
+    return x ~ y ~ z
+  end
+  local function I(x,y,z)
+    return y ~ (x | (~z))
+  end
+  local function FF(a,b,c,d,x,s,ac)
+    a = a + F(b,c,d) + x + ac
+    a = (((a & 0xffffffff) << s) | ((a & 0xffffffff) >> 32 - s)) + b
+    return a & 0xffffffff
+  end
+  local function GG(a,b,c,d,x,s,ac)
+    a = a + G(b,c,d) + x + ac
+    a = (((a & 0xffffffff) << s) | ((a & 0xffffffff) >> 32 - s)) + b
+    return a & 0xffffffff
+  end
+  local function HH(a,b,c,d,x,s,ac)
+    a = a + H(b,c,d) + x + ac
+    a = (((a & 0xffffffff) << s) | ((a & 0xffffffff) >> 32 - s)) + b
+    return a & 0xffffffff
+  end
+  local function II(a,b,c,d,x,s,ac)
+    a = a + I(b,c,d) + x + ac
+    a = (((a & 0xffffffff) << s) | ((a & 0xffffffff) >> 32 - s)) + b
+    return a & 0xffffffff
+  end
+  local function MD5StringFill(s)
+    local len = s:len()
+    local mod512 = len * 8 % 512
+    local fillSize = (448 - mod512) // 8
+    if mod512 > 448 then
+      fillSize = (960 - mod512) // 8
+    end
+    local rTab = {}
+    local byteIndex = 1
+    for i = 1,len do
+      local index = (i - 1) // 4 + 1
+      rTab[index] = rTab[index] or 0
+      rTab[index] = rTab[index] | (s:byte(i) << (byteIndex - 1) * 8)
+      byteIndex = byteIndex + 1
+      if byteIndex == 5 then
+        byteIndex = 1
+      end
+    end
+    local b0x80 = false
+    local tLen = #rTab
+    if byteIndex ~= 1 then
+      rTab[tLen] = rTab[tLen] | 0x80 << (byteIndex - 1) * 8
+      b0x80 = true
+    end
+    for i = 1,fillSize // 4 do
+      if not b0x80 and i == 1 then
+        rTab[tLen + i] = 0x80
+       else
+        rTab[tLen + i] = 0x0
+      end
+    end
+    local bitLen = math.floor(len * 8)
+    tLen = #rTab
+    rTab[tLen + 1] = bitLen & 0xffffffff
+    rTab[tLen + 2] = bitLen >> 32
+    return rTab
+  end
+  function string.md5(s)
+    local fillTab = MD5StringFill(s)
+    local result = {A,B,C,D}
+    for i = 1,#fillTab // 16 do
+      local a = result[1]
+      local b = result[2]
+      local c = result[3]
+      local d = result[4]
+      local offset = (i - 1) * 16 + 1
+      a = FF(a, b, c, d, fillTab[offset + 0], S11, 0xd76aa478)
+      d = FF(d, a, b, c, fillTab[offset + 1], S12, 0xe8c7b756)
+      c = FF(c, d, a, b, fillTab[offset + 2], S13, 0x242070db)
+      b = FF(b, c, d, a, fillTab[offset + 3], S14, 0xc1bdceee)
+      a = FF(a, b, c, d, fillTab[offset + 4], S11, 0xf57c0faf)
+      d = FF(d, a, b, c, fillTab[offset + 5], S12, 0x4787c62a)
+      c = FF(c, d, a, b, fillTab[offset + 6], S13, 0xa8304613)
+      b = FF(b, c, d, a, fillTab[offset + 7], S14, 0xfd469501)
+      a = FF(a, b, c, d, fillTab[offset + 8], S11, 0x698098d8)
+      d = FF(d, a, b, c, fillTab[offset + 9], S12, 0x8b44f7af)
+      c = FF(c, d, a, b, fillTab[offset + 10], S13, 0xffff5bb1)
+      b = FF(b, c, d, a, fillTab[offset + 11], S14, 0x895cd7be)
+      a = FF(a, b, c, d, fillTab[offset + 12], S11, 0x6b901122)
+      d = FF(d, a, b, c, fillTab[offset + 13], S12, 0xfd987193)
+      c = FF(c, d, a, b, fillTab[offset + 14], S13, 0xa679438e)
+      b = FF(b, c, d, a, fillTab[offset + 15], S14, 0x49b40821)
+      a = GG(a, b, c, d, fillTab[offset + 1], S21, 0xf61e2562)
+      d = GG(d, a, b, c, fillTab[offset + 6], S22, 0xc040b340)
+      c = GG(c, d, a, b, fillTab[offset + 11], S23, 0x265e5a51)
+      b = GG(b, c, d, a, fillTab[offset + 0], S24, 0xe9b6c7aa)
+      a = GG(a, b, c, d, fillTab[offset + 5], S21, 0xd62f105d)
+      d = GG(d, a, b, c, fillTab[offset + 10], S22, 0x2441453)
+      c = GG(c, d, a, b, fillTab[offset + 15], S23, 0xd8a1e681)
+      b = GG(b, c, d, a, fillTab[offset + 4], S24, 0xe7d3fbc8)
+      a = GG(a, b, c, d, fillTab[offset + 9], S21, 0x21e1cde6)
+      d = GG(d, a, b, c, fillTab[offset + 14], S22, 0xc33707d6)
+      c = GG(c, d, a, b, fillTab[offset + 3], S23, 0xf4d50d87)
+      b = GG(b, c, d, a, fillTab[offset + 8], S24, 0x455a14ed)
+      a = GG(a, b, c, d, fillTab[offset + 13], S21, 0xa9e3e905)
+      d = GG(d, a, b, c, fillTab[offset + 2], S22, 0xfcefa3f8)
+      c = GG(c, d, a, b, fillTab[offset + 7], S23, 0x676f02d9)
+      b = GG(b, c, d, a, fillTab[offset + 12], S24, 0x8d2a4c8a)
+      a = HH(a, b, c, d, fillTab[offset + 5], S31, 0xfffa3942)
+      d = HH(d, a, b, c, fillTab[offset + 8], S32, 0x8771f681)
+      c = HH(c, d, a, b, fillTab[offset + 11], S33, 0x6d9d6122)
+      b = HH(b, c, d, a, fillTab[offset + 14], S34, 0xfde5380c)
+      a = HH(a, b, c, d, fillTab[offset + 1], S31, 0xa4beea44)
+      d = HH(d, a, b, c, fillTab[offset + 4], S32, 0x4bdecfa9)
+      c = HH(c, d, a, b, fillTab[offset + 7], S33, 0xf6bb4b60)
+      b = HH(b, c, d, a, fillTab[offset + 10], S34, 0xbebfbc70)
+      a = HH(a, b, c, d, fillTab[offset + 13], S31, 0x289b7ec6)
+      d = HH(d, a, b, c, fillTab[offset + 0], S32, 0xeaa127fa)
+      c = HH(c, d, a, b, fillTab[offset + 3], S33, 0xd4ef3085)
+      b = HH(b, c, d, a, fillTab[offset + 6], S34, 0x4881d05)
+      a = HH(a, b, c, d, fillTab[offset + 9], S31, 0xd9d4d039)
+      d = HH(d, a, b, c, fillTab[offset + 12], S32, 0xe6db99e5)
+      c = HH(c, d, a, b, fillTab[offset + 15], S33, 0x1fa27cf8)
+      b = HH(b, c, d, a, fillTab[offset + 2], S34, 0xc4ac5665)
+      a = II(a, b, c, d, fillTab[offset + 0], S41, 0xf4292244)
+      d = II(d, a, b, c, fillTab[offset + 7], S42, 0x432aff97)
+      c = II(c, d, a, b, fillTab[offset + 14], S43, 0xab9423a7)
+      b = II(b, c, d, a, fillTab[offset + 5], S44, 0xfc93a039)
+      a = II(a, b, c, d, fillTab[offset + 12], S41, 0x655b59c3)
+      d = II(d, a, b, c, fillTab[offset + 3], S42, 0x8f0ccc92)
+      c = II(c, d, a, b, fillTab[offset + 10], S43, 0xffeff47d)
+      b = II(b, c, d, a, fillTab[offset + 1], S44, 0x85845dd1)
+      a = II(a, b, c, d, fillTab[offset + 8], S41, 0x6fa87e4f)
+      d = II(d, a, b, c, fillTab[offset + 15], S42, 0xfe2ce6e0)
+      c = II(c, d, a, b, fillTab[offset + 6], S43, 0xa3014314)
+      b = II(b, c, d, a, fillTab[offset + 13], S44, 0x4e0811a1)
+      a = II(a, b, c, d, fillTab[offset + 4], S41, 0xf7537e82)
+      d = II(d, a, b, c, fillTab[offset + 11], S42, 0xbd3af235)
+      c = II(c, d, a, b, fillTab[offset + 2], S43, 0x2ad7d2bb)
+      b = II(b, c, d, a, fillTab[offset + 9], S44, 0xeb86d391)
+      result[1] = result[1] + a
+      result[2] = result[2] + b
+      result[3] = result[3] + c
+      result[4] = result[4] + d
+      result[1] = result[1] & 0xffffffff
+      result[2] = result[2] & 0xffffffff
+      result[3] = result[3] & 0xffffffff
+      result[4] = result[4] & 0xffffffff
+    end
+    local retStr = ""
+    for i = 1,4 do
+      for _ = 1,4 do
+        local temp = result[i] & 0x0F
+        local str = HexTable[temp + 1]
+        result[i] = result[i] >> 4
+        temp = result[i] & 0x0F
+        retStr = retStr .. HexTable[temp + 1] .. str
+        result[i] = result[i] >> 4
+      end
+    end
+    return retStr
+  end
+  return string.md5(str)
+end
+function MD5加密()
+local dbh=h-geth(toolbar)-getStatusBarHeight()
+MD5加密布局={
+  LinearLayout,
+  orientation="vertical",
+  backgroundColor=0xFF9AAEC7,
+  {
+    LinearLayout,
+    layout_width=w,
+    orientation="horizontal",
+    layout_height=geth(toolbar),
+    layout_marginTop=getStatusBarHeight(),
+    {
+      ImageView,
+      padding="15dp",
+      layout_width="48dp",
+      layout_height="48dp",
+      ColorFilter=0xffffffff,
+      layout_gravity="center",
+      src="http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0",
+      onClick=function()md5jmbj.dismiss()end,
+    },
+    {
+      TextView,
+      text="MD5加密",
+      textColor=0xffffffff,
+      layout_gravity="center",
+    },
+  },
+  {
+    LinearLayout,
+    layout_width=w,
+    layout_height=dbh,
+    orientation="vertical",
+    backgroundColor=0xffffffff,
+    {
+      EditText,
+      id="srwb",
+      gravity="top",
+      padding="16dp",
+      layout_width="fill",
+      layout_weight="1",
+      hint="请输入内容..",
+      textColor=0xff000000,
+      hintTextColor=0xffa1a1a1,
+      backgroundColor=0xffffffff,
+    },
+    {
+      LinearLayout,
+      layout_width=w,
+      paddingTop="15dp",
+      paddingBottom="15dp",
+      orientation="horizontal",
+      backgroundColor=0xFFFAFAFA,
+      {
+        LinearLayout,
+        layout_width="74dp",
+        layout_height="1dp",
+        layout_gravity="center",
+        background="#FFBABABA",
+        layout_marginRight="16.5dp",
+      },
+      {
+        ImageView,
+        id="wytpz",
+        padding="3dp",
+        layout_width="24dp",
+        layout_height="24dp",
+        layout_gravity="center",
+        ColorFilter=0xFF8B8B8B,
+        layout_marginRight="16.5dp",
+        src="http://shp.qpic.cn/collector/2530648358/9447f207-fea3-4ef1-a687-0c9a9da08a8a/0",
+      },
+      {
+        CardView,
+        radius=0,
+        elevation=0,
+        layout_weight="1",
+        layout_height="40dp",
+        cardBackgroundColor=0xFF9AAEC7,
+        {
+          ImageView,
+          id="scjmwb",
+          padding="9dp",
+          layout_width="fill",
+          layout_height="fill",
+          ColorFilter=0xFFFFFFFF,
+          src="http://shp.qpic.cn/collector/2530648358/3f3bb2ba-b563-4c64-ba2a-c2bb8ccedd76/0",
+          onClick=function()
+            if srwb.text~="" then
+              jmwb.text=MD5(srwb.text)
+            end
+            wytpz.setColorFilter(0xFFBDBDBD)
+            wytpy.setColorFilter(0xFFBDBDBD)
+          end,
+        },
+      },
+      {
+        ImageView,
+        id="wytpy",
+        rotation=180,
+        padding="3dp",
+        layout_width="24dp",
+        layout_height="24dp",
+        layout_gravity="center",
+        ColorFilter=0xFF8B8B8B,
+        layout_marginLeft="16.5dp",
+        src="http://shp.qpic.cn/collector/2530648358/9447f207-fea3-4ef1-a687-0c9a9da08a8a/0",
+      },
+      {
+        LinearLayout,
+        layout_width="74dp",
+        layout_height="1dp",
+        layout_gravity="center",
+        background="#FFBABABA",
+        layout_marginLeft="16.5dp",
+      },
+    },
+    {
+      LinearLayout,
+      layout_width=w,
+      layout_weight="1",
+      orientation="vertical",
+      {
+        EditText,
+        id="jmwb",
+        gravity="top",
+        padding="16dp",
+        layout_width=w,
+        hint="加密结果..",
+        layout_weight="1",
+        textColor=0xff000000,
+        hintTextColor=0xffa1a1a1,
+        backgroundColor=0xffffffff,
+      },
+      {
+        LinearLayout,
+        layout_height=math.sqrt(2*(28/32*geth(toolbar)^2))-(28/32*geth(toolbar)),
+      },
+      {
+        ImageView,
+        id="fzjg",
+        padding="16dp",
+        layout_width="56dp",
+        layout_height="56dp",
+        layout_gravity="right",
+        src="http://shp.qpic.cn/collector/2530648358/936bf7ca-d0f1-4f81-b0d1-ddd28b7255a3/0",
+        onClick=function()复制文本(jmwb.text)提示"复制完成"end,
+      },
+    },
+  },
+}
+md5jmbj=PopupWindow(loadlayout(MD5加密布局))
+md5jmbj.setFocusable(true)
+md5jmbj.setWidth(w)
+md5jmbj.setHeight(h)
+md5jmbj.setTouchable(true)
+md5jmbj.setOutsideTouchable(true)
+md5jmbj.showAtLocation(fltBtn.Parent,0,0,0)
+波纹(fzjg,0xFFE2E2E2)波纹(scjmwb,0xFF68AFE5)
+颜色(jmwb,0xFF68AFE5)颜色(srwb,0xFF68AFE5)
+end
+function KSA(key)
+  S={}
+  for i=1,256 do
+    S[i]=i-1
+  end
+  j=0
+  for i=1,255 do
+    if i%#key==0 then
+      j=(j+S[i]+key[#key])%256
+    else
+      j=(j+S[i]+key[i%#key])%256
+    end
+    S[i],S[j+1]=S[j+1],S[i] 
+  end
+  return S
+end
+function PRGA(S,n)
+  i,j=0,0
+  key={}
+  while n>0 do
+    i=(i+1)%256
+    j=(j+S[i+1])%256
+    S[i+1],S[j+1]=S[j+1],S[i+1]
+    K=S[(S[i+1]+S[j+1])%256+1]
+    key[#key+1]=K
+    n=n-1
+  end
+  return key
+end
+function preparing_key_array(s)
+  c={}
+  for i=1,#s do
+    c[i]=string.byte(s,i)
+  end
+  return c
+end
+function RC4加密(str,key)
+  key=key
+  plaintext=str
+  key=preparing_key_array(key)
+  S=KSA(key)
+  keystream=PRGA(S,#plaintext)
+  plaintext=preparing_key_array(plaintext)
+  cipher={}
+  for i=1,#plaintext do
+    cipher[i]=keystream[i]~plaintext[i]
+  end
+  jmjg=""
+  for i=1,#cipher do
+    hexv=Integer.toHexString(cipher[i])
+    if #hexv==1 then
+      jmjg=jmjg.."0"..hexv
+    else
+      jmjg=jmjg..hexv
+    end
+  end
+  return jmjg
+end
+function Hex2Dec(Hex)
+  Hexs=(Hex:sub(1,1):gsub("a","10"):gsub("b","11"):gsub("c","12"):gsub("d","13"):gsub("e","14"):gsub("f",15))*15
+  Hexg=(Hex:sub(2,2)):gsub("a","10"):gsub("b","11"):gsub("c","12"):gsub("d","13"):gsub("e","14"):gsub("f",15)+Hexs/15
+  Dec=tonumber(Hexs+Hexg)
+  return Dec
+end
+function RC4解密(str,key)
+  key=key
+  plaintext=str
+  key=preparing_key_array(key)
+  S=KSA(key)
+  keystream=PRGA(S,#plaintext)
+  jmjg=""
+  for i=1,#keystream/2 do
+    jmjg=jmjg..string.char(Hex2Dec(string.lower(plaintext:sub(i*2-1,i*2)))~keystream[i])
+  end
+  return jmjg
+end
+function RC4加解密()
+local dbh=h-geth(toolbar)-getStatusBarHeight()
+RC4加解密布局={
+  LinearLayout,
+  orientation="vertical",
+  backgroundColor=0xFF9AAEC7,
+  {
+    LinearLayout,
+    layout_width=w,
+    orientation="horizontal",
+    layout_height=geth(toolbar),
+    layout_marginTop=getStatusBarHeight(),
+    {
+      TextView,
+      text="RC4加解密",
+      textColor=0xffffffff,
+      layout_gravity="center",
+      layout_marginLeft="16dp",
+    },
+  },
+  {
+    LinearLayout,
+    layout_width=w,
+    layout_height=dbh,
+    orientation="vertical",
+    backgroundColor=0xffffffff,
+    {
+      EditText,
+      id="srwb",
+      gravity="top",
+      padding="16dp",
+      layout_width="fill",
+      layout_weight="1",
+      textColor=0xff000000,
+      hintTextColor=0xffa1a1a1,
+      backgroundColor=0xffffffff,
+      hint="请输入内容，点击右侧的图标加密内容，点击左侧的图标解密内容..",
+    },
+    {
+      LinearLayout,
+      layout_width=w,
+      layout_height="56dp",
+      orientation="horizontal",
+      background="#FFFAFAFA",
+      {
+        FrameLayout,
+        id="jiemrc4bj",
+        layout_width="56dp",
+        {
+          ImageView,
+          id="jiemrc4",
+          padding="16dp",
+          layout_width="56dp",
+          layout_height="56dp",
+          ColorFilter=0xFFFFFFFF,
+          src="http://shp.qpic.cn/collector/2530648358/8bc118fd-159d-4544-8131-5ca10c71678e/0",
+          onClick=function()
+            if srwb.text~="" and rc4key.text~="" then
+              jmwb.text=RC4解密(srwb.text,rc4key.text)
+            end
+          end,
+        },
+      },
+      {
+        EditText,
+        id="rc4key",
+        singleLine=true,
+        layout_weight="1",
+        hint="请输入密钥..",
+        layout_gravity="center",
+        textColor=0xFF000000,
+        background="#FFFAFAFA",
+        hintTextColor=0xffa1a1a1,
+      },
+      {
+        FrameLayout,
+        id="jiamrc4bj",
+        layout_width="56dp",
+        {
+          ImageView,
+          id="jiamrc4",
+          padding="16dp",
+          layout_width="56dp",
+          layout_height="56dp",
+          ColorFilter=0xFFFFFFFF,
+          src="http://shp.qpic.cn/collector/2530648358/074ecb47-7dc6-4efa-a075-a31ce1d8ff56/0",
+          onClick=function()
+            if srwb.text~="" and rc4key.text~="" then
+              jmwb.text=RC4加密(srwb.text,rc4key.text)
+            end
+          end,
+        },
+      },
+    },
+    {
+      LinearLayout,
+      layout_width=w,
+      layout_weight="1",
+      orientation="vertical",
+      {
+        EditText,
+        id="jmwb",
+        gravity="top",
+        padding="16dp",
+        layout_width=w,
+        hint="内容输出..",
+        layout_weight="1",
+        textColor=0xff000000,
+        hintTextColor=0xffa1a1a1,
+        backgroundColor=0xffffffff,
+      },
+      {
+        LinearLayout,
+        layout_height=math.sqrt(2*(28/32*geth(toolbar)^2))-(28/32*geth(toolbar)),
+      },
+      {
+        ImageView,
+        id="fzjg",
+        padding="16dp",
+        layout_width="56dp",
+        layout_height="56dp",
+        layout_gravity="right",
+        src="http://shp.qpic.cn/collector/2530648358/936bf7ca-d0f1-4f81-b0d1-ddd28b7255a3/0",
+        onClick=function()复制文本(jmwb.text)提示"复制完成"end,
+      },
+    },
+  },
+}
+rc4jjmbj=PopupWindow(loadlayout(RC4加解密布局))
+rc4jjmbj.setFocusable(true)
+rc4jjmbj.setWidth(w)
+rc4jjmbj.setHeight(h)
+rc4jjmbj.setTouchable(true)
+rc4jjmbj.setOutsideTouchable(true)
+rc4jjmbj.showAtLocation(fltBtn.Parent,0,0,0)
+jiemrc4bj.setBackgroundDrawable(GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,{0xFF9AAEC7,0xFFFAFAFA}))
+jiamrc4bj.setBackgroundDrawable(GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,{0xFFFAFAFA,0xFF9AAEC7}))
+波纹(fzjg,0xFFE2E2E2)波纹方(jiemrc4,0xFFA3B5C3)波纹方(jiamrc4,0xFFA3B5C3)
+颜色(jmwb,0xFF68AFE5)颜色(srwb,0xFF68AFE5)颜色(rc4key,0xFF68AFE5)
+end
+function 网页源码获取()
+网页源码获取布局={
+  LinearLayout,
+  id="bjbj",
+  layout_width=w,
+  layout_height=h,
+  backgroundColor=0x80000000,
+  {
+    CardView,
+    id="bjkp",
+    radius="10dp",
+    layout_width=w,
+    layout_gravity="bottom",
+    layout_marginBottom="-10dp",
+    cardBackgroundColor=0xFFFFFFFF,
+    {
+      LinearLayout,
+      layout_width=w,
+      orientation="vertical",
+      {
+        LinearLayout,
+        layout_width=w,
+        paddingTop="24dp",
+        paddingLeft="32dp",
+        paddingRight="24dp",
+        orientation="horizontal",
+        {
+          TextView,
+          textSize="17sp",
+          layout_weight="1",
+          text="网页源码获取",
+          layout_gravity="center",
+          textColor=0xFF000000,
+          Typeface=Typeface.DEFAULT_BOLD,
+        },
+        {
+          ImageView,
+          padding="15dp",
+          id="gbwyymhqbj",
+          layout_width="55dp",
+          layout_height="55dp",
+          layout_gravity="center",
+          ColorFilter=0xFF707070,
+          src="http://shp.qpic.cn/collector/2530648358/6a4d61ec-a43b-454e-87c7-3a471e95e51a/0",
+          onClick=function()关闭网页源码获取布局()end,
+        },
+      },
+      {
+        LinearLayout,
+        layout_height="7dp",
+      },
+      {
+        LinearLayout,
+        layout_width=w,
+        paddingLeft="32dp",
+        paddingRight="32dp",
+        orientation="vertical",
+        {
+          TextView,
+          textSize="12sp",
+          paddingLeft="2dp",
+          textColor=0xFF68AFE5,
+          text="请输入链接..",
+        },
+        {
+          EditText,
+          id="ljwb",
+          singleLine=true,
+          layout_width="fill",
+          textColor=0xFF000000,
+        },
+      },
+      {
+        LinearLayout,
+        gravity="right",
+        layout_width=w,
+        paddingTop="17dp",
+        paddingRight="32dp",
+        paddingBottom="43dp",
+        {
+          LinearLayout,
+          layout_height="46dp",
+          {
+            CardView,
+            radius="5dp",
+            layout_gravity="center",
+            cardBackgroundColor=0xFF68AFE5,
+            {
+              TextView,
+              text="确定",
+              gravity="center",
+              layout_height="36dp",
+              layout_width="87.5dp",
+              textColor=0xFFFFFFFF,
+              onClick=function()
+                关闭网页源码获取布局()
+                if ljwb.text:sub(1,7)~="http://" and ljwb.text:sub(1,8)~="https://" then
+                  lj="https://"..ljwb.text
+                else
+                  lj=ljwb.text
+                end
+                header={
+                  ["User-Agent"]= "okhttp/3.11.0",
+                }
+                task(500,function()
+                  Http.get(lj,nil,"utf8",header,function(code,content)
+                    if code==-1 then
+                      提示"获取失败。"
+                    else
+                      获取到网页源码布局={
+                        LinearLayout,
+                        layout_width=w,
+                        layout_height=h,
+                        orientation="vertical",
+                        backgroundColor=0xFFFFFFFF,
+                        {
+                          FrameLayout,
+                          {
+                            ScrollView,
+                            id="wyymhd",
+                            layout_width=w,
+                            VerticalScrollBarEnabled=false,
+                            layout_height=h-getStatusBarHeight(),
+                            {
+                              TextView,
+                              id="wyymwb",
+                              text=content,
+                              padding="17dp",
+                              textSize="16sp",
+                              layout_width="fill",
+                              paddingTop="73dp",
+                              textColor=0xFF000000,
+                              layout_height=h-getStatusBarHeight(),
+                            },
+                          },
+                          {
+                            LinearLayout,
+                            id="wyymdl",
+                            layout_width=w,
+                            layout_height="56dp",
+                            orientation="horizontal",
+                            backgroundColor=0xFF9AAEC7,
+                            {
+                              ImageView,
+                              padding="13dp",
+                              layout_width="48dp",
+                              layout_height="48dp",
+                              ColorFilter=0xffffffff,
+                              layout_gravity="center",
+                              src="http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0",
+                              onClick=function()hqdwyymbj.dismiss()end,
+                            },
+                            {
+                              TextView,
+                              textSize="20sp",
+                              text="网页源码",
+                              layout_weight="1",
+                              textColor=0xffffffff,
+                              paddingLeft="17dp",
+                              layout_gravity="center",
+                            },
+                            {
+                              ImageView,
+                              id="wyymcd",
+                              padding="13dp",
+                              layout_width="48dp",
+                              layout_height="48dp",
+                              ColorFilter=0xffffffff,
+                              layout_gravity="center",
+                              src="http://shp.qpic.cn/collector/2530648358/431c581a-d8af-49c0-bacb-608f48a29e58/0",
+                              onClick=function()
+                                items={
+                                  ListView,
+                                  id="lb",
+                                  DividerHeight=0,
+                                  layout_width="fill",
+                                  items={"复制","分享","导出"},
+                                }
+                                圆角对话框()
+                                .设置圆角("5dp")
+                                .添加布局(items)
+                                .显示(function()
+                                  lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)
+                                    pop.dismiss()
+                                    if id==1 then
+                                      复制文本(content)提示"复制完成"
+                                    elseif id==2 then
+                                      分享文本(content)
+                                    else
+                                      time=os.date("%Y-%m-%d-%H:%M:%S")
+                                      File("/storage/emulated/0/Download/Export_"..time..".txt").createNewFile()
+                                      io.open("/storage/emulated/0/Download/Export_"..time..".txt","w+"):write(content):close()
+                                      提示("已保存在 /storage/emulated/0/Download/Export_"..time..".txt")
+                                    end
+                                  end})
+                                end)
+                              end,
+                            },
+                          },
+                        },
+                      }
+                      hqdwyymbj=PopupWindow(loadlayout(获取到网页源码布局))
+                      hqdwyymbj.setFocusable(true)
+                      hqdwyymbj.setWidth(w)
+                      hqdwyymbj.setHeight(h)
+                      hqdwyymbj.setTouchable(true)
+                      hqdwyymbj.setOutsideTouchable(true)
+                      hqdwyymbj.showAtLocation(fltBtn.Parent,0,0,0)
+                      wyymdlsety=0
+                      wyymhd.setOnScrollChangeListener(ScrollView.OnScrollChangeListener{
+                      onScrollChange=function(v,nowx,nowy,oldx,oldy)
+                        if nowy>=0 and nowy<=wyymwb.getHeight()-h+getStatusBarHeight() then
+                          if wyymdlsety+nowy-oldy>=0 and wyymdlsety+nowy-oldy<=56/32*geth(toolbar)then
+                            wyymdlsety=wyymdlsety+nowy-oldy
+                            wyymdl.setY(-wyymdlsety)
+                          else
+                            if wyymdlsety+nowy-oldy>56/32*geth(toolbar)then
+                              wyymdlsety=56/32*geth(toolbar)
+                              wyymdl.setY(-wyymdlsety)
+                            else
+                              wyymdlsety=0
+                              wyymdl.setY(-56/32*wyymdlsety)
+                            end
+                          end
+                        end
+                      end
+                    })
+                    end
+                  end)
+                end)
+              end,
+            },
+          },
+        },
+      },
+    },
+  },
+}
+wyymhqbj=PopupWindow(loadlayout(网页源码获取布局))
+wyymhqbj.setFocusable(true)
+wyymhqbj.setWidth(w)
+wyymhqbj.setHeight(h)
+wyymhqbj.setTouchable(true)
+wyymhqbj.setOutsideTouchable(true)
+wyymhqbj.showAtLocation(fltBtn.Parent,0,0,0)
+波纹(gbwyymhqbj,0xFFE2E2E2)
+位移动画(bjkp,200,0,0,geth(bjkp),0)
+activity.getSystemService(Context.INPUT_METHOD_SERVICE).toggleSoftInput(0,InputMethodManager.RESULT_SHOWN)
+function 关闭网页源码获取布局()
+  位移动画(bjkp,200,0,0,0,geth(bjkp))
+  task(199,function()
+    activity.getSystemService(Context.INPUT_METHOD_SERVICE).hideSoftInputFromWindow(ljwb.getWindowToken(),0)
+    wyymhqbj.dismiss()
+  end)
+end
+颜色(ljwb,0xFF68AFE5)
+ljwb.getBackground().setColorFilter(PorterDuffColorFilter(0xFF68AFE5,PorterDuff.Mode.SRC_ATOP));
+bjkpsety=0
+bjbj.onTouch=function(v,e)
+  a=e.getAction()&255
+  if a==MotionEvent.ACTION_DOWN then
+    if e.getY()>=h-geth(bjkp) then
+      csdjwz=e.getY()
+    else
+      csdjwz=h+1
+    end
+  elseif a==MotionEvent.ACTION_MOVE then
+    if csdjwz==h+1 then
+    elseif csdjwz>e.getY() then
+      csdjwz=e.getY()
+    else
+      bjkpsety=h-geth(bjkp)+e.getY()-csdjwz+10/32*geth(toolbar)
+      bjkp.setY(bjkpsety)
+    end
+  elseif  a==MotionEvent.ACTION_UP then
+    if csdjwz==h+1 then
+      关闭网页源码获取布局()
+    elseif bjkpsety>=h-0.5*geth(bjkp) then
+      关闭网页源码获取布局()
+    else
+      bjkp.setY(h-geth(bjkp)+10/32*geth(toolbar))
+      位移动画(bjkp,150,0,0,bjkpsety-(h-geth(bjkp)+10/32*geth(toolbar)),0)
+    end
+  end
+  return true
+end
+end
 import"android.support.v4.widget.*"
 轻工具布局={
   FrameLayout,
@@ -2799,6 +3976,7 @@ import"android.support.v4.widget.*"
           id="flhd",
           layout_width=w,
           layout_height="fill",
+          OverScrollMode=2,
           VerticalScrollBarEnabled=false,
           {
             LinearLayout,
@@ -3330,11 +4508,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
+                        id="bilibilifmhqid",
                         paddingLeft="12dp",
                         paddingRight="12dp",
                         text="BiliBili封面获取",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
+                        onClick=function()BiliBili封面获取()end,
                       },
                     },
                     {
@@ -3714,11 +4894,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
+                        id="rc4jjmid",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="RC4加密",
+                        text="RC4加解密",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
+                        onClick=function()RC4加解密()end,
                       },
                     },
                   },
@@ -3753,11 +4935,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
+                        id="md5jmid",
                         paddingLeft="12dp",
                         paddingRight="12dp",
                         text="MD5加密",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
+                        onClick=function()MD5加密()end,
                       },
                     },
                   },
@@ -3865,11 +5049,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
+                        id="wyymhqid",
                         paddingLeft="12dp",
                         paddingRight="12dp",
                         text="网页源码获取",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
+                        onClick=function()网页源码获取()end,
                       },
                     },
                   },
@@ -3986,13 +5172,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
-                        id="cksbxxxxid2",
+                        id="bilibilifmhqid2",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="查看设备详细信息",
+                        text="BiliBili封面获取",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
-                        onClick=function()查看设备详细信息()end,
+                        onClick=function()BiliBili封面获取()end,
                       },
                     },
                     {
@@ -4004,13 +5190,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
-                        id="msdmid2",
+                        id="rc4jjmid2",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="摩斯电码",
+                        text="RC4加解密",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
-                        onClick=function()摩斯电码()end,
+                        onClick=function()RC4加解密()end,
                       },
                     },
                   },
@@ -4027,13 +5213,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
-                        id="base64bmzhid2",
+                        id="md5jmid2",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="Base64编码转换",
+                        text="MD5加密",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
-                        onClick=function()Base64编码转换()end,
+                        onClick=function()MD5加密()end,
                       },
                     },
                     {
@@ -4045,13 +5231,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
-                        id="sjsscid2",
+                        id="wyymhqid2",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="随机数生成",
+                        text="网页源码获取",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
-                        onClick=function()随机数生成()end,
+                        onClick=function()网页源码获取()end,
                       },
                     },
                   },
@@ -4219,8 +5405,9 @@ qgj.showAtLocation(fltBtn.Parent,0,0,0)
     },
     {
       CheckBox,
-      id="应用名称fxk",
       visibility=8,
+      id="应用名称fxk",
+      layout_gravity="center",
       onClick=function()
         if 应用名称fxk.isChecked()==true then
           轻工具主页待删除应用=轻工具主页待删除应用..'"应用名称",'
@@ -4275,8 +5462,8 @@ function 主页收藏应用()
 end
 主页收藏应用()
 波纹(zydj,0xFFE2E2E2)波纹(fldj,0xFFE2E2E2)波纹(zhdj,0xFFE2E2E2)
-波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)
-波纹(cksbxxxxid2,0xFFD0D0D0)波纹(msdmid2,0xFFD0D0D0)波纹(base64bmzhid2,0xFFD0D0D0)波纹(sjsscid2,0xFFD0D0D0)
+波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)
+波纹(bilibilifmhqid2,0xFFD0D0D0)波纹(rc4jjmid2,0xFFD0D0D0)波纹(md5jmid2,0xFFD0D0D0)波纹(wyymhqid2,0xFFD0D0D0)
 pagev2.setOnPageChangeListener(PageView.OnPageChangeListener{
   onPageScrolled=function(a,b,c)
     if c==0then
