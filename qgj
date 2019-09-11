@@ -1,4 +1,4 @@
-{版本="1.1.9",fun=function()
+{版本="1.2.2",fun=function()
 File("/data/data/"..activity.getPackageName().."/翻译收藏").createNewFile()
 File("/data/data/"..activity.getPackageName().."/上次查询快递单号").createNewFile()
 File("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用").createNewFile()
@@ -15,8 +15,8 @@ else
   软件内下载("正在下载资源,请耐心等待下载完成","https://raw.githubusercontent.com/donothavename/gx/master/ColorPicker.dex",this.luaDir.."/libs/ColorPicker.dex")
 end
 import 'android.graphics.*'
-全部应用左列={"时间屏幕","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","摩斯电码","Base64编码转换","随机数生成"}
-全部应用右列={"翻译","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","RC4加解密","MD5加密","网页源码获取"}
+全部应用左列={"时间屏幕","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","摩斯电码","RC4加解密","MD5加密","网页源码获取"}
+全部应用右列={"翻译","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","进制转换","Base64编码转换","随机数生成","归属地查询"}
 function 波纹方(id,color)
   ripples=activity.obtainStyledAttributes({android.R.attr.selectableItemBackground}).getResourceId(0,0)
   id.setBackgroundDrawable(activity.Resources.getDrawable(ripples).setColor(ColorStateList(int[0].class{int{}},int{color})))
@@ -181,7 +181,7 @@ qbyybj.showAtLocation(fltBtn.Parent,0,0,0)
   },
 },
 ]]
-应用左列id={"qysjpmid","qykdcxliteid","qyczid","qyewmgjid","qytpzljid","qycksbxxxxid","qymsdmid","qybase64bmzhid","qysjsscid"}
+应用左列id={"qysjpmid","qykdcxliteid","qyczid","qyewmgjid","qytpzljid","qycksbxxxxid","qymsdmid","qyrc4jjmid","qymd5jmid","qywyymhqid"}
 for i=1,#全部应用左列 do
   if i==1 then
     全部应用左列布局=全部应用适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用左列id[1])
@@ -195,7 +195,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..全部应用左列布局.."}"
-应用右列id={"qyfyid","qydlscid","qyznzid","qyqsqid","qybilibilifmhqid","qyhqdqbzid","qyrc4jjmid","qymd5jmid","qywyymhqid"}
+应用右列id={"qyfyid","qydlscid","qyznzid","qyqsqid","qybilibilifmhqid","qyhqdqbzid","qyjzzhid","qybase64bmzhid","qysjsscid","qygsdcxid"}
 for i=1,#全部应用右列 do
   if i==1 then
     全部应用右列布局=全部应用适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用右列id[1])
@@ -408,7 +408,7 @@ yytjscbj.showAtLocation(fltBtn.Parent,0,0,0)
 },
 ]]
 b=loadstring("return "..io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a"))轻工具主页收藏应用=b()
-应用添加收藏左列id={"ytcsjpmid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcmsdmid","ytcbase64bmzhid","ytcsjsscid"}
+应用添加收藏左列id={"ytcsjpmid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcmsdmid","ytcrc4jjmid","ytcmd5jmid","ytcwyymhqid"}
 for i=1,#全部应用左列 do
   if i==1 then
     应用添加收藏左列布局=应用添加收藏适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用添加收藏左列id[1])
@@ -436,7 +436,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..应用添加收藏左列布局.."}"
-应用添加收藏右列id={"ytcfyid","ytcdlscid","ytcznzid","ytcqsqid","ytcbilibilifmhqid","ytchqdqbzid","ytcrc4jjmid","ytcmd5jmid","ytcwyymhqid"}
+应用添加收藏右列id={"ytcfyid","ytcdlscid","ytcznzid","ytcqsqid","ytcbilibilifmhqid","ytchqdqbzid","ytcjzzhid","ytcbase64bmzhid","ytcsjsscid","ytcgsdcxid"}
 for i=1,#全部应用右列 do
   if i==1 then
     应用添加收藏右列布局=应用添加收藏适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用添加收藏右列id[1])
@@ -1448,6 +1448,179 @@ function onTouchEvent(event)
 end
 io.open(this.luaDir.."/sj.lua","w+"):write(""):close()]]):close()进入子页面("共用")
 end
+function x2(str)
+  val=""进=0
+  for i=0,#str-1 do
+    dg=str:sub(#str-i,#str-i)
+    if dg*2+进<10 then
+      val=tostring(tointeger(dg*2+进))..val
+      进=0
+     else
+      if i~=#str-1 then
+        val=tostring(tointeger(dg*2+进)):sub(2,2)..val
+       else
+        val=tostring(tointeger(dg*2+进))..val
+      end
+      进=tostring(tointeger(dg*2+进)):sub(1,1)
+    end
+  end
+  return val
+end
+function c2(str)
+  val="" 进=0
+  for i=1,#str do
+    dg=str:sub(i,i)+进
+    if dg%2==1 then
+      val=val..tointeger((dg-1)/2)
+      进=10
+     else
+      val=val..tointeger(dg/2)
+      进=0
+    end
+  end
+  for i=1,#val do
+    if val:sub(i,i)~="0" then
+      val=val:sub(i,#val)
+      break
+    end
+  end
+  return val
+end
+function Bin2Oct(str)
+  if #str<3 then
+    for i=1,3-#str do
+      str="0"..str
+    end
+   elseif #str%3~=0 then
+    for i=1,3-#str%3 do
+      str="0"..str
+    end
+  end
+  octv=""
+  for i=1,#str/3 do
+    octv=octv..tointeger(str:sub(i*3-2,i*3-2)*4+str:sub(i*3-1,i*3-1)*2+str:sub(i*3,i*3))
+  end
+  return octv
+end
+function Bin2Dec(str)
+  decv="0"
+  for i=1,#str do
+    if str:sub(i,i)=="1" then
+      decv=x2(decv)
+      dec="" 进=0
+      for i=0,#decv-1 do
+        dg=decv:sub(#decv-i,#decv-i)
+        if i==0 then
+          if dg+1+进<10 then
+            dec=tostring(tointeger(dg+1+进))..dec
+            进=0
+           else
+            if i~=#decv-1 then
+              dec=tostring(tointeger(dg+1+进)):sub(2,2)..dec
+             else
+              dec=tostring(tointeger(dg+1+进))..dec
+            end
+            进=tostring(tointeger(dg+1+进)):sub(1,1)
+          end
+         else
+          if dg+进<10 then
+            dec=tostring(tointeger(dg+进))..dec
+            进=0
+           else
+            if i~=#decv-1 then
+              dec=tostring(tointeger(dg+进)):sub(2,2)..dec
+             else
+              dec=tostring(tointeger(dg+进))..dec
+            end
+            进=tostring(tointeger(dg+进)):sub(1,1)
+          end
+        end
+      end
+      decv=dec
+     else
+      decv=x2(decv)
+    end
+  end
+  return decv
+end
+function Bin2Hex(str)
+  if #str<4 then
+    for i=1,4-#str do
+      str="0"..str
+    end
+   elseif #str%4~=0 then
+    for i=1,4-#str%4 do
+      str="0"..str
+    end
+  end
+  hexv=""
+  for i=1,#str/4 do
+    hexv=hexv..tostring(tointeger(str:sub(i*4-3,i*4-3)*8+str:sub(i*4-2,i*4-2)*4+str:sub(i*4-1,i*4-1)*2+str:sub(i*4,i*4))):gsub("10","A"):gsub("11","B"):gsub("12","C"):gsub("13","D"):gsub("14","E"):gsub("15","F")
+  end
+  return hexv
+end
+function Oct2Bin(str)
+  binv=tostring(str):gsub("0","000"):gsub("1","001"):gsub("2","010"):gsub("3","011"):gsub("4","100"):gsub("5","101"):gsub("6","110"):gsub("7","111")
+  if binv:find"1" then
+    if binv:match("1(.+)")~=nil then
+      return "1"..binv:match("1(.+)")
+    else
+      return "1"
+    end
+   else
+    return "0"
+  end
+end
+function Oct2Dec(str)
+  return Bin2Dec(Oct2Bin(str))
+end
+function Oct2Hex(str)
+  return Bin2Hex(Oct2Bin(str))
+end
+function Dec2Bin(str)
+  binv=""
+  for i=1,#str+1 do
+    if i==#str+1 then
+      str="0" binv="0"
+    elseif str:sub(i,i)~="0" then
+      str=str:sub(i,#str)
+      break
+    end
+  end
+  while str>"0" do
+    if str:sub(#str,#str)%2==0 then
+      binv="0"..binv
+     else
+      binv="1"..binv
+    end
+    str=c2(str)
+  end
+  return binv
+end
+function Dec2Oct(str)
+  return Bin2Oct(Dec2Bin(str))
+end
+function Dec2Hex(str)
+  return Bin2Hex(Dec2Bin(str))
+end
+function Hex2Bin(str)
+  binv=tostring(str):gsub("0","0000"):gsub("1","0001"):gsub("2","0010"):gsub("3","0011"):gsub("4","0100"):gsub("5","0101"):gsub("6","0110"):gsub("7","0111"):gsub("8","1000"):gsub("9","1001"):gsub("A","1010"):gsub("B","1011"):gsub("C","1100"):gsub("D","1101"):gsub("E","1110"):gsub("F","1111")
+  if binv:find"1" then
+    if binv:match("1(.+)")~=nil then
+      return "1"..binv:match("1(.+)")
+    else
+      return "1"
+    end
+   else
+    return "0"
+  end
+end
+function Hex2Oct(str)
+  return Bin2Oct(Hex2Bin(str))
+end
+function Hex2Dec(str)
+  return Bin2Dec(Hex2Bin(str))
+end
 function 取色器()
 bitmap=nil movex=0 movey=0 tpkw=(312/32)*geth(toolbar) tpkh=(h-getStatusBarHeight()-(294/32)*geth(toolbar))
 import'com.flask.colorpicker.*'
@@ -1608,7 +1781,14 @@ if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTh
                   textColor=0xffffffff,
                   onClick=function()
                     if bitmap then
-                      ysbmwb={"#"..string.upper(argb0x),"0x"..string.upper(argb0x),mColor,"rgba("..argb0x2argb(argb0x:sub(3,4))..","..argb0x2argb(argb0x:sub(5,6))..","..argb0x2argb(argb0x:sub(7,8))..","..argb0x2argb(argb0x:sub(1,2))..")"}
+                      rgba=argb0x
+                      if #argb0x<8 then
+                        for i=1,8-#argb0x do
+                          rgba="0"..rgba
+                        end
+                      end
+                      rgba="rgba("..Hex2Dec(rgba:sub(3,4))..","..Hex2Dec(rgba:sub(5,6))..","..Hex2Dec(rgba:sub(7,8))..","..Hex2Dec(rgba:sub(1,2))..")"
+                      ysbmwb={"#"..string.upper(argb0x),"0x"..string.upper(argb0x),mColor,rgba}
                       item={
                         ListView,
                         id="lb",
@@ -1906,14 +2086,14 @@ cpv2.setColor(-1)
 cpv.onTouch=function()
 cpv1.setColor(cpv.getSelectedColor())
 cpv2.setColor(cpv.getSelectedColor())
-cpvys.setText("#"..Integer.toHexString(cpv.getSelectedColor()))
+cpvys.setText("#"..Dec2Hex(cpv.getSelectedColor()))
 end
 cpv1.onTouch=function()
 cpv2.setColor(cpv.getSelectedColor())
-cpvys.setText("#"..Integer.toHexString(cpv.getSelectedColor()))
+cpvys.setText("#"..Dec2Hex(cpv.getSelectedColor()))
 end
 cpv2.onTouch=function()
-cpvys.setText("#"..Integer.toHexString(cpv.getSelectedColor()))
+cpvys.setText("#"..Dec2Hex(cpv.getSelectedColor()))
 end
 task(500,function()
   if yj=="开"then
@@ -3411,7 +3591,7 @@ function RC4加密(str,key)
   end
   jmjg=""
   for i=1,#cipher do
-    hexv=Integer.toHexString(cipher[i])
+    hexv=Dec2Hex(cipher[i])
     if #hexv==1 then
       jmjg=jmjg.."0"..hexv
     else
@@ -3420,20 +3600,14 @@ function RC4加密(str,key)
   end
   return jmjg
 end
-function Hex2Dec(Hex)
-  Hexs=(Hex:sub(1,1):gsub("a","10"):gsub("b","11"):gsub("c","12"):gsub("d","13"):gsub("e","14"):gsub("f",15))*15
-  Hexg=(Hex:sub(2,2)):gsub("a","10"):gsub("b","11"):gsub("c","12"):gsub("d","13"):gsub("e","14"):gsub("f",15)+Hexs/15
-  Dec=tonumber(Hexs+Hexg)
-  return Dec
-end
 function RC4解密(str,key)
   key=key
   plaintext=str
   key=preparing_key_array(key)
   S=KSA(key)
-  keystream=PRGA(S,#plaintext)
+  keystream=PRGA(S,#plaintext/2)
   jmjg=""
-  for i=1,#keystream/2 do
+  for i=1,#keystream do
     jmjg=jmjg..string.char(Hex2Dec(string.lower(plaintext:sub(i*2-1,i*2)))~keystream[i])
   end
   return jmjg
@@ -3495,8 +3669,11 @@ RC4加解密布局={
           ColorFilter=0xFFFFFFFF,
           src="http://shp.qpic.cn/collector/2530648358/8bc118fd-159d-4544-8131-5ca10c71678e/0",
           onClick=function()
-            if srwb.text~="" and rc4key.text~="" then
-              jmwb.text=RC4解密(srwb.text,rc4key.text)
+            if srwb.text~="" and rc4key.text~="" and #srwb.text%2==0 then
+              miwen=string.lower(srwb.text):gsub("a",""):gsub("b",""):gsub("c",""):gsub("d",""):gsub("e",""):gsub("f",""):gsub("0",""):gsub("1",""):gsub("2",""):gsub("3",""):gsub("4",""):gsub("5",""):gsub("6",""):gsub("7",""):gsub("8",""):gsub("9","")
+              if miwen=="" then
+                jmwb.text=RC4解密(srwb.text,rc4key.text)
+              end
             end
           end,
         },
@@ -3865,39 +4042,992 @@ bjbj.onTouch=function(v,e)
   return true
 end
 end
+function q0(str)
+  for i=1,#str+1 do
+    if i==#str+1 then
+      str="0"
+    elseif str:sub(i,i)~="0" then
+      str=str:sub(i,#str)
+      break
+    end
+  end
+  return str
+end
+function 进制转换()
+进制转换布局={
+  LinearLayout,
+  layout_width=w,
+  layout_height=h,
+  orientation="vertical",
+  backgroundColor=0xFFFFFFFF,
+  {
+    TextView,
+    id="srzf",
+    visibility=8,
+    maxLines="2",
+    padding="16dp",
+    layout_width=w,
+    textSize="20sp",
+    layout_height="60dp",
+    textColor=0xFF000000,
+    layout_marginTop="16dp",
+    Typeface=Typeface.DEFAULT_BOLD,
+  },
+  {
+    TextView,
+    id="lzf",
+    text="0",
+    padding="16dp",
+    layout_width=w,
+    textSize="20sp",
+    layout_height="60dp",
+    textColor=0xFF000000,
+    layout_marginTop="16dp",
+    Typeface=Typeface.DEFAULT_BOLD,
+  },
+  {
+    LinearLayout,
+    layout_width="fill",
+    layout_height="3dp",
+    layout_marginLeft="16dp",
+    layout_marginRight="16dp",
+    backgroundColor=0xFF68AFE5,
+  },
+  {
+    LinearLayout,
+    padding="16dp",
+    layout_width=w,
+    orientation="vertical",
+    layout_marginTop="16dp",
+    {
+      LinearLayout,
+      layout_width="fill",
+      orientation="horizontal",
+      {
+        Button,
+        id="Binan",
+        text="BIN",
+        textSize="16sp",
+        textColor=0xFFFFFFFF,
+        layout_marginRight="16dp",
+        onClick=function()
+          fromjz="Bin"
+          srzf.setVisibility(8)lzf.setVisibility(0)
+          srzf.text="" Binwb.text="" Octwb.text="" Decwb.text="" Hexwb.text=""
+          sr2.setTextColor(0xFFB2B2B2)sr3.setTextColor(0xFFB2B2B2)sr4.setTextColor(0xFFB2B2B2)sr5.setTextColor(0xFFB2B2B2)sr6.setTextColor(0xFFB2B2B2)sr7.setTextColor(0xFFB2B2B2)sr8.setTextColor(0xFFB2B2B2)sr9.setTextColor(0xFFB2B2B2)srA.setTextColor(0xFFB2B2B2)srB.setTextColor(0xFFB2B2B2)srC.setTextColor(0xFFB2B2B2)srD.setTextColor(0xFFB2B2B2)srE.setTextColor(0xFFB2B2B2)srF.setTextColor(0xFFB2B2B2)
+          波纹(sr2,0x0)波纹(sr3,0x0)波纹(sr4,0x0)波纹(sr5,0x0)波纹(sr6,0x0)波纹(sr7,0x0)波纹(sr8,0x0)波纹(sr9,0x0)波纹(srA,0x0)波纹(srB,0x0)波纹(srC,0x0)波纹(srD,0x0)波纹(srE,0x0)波纹(srF,0x0)
+          Binan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF68AFE5,PorterDuff.Mode.SRC_ATOP))
+          Octan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF9E9E9E,PorterDuff.Mode.SRC_ATOP))
+          Decan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF9E9E9E,PorterDuff.Mode.SRC_ATOP))
+          Hexan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF9E9E9E,PorterDuff.Mode.SRC_ATOP))
+        end,
+      },
+      {
+        TextView,
+        id="Binwb",
+        maxLines=3,
+        text="\n\n\n",
+        ellipsize="end",
+        textSize="18sp",
+        layout_weight="1",
+        layout_width="fill",
+        paddingBottom="12dp",
+        textColor=0xFF727272,
+        layout_marginTop="-10dp",
+        onClick=function()
+          if Binwb.text~="" then
+            复制文本(Binwb.text)
+            提示"复制完成"
+          end
+        end
+      },
+    },
+    {
+      LinearLayout,
+      layout_width="fill",
+      orientation="horizontal",
+      {
+        Button,
+        id="Octan",
+        text="OCT",
+        textSize="16sp",
+        textColor=0xFFFFFFFF,
+        layout_marginRight="16dp",
+        onClick=function()
+          fromjz="Oct"
+          srzf.setVisibility(8)lzf.setVisibility(0)
+          srzf.text="" Binwb.text="" Octwb.text="" Decwb.text="" Hexwb.text=""
+          sr8.setTextColor(0xFFB2B2B2)sr9.setTextColor(0xFFB2B2B2)srA.setTextColor(0xFFB2B2B2)srB.setTextColor(0xFFB2B2B2)srC.setTextColor(0xFFB2B2B2)srD.setTextColor(0xFFB2B2B2)srE.setTextColor(0xFFB2B2B2)srF.setTextColor(0xFFB2B2B2)
+          波纹(sr8,0x0)波纹(sr9,0x0)波纹(srA,0x0)波纹(srB,0x0)波纹(srC,0x0)波纹(srD,0x0)波纹(srE,0x0)波纹(srF,0x0)
+          sr2.setTextColor(0xFF000000)sr3.setTextColor(0xFF000000)sr4.setTextColor(0xFF000000)sr5.setTextColor(0xFF000000)sr6.setTextColor(0xFF000000)sr7.setTextColor(0xFF000000)
+          波纹(sr2,0xFF68AFE5)波纹(sr3,0xFF68AFE5)波纹(sr4,0xFF68AFE5)波纹(sr5,0xFF68AFE5)波纹(sr6,0xFF68AFE5)波纹(sr7,0xFF68AFE5)
+          Binan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF9E9E9E,PorterDuff.Mode.SRC_ATOP))
+          Octan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF68AFE5,PorterDuff.Mode.SRC_ATOP))
+          Decan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF9E9E9E,PorterDuff.Mode.SRC_ATOP))
+          Hexan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF9E9E9E,PorterDuff.Mode.SRC_ATOP))
+        end
+      },
+      {
+        TextView,
+        id="Octwb",
+        maxLines=3,
+        text="\n\n\n",
+        ellipsize="end",
+        textSize="18sp",
+        layout_weight="1",
+        layout_width="fill",
+        paddingBottom="12dp",
+        textColor=0xFF727272,
+        layout_marginTop="-10dp",
+        onClick=function()
+          if Octwb.text~="" then
+            复制文本(Octwb.text)
+            提示"复制完成"
+          end
+        end
+      },
+    },
+    {
+      LinearLayout,
+      layout_width="fill",
+      orientation="horizontal",
+      {
+        Button,
+        id="Decan",
+        text="DEC",
+        textSize="16sp",
+        textColor=0xFFFFFFFF,
+        layout_marginRight="16dp",
+        onClick=function()
+          fromjz="Dec"
+          srzf.setVisibility(8)lzf.setVisibility(0)
+          srzf.text="" Binwb.text="" Octwb.text="" Decwb.text="" Hexwb.text=""
+          srA.setTextColor(0xFFB2B2B2)srB.setTextColor(0xFFB2B2B2)srC.setTextColor(0xFFB2B2B2)srD.setTextColor(0xFFB2B2B2)srE.setTextColor(0xFFB2B2B2)srF.setTextColor(0xFFB2B2B2)
+          波纹(srA,0x0)波纹(srB,0x0)波纹(srC,0x0)波纹(srD,0x0)波纹(srE,0x0)波纹(srF,0x0)
+          sr2.setTextColor(0xFF000000)sr3.setTextColor(0xFF000000)sr4.setTextColor(0xFF000000)sr5.setTextColor(0xFF000000)sr6.setTextColor(0xFF000000)sr7.setTextColor(0xFF000000)sr8.setTextColor(0xFF000000)sr9.setTextColor(0xFF000000)
+          波纹(sr2,0xFF68AFE5)波纹(sr3,0xFF68AFE5)波纹(sr4,0xFF68AFE5)波纹(sr5,0xFF68AFE5)波纹(sr6,0xFF68AFE5)波纹(sr7,0xFF68AFE5)波纹(sr8,0xFF68AFE5)波纹(sr9,0xFF68AFE5)
+          Binan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF9E9E9E,PorterDuff.Mode.SRC_ATOP))
+          Octan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF9E9E9E,PorterDuff.Mode.SRC_ATOP))
+          Decan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF68AFE5,PorterDuff.Mode.SRC_ATOP))
+          Hexan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF9E9E9E,PorterDuff.Mode.SRC_ATOP))
+        end
+      },
+      {
+        TextView,
+        id="Decwb",
+        maxLines=3,
+        text="\n\n\n",
+        ellipsize="end",
+        textSize="18sp",
+        layout_weight="1",
+        layout_width="fill",
+        paddingBottom="12dp",
+        textColor=0xFF727272,
+        layout_marginTop="-10dp",
+        onClick=function()
+          if Decwb.text~="" then
+            复制文本(Decwb.text)
+            提示"复制完成"
+          end
+        end
+      },
+    },
+    {
+      LinearLayout,
+      layout_width="fill",
+      orientation="horizontal",
+      {
+        Button,
+        id="Hexan",
+        text="HEX",
+        textSize="16sp",
+        textColor=0xFFFFFFFF,
+        layout_marginRight="16dp",
+        onClick=function()
+          fromjz="Hex"
+          srzf.setVisibility(8)lzf.setVisibility(0)
+          srzf.text="" Binwb.text="" Octwb.text="" Decwb.text="" Hexwb.text=""          
+          sr2.setTextColor(0xFF000000)sr3.setTextColor(0xFF000000)sr4.setTextColor(0xFF000000)sr5.setTextColor(0xFF000000)sr6.setTextColor(0xFF000000)sr7.setTextColor(0xFF000000)sr8.setTextColor(0xFF000000)sr9.setTextColor(0xFF000000)srA.setTextColor(0xFF000000)srB.setTextColor(0xFF000000)srC.setTextColor(0xFF000000)srD.setTextColor(0xFF000000)srE.setTextColor(0xFF000000)srF.setTextColor(0xFF000000)
+          波纹(sr2,0xFF68AFE5)波纹(sr3,0xFF68AFE5)波纹(sr4,0xFF68AFE5)波纹(sr5,0xFF68AFE5)波纹(sr6,0xFF68AFE5)波纹(sr7,0xFF68AFE5)波纹(sr8,0xFF68AFE5)波纹(sr9,0xFF68AFE5)波纹(srA,0xFF68AFE5)波纹(srB,0xFF68AFE5)波纹(srC,0xFF68AFE5)波纹(srD,0xFF68AFE5)波纹(srE,0xFF68AFE5)波纹(srF,0xFF68AFE5)
+          Binan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF9E9E9E,PorterDuff.Mode.SRC_ATOP))
+          Octan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF9E9E9E,PorterDuff.Mode.SRC_ATOP))
+          Decan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF9E9E9E,PorterDuff.Mode.SRC_ATOP))
+          Hexan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF68AFE5,PorterDuff.Mode.SRC_ATOP))
+        end
+      },
+      {
+        TextView,
+        id="Hexwb",
+        maxLines=3,
+        text="\n\n\n",
+        ellipsize="end",
+        textSize="18sp",
+        layout_weight="1",
+        layout_width="fill",
+        paddingBottom="12dp",
+        textColor=0xFF727272,
+        layout_marginTop="-10dp",
+        onClick=function()
+          if Hexwb.text~="" then
+            复制文本(Hexwb.text)
+            提示"复制完成"
+          end
+        end
+      },
+    },
+  },
+  {
+    LinearLayout,
+    padding="16dp",
+    layout_width=w,
+    layout_height="fill",
+    orientation="horizontal",
+    {
+      LinearLayout,
+      layout_height="fill",
+      orientation="vertical",
+      layout_width=(w-geth(toolbar))/5,
+      {
+        TextView,
+        id="sr1",
+        text="1",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFF000000,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          srzf.setVisibility(0)lzf.setVisibility(8)
+          srzf.text=srzf.text.."1"
+          if fromjz=="Bin" then
+            Binwb.text=q0(srzf.text)
+            Octwb.text=q0(Bin2Oct(srzf.text))
+            Decwb.text=Bin2Dec(srzf.text)
+            Hexwb.text=q0(string.upper(Bin2Hex(srzf.text)))
+          elseif fromjz=="Oct" then
+            Octwb.text=q0(srzf.text)
+            Binwb.text=Oct2Bin(srzf.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          elseif fromjz=="Dec" then
+            Decwb.text=q0(srzf.text)
+            Binwb.text=Dec2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          else
+            Hexwb.text=q0(srzf.text)
+            Binwb.text=Hex2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+          end
+        end
+      },
+      {
+        TextView,
+        id="sr4",
+        text="4",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFF000000,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          if fromjz~="Bin" then
+            srzf.setVisibility(0)lzf.setVisibility(8)
+            srzf.text=srzf.text.."4"
+          end
+          if fromjz=="Oct" then
+            Octwb.text=q0(srzf.text)
+            Binwb.text=Oct2Bin(srzf.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          elseif fromjz=="Dec" then
+            Decwb.text=q0(srzf.text)
+            Binwb.text=Dec2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          elseif fromjz=="Hex" then
+            Hexwb.text=q0(srzf.text)
+            Binwb.text=Hex2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+          end
+        end
+      },
+      {
+        TextView,
+        id="sr7",
+        text="7",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFF000000,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          if fromjz~="Bin" then
+            srzf.setVisibility(0)lzf.setVisibility(8)
+            srzf.text=srzf.text.."7"
+          end
+          if fromjz=="Oct" then
+            Octwb.text=q0(srzf.text)
+            Binwb.text=Oct2Bin(srzf.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          elseif fromjz=="Dec" then
+            Decwb.text=q0(srzf.text)
+            Binwb.text=Dec2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          elseif fromjz=="Hex" then
+            Hexwb.text=q0(srzf.text)
+            Binwb.text=Hex2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+          end
+        end
+      },
+      {
+        TextView,
+        id="sr0",
+        text="0",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFF000000,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          srzf.setVisibility(0)lzf.setVisibility(8)
+          srzf.text=srzf.text.."0"
+          if fromjz=="Bin" then
+            Binwb.text=q0(srzf.text)
+            Octwb.text=q0(Bin2Oct(srzf.text))
+            Decwb.text=Bin2Dec(srzf.text)
+            Hexwb.text=q0(string.upper(Bin2Hex(srzf.text)))
+          elseif fromjz=="Oct" then
+            Octwb.text=q0(srzf.text)
+            Binwb.text=Oct2Bin(srzf.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          elseif fromjz=="Dec" then
+            Decwb.text=q0(srzf.text)
+            Binwb.text=Dec2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          else
+            Hexwb.text=q0(srzf.text)
+            Binwb.text=Hex2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+          end
+        end
+      },
+    },
+    {
+      LinearLayout,
+      layout_height="fill",
+      orientation="vertical",
+      layout_width=(w-geth(toolbar))/5,
+      {
+        TextView,
+        id="sr2",
+        text="2",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFF000000,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          if fromjz~="Bin" then
+            srzf.setVisibility(0)lzf.setVisibility(8)
+            srzf.text=srzf.text.."2"
+          end
+          if fromjz=="Oct" then
+            Octwb.text=q0(srzf.text)
+            Binwb.text=Oct2Bin(srzf.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          elseif fromjz=="Dec" then
+            Decwb.text=q0(srzf.text)
+            Binwb.text=Dec2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          elseif fromjz=="Hex" then
+            Hexwb.text=q0(srzf.text)
+            Binwb.text=Hex2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+          end
+        end
+      },
+      {
+        TextView,
+        id="sr5",
+        text="5",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFF000000,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          if fromjz~="Bin" then
+            srzf.setVisibility(0)lzf.setVisibility(8)
+            srzf.text=srzf.text.."5"
+          end
+          if fromjz=="Oct" then
+            Octwb.text=q0(srzf.text)
+            Binwb.text=Oct2Bin(srzf.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          elseif fromjz=="Dec" then
+            Decwb.text=q0(srzf.text)
+            Binwb.text=Dec2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          elseif fromjz=="Hex" then
+            Hexwb.text=q0(srzf.text)
+            Binwb.text=Hex2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+          end
+        end
+      },
+      {
+        TextView,
+        id="sr8",
+        text="8",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFF000000,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          if fromjz~="Bin" and fromjz~="Oct" then
+            srzf.setVisibility(0)lzf.setVisibility(8)
+            srzf.text=srzf.text.."8"
+          end
+          if fromjz=="Dec" then
+            Decwb.text=q0(srzf.text)
+            Binwb.text=Dec2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          elseif fromjz=="Hex" then
+            Hexwb.text=q0(srzf.text)
+            Binwb.text=Hex2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+          end
+        end
+      },
+      {
+        TextView,
+        id="qksy",
+        text="CLR",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFF68AFE5,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          Binwb.text="" Octwb.text="" Decwb.text="" Hexwb.text=""
+          srzf.text="" srzf.setVisibility(8)lzf.setVisibility(0)
+        end
+      },
+    },
+    {
+      LinearLayout,
+      layout_height="fill",
+      orientation="vertical",
+      layout_width=(w-geth(toolbar))/5,
+      {
+        TextView,
+        id="sr3",
+        text="3",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFF000000,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          if fromjz~="Bin" then
+            srzf.setVisibility(0)lzf.setVisibility(8)
+            srzf.text=srzf.text.."3"
+          end
+          if fromjz=="Oct" then
+            Octwb.text=q0(srzf.text)
+            Binwb.text=Oct2Bin(srzf.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          elseif fromjz=="Dec" then
+            Decwb.text=q0(srzf.text)
+            Binwb.text=Dec2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          elseif fromjz=="Hex" then
+            Hexwb.text=q0(srzf.text)
+            Binwb.text=Hex2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+          end
+        end
+      },
+      {
+        TextView,
+        id="sr6",
+        text="6",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFF000000,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          if fromjz~="Bin" then
+            srzf.setVisibility(0)lzf.setVisibility(8)
+            srzf.text=srzf.text.."6"
+          end
+          if fromjz=="Oct" then
+            Octwb.text=q0(srzf.text)
+            Binwb.text=Oct2Bin(srzf.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          elseif fromjz=="Dec" then
+            Decwb.text=q0(srzf.text)
+            Binwb.text=Dec2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          elseif fromjz=="Hex" then
+            Hexwb.text=q0(srzf.text)
+            Binwb.text=Hex2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+          end
+        end
+      },
+      {
+        TextView,
+        id="sr9",
+        text="9",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFF000000,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          if fromjz~="Bin" and fromjz~="Oct" then
+            srzf.setVisibility(0)lzf.setVisibility(8)
+            srzf.text=srzf.text.."9"
+          end
+          if fromjz=="Dec" then
+            Decwb.text=q0(srzf.text)
+            Binwb.text=Dec2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Hexwb.text=Bin2Hex(Binwb.text)
+          elseif fromjz=="Hex" then
+            Hexwb.text=q0(srzf.text)
+            Binwb.text=Hex2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+          end
+        end
+      },
+      {
+        TextView,
+        id="scyw",
+        text="DEL",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFF68AFE5,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          srzf.text=srzf.text:sub(1,#srzf.text-1)
+          if srzf.text=="" then
+            Binwb.text="" Octwb.text="" Decwb.text="" Hexwb.text=""
+            srzf.setVisibility(8)lzf.setVisibility(0)
+          else
+            if fromjz=="Bin" then
+              Binwb.text=q0(srzf.text)
+              Octwb.text=Bin2Oct(Binwb.text)
+              Decwb.text=Bin2Dec(Binwb.text)
+              Hexwb.text=Bin2Hex(Binwb.text)
+            elseif fromjz=="Oct" then
+              Octwb.text=q0(srzf.text)
+              Binwb.text=Oct2Bin(srzf.text)
+              Decwb.text=Bin2Dec(Binwb.text)
+              Hexwb.text=Bin2Hex(Binwb.text)
+            elseif fromjz=="Dec" then
+              Decwb.text=q0(srzf.text)
+              Binwb.text=Dec2Bin(srzf.text)
+              Octwb.text=Bin2Oct(Binwb.text)
+              Hexwb.text=Bin2Hex(Binwb.text)
+            else
+              Hexwb.text=q0(srzf.text)
+              Binwb.text=Hex2Bin(srzf.text)
+              Octwb.text=Bin2Oct(Binwb.text)
+              Decwb.text=Bin2Dec(Binwb.text)
+            end
+          end
+        end
+      },
+    },
+    {
+      LinearLayout,
+      layout_height="fill",
+      orientation="vertical",
+      layout_width=(w-geth(toolbar))/5,
+      {
+        TextView,
+        id="srA",
+        text="A",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFFB2B2B2,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          if fromjz=="Hex" then
+            srzf.setVisibility(0)lzf.setVisibility(8)
+            srzf.text=srzf.text.."A"
+            Hexwb.text=q0(srzf.text)
+            Binwb.text=Hex2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+          end
+        end
+      },
+      {
+        TextView,
+        id="srC",
+        text="C",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFFB2B2B2,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          if fromjz=="Hex" then
+            srzf.setVisibility(0)lzf.setVisibility(8)
+            srzf.text=srzf.text.."C"
+            Hexwb.text=q0(srzf.text)
+            Binwb.text=Hex2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+          end
+        end
+      },
+      {
+        TextView,
+        id="srE",
+        text="E",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFFB2B2B2,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          if fromjz=="Hex" then
+            srzf.setVisibility(0)lzf.setVisibility(8)
+            srzf.text=srzf.text.."E"
+            Hexwb.text=q0(srzf.text)
+            Binwb.text=Hex2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+          end
+        end
+      },
+      {
+        TextView,
+        layout_width="fill",
+        layout_weight="1",
+      },
+    },
+    {
+      LinearLayout,
+      layout_height="fill",
+      orientation="vertical",
+      layout_width=(w-geth(toolbar))/5,
+      {
+        TextView,
+        id="srB",
+        text="B",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFFB2B2B2,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          if fromjz=="Hex" then
+            srzf.setVisibility(0)lzf.setVisibility(8)
+            srzf.text=srzf.text.."B"
+            Hexwb.text=q0(srzf.text)
+            Binwb.text=Hex2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+          end
+        end
+      },
+      {
+        TextView,
+        id="srD",
+        text="D",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFFB2B2B2,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          if fromjz=="Hex" then
+            srzf.setVisibility(0)lzf.setVisibility(8)
+            srzf.text=srzf.text.."D"
+            Hexwb.text=q0(srzf.text)
+            Binwb.text=Hex2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+          end
+        end
+      },
+      {
+        TextView,
+        id="srF",
+        text="F",
+        gravity="center",
+        textSize="15.6sp",
+        layout_width="fill",
+        layout_weight="1",
+        textColor=0xFFB2B2B2,
+        Typeface=Typeface.DEFAULT_BOLD,
+        onClick=function()
+          if fromjz=="Hex" then
+            srzf.setVisibility(0)lzf.setVisibility(8)
+            srzf.text=srzf.text.."F"
+            Hexwb.text=q0(srzf.text)
+            Binwb.text=Hex2Bin(srzf.text)
+            Octwb.text=Bin2Oct(Binwb.text)
+            Decwb.text=Bin2Dec(Binwb.text)
+          end
+        end
+      },
+      {
+        TextView,
+        layout_width="fill",
+        layout_weight="1",
+      },
+    },
+  },
+}
+jzzhbj=PopupWindow(loadlayout(进制转换布局))
+jzzhbj.setFocusable(true)
+jzzhbj.setWidth(w)
+jzzhbj.setHeight(h)
+jzzhbj.setTouchable(true)
+jzzhbj.setOutsideTouchable(true)
+jzzhbj.showAtLocation(fltBtn.Parent,0,0,0)
+波纹方(Binwb,0xFFE0E0E0)波纹方(Octwb,0xFFE0E0E0)波纹方(Decwb,0xFFE0E0E0)波纹方(Hexwb,0xFFE0E0E0)
+波纹(qksy,0xFF68AFE5)波纹(scyw,0xFF68AFE5)波纹(sr0,0xFF68AFE5)波纹(sr1,0xFF68AFE5)波纹(sr2,0xFF68AFE5)波纹(sr3,0xFF68AFE5)波纹(sr4,0xFF68AFE5)波纹(sr5,0xFF68AFE5)波纹(sr6,0xFF68AFE5)波纹(sr7,0xFF68AFE5)波纹(sr8,0xFF68AFE5)波纹(sr9,0xFF68AFE5)
+fromjz="Dec"
+seth(Binwb,geth(Binwb)+12/32*geth(toolbar))seth(Octwb,geth(Octwb)+12/32*geth(toolbar))seth(Decwb,geth(Decwb)+12/32*geth(toolbar))seth(Hexwb,geth(Hexwb)+12/32*geth(toolbar))
+Binwb.text="" Octwb.text="" Decwb.text="" Hexwb.text=""
+Binwb.setLineSpacing(1.3,1.3)Octwb.setLineSpacing(1.3,1.3)Decwb.setLineSpacing(1.3,1.3)Hexwb.setLineSpacing(1.3,1.3)
+Binan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF9E9E9E,PorterDuff.Mode.SRC_ATOP))
+Octan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF9E9E9E,PorterDuff.Mode.SRC_ATOP))
+Decan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF68AFE5,PorterDuff.Mode.SRC_ATOP))
+Hexan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF9E9E9E,PorterDuff.Mode.SRC_ATOP))
+end
+function 归属地查询()
+local dbh=h-geth(toolbar)-getStatusBarHeight()
+归属地查询布局={
+  LinearLayout,
+  orientation="vertical",
+  backgroundColor=0xFF9AAEC7,
+  {
+    LinearLayout,
+    layout_width=w,
+    orientation="horizontal",
+    layout_height=geth(toolbar),
+    layout_marginTop=getStatusBarHeight(),
+    {
+      ImageView,
+      padding="15dp",
+      layout_width="48dp",
+      layout_height="48dp",
+      ColorFilter=0xffffffff,
+      layout_gravity="center",
+      src="http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0",
+      onClick=function()gsdcxbj.dismiss()end,
+    },
+    {
+      TextView,
+      text="归属地查询",
+      textColor=0xffffffff,
+      layout_gravity="center",
+    },
+  },
+  {
+    LinearLayout,
+    layout_width=w,
+    layout_height=dbh,
+    orientation="vertical",
+    backgroundColor=0xffffffff,
+    {
+      EditText,
+      id="srwb",
+      gravity="top",
+      padding="16dp",
+      layout_width="fill",
+      layout_weight="1",
+      InputType="number",
+      hint="请输入手机号..",
+      textColor=0xff000000,
+      hintTextColor=0xffa1a1a1,
+      backgroundColor=0xffffffff,
+    },
+    {
+      LinearLayout,
+      layout_width=w,
+      paddingTop="15dp",
+      paddingBottom="15dp",
+      orientation="horizontal",
+      backgroundColor=0xFFFAFAFA,
+      {
+        LinearLayout,
+        layout_width="74dp",
+        layout_height="1dp",
+        layout_gravity="center",
+        background="#FFBABABA",
+        layout_marginRight="16.5dp",
+      },
+      {
+        ImageView,
+        id="wytpz",
+        padding="3dp",
+        layout_width="24dp",
+        layout_height="24dp",
+        layout_gravity="center",
+        ColorFilter=0xFF8B8B8B,
+        layout_marginRight="16.5dp",
+        src="http://shp.qpic.cn/collector/2530648358/9447f207-fea3-4ef1-a687-0c9a9da08a8a/0",
+      },
+      {
+        CardView,
+        radius=0,
+        elevation=0,
+        layout_weight="1",
+        layout_height="40dp",
+        cardBackgroundColor=0xFF9AAEC7,
+        {
+          ImageView,
+          id="cxan",
+          padding="9dp",
+          layout_width="fill",
+          layout_height="fill",
+          ColorFilter=0xFFFFFFFF,
+          src="http://shp.qpic.cn/collector/2530648358/3f3bb2ba-b563-4c64-ba2a-c2bb8ccedd76/0",
+          onClick=function()
+            if srwb.text~="" then
+              Http.get("https://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel="..srwb.text,nil,"GBK",nil,function(code,content)
+                if code==200 then
+                  if not content:find"province:''" then
+                    xqwb.text="归属地为"..content:match("province:'(.-)'").."，运营商为"..content:match("catName:'(.-)'").."。"
+                  end
+                end
+              end)
+            end
+            wytpz.setColorFilter(0xFFBDBDBD)
+            wytpy.setColorFilter(0xFFBDBDBD)
+          end,
+        },
+      },
+      {
+        ImageView,
+        id="wytpy",
+        rotation=180,
+        padding="3dp",
+        layout_width="24dp",
+        layout_height="24dp",
+        layout_gravity="center",
+        ColorFilter=0xFF8B8B8B,
+        layout_marginLeft="16.5dp",
+        src="http://shp.qpic.cn/collector/2530648358/9447f207-fea3-4ef1-a687-0c9a9da08a8a/0",
+      },
+      {
+        LinearLayout,
+        layout_width="74dp",
+        layout_height="1dp",
+        layout_gravity="center",
+        background="#FFBABABA",
+        layout_marginLeft="16.5dp",
+      },
+    },
+    {
+      LinearLayout,
+      layout_width=w,
+      layout_weight="1",
+      orientation="vertical",
+      {
+        EditText,
+        id="xqwb",
+        gravity="top",
+        padding="16dp",
+        layout_width=w,
+        layout_weight="1",
+        textColor=0xff000000,
+        hintTextColor=0xffa1a1a1,
+        backgroundColor=0xffffffff,
+      },
+      {
+        LinearLayout,
+        layout_height=math.sqrt(2*(28/32*geth(toolbar)^2))-(28/32*geth(toolbar)),
+      },
+      {
+        ImageView,
+        id="fzjg",
+        padding="16dp",
+        layout_width="56dp",
+        layout_height="56dp",
+        layout_gravity="right",
+        src="http://shp.qpic.cn/collector/2530648358/936bf7ca-d0f1-4f81-b0d1-ddd28b7255a3/0",
+        onClick=function()复制文本(xqwb.text)提示"复制完成"end,
+      },
+    },
+  },
+}
+gsdcxbj=PopupWindow(loadlayout(归属地查询布局))
+gsdcxbj.setFocusable(true)
+gsdcxbj.setWidth(w)
+gsdcxbj.setHeight(h)
+gsdcxbj.setTouchable(true)
+gsdcxbj.setOutsideTouchable(true)
+gsdcxbj.showAtLocation(fltBtn.Parent,0,0,0)
+波纹(fzjg,0xFFE2E2E2)波纹(cxan,0xFF68AFE5)
+颜色(xqwb,0xFF68AFE5)颜色(srwb,0xFF68AFE5)
+end
 import"android.support.v4.widget.*"
 轻工具布局={
   FrameLayout,
   id="qgjfbj",
   layout_width=w,
   layout_height=h,
-  backgroundColor=0xFF9AAEC7,
   {
     LinearLayout,
     orientation="vertical",
     layout_height=h,
-    backgroundColor=0xFF9AAEC7,
-    {
-      LinearLayout,
-      id="qgjdingl",
-      elevation="5dp",
-      layout_width=w,
-      layout_height=geth(toolbar)+getStatusBarHeight(),
-      backgroundColor=0xFF9AAEC7,
-      {
-        LinearLayout,
-        layout_gravity="bottom",
-        layout_marginLeft="20dp",
-        layout_height="32dp",
-        {
-          TextView,
-          layout_gravity="center",
-          textColor=0xffffffff,
-          text="轻工具",
-          backgroundColor=0xFF9AAEC7,
-        },
-      },
-    },
+    backgroundColor=0xffffffff,
     {
       PageView;
       backgroundColor=0xffffffff,
@@ -3911,6 +5041,7 @@ import"android.support.v4.widget.*"
           layout_height="fill",
           {
             NestedScrollView;
+            id="flhd2",
             layout_width="fill",
             layout_height="fill",
             layout_marginTop="8dp",
@@ -3919,20 +5050,29 @@ import"android.support.v4.widget.*"
             VerticalScrollBarEnabled=false,
             {
               LinearLayout,
-              layout_width="fill",
-              layout_height="fill",
-              orientation="horizontal",
+              orientation="vertical",
               {
                 LinearLayout,
-                id="zyyyzl",
-                orientation="vertical",
-                layout_width=0.5*w-geth(toolbar)/4,
+                layout_width=w,
+                layout_height=getStatusBarHeight()+geth(toolbar),
               },
               {
                 LinearLayout,
-                id="zyyyyl",
-                orientation="vertical",
-                layout_width=0.5*w-geth(toolbar)/4,
+                layout_width="fill",
+                layout_height="fill",
+                orientation="horizontal",
+                {
+                  LinearLayout,
+                  id="zyyyzl",
+                  orientation="vertical",
+                  layout_width=0.5*w-geth(toolbar)/4,
+                },
+                {
+                  LinearLayout,
+                  id="zyyyyl",
+                  orientation="vertical",
+                  layout_width=0.5*w-geth(toolbar)/4,
+                },
               },
             },
           },
@@ -3983,6 +5123,10 @@ import"android.support.v4.widget.*"
             layout_height="fill",
             orientation="vertical",
             backgroundColor=0xFFF5F5F5,
+            {
+              LinearLayout,
+              layout_height=getStatusBarHeight()+geth(toolbar),
+            },
             {
               LinearLayout,
               padding="20dp",
@@ -4878,11 +6022,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
+                        id="jzzhid",
                         paddingLeft="12dp",
                         paddingRight="12dp",
                         text="进制转换",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
+                        onClick=function()进制转换()end,
                       },
                     },
                     {
@@ -5088,11 +6234,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
+                        id="gsdcxid",
                         paddingLeft="12dp",
                         paddingRight="12dp",
                         text="归属地查询",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
+                        onClick=function()归属地查询()end,
                       },
                     },
                     {
@@ -5127,6 +6275,12 @@ import"android.support.v4.widget.*"
             layout_height="fill",
             orientation="vertical",
             backgroundColor=0xfff5f5f5,
+            {
+              LinearLayout,
+              layout_width=w,
+              backgroundColor=0xffffffff,
+              layout_height=getStatusBarHeight()+geth(toolbar),
+            },
             {
               LinearLayout,
               layout_width=w,
@@ -5172,13 +6326,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
-                        id="bilibilifmhqid2",
+                        id="jzzhid2",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="BiliBili封面获取",
+                        text="进制转换",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
-                        onClick=function()BiliBili封面获取()end,
+                        onClick=function()进制转换()end,
                       },
                     },
                     {
@@ -5190,57 +6344,54 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
-                        id="rc4jjmid2",
+                        id="gsdcxid2",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="RC4加解密",
+                        text="归属地查询",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
-                        onClick=function()RC4加解密()end,
+                        onClick=function()归属地查询()end,
                       },
                     },
+                  },
+                },
+              },
+            },
+            {
+              LinearLayout,
+              layout_width=w,
+              layout_marginTop="10dp",
+              backgroundColor=0xffffffff,
+              {
+                LinearLayout,
+                padding="20dp",
+                layout_width="fill",
+                orientation="vertical",
+                {
+                  LinearLayout,
+                  orientation="horizontal",
+                  {
+                    ImageView,
+                    layout_width="24dp",
+                    layout_height="24dp",
+                    layout_gravity="center",
+                    src="http://shp.qpic.cn/collector/2530648358/a23fee1a-c303-4666-a45c-1fbbe9d9e58f/0",
+                    ColorFilter=0xFF60ACE5,
                   },
                   {
-                    LinearLayout,
-                    layout_height="32dp",
-                    orientation="horizontal",
-                    layout_marginTop="10dp",
-                    {
-                      CardView,
-                      layout_height="fill",
-                      elevation=0,
-                      radius="16dp",
-                      cardBackgroundColor=0xFFF8F8F8,
-                      {
-                        TextView,
-                        id="md5jmid2",
-                        paddingLeft="12dp",
-                        paddingRight="12dp",
-                        text="MD5加密",
-                        textColor=0xFF4E4E4E,
-                        layout_gravity="center",
-                        onClick=function()MD5加密()end,
-                      },
-                    },
-                    {
-                      CardView,
-                      layout_height="fill",
-                      elevation=0,
-                      radius="16dp",
-                      layout_marginLeft="10dp",
-                      cardBackgroundColor=0xFFF8F8F8,
-                      {
-                        TextView,
-                        id="wyymhqid2",
-                        paddingLeft="12dp",
-                        paddingRight="12dp",
-                        text="网页源码获取",
-                        textColor=0xFF4E4E4E,
-                        layout_gravity="center",
-                        onClick=function()网页源码获取()end,
-                      },
-                    },
+                    TextView,
+                    text="更新日志",
+                    textColor=0xff000000,
+                    layout_gravity="center",
+                    layout_marginLeft="16dp",
                   },
+                },
+                {
+                  TextView,
+                  layout_width="fill",
+                  textColor=0xFF6E6E6E,
+                  layout_marginTop="15dp",
+                  text="新增 进制转换\n\n新增 归属地查询\n\n修复分类页面滑动会跳动问题\n\n支持 主页页面滑动隐藏/显示顶底栏",
                 },
               },
             },
@@ -5251,9 +6402,20 @@ import"android.support.v4.widget.*"
   },
   {
     LinearLayout,
+    id="qgjdingl",
+    elevation="5dp",
     layout_width=w,
     backgroundColor=0xFF9AAEC7,
-    layout_height=getStatusBarHeight(),
+    layout_height=getStatusBarHeight()+geth(toolbar),
+    {
+      TextView,
+      id="qgjwz",
+      text="轻工具",
+      paddingLeft="20dp",
+      paddingTop=getStatusBarHeight(),
+      layout_gravity="center",
+      textColor=0xFFFFFFFF,
+    },
   },
   {
     LinearLayout,
@@ -5462,8 +6624,8 @@ function 主页收藏应用()
 end
 主页收藏应用()
 波纹(zydj,0xFFE2E2E2)波纹(fldj,0xFFE2E2E2)波纹(zhdj,0xFFE2E2E2)
-波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)
-波纹(bilibilifmhqid2,0xFFD0D0D0)波纹(rc4jjmid2,0xFFD0D0D0)波纹(md5jmid2,0xFFD0D0D0)波纹(wyymhqid2,0xFFD0D0D0)
+波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)波纹(jzzhid,0xFFD0D0D0)波纹(gsdcxid,0xFFD0D0D0)
+波纹(jzzhid2,0xFFD0D0D0)波纹(gsdcxid2,0xFFD0D0D0)波纹(md5jmid2,0xFFD0D0D0)波纹(wyymhqid2,0xFFD0D0D0)
 pagev2.setOnPageChangeListener(PageView.OnPageChangeListener{
   onPageScrolled=function(a,b,c)
     if c==0then
@@ -5494,30 +6656,52 @@ pagev2.setOnPageChangeListener(PageView.OnPageChangeListener{
 dlsety=0
 flhd.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{
   onScrollChange=function(v,nowx,nowy,oldx,oldy)
-    if dlsety+nowy-oldy>=0 and dlsety+nowy-oldy<=geth(toolbar)then
-      pvsety=getStatusBarHeight()+geth(toolbar)-(dlsety+nowy-oldy)
-      pvseth=h-getStatusBarHeight()-geth(toolbar)+(dlsety+nowy-oldy)
-      dlsety=dlsety+nowy-oldy
-      qgjdingl.setY(-dlsety)
-      seth(pagev2,pvseth)
-      pagev2.setY(pvsety)
-      fdd=nowy-oldy
-     else
-      if dlsety+nowy-oldy>geth(toolbar)then
-        dlsety=geth(toolbar)
+    if nowy>=0 and nowy<=geth(flhd)-h+getStatusBarHeight() then
+      if dlsety+nowy-oldy>=0 and dlsety+nowy-oldy<=geth(toolbar)then
+        dlsety=dlsety+nowy-oldy
         qgjdingl.setY(-dlsety)
-        seth(pagev2,h-getStatusBarHeight())
-        pagev2.setY(getStatusBarHeight())
-       else
-        dlsety=0
-        qgjdingl.setY(-dlsety)
-        seth(pagev2,h-getStatusBarHeight()-geth(toolbar))
-        pagev2.setY(getStatusBarHeight()+geth(toolbar))
+        qgjwz.startAnimation(AlphaAnimation(0,(-dlsety+32)/32).setDuration(0).setFillAfter(true))
+      else
+        if dlsety+nowy-oldy>geth(toolbar)then
+          dlsety=geth(toolbar)
+          qgjdingl.setY(-dlsety)
+          qgjwz.startAnimation(AlphaAnimation(0,0).setDuration(0).setFillAfter(true))
+        else
+          dlsety=0
+          qgjdingl.setY(0)
+          qgjwz.startAnimation(AlphaAnimation(0,1).setDuration(0).setFillAfter(true))
+        end
       end
     end
     if nowy>oldy then
       qgjdil.setVisibility(4)
-     else
+    else
+      qgjdil.setVisibility(0)
+    end
+  end
+})
+flhd2.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{
+  onScrollChange=function(v,nowx,nowy,oldx,oldy)
+    if nowy>=0 and nowy<=geth(flhd2)-h+getStatusBarHeight() then
+      if dlsety+nowy-oldy>=0 and dlsety+nowy-oldy<=geth(toolbar)then
+        dlsety=dlsety+nowy-oldy
+        qgjdingl.setY(-dlsety)
+        qgjwz.startAnimation(AlphaAnimation(0,(-dlsety+32)/32).setDuration(0).setFillAfter(true))
+      else
+        if dlsety+nowy-oldy>geth(toolbar)then
+          dlsety=geth(toolbar)
+          qgjdingl.setY(-dlsety)
+          qgjwz.startAnimation(AlphaAnimation(0,0).setDuration(0).setFillAfter(true))
+        else
+          dlsety=0
+          qgjdingl.setY(0)
+          qgjwz.startAnimation(AlphaAnimation(0,1).setDuration(0).setFillAfter(true))
+        end
+      end
+    end
+    if nowy>oldy then
+      qgjdil.setVisibility(4)
+    else
       qgjdil.setVisibility(0)
     end
   end
