@@ -1,4 +1,4 @@
-{版本="1.2.2",fun=function()
+{版本="1.2.3",fun=function()
 File("/data/data/"..activity.getPackageName().."/翻译收藏").createNewFile()
 File("/data/data/"..activity.getPackageName().."/上次查询快递单号").createNewFile()
 File("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用").createNewFile()
@@ -2086,14 +2086,14 @@ cpv2.setColor(-1)
 cpv.onTouch=function()
 cpv1.setColor(cpv.getSelectedColor())
 cpv2.setColor(cpv.getSelectedColor())
-cpvys.setText("#"..Dec2Hex(cpv.getSelectedColor()))
+cpvys.setText("#"..Integer.toHexString(cpv.getSelectedColor()))
 end
 cpv1.onTouch=function()
 cpv2.setColor(cpv.getSelectedColor())
-cpvys.setText("#"..Dec2Hex(cpv.getSelectedColor()))
+cpvys.setText("#"..Integer.toHexString(cpv.getSelectedColor()))
 end
 cpv2.onTouch=function()
-cpvys.setText("#"..Dec2Hex(cpv.getSelectedColor()))
+cpvys.setText("#"..Integer.toHexString(cpv.getSelectedColor()))
 end
 task(500,function()
   if yj=="开"then
@@ -3591,7 +3591,7 @@ function RC4加密(str,key)
   end
   jmjg=""
   for i=1,#cipher do
-    hexv=Dec2Hex(cipher[i])
+    hexv=Integer.toHexString(cipher[i])
     if #hexv==1 then
       jmjg=jmjg.."0"..hexv
     else
@@ -3599,6 +3599,12 @@ function RC4加密(str,key)
     end
   end
   return jmjg
+end
+function rc4Hex2Dec(Hex)
+  Hexs=(Hex:sub(1,1):gsub("a","10"):gsub("b","11"):gsub("c","12"):gsub("d","13"):gsub("e","14"):gsub("f",15))*15
+  Hexg=(Hex:sub(2,2)):gsub("a","10"):gsub("b","11"):gsub("c","12"):gsub("d","13"):gsub("e","14"):gsub("f",15)+Hexs/15
+  Dec=tonumber(Hexs+Hexg)
+  return Dec
 end
 function RC4解密(str,key)
   key=key
@@ -3608,7 +3614,7 @@ function RC4解密(str,key)
   keystream=PRGA(S,#plaintext/2)
   jmjg=""
   for i=1,#keystream do
-    jmjg=jmjg..string.char(Hex2Dec(string.lower(plaintext:sub(i*2-1,i*2)))~keystream[i])
+    jmjg=jmjg..string.char(rc4Hex2Dec(string.lower(plaintext:sub(i*2-1,i*2)))~keystream[i])
   end
   return jmjg
 end
@@ -6309,7 +6315,7 @@ import"android.support.v4.widget.*"
                     layout_marginLeft="16dp",
                   },
                 },
-                {
+                --[[{
                   LinearLayout,
                   layout_width="fill",
                   orientation="vertical",
@@ -6354,7 +6360,7 @@ import"android.support.v4.widget.*"
                       },
                     },
                   },
-                },
+                },]]
               },
             },
             {
@@ -6391,7 +6397,7 @@ import"android.support.v4.widget.*"
                   layout_width="fill",
                   textColor=0xFF6E6E6E,
                   layout_marginTop="15dp",
-                  text="新增 进制转换\n\n新增 归属地查询\n\n修复分类页面滑动会跳动问题\n\n支持 主页页面滑动隐藏/显示顶底栏",
+                  text="修复进入轻工具报错问题\n\n修复rc4加解密加密报错和解密不正确问题\n\n修复调色板选择颜色报错问题",
                 },
               },
             },
@@ -6625,7 +6631,7 @@ end
 主页收藏应用()
 波纹(zydj,0xFFE2E2E2)波纹(fldj,0xFFE2E2E2)波纹(zhdj,0xFFE2E2E2)
 波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)波纹(jzzhid,0xFFD0D0D0)波纹(gsdcxid,0xFFD0D0D0)
-波纹(jzzhid2,0xFFD0D0D0)波纹(gsdcxid2,0xFFD0D0D0)波纹(md5jmid2,0xFFD0D0D0)波纹(wyymhqid2,0xFFD0D0D0)
+--波纹(jzzhid2,0xFFD0D0D0)波纹(gsdcxid2,0xFFD0D0D0)
 pagev2.setOnPageChangeListener(PageView.OnPageChangeListener{
   onPageScrolled=function(a,b,c)
     if c==0then
