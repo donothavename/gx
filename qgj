@@ -1,4 +1,4 @@
-{版本="1.2.3",fun=function()
+{版本="1.2.5",fun=function()
 File("/data/data/"..activity.getPackageName().."/翻译收藏").createNewFile()
 File("/data/data/"..activity.getPackageName().."/上次查询快递单号").createNewFile()
 File("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用").createNewFile()
@@ -15,8 +15,8 @@ else
   软件内下载("正在下载资源,请耐心等待下载完成","https://raw.githubusercontent.com/donothavename/gx/master/ColorPicker.dex",this.luaDir.."/libs/ColorPicker.dex")
 end
 import 'android.graphics.*'
-全部应用左列={"时间屏幕","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","摩斯电码","RC4加解密","MD5加密","网页源码获取"}
-全部应用右列={"翻译","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","进制转换","Base64编码转换","随机数生成","归属地查询"}
+全部应用左列={"时间屏幕","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","摩斯电码","RC4加解密","MD5加密","随机数生成","全球IP查询"}
+全部应用右列={"翻译","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","进制转换","Base64编码转换","历史上的今天","网页源码获取","归属地查询"}
 function 波纹方(id,color)
   ripples=activity.obtainStyledAttributes({android.R.attr.selectableItemBackground}).getResourceId(0,0)
   id.setBackgroundDrawable(activity.Resources.getDrawable(ripples).setColor(ColorStateList(int[0].class{int{}},int{color})))
@@ -181,7 +181,7 @@ qbyybj.showAtLocation(fltBtn.Parent,0,0,0)
   },
 },
 ]]
-应用左列id={"qysjpmid","qykdcxliteid","qyczid","qyewmgjid","qytpzljid","qycksbxxxxid","qymsdmid","qyrc4jjmid","qymd5jmid","qywyymhqid"}
+应用左列id={"qysjpmid","qykdcxliteid","qyczid","qyewmgjid","qytpzljid","qycksbxxxxid","qymsdmid","qyrc4jjmid","qymd5jmid","qysjsscid","qyqqipcxid"}
 for i=1,#全部应用左列 do
   if i==1 then
     全部应用左列布局=全部应用适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用左列id[1])
@@ -195,7 +195,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..全部应用左列布局.."}"
-应用右列id={"qyfyid","qydlscid","qyznzid","qyqsqid","qybilibilifmhqid","qyhqdqbzid","qyjzzhid","qybase64bmzhid","qysjsscid","qygsdcxid"}
+应用右列id={"qyfyid","qydlscid","qyznzid","qyqsqid","qybilibilifmhqid","qyhqdqbzid","qyjzzhid","qybase64bmzhid","qylssdjtid","qywyymhqid","qygsdcxid"}
 for i=1,#全部应用右列 do
   if i==1 then
     全部应用右列布局=全部应用适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用右列id[1])
@@ -408,7 +408,7 @@ yytjscbj.showAtLocation(fltBtn.Parent,0,0,0)
 },
 ]]
 b=loadstring("return "..io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a"))轻工具主页收藏应用=b()
-应用添加收藏左列id={"ytcsjpmid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcmsdmid","ytcrc4jjmid","ytcmd5jmid","ytcwyymhqid"}
+应用添加收藏左列id={"ytcsjpmid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcmsdmid","ytcrc4jjmid","ytcmd5jmid","ytcsjsscid","ytcqqipcxid"}
 for i=1,#全部应用左列 do
   if i==1 then
     应用添加收藏左列布局=应用添加收藏适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用添加收藏左列id[1])
@@ -436,7 +436,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..应用添加收藏左列布局.."}"
-应用添加收藏右列id={"ytcfyid","ytcdlscid","ytcznzid","ytcqsqid","ytcbilibilifmhqid","ytchqdqbzid","ytcjzzhid","ytcbase64bmzhid","ytcsjsscid","ytcgsdcxid"}
+应用添加收藏右列id={"ytcfyid","ytcdlscid","ytcznzid","ytcqsqid","ytcbilibilifmhqid","ytchqdqbzid","ytcjzzhid","ytcbase64bmzhid","ytclssdjtid","ytcwyymhqid","ytcgsdcxid"}
 for i=1,#全部应用右列 do
   if i==1 then
     应用添加收藏右列布局=应用添加收藏适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用添加收藏右列id[1])
@@ -1604,7 +1604,7 @@ function Dec2Hex(str)
   return Bin2Hex(Dec2Bin(str))
 end
 function Hex2Bin(str)
-  binv=tostring(str):gsub("0","0000"):gsub("1","0001"):gsub("2","0010"):gsub("3","0011"):gsub("4","0100"):gsub("5","0101"):gsub("6","0110"):gsub("7","0111"):gsub("8","1000"):gsub("9","1001"):gsub("A","1010"):gsub("B","1011"):gsub("C","1100"):gsub("D","1101"):gsub("E","1110"):gsub("F","1111")
+  binv=string.upper(str):gsub("0","0000"):gsub("1","0001"):gsub("2","0010"):gsub("3","0011"):gsub("4","0100"):gsub("5","0101"):gsub("6","0110"):gsub("7","0111"):gsub("8","1000"):gsub("9","1001"):gsub("A","1010"):gsub("B","1011"):gsub("C","1100"):gsub("D","1101"):gsub("E","1110"):gsub("F","1111")
   if binv:find"1" then
     if binv:match("1(.+)")~=nil then
       return "1"..binv:match("1(.+)")
@@ -5023,6 +5023,679 @@ gsdcxbj.showAtLocation(fltBtn.Parent,0,0,0)
 波纹(fzjg,0xFFE2E2E2)波纹(cxan,0xFF68AFE5)
 颜色(xqwb,0xFF68AFE5)颜色(srwb,0xFF68AFE5)
 end
+function 历史上的今天()
+  lssjbj=nil
+  历史上的今天布局={
+    LinearLayout,
+    layout_width=w,
+    layout_height=h,
+    orientation="vertical",
+    backgroundColor=0xFFFFFFFF,
+    {
+      FrameLayout,
+      {
+        ScrollView,
+        id="lssdjthd",
+        layout_width=w,
+        VerticalScrollBarEnabled=false,
+        layout_height=h-getStatusBarHeight(),
+        {
+          LinearLayout,
+          id="sjlb",
+          layout_width="fill",
+          paddingTop="56dp",
+        },
+      },
+      {
+        LinearLayout,
+        id="lssdjtdl",
+        layout_width=w,
+        layout_height="56dp",
+        orientation="horizontal",
+        backgroundColor=0xFF9AAEC7,
+        {
+          ImageView,
+          padding="13dp",
+          layout_width="48dp",
+          layout_height="48dp",
+          ColorFilter=0xffffffff,
+          layout_gravity="center",
+          src="http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0",
+          onClick=function()lssdjtbj.dismiss()end,
+        },
+        {
+          TextView,
+          textSize="20sp",
+          layout_weight="1",
+          textColor=0xffffffff,
+          paddingLeft="17dp",
+          text="历史上的今天",
+          layout_gravity="center",
+        },
+        {
+          ImageView,
+          id="qhrq",
+          padding="13dp",
+          layout_width="48dp",
+          layout_height="48dp",
+          ColorFilter=0xffffffff,
+          layout_gravity="center",
+          src="http://shp.qpic.cn/collector/2530648358/e47001d6-67c4-4775-91c5-2866fb390334/0",
+          onClick=function()
+            切换日期布局={
+              LinearLayout,
+              id="bjbj",
+              layout_width=w,
+              layout_height=h,
+              backgroundColor=0x80000000,
+              {
+                CardView,
+                id="bjkp",
+                radius="10dp",
+                layout_width=w,
+                layout_gravity="bottom",
+                layout_marginBottom="-10dp",
+                cardBackgroundColor=0xFFFFFFFF,
+                {
+                  LinearLayout,
+                  layout_width=w,
+                  orientation="vertical",
+                  {
+                    LinearLayout,
+                    layout_width=w,
+                    paddingTop="24dp",
+                    paddingLeft="32dp",
+                    paddingRight="24dp",
+                    orientation="horizontal",
+                    {
+                      TextView,
+                      textSize="17sp",
+                      layout_weight="1",
+                      text="切换日期",
+                      layout_gravity="center",
+                      textColor=0xFF000000,
+                      Typeface=Typeface.DEFAULT_BOLD,
+                    },
+                    {
+                      ImageView,
+                      padding="15dp",
+                      id="gbqhrqbj",
+                      layout_width="55dp",
+                      layout_height="55dp",
+                      layout_gravity="center",
+                      ColorFilter=0xFF707070,
+                      src="http://shp.qpic.cn/collector/2530648358/6a4d61ec-a43b-454e-87c7-3a471e95e51a/0",
+                      onClick=function()关闭切换日期布局()end,
+                    },
+                  },
+                  {
+                    LinearLayout,
+                    layout_height="7dp",
+                  },
+                  {
+                    LinearLayout,
+                    layout_width=w,
+                    paddingLeft="32dp",
+                    paddingRight="32dp",
+                    orientation="vertical",
+                    {
+                      TextView,
+                      textSize="12sp",
+                      paddingLeft="2dp",
+                      textColor=0xFF68AFE5,
+                      text="请输入月份与日期，如0903,1001,0727",
+                    },
+                    {
+                      EditText,
+                      id="rqwb",
+                      singleLine=true,
+                      layout_width="fill",
+                      textColor=0xFF000000,
+                    },
+                  },
+                  {
+                    LinearLayout,
+                    gravity="right",
+                    layout_width=w,
+                    paddingTop="17dp",
+                    paddingRight="32dp",
+                    paddingBottom="43dp",
+                    {
+                      LinearLayout,
+                      layout_height="46dp",
+                      {
+                        CardView,
+                        radius="5dp",
+                        layout_gravity="center",
+                        cardBackgroundColor=0xFF68AFE5,
+                        {
+                          TextView,
+                          text="前往",
+                          gravity="center",
+                          layout_height="36dp",
+                          layout_width="87.5dp",
+                          textColor=0xFFFFFFFF,
+                          onClick=function()
+                            关闭切换日期布局()
+                            task(200,function()
+                              获取历史事件(rqwb.text)
+                            end)
+                          end,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            }
+            qhrqbj=PopupWindow(loadlayout(切换日期布局))
+            qhrqbj.setFocusable(true)
+            qhrqbj.setWidth(w)
+            qhrqbj.setHeight(h)
+            qhrqbj.setTouchable(true)
+            qhrqbj.setOutsideTouchable(true)
+            qhrqbj.showAtLocation(fltBtn.Parent,0,0,0)
+            波纹(gbqhrqbj,0xFFE2E2E2)
+            位移动画(bjkp,200,0,0,geth(bjkp),0)
+            activity.getSystemService(Context.INPUT_METHOD_SERVICE).toggleSoftInput(0,InputMethodManager.RESULT_SHOWN)
+            function 关闭切换日期布局()
+              位移动画(bjkp,200,0,0,0,geth(bjkp))
+              task(199,function()
+                activity.getSystemService(Context.INPUT_METHOD_SERVICE).hideSoftInputFromWindow(rqwb.getWindowToken(),0)
+                qhrqbj.dismiss()
+              end)
+            end
+            颜色(rqwb,0xFF68AFE5)
+            rqwb.getBackground().setColorFilter(PorterDuffColorFilter(0xFF68AFE5,PorterDuff.Mode.SRC_ATOP));
+            bjkpsety=0
+            bjbj.onTouch=function(v,e)
+              a=e.getAction()&255
+              if a==MotionEvent.ACTION_DOWN then
+                if e.getY()>=h-geth(bjkp) then
+                  csdjwz=e.getY()
+                 else
+                  csdjwz=h+1
+                end
+               elseif a==MotionEvent.ACTION_MOVE then
+                if csdjwz==h+1 then
+                 elseif csdjwz>e.getY() then
+                  csdjwz=e.getY()
+                 else
+                  bjkpsety=h-geth(bjkp)+e.getY()-csdjwz+10/32*geth(toolbar)
+                  bjkp.setY(bjkpsety)
+                end
+               elseif a==MotionEvent.ACTION_UP then
+                if csdjwz==h+1 then
+                  关闭切换日期布局()
+                 elseif bjkpsety>=h-0.5*geth(bjkp) then
+                  关闭切换日期布局()
+                 else
+                  bjkp.setY(h-geth(bjkp)+10/32*geth(toolbar))
+                  位移动画(bjkp,150,0,0,bjkpsety-(h-geth(bjkp)+10/32*geth(toolbar)),0)
+                end
+              end
+              return true
+            end
+          end,
+        },
+      },
+    },
+  }
+  lssdjtbj=PopupWindow(loadlayout(历史上的今天布局))
+  lssdjtbj.setFocusable(true)
+  lssdjtbj.setWidth(w)
+  lssdjtbj.setHeight(h)
+  lssdjtbj.setTouchable(true)
+  lssdjtbj.setOutsideTouchable(true)
+  lssdjtbj.showAtLocation(fltBtn.Parent,0,0,0)
+  function 获取历史事件(time)
+    if time then
+      url="http://www.lssdjt.com/"..tointeger(time:sub(1,2)).."/"..tointeger(time:sub(3,4))
+     else
+      url="http://www.lssdjt.com/"
+    end
+    if lssjbj then
+      lssjbj.setVisibility(8)
+    end
+    Http.get(url,nil,"utf8",nil,function(code,content)
+      if code==200 then
+        lssdjtsj=content:match('<ul class="list clearfix">(.-)</ul>')
+        dgsj=lssdjtsj:gmatch('<li(.-)</a>')
+        事件文字={}事件时间={}事件图片={}
+        for i in dgsj do
+          事件文字[#事件文字+1]=i:match("<i>(.-)</i>")
+          事件时间[#事件时间+1]=i:match("<em>(.-)</em>"):match("(.+)年")
+          事件图片链接=i:match('rel="(.-)"')
+          if 事件图片链接==nil then
+            事件图片[#事件图片+1]=""
+           else
+            事件图片[#事件图片+1]=事件图片链接
+          end
+        end
+        单个事件适配布局=[[
+{
+  LinearLayout,
+  padding="24dp",
+  layout_width="fill",
+  orientation="vertical",
+  {
+    TextView,
+    text="事件时间",
+    textSize="30sp",
+    textColor=0xff000000,
+    layout_marginBottom="16dp",
+    Typeface=Typeface.DEFAULT_BOLD,
+  },
+  {
+    CardView,
+    radius="4dp",
+    layout_width="fill",
+    {
+      FrameLayout,
+      layout_width="fill",
+      {
+        ImageView,
+        src="事件图片",
+        layout_width="fill",
+        去除layout_height=(w-1.5*geth(toolbar))/loadbitmap("事件图片").getWidth()*loadbitmap("事件图片").getHeight(),                
+      },
+      {
+        LinearLayout,
+        padding="16dp",
+        layout_width="fill",
+        layout_gravity="bottom",
+        backgroundColor=0xE53C3C3C,
+        {
+          TextView,
+          textColor=0xffffffff,
+          text="事件文字",
+          textSize="16sp",
+        },
+      },
+    },
+  },
+},
+]]
+        历史事件布局=""
+        for i=#事件文字,1,-1 do
+          if 事件图片[i]=="" then
+            历史事件布局=历史事件布局..单个事件适配布局:gsub("事件文字",事件文字[i]):gsub("事件时间",事件时间[i]):gsub("事件图片",事件图片[i]):gsub("去除","--")
+           else
+            历史事件布局=历史事件布局..单个事件适配布局:gsub("事件文字",事件文字[i]):gsub("事件时间",事件时间[i]):gsub("事件图片",事件图片[i]):gsub("去除","")
+          end
+        end
+        历史事件布局=[[{
+LinearLayout,
+id="lssjbj",
+orientation="vertical",
+layout_width="fill",
+]]..历史事件布局.."}"
+        b=loadstring("return "..历史事件布局)历史事件布局=b()
+        sjlb.addView(loadlayout(历史事件布局))
+        lssdjtdlsety=0
+        lssdjthd.setOnScrollChangeListener(ScrollView.OnScrollChangeListener{
+          onScrollChange=function(v,nowx,nowy,oldx,oldy)
+            if nowy>=0 and nowy<=sjlb.getHeight()-h+getStatusBarHeight() then
+              if lssdjtdlsety+nowy-oldy>=0 and lssdjtdlsety+nowy-oldy<=56/32*geth(toolbar)then
+                lssdjtdlsety=lssdjtdlsety+nowy-oldy
+                lssdjtdl.setY(-lssdjtdlsety)
+               else
+                if lssdjtdlsety+nowy-oldy>56/32*geth(toolbar)then
+                  lssdjtdlsety=56/32*geth(toolbar)
+                  lssdjtdl.setY(-lssdjtdlsety)
+                 else
+                  lssdjtdlsety=0
+                  lssdjtdl.setY(-56/32*lssdjtdlsety)
+                end
+              end
+            end
+          end
+        })
+      end
+    end)
+  end
+  获取历史事件()
+end
+function 全球IP查询()
+全球IP查询布局={
+  LinearLayout,
+  layout_width=w,
+  layout_height=h,
+  orientation="vertical",
+  backgroundColor=0xFFFFFFFF,
+  {
+    LinearLayout,
+    layout_width=w,
+    layout_height="32dp",
+    backgroundColor=0xFF9AAEC7,
+    {
+      TextView,
+      text="全球IP查询",
+      textColor=0xffffffff,
+      layout_gravity="center",
+      paddingLeft="13dp",
+    },
+  },
+  {
+    LinearLayout,
+    layout_width="fill",
+    layout_height="96dp",
+    paddingTop="24dp",
+    paddingLeft="24dp",
+    paddingRight="24dp",
+    paddingBottom="16dp",
+    {
+      CardView,
+      elevation=0,
+      radius="4dp",
+      layout_width="fill",
+      {
+        LinearLayout,
+        layout_width="fill",
+        orientation="horizontal",
+        {
+          EditText,
+          id="ipwb",
+          padding="16dp",
+          singleLine=true,
+          layout_height="56dp",
+          layout_weight="1",
+          hintTextColor=0xFFA1A1A1,
+          backgroundColor=0xFFFAFAFA,
+          hint="请输入要查询的IP地址",
+        },
+        {
+          ImageView,
+          id="cxip",
+          colorFilter=0xFFFFFFFF,
+          layout_width="64dp",
+          padding="16dp",
+          paddingLeft="24dp",
+          src="http://shp.qpic.cn/collector/2530648358/4801ab8c-3258-4d1b-aad2-40740e2456f8/0",
+          onClick=function()
+            获取IP信息(ipwb.text)
+          end,
+        },
+      },
+    },
+  },
+  {
+    TextView,
+    paddingLeft="24dp",
+    text="使用我的IP地址",
+    textColor=0xFF68AFE5,
+    onClick=function()
+      获取IP信息()
+    end,
+  },
+  {
+    ScrollView,
+    padding="24dp",
+    {
+      LinearLayout,
+      id="ipxqbj",
+      visibility=4,
+      layout_width="fill",
+      orientation="vertical",
+      {
+        LinearLayout,
+        layout_width="fill",
+        orientation="horizontal",
+        {
+          LinearLayout,
+          padding="16.5dp",
+          orientation="horizontal",
+          layout_width=(w-1.5*geth(toolbar))/2,
+          {
+            TextView,
+            text="国家",
+            textSize="16sp",
+            textColor=0xFF68AFE5,
+          },
+          {
+            TextView,
+            id="gjwb",
+            textColor=0xFF6E6E6E,
+            layout_marginLeft="16.25dp",
+          },
+        },
+        {
+          LinearLayout,
+          padding="16.5dp",
+          orientation="horizontal",
+          layout_width=(w-1.5*geth(toolbar))/2,
+          {
+            TextView,
+            text="地区",
+            textSize="16sp",
+            textColor=0xFF68AFE5,
+          },
+          {
+            TextView,
+            id="dqwb",
+            textColor=0xFF6E6E6E,
+            layout_marginLeft="16.25dp",
+          },
+        },
+      },
+      {
+        LinearLayout,
+        layout_width="fill",
+        orientation="horizontal",
+        {
+          LinearLayout,
+          padding="16.5dp",
+          orientation="horizontal",
+          layout_width=(w-1.5*geth(toolbar))/2,
+          {
+            TextView,
+            text="城市",
+            textSize="16sp",
+            textColor=0xFF68AFE5,
+          },
+          {
+            TextView,
+            id="cswb",
+            textColor=0xFF6E6E6E,
+            layout_marginLeft="16.25dp",
+          },
+        },
+        {
+          LinearLayout,
+          padding="16.5dp",
+          orientation="horizontal",
+          layout_width=(w-1.5*geth(toolbar))/2,
+          {
+            TextView,
+            text="城市代码",
+            textSize="16sp",
+            textColor=0xFF68AFE5,
+          },
+          {
+            TextView,
+            id="csdmwb",
+            textColor=0xFF6E6E6E,
+            layout_marginLeft="16.25dp",
+          },
+        },
+      },
+      {
+        LinearLayout,
+        layout_width="fill",
+        orientation="horizontal",
+        {
+          LinearLayout,
+          padding="16.5dp",
+          orientation="horizontal",
+          layout_width=(w-1.5*geth(toolbar))/2,
+          {
+            TextView,
+            text="区/县",
+            textSize="16sp",
+            textColor=0xFF68AFE5,
+          },
+          {
+            TextView,
+            id="qxwb",
+            textColor=0xFF6E6E6E,
+            layout_marginLeft="16.25dp",
+          },
+        },
+        {
+          LinearLayout,
+          padding="16.5dp",
+          orientation="horizontal",
+          layout_width=(w-1.5*geth(toolbar))/2,
+          {
+            TextView,
+            text="运营商",
+            textSize="16sp",
+            textColor=0xFF68AFE5,
+          },
+          {
+            TextView,
+            id="yyswb",
+            textColor=0xFF6E6E6E,
+            layout_marginLeft="16.25dp",
+          },
+        },
+      },
+      {
+        LinearLayout,
+        layout_width="fill",
+        orientation="horizontal",
+        {
+          LinearLayout,
+          padding="16.5dp",
+          orientation="horizontal",
+          layout_width=(w-1.5*geth(toolbar))/2,
+          {
+            TextView,
+            text="IP地址",
+            textSize="16sp",
+            textColor=0xFF68AFE5,
+          },
+          {
+            TextView,
+            id="ipdzwb",
+            textColor=0xFF6E6E6E,
+            layout_marginLeft="16.25dp",
+          },
+        },
+        {
+          LinearLayout,
+          padding="16.5dp",
+          orientation="horizontal",
+          layout_width=(w-1.5*geth(toolbar))/2,
+          {
+            TextView,
+            text="经度",
+            textSize="16sp",
+            textColor=0xFF68AFE5,
+          },
+          {
+            TextView,
+            id="jdwb",
+            textColor=0xFF6E6E6E,
+            layout_marginLeft="16.25dp",
+          },
+        },
+      },
+      {
+        LinearLayout,
+        layout_width="fill",
+        orientation="horizontal",
+        {
+          LinearLayout,
+          padding="16.5dp",
+          orientation="horizontal",
+          layout_width=(w-1.5*geth(toolbar))/2,
+          {
+            TextView,
+            text="纬度",
+            textSize="16sp",
+            textColor=0xFF68AFE5,
+          },
+          {
+            TextView,
+            id="wdwb",
+            textColor=0xFF6E6E6E,
+            layout_marginLeft="16.25dp",
+          },
+        },
+      },
+    },
+  },
+}
+qqipcxbj=PopupWindow(loadlayout(全球IP查询布局))
+qqipcxbj.setFocusable(true)
+qqipcxbj.setWidth(w)
+qqipcxbj.setHeight(h)
+qqipcxbj.setTouchable(true)
+qqipcxbj.setOutsideTouchable(true)
+qqipcxbj.showAtLocation(fltBtn.Parent,0,0,0)
+颜色(ipwb,0xFF68AFE5)
+cxip.setBackgroundDrawable(GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,{0xFFFAFAFA,0xFF9AAEC7}))
+--[[function 获取IP信息(ip)
+  if ip then
+    url="https://www.ipip.net/ip/"..ipwb.text..".html"
+  else
+    url="https://www.ipip.net/ip/"
+  end
+  Http.get(url,nil,"utf8",nil,function(code,content)
+    if code==200 then
+      位置=content:match('720px;">(.-)</span>')
+      国家文本=位置:match("(.+) "):match("(.+) "):match("(.+) ")
+      地区文本=位置:match(国家文本.." (.+)"):match("(.+) "):match("(.+) ")
+      城市文本=位置:match(地区文本.." (.+)"):match("(.+) ")
+      区县文本=位置:match(城市文本.." (.+)")
+      运营商文本=content:match("运营商(.-)</tr>"):match('46px;">(.-)</span>')
+      ip地址文本=content:match("当前IP(.+)</span>"):match('html">(.-)</a>')
+      经纬度=content:match("地区中心经纬度(.-)</span>"):match('46px;">(.+)')
+      纬度文本=经纬度:match("(.+),")
+      经度文本=经纬度:match(", (.+)")
+      gjwb.text=国家文本
+      dqwb.text=地区文本
+      cswb.text=城市文本
+      qxwb.text=区县文本
+      yyswb.text=运营商文本
+      ipdzwb.text=ip地址文本
+      jdwb.text=经度文本
+      wdwb.text=纬度文本
+    end
+  end)
+end]]
+function 获取IP信息(ip)
+  if ip then
+    url="http://whois.pconline.com.cn/ipJson.jsp?json=true&ip="..ip
+    url2="http://ip-api.com/json/"..ip
+  else
+    url="http://whois.pconline.com.cn/ipJson.jsp?json=true"
+    url2="http://ip-api.com/json/"
+  end
+  Http.get(url,nil,"GBK",nil,function(code,content)
+    if code==200 then
+      Http.get(url2,nil,"GBK",nil,function(code,content2)
+        if code==200 then
+          ipxqbj.setVisibility(0)
+          dqwb.text=content:match('"pro":"(.-)"')
+          cswb.text=content:match('"city":"(.-)"')
+          csdmwb.text=content:match('"cityCode":"(.-)"')
+          yyswb.text=content:match('"addr":"(.-)"'):match(" (.+)")
+          ipdzwb.text=content:match('"ip":"(.-)"')
+          gjwb.text=content2:match('"country":"(.-)"')
+          jdwb.text=content2:match('"lon":(.-),"')
+          wdwb.text=content2:match('"lat":(.-),"')
+        else
+          提示"查询失败"
+        end
+      end)
+    else
+      提示"查询失败"
+    end
+  end)
+end
+end
 import"android.support.v4.widget.*"
 轻工具布局={
   FrameLayout,
@@ -6146,11 +6819,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
+                        id="lssdjtid",
                         paddingLeft="12dp",
                         paddingRight="12dp",
                         text="历史上的今天",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
+                        onClick=function()历史上的今天()end,
                       },
                     },
                     {
@@ -6224,11 +6899,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
+                        id="qqipcxid",
                         paddingLeft="12dp",
                         paddingRight="12dp",
                         text="全球IP查询",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
+                        onClick=function()全球IP查询()end,
                       },
                     },
                     {
@@ -6315,7 +6992,7 @@ import"android.support.v4.widget.*"
                     layout_marginLeft="16dp",
                   },
                 },
-                --[[{
+                {
                   LinearLayout,
                   layout_width="fill",
                   orientation="vertical",
@@ -6332,13 +7009,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
-                        id="jzzhid2",
+                        id="lssdjtid2",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="进制转换",
+                        text="历史上的今天",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
-                        onClick=function()进制转换()end,
+                        onClick=function()历史上的今天()end,
                       },
                     },
                     {
@@ -6350,17 +7027,17 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
-                        id="gsdcxid2",
+                        id="qqipcxid2",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="归属地查询",
+                        text="全球IP查询",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
-                        onClick=function()归属地查询()end,
+                        onClick=function()全球IP查询()end,
                       },
                     },
                   },
-                },]]
+                },
               },
             },
             {
@@ -6397,7 +7074,7 @@ import"android.support.v4.widget.*"
                   layout_width="fill",
                   textColor=0xFF6E6E6E,
                   layout_marginTop="15dp",
-                  text="修复进入轻工具报错问题\n\n修复rc4加解密加密报错和解密不正确问题\n\n修复调色板选择颜色报错问题",
+                  text="新增 历史上的今天\n\n新增 全球IP查询\n\n修复取色器复制rgba颜色数值错误的问题",
                 },
               },
             },
@@ -6630,8 +7307,8 @@ function 主页收藏应用()
 end
 主页收藏应用()
 波纹(zydj,0xFFE2E2E2)波纹(fldj,0xFFE2E2E2)波纹(zhdj,0xFFE2E2E2)
-波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)波纹(jzzhid,0xFFD0D0D0)波纹(gsdcxid,0xFFD0D0D0)
---波纹(jzzhid2,0xFFD0D0D0)波纹(gsdcxid2,0xFFD0D0D0)
+波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)波纹(jzzhid,0xFFD0D0D0)波纹(gsdcxid,0xFFD0D0D0)波纹(lssdjtid,0xFFD0D0D0)波纹(qqipcxid,0xFFD0D0D0)
+波纹(lssdjtid2,0xFFD0D0D0)波纹(qqipcxid2,0xFFD0D0D0)
 pagev2.setOnPageChangeListener(PageView.OnPageChangeListener{
   onPageScrolled=function(a,b,c)
     if c==0then
