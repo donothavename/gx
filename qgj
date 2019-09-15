@@ -1,9 +1,13 @@
-{版本="1.2.5",fun=function()
+{版本="1.2.7",fun=function()
 File("/data/data/"..activity.getPackageName().."/翻译收藏").createNewFile()
 File("/data/data/"..activity.getPackageName().."/上次查询快递单号").createNewFile()
 File("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用").createNewFile()
+File("/data/data/"..activity.getPackageName().."/打字板").createNewFile()
 if io.open("/data/data/"..activity.getPackageName().."/翻译收藏"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/翻译收藏","w+"):write("{\n--翻译收藏\n}"):close()
+end
+if io.open("/data/data/"..activity.getPackageName().."/打字板"):read("*a")==""then
+io.open("/data/data/"..activity.getPackageName().."/打字板","w+"):write('"文本":"点击右下角设置文字"\n"文本颜色":"0xff000000"\n"背景色":"0xffffffff"'):close()
 end
 if io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用","w+"):write("{}"):close()
@@ -15,8 +19,8 @@ else
   软件内下载("正在下载资源,请耐心等待下载完成","https://raw.githubusercontent.com/donothavename/gx/master/ColorPicker.dex",this.luaDir.."/libs/ColorPicker.dex")
 end
 import 'android.graphics.*'
-全部应用左列={"时间屏幕","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","摩斯电码","RC4加解密","MD5加密","随机数生成","全球IP查询"}
-全部应用右列={"翻译","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","进制转换","Base64编码转换","历史上的今天","网页源码获取","归属地查询"}
+全部应用左列={"打字板","垃圾分类查询","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","摩斯电码","RC4加解密","MD5加密","随机数生成","全球IP查询"}
+全部应用右列={"时间屏幕","翻译","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","进制转换","Base64编码转换","历史上的今天","网页源码获取","归属地查询"}
 function 波纹方(id,color)
   ripples=activity.obtainStyledAttributes({android.R.attr.selectableItemBackground}).getResourceId(0,0)
   id.setBackgroundDrawable(activity.Resources.getDrawable(ripples).setColor(ColorStateList(int[0].class{int{}},int{color})))
@@ -181,12 +185,16 @@ qbyybj.showAtLocation(fltBtn.Parent,0,0,0)
   },
 },
 ]]
-应用左列id={"qysjpmid","qykdcxliteid","qyczid","qyewmgjid","qytpzljid","qycksbxxxxid","qymsdmid","qyrc4jjmid","qymd5jmid","qysjsscid","qyqqipcxid"}
+应用左列id={"qydzbid","qyljflcxid","qykdcxliteid","qyczid","qyewmgjid","qytpzljid","qycksbxxxxid","qymsdmid","qyrc4jjmid","qymd5jmid","qysjsscid","qyqqipcxid"}
 for i=1,#全部应用左列 do
   if i==1 then
     全部应用左列布局=全部应用适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用左列id[1])
   else
-    全部应用左列布局=全部应用左列布局..全部应用适配布局:gsub("应用名称",全部应用左列[i]):gsub("应用id",应用左列id[i])
+    if 全部应用左列[i]=="短链生成" then
+      全部应用左列布局=全部应用左列布局..全部应用适配布局:gsub("应用名称","短链生成"):gsub('text="短链生成"','text="短链 生成与还原"'):gsub("应用id",应用左列id[i])
+    else
+      全部应用左列布局=全部应用左列布局..全部应用适配布局:gsub("应用名称",全部应用左列[i]):gsub("应用id",应用左列id[i])
+    end
   end
 end
 全部应用左列布局=[[{
@@ -195,7 +203,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..全部应用左列布局.."}"
-应用右列id={"qyfyid","qydlscid","qyznzid","qyqsqid","qybilibilifmhqid","qyhqdqbzid","qyjzzhid","qybase64bmzhid","qylssdjtid","qywyymhqid","qygsdcxid"}
+应用右列id={"qysjpmid","qyfyid","qydlscid","qyznzid","qyqsqid","qybilibilifmhqid","qyhqdqbzid","qyjzzhid","qybase64bmzhid","qylssdjtid","qywyymhqid","qygsdcxid"}
 for i=1,#全部应用右列 do
   if i==1 then
     全部应用右列布局=全部应用适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用右列id[1])
@@ -408,7 +416,7 @@ yytjscbj.showAtLocation(fltBtn.Parent,0,0,0)
 },
 ]]
 b=loadstring("return "..io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a"))轻工具主页收藏应用=b()
-应用添加收藏左列id={"ytcsjpmid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcmsdmid","ytcrc4jjmid","ytcmd5jmid","ytcsjsscid","ytcqqipcxid"}
+应用添加收藏左列id={"ytcdzbid","ytcljflcxid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcmsdmid","ytcrc4jjmid","ytcmd5jmid","ytcsjsscid","ytcqqipcxid"}
 for i=1,#全部应用左列 do
   if i==1 then
     应用添加收藏左列布局=应用添加收藏适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用添加收藏左列id[1])
@@ -420,7 +428,7 @@ for i=1,#全部应用左列 do
       end
     end
   else
-    应用添加收藏左列布局=应用添加收藏左列布局..应用添加收藏适配布局:gsub("应用名称",全部应用左列[i]):gsub("应用id",应用添加收藏左列id[i])
+    应用添加收藏左列布局=应用添加收藏左列布局..应用添加收藏适配布局:gsub("应用名称",全部应用左列[i]):gsub("应用id",应用添加收藏左列id[i]):gsub("短链生成","短链 生成与还原")
     for n=1,#轻工具主页收藏应用+1 do
       if n==#轻工具主页收藏应用+1 then
         应用添加收藏左列布局=应用添加收藏左列布局:gsub("已添加","nil"):gsub("已勾选","false"):gsub("可勾选","true")
@@ -436,7 +444,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..应用添加收藏左列布局.."}"
-应用添加收藏右列id={"ytcfyid","ytcdlscid","ytcznzid","ytcqsqid","ytcbilibilifmhqid","ytchqdqbzid","ytcjzzhid","ytcbase64bmzhid","ytclssdjtid","ytcwyymhqid","ytcgsdcxid"}
+应用添加收藏右列id={"ytcsjpmid","ytcfyid","ytcdlscid","ytcznzid","ytcqsqid","ytcbilibilifmhqid","ytchqdqbzid","ytcjzzhid","ytcbase64bmzhid","ytclssdjtid","ytcwyymhqid","ytcgsdcxid"}
 for i=1,#全部应用右列 do
   if i==1 then
     应用添加收藏右列布局=应用添加收藏适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用添加收藏右列id[1])
@@ -5696,6 +5704,741 @@ function 获取IP信息(ip)
   end)
 end
 end
+function 垃圾分类查询()
+item={
+  LinearLayout,
+  orientation="vertical",
+  {
+    LinearLayout,
+    padding="24dp",
+    layout_width=w,
+    orientation="horizontal",
+    {
+      ImageView,
+      id="ljzltp",
+      padding="2dp",
+      layout_width="31dp",
+      layout_height="31dp",
+      layout_gravity="center",
+    },
+    {
+      LinearLayout,
+      layout_weight="1",
+      orientation="vertical",
+      layout_marginLeft="25dp",
+      {
+        TextView,
+        id="ljmc",
+        textSize="16sp",
+        textColor=0xFF000000,
+        Typeface=Typeface.DEFAULT_BOLD,
+      },
+      {
+        TextView,
+        id="ljzl",
+        textColor=0xFF6E6E6E,
+        layout_marginTop="8.5dp",
+      },
+    },
+    {
+      ImageView,
+      layout_width="24dp",
+      layout_height="24dp",
+      layout_gravity="center",
+      ColorFilter=0xFF6E6E6E,
+      src="http://shp.qpic.cn/collector/2530648358/df4540cf-e4b0-4b2a-a660-3c6853451b3d/0",
+    },
+  },
+  {
+    LinearLayout,
+    layout_width=w,
+    layout_height="7.5dp",
+    backgroundColor=0xFFF5F5F5,
+  },
+}
+垃圾分类查询布局={
+  LinearLayout,
+  layout_height=h,
+  orientation="vertical",
+  backgroundColor=0xFFFFFFFF,
+  {
+    LinearLayout,
+    padding="24dp",
+    layout_width=w,
+    elevation="2dp",
+    orientation="vertical",
+    layout_marginTop="-24dp",
+    backgroundColor=0xFF9AAEC7,
+    {
+      LinearLayout,
+      layout_height="32dp",
+      {
+        TextView,
+        text="垃圾分类查询",
+        textColor=0xffffffff,
+        layout_gravity="center",
+        Typeface=Typeface.DEFAULT_BOLD,
+      },
+    },
+    {
+      CardView,
+      id="kddhk",
+      radius="4dp",
+      elevation=0,
+      Focusable=true,
+      layout_width="fill",
+      layout_height="48dp",
+      FocusableInTouchMode=true,
+      CardBackgroundColor=0xffffffff,
+      {
+        LinearLayout,
+        orientation="horizontal",
+        {
+          FrameLayout,
+          layout_weight="1",
+          layout_gravity="center",
+          {
+            LinearLayout,
+            layout_width=w,
+          },
+          {
+            EditText,
+            id="ljmcwb",
+            singleLine=true,
+            textSize="14sp",
+            singleLine=true,
+            layout_width="fill",
+            paddingLeft="16dp",
+            hint="你是什么垃圾?",
+            textColor=0xff000000,
+            hintTextColor=0xFFB6B6B6,
+            backgroundColor=0xffffffff,
+          },
+        },
+        {
+          ImageView,
+          id="cxlj",
+          padding="11dp",
+          layout_width="48dp",
+          layout_height="48dp",
+          layout_gravity="center",
+          ColorFilter=0xFFB6B6B6,
+          src="http://shp.qpic.cn/collector/2530648358/4801ab8c-3258-4d1b-aad2-40740e2456f8/0",
+          onClick=function()
+            Http.get("https://laji.lr3800.com/api.php?name="..ljmcwb.text,nil,"utf8",nil,function(code,content)
+              if code==200 then
+                if content:find"name" then
+                  ljlb=content:match('"newslist":(.+)')
+                  垃圾名称={}垃圾种类={}垃圾图片={}垃圾解释={}类似垃圾={}垃圾处理={}
+                  JSON=import"cjson"
+                  json_o=JSON.decode(ljlb:sub(1,#ljlb-3))
+                  for i,v in ipairs(json_o) do
+                    垃圾名称[i]=v.name
+                    垃圾解释[i]=v.explain
+                    类似垃圾[i]=v.contain
+                    垃圾处理[i]=v.tip
+                    if v.type==0 then
+                      垃圾种类[i]="可回收垃圾"
+                      垃圾图片[i]="http://shp.qpic.cn/collector/2530648358/5832fcde-e425-4afd-9a7e-d872aa2f50dd/0"
+                    elseif v.type==1 then
+                      垃圾种类[i]="有害垃圾"
+                      垃圾图片[i]="http://shp.qpic.cn/collector/2530648358/41b8dea8-c9f5-4999-96d7-eec4316184fa/0"
+                    elseif v.type==2 then
+                      垃圾种类[i]="湿(厨余)垃圾"
+                      垃圾图片[i]="http://shp.qpic.cn/collector/2530648358/60a42684-9190-4c43-9a6c-f4163c66a302/0"
+                    elseif v.type==3 then
+                      垃圾种类[i]="干垃圾"
+                      垃圾图片[i]="http://shp.qpic.cn/collector/2530648358/e64ccbce-18c8-412b-9e73-2b0f87642f5c/0"
+                    end
+                  end
+                  data={}
+                  for i=1,#垃圾名称 do
+                    table.insert(data,{ljzltp=垃圾图片[i],ljmc=垃圾名称[i],ljzl=垃圾种类[i]})
+                  end
+                  adp=LuaAdapter(activity,data,item)
+                  ljxqlb.Adapter=adp
+                  ljxqlb.onItemClick=function(l,v,p,id)
+                    查看垃圾详细信息(垃圾种类[id],垃圾解释[id],类似垃圾[id],垃圾处理[id])
+                  end
+                else
+                  提示"查询错误。"
+                end
+              else
+                提示"查询失败。"
+              end
+            end)
+          end,
+        },
+      },
+    },
+  },
+  {
+    ListView,
+    id="ljxqlb",
+    DividerHeight=0,
+    layout_width="fill",
+    VerticalScrollBarEnabled=false,
+    layout_height=h-getStatusBarHeight()-3.25*geth(toolbar),
+  },
+}
+ljflcxbj=PopupWindow(loadlayout(垃圾分类查询布局))
+ljflcxbj.setFocusable(true).setWidth(w).setHeight(h).setTouchable(true).setOutsideTouchable(true).showAtLocation(fltBtn.Parent,0,0,0)
+颜色(ljmcwb,0xFF60ACE5)波纹(cxlj,0xFFE2E2E2)
+function 查看垃圾详细信息(ljzl,ljjs,lslj,ljcl)
+  查看垃圾详细信息布局={
+    LinearLayout,
+    id="bjbj",
+    layout_width=w,
+    layout_height=h,
+    backgroundColor=0x80000000,
+    {
+      CardView,
+      id="bjkp",
+      radius="10dp",
+      layout_width=w,
+      layout_gravity="bottom",
+      layout_marginBottom="-10dp",
+      cardBackgroundColor=0xFFFFFFFF,
+      {
+        LinearLayout,
+        layout_width=w,
+        orientation="vertical",
+        {
+          LinearLayout,
+          layout_width=w,
+          paddingTop="24dp",
+          paddingLeft="32dp",
+          paddingRight="24dp",
+          orientation="horizontal",
+          {
+            ImageView,
+            layout_width="24dp",
+            layout_height="24dp",
+            layout_gravity="center",
+            ColorFilter=0xFF9AAEC7,
+            src="http://shp.qpic.cn/collector/2530648358/382bcee3-8685-4b5b-9be6-c766388ce2ca/0"
+          },
+          {
+            TextView,
+            textSize="17sp",
+            layout_weight="1",
+            text=ljzl.."是什么？",
+            layout_gravity="center",
+            textColor=0xFF000000,
+            layout_marginLeft="16dp",
+            Typeface=Typeface.DEFAULT_BOLD,
+          },
+          {
+            ImageView,
+            padding="15dp",
+            id="gbckljxxxxbj",
+            layout_width="55dp",
+            layout_height="55dp",
+            layout_gravity="center",
+            ColorFilter=0xFF707070,
+            src="http://shp.qpic.cn/collector/2530648358/6a4d61ec-a43b-454e-87c7-3a471e95e51a/0",
+            onClick=function()关闭查看垃圾详细信息布局()end,
+          },
+        },
+        {
+          LinearLayout,
+          paddingTop="8dp",
+          paddingLeft="32dp",
+          paddingRight="32dp",
+          orientation="vertical",
+          paddingBottom="24dp",
+          {
+            TextView,
+            text=ljjs,
+            textColor=0xFF6E6E6E,
+          },
+          {
+            TextView,
+            textSize="17sp",
+            textColor=0xFF000000,
+            text="有什么常见的"..ljzl,
+            layout_marginTop="16dp",
+            Typeface=Typeface.DEFAULT_BOLD,
+          },
+          {
+            TextView,
+            text=lslj,
+            textColor=0xFF6E6E6E,
+            layout_marginTop="16dp",
+          },
+        },
+        {
+          TextView,
+          text=ljcl,
+          padding="24dp",
+          textColor=0xFF6E6E6E,
+          backgroundColor=0xFFF5F5F5,
+        },
+      },
+    },
+  }
+  ckljxxxxbj=PopupWindow(loadlayout(查看垃圾详细信息布局))
+  ckljxxxxbj.setFocusable(true).setWidth(w).setHeight(h).setTouchable(true).setOutsideTouchable(true).showAtLocation(fltBtn.Parent,0,0,0)
+  波纹(gbckljxxxxbj,0xFFE2E2E2)
+  位移动画(bjkp,200,0,0,geth(bjkp),0)
+  function 关闭查看垃圾详细信息布局()
+    位移动画(bjkp,200,0,0,0,geth(bjkp))
+    task(199,function()
+      ckljxxxxbj.dismiss()
+    end)
+  end
+  bjkpsety=0
+  bjbj.onTouch=function(v,e)
+    a=e.getAction()&255
+    if a==MotionEvent.ACTION_DOWN then
+      if e.getY()>=h-geth(bjkp) then
+        csdjwz=e.getY()
+       else
+        csdjwz=h+1
+      end
+     elseif a==MotionEvent.ACTION_MOVE then
+      if csdjwz==h+1 then
+       elseif csdjwz>e.getY() then
+        csdjwz=e.getY()
+       else
+        bjkpsety=h-geth(bjkp)+e.getY()-csdjwz+10/32*geth(toolbar)
+        bjkp.setY(bjkpsety)
+      end
+     elseif a==MotionEvent.ACTION_UP then
+      if csdjwz==h+1 then
+        关闭查看垃圾详细信息布局()
+       elseif bjkpsety>=h-0.5*geth(bjkp) then
+        关闭查看垃圾详细信息布局()
+       else
+        bjkp.setY(h-geth(bjkp)+10/32*geth(toolbar))
+        位移动画(bjkp,150,0,0,bjkpsety-(h-geth(bjkp)+10/32*geth(toolbar)),0)
+      end
+    end
+    return true
+  end
+end
+end
+function 打字板()
+文本颜色=io.open("/data/data/"..activity.getPackageName().."/打字板"):read("*a"):match('"文本颜色":"(.-)"')
+背景色=io.open("/data/data/"..activity.getPackageName().."/打字板"):read("*a"):match('"背景色":"(.-)"')
+打字板布局={
+  LinearLayout,
+  layout_width=w,
+  layout_height=h,
+  backgroundColor=0xFFFFFFFF,
+  {
+    FrameLayout,
+    id="dzbbjys",
+    layout_width=w,
+    layout_height=h,
+    backgroundColor=背景色,
+    {
+      TextView,
+      text=" ",
+      id="dzbwb",
+      rotation=90,
+      layout_width=h,
+      padding="20dp",
+      textSize="90sp",
+      textColor=文本颜色,
+      layout_gravity="center",
+      Typeface=Typeface.DEFAULT_BOLD,
+    },
+    {
+      ImageView,
+      id="szdzbtp",
+      padding="25dp",
+      layout_width="72dp",
+      layout_height="72dp",
+      ColorFilter=0xFF6C6C6C,
+      layout_gravity="right|bottom",
+      src="http://shp.qpic.cn/collector/2530648358/1892b051-d8b1-4e06-a399-e0529fc91647/0",
+      onClick=function()
+        文本颜色=io.open("/data/data/"..activity.getPackageName().."/打字板"):read("*a"):match('"文本颜色":"(.-)"')
+        背景色=io.open("/data/data/"..activity.getPackageName().."/打字板"):read("*a"):match('"背景色":"(.-)"')
+        修改打字板布局={
+          LinearLayout,
+          id="bjbj",
+          layout_width=w,
+          layout_height=h,
+          backgroundColor=0x80000000,
+          {
+            CardView,
+            id="bjkp",
+            radius="10dp",
+            layout_width=w,
+            layout_gravity="bottom",
+            layout_marginBottom="-10dp",
+            cardBackgroundColor=0xFFFFFFFF,
+            {
+              LinearLayout,
+              layout_width=w,
+              orientation="vertical",
+              {
+                LinearLayout,
+                layout_width=w,
+                paddingTop="24dp",
+                paddingLeft="32dp",
+                paddingRight="24dp",
+                orientation="horizontal",
+                {
+                  ImageView,
+                  layout_width="24dp",
+                  layout_height="24dp",
+                  layout_gravity="center",
+                  ColorFilter=0xFF9AAEC7,
+                  src="http://shp.qpic.cn/collector/2530648358/1892b051-d8b1-4e06-a399-e0529fc91647/0",
+                },
+                {
+                  TextView,
+                  text="设置",
+                  textSize="17sp",
+                  layout_weight="1",
+                  layout_gravity="center",
+                  textColor=0xFF000000,
+                  layout_marginLeft="16dp",
+                  Typeface=Typeface.DEFAULT_BOLD,
+                },
+                {
+                  ImageView,
+                  padding="15dp",
+                  id="gbxgdzbbj",
+                  layout_width="55dp",
+                  layout_height="55dp",
+                  layout_gravity="center",
+                  ColorFilter=0xFF707070,
+                  src="http://shp.qpic.cn/collector/2530648358/6a4d61ec-a43b-454e-87c7-3a471e95e51a/0",
+                  onClick=function()关闭修改打字板布局()end,
+                },
+              },
+              {
+                LinearLayout,
+                layout_height="7dp",
+              },
+              {
+                LinearLayout,
+                layout_width=w,
+                paddingLeft="32dp",
+                paddingRight="32dp",
+                orientation="vertical",
+                {
+                  TextView,
+                  textSize="12sp",
+                  paddingLeft="2dp",
+                  textColor=0xFF68AFE5,
+                  text="请输入文本..",
+                },
+                {
+                   EditText,
+                   id="srdzbwb",
+                   layout_width="fill",
+                   textColor=0xFF000000,
+                   text=io.open("/data/data/"..activity.getPackageName().."/打字板"):read("*a"):match('"文本":"(.-)"'),
+                },
+                {
+                  LinearLayout,
+                  id="xzwbysbj",
+                  padding="24dp",
+                  layout_width="fill",
+                  orientation="horizontal",
+                  layout_marginTop="17.5dp",
+                  onClick=function()
+                    选择打字板颜色(xzwbys,"文本颜色")
+                  end,
+                  {
+                    CardView,
+                    elevation=0,
+                    radius="12dp",
+                    layout_width="24dp",
+                    layout_height="24dp",
+                    cardBackgroundColor=0xFFA4A4A4,
+                    {
+                      CardView,
+                      id="xzwbys",
+                      elevation=0,
+                      radius="10.5dp",
+                      layout_width="21dp",
+                      layout_height="21dp",
+                      layout_gravity="center",
+                      cardBackgroundColor=文本颜色,
+                    },
+                  },
+                  {
+                    TextView,
+                    textSize="16sp",
+                    text="文本颜色",
+                    layout_gravity="center",
+                    textColor=0xFF000000,
+                    layout_marginLeft="25dp",
+                  },
+                },
+                {
+                  LinearLayout,
+                  id="xzbjsbj",
+                  padding="24dp",
+                  layout_width="fill",
+                  orientation="horizontal",
+                  onClick=function()
+                    选择打字板颜色(xzbjs,"背景色")
+                  end,
+                  {
+                    CardView,
+                    elevation=0,
+                    radius="12dp",
+                    layout_width="24dp",
+                    layout_height="24dp",
+                    cardBackgroundColor=0xFFA4A4A4,
+                    {
+                      CardView,
+                      id="xzbjs",
+                      elevation=0,
+                      radius="10.5dp",
+                      layout_width="21dp",
+                      layout_height="21dp",
+                      layout_gravity="center",
+                      cardBackgroundColor=背景色,
+                    },
+                  },
+                  {
+                    TextView,
+                    textSize="16sp",
+                    text="背景色",
+                    layout_gravity="center",
+                    textColor=0xFF000000,
+                    layout_marginLeft="25dp",
+                  },
+                },
+              },
+              {
+                LinearLayout,
+                gravity="right",
+                layout_width=w,
+                paddingTop="17dp",
+                paddingRight="32dp",
+                paddingBottom="34dp",
+                {
+                  LinearLayout,
+                  layout_height="46dp",
+                  {
+                    CardView,
+                    radius="5dp",
+                    layout_gravity="center",
+                    cardBackgroundColor=0xFF68AFE5,
+                    {
+                      TextView,
+                      text="确定",
+                      gravity="center",
+                      layout_height="36dp",
+                      layout_width="87.5dp",
+                      textColor=0xFFFFFFFF,
+                      onClick=function()
+                        关闭修改打字板布局()
+                        dzbbjys.setBackgroundColor(tonumber(背景色))
+                        dzbwb.text=srdzbwb.text
+                        dzbwb.setTextColor(tonumber(文本颜色))
+                        xrdzbsz='"文本":"'..srdzbwb.text..'"\n"文本颜色":"'..文本颜色..'"\n"背景色":"'..背景色..'"'
+                        io.open("/data/data/"..activity.getPackageName().."/打字板","w+"):write(xrdzbsz):close()
+                        task(10,function()
+                          if dzbwb.getHeight()>dzbdhgd then
+                            dzbwb.setGravity(0)
+                          else
+                            dzbwb.setGravity(17)
+                          end
+                        end)
+                      end,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        }
+        xgdzbbj=PopupWindow(loadlayout(修改打字板布局))
+        xgdzbbj.setFocusable(true).setWidth(w).setHeight(h).setTouchable(true).setOutsideTouchable(true).showAtLocation(fltBtn.Parent,0,0,0)
+        波纹(gbxgdzbbj,0xFFE2E2E2)波纹方(xzwbysbj,0xFFD0D0D0)波纹方(xzbjsbj,0xFFD0D0D0)
+        位移动画(bjkp,200,0,0,geth(bjkp),0)
+        activity.getSystemService(Context.INPUT_METHOD_SERVICE).toggleSoftInput(0,InputMethodManager.RESULT_SHOWN)
+        function 关闭修改打字板布局()
+          位移动画(bjkp,200,0,0,0,geth(bjkp))
+          task(199,function()
+             activity.getSystemService(Context.INPUT_METHOD_SERVICE).hideSoftInputFromWindow(srdzbwb.getWindowToken(),0)
+             xgdzbbj.dismiss()
+          end)
+        end
+        颜色(srdzbwb,0xFF68AFE5)
+        srdzbwb.getBackground().setColorFilter(PorterDuffColorFilter(0xFF68AFE5,PorterDuff.Mode.SRC_ATOP));
+        bjkpsety=0
+        bjbj.onTouch=function(v,e)
+          a=e.getAction()&255
+          if a==MotionEvent.ACTION_DOWN then
+            if e.getY()>=h-geth(bjkp) then
+              csdjwz=e.getY()
+            else
+              csdjwz=h+1
+            end
+          elseif a==MotionEvent.ACTION_MOVE then
+            if csdjwz==h+1 then
+            elseif csdjwz>e.getY() then
+              csdjwz=e.getY()
+            else
+              bjkpsety=h-geth(bjkp)+e.getY()-csdjwz+10/32*geth(toolbar)
+              bjkp.setY(bjkpsety)
+            end
+          elseif a==MotionEvent.ACTION_UP then
+            if csdjwz==h+1 then
+              关闭修改打字板布局()
+            elseif bjkpsety>=h-0.5*geth(bjkp) then
+              关闭修改打字板布局()
+            else
+              bjkp.setY(h-geth(bjkp)+10/32*geth(toolbar))
+              位移动画(bjkp,150,0,0,bjkpsety-(h-geth(bjkp)+10/32*geth(toolbar)),0)
+            end
+          end
+          return true
+        end
+      end,
+    },
+  },
+}
+dzbbj=PopupWindow(loadlayout(打字板布局))
+dzbbj.setFocusable(true).setWidth(w).setHeight(h).setTouchable(true).setOutsideTouchable(true).showAtLocation(fltBtn.Parent,0,0,0)
+波纹(szdzbtp,0x22000000)
+activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+task(10,function()
+  dzbdhgd=dzbwb.getHeight()
+  dzbwb.text=io.open("/data/data/"..activity.getPackageName().."/打字板"):read("*a"):match('"文本":"(.-)"')
+  task(10,function()
+    if dzbwb.getHeight()>dzbdhgd then
+      dzbwb.setGravity(0)
+    else
+      dzbwb.setGravity(17)
+    end
+  end)
+end)
+dzbbj.onDismiss=function()
+  activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+end
+function 选择打字板颜色(id,zl)
+  import'com.flask.colorpicker.*'
+  import'com.flask.colorpicker.slider.*'
+  选择打字板颜色布局={
+    LinearLayout,
+    gravity="center",
+    layout_width=w,
+    layout_height=h,
+    backgroundColor=0x80000000,
+    onClick=function()
+      dzbxzysbj.dismiss()
+    end,
+    {
+      CardView,
+      elevation="5dp",
+      layout_marginTop=getStatusBarHeight()/2,
+      {
+        LinearLayout,
+        orientation="vertical",
+        layout_width="86%w",
+        backgroundColor=0xFFFFFFFF,
+        {
+          TextView,
+          paddingTop="18dp",
+          paddingLeft="24dp",
+          paddingRight="24dp",
+          textSize="20sp",
+          text="选择颜色",
+          textColor=0xFF000000,
+        },
+        {
+          LinearLayout,
+          padding="24dp",
+          orientation="vertical",
+          {
+            ColorPickerView,
+            id="cpv",
+          },
+          {
+            LightnessSlider,
+            id="cpv1",
+            layout_height="36dp",
+          },
+          {
+            AlphaSlider,
+            id="cpv2",
+            layout_height="36dp",
+          },
+        },
+        {
+          LinearLayout,
+          gravity="right",
+          layout_width="fill",
+          paddingTop="4.5dp",
+          paddingRight="12.5dp",
+          paddingBottom="4.5dp",
+          orientation="horizontal",
+          {
+            LinearLayout,
+            layout_width="63.5dp",
+            layout_height="46dp",
+            {
+              TextView,
+              id="qxan",
+              text="取消",
+              gravity="center",
+              layout_width="fill",
+              layout_height="36dp",
+              layout_gravity="center",
+              textColor=0xFF68AFE5,
+              onClick=function()
+                dzbxzysbj.dismiss()
+              end,
+            },
+          },
+          {
+            LinearLayout,
+            layout_width="63.5dp",
+            layout_height="46dp",
+            {
+              TextView,
+              id="qdan",
+              text="确定",
+              gravity="center",
+              layout_width="fill",
+              layout_height="36dp",
+              layout_gravity="center",
+              textColor=0xFF68AFE5,
+              onClick=function()
+                dzbxzysbj.dismiss()
+                id.setCardBackgroundColor(cpv.getSelectedColor())
+                if zl=="文本颜色" then
+                  文本颜色="0x"..Integer.toHexString(cpv.getSelectedColor())
+                else
+                  背景色="0x"..Integer.toHexString(cpv.getSelectedColor())
+                end
+              end,
+            },
+          },
+        },
+      },
+    },
+  }
+  dzbxzysbj=PopupWindow(loadlayout(选择打字板颜色布局))
+  dzbxzysbj.setFocusable(true).setWidth(w).setHeight(h).setTouchable(true).setOutsideTouchable(true).showAtLocation(fltBtn.Parent,0,0,0)
+  波纹方(qxan,0xFFE5F2FA)波纹方(qdan,0xFFE5F2FA)
+  cpv.setLightnessSlider(cpv1)cpv.setAlphaSlider(cpv2)cpv.setDensity(12)
+  cpv.onTouch=function()
+    cpv1.setColor(cpv.getSelectedColor())
+    cpv2.setColor(cpv.getSelectedColor())
+  end
+  cpv1.onTouch=function()
+    cpv2.setColor(cpv.getSelectedColor())
+  end
+  if zl=="文本颜色" then
+    cpv.setColor(tonumber(文本颜色),true)
+  else
+    cpv.setColor(tonumber(背景色),true)
+  end
+end
+end
 import"android.support.v4.widget.*"
 轻工具布局={
   FrameLayout,
@@ -5886,6 +6629,40 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
+                        id="dzbid",
+                        paddingLeft="12dp",
+                        paddingRight="12dp",
+                        text="打字板",
+                        textColor=0xFF4E4E4E,
+                        layout_gravity="center",
+                        onClick=function()打字板()end,
+                      },
+                    },
+                    {
+                      CardView,
+                      layout_height="fill",
+                      elevation=0,
+                      radius="16dp",
+                      layout_marginLeft="10dp",
+                      cardBackgroundColor=0xFFF8F8F8,
+                      {
+                        TextView,
+                        paddingLeft="12dp",
+                        paddingRight="12dp",
+                        text="画板",
+                        textColor=0xFF4E4E4E,
+                        layout_gravity="center",
+                      },
+                    },
+                    {
+                      CardView,
+                      layout_height="fill",
+                      elevation=0,
+                      radius="16dp",
+                      layout_marginLeft="10dp",
+                      cardBackgroundColor=0xFFF8F8F8,
+                      {
+                        TextView,
                         id="sjpmid",
                         paddingLeft="12dp",
                         paddingRight="12dp",
@@ -5893,6 +6670,29 @@ import"android.support.v4.widget.*"
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
                         onClick=function()时间屏幕()end,
+                      },
+                    },
+                  },
+                  {
+                    LinearLayout,
+                    layout_height="32dp",
+                    orientation="horizontal",
+                    layout_marginTop="10dp",
+                    {
+                      CardView,
+                      layout_height="fill",
+                      elevation=0,
+                      radius="16dp",
+                      cardBackgroundColor=0xFFF8F8F8,
+                      {
+                        TextView,
+                        id="ljflcxid",
+                        paddingLeft="12dp",
+                        paddingRight="12dp",
+                        text="垃圾分类查询",
+                        textColor=0xFF4E4E4E,
+                        layout_gravity="center",
+                        onClick=function()垃圾分类查询()end,
                       },
                     },
                     {
@@ -7009,13 +7809,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
-                        id="lssdjtid2",
+                        id="ljflcxid2",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="历史上的今天",
+                        text="垃圾分类查询",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
-                        onClick=function()历史上的今天()end,
+                        onClick=function()垃圾分类查询()end,
                       },
                     },
                     {
@@ -7027,13 +7827,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
-                        id="qqipcxid2",
+                        id="dzbid2",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="全球IP查询",
+                        text="打字板",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
-                        onClick=function()全球IP查询()end,
+                        onClick=function()打字板()end,
                       },
                     },
                   },
@@ -7074,7 +7874,7 @@ import"android.support.v4.widget.*"
                   layout_width="fill",
                   textColor=0xFF6E6E6E,
                   layout_marginTop="15dp",
-                  text="新增 历史上的今天\n\n新增 全球IP查询\n\n修复取色器复制rgba颜色数值错误的问题",
+                  text="新增 垃圾分类查询\n\n新增 打字板",
                 },
               },
             },
@@ -7307,8 +8107,8 @@ function 主页收藏应用()
 end
 主页收藏应用()
 波纹(zydj,0xFFE2E2E2)波纹(fldj,0xFFE2E2E2)波纹(zhdj,0xFFE2E2E2)
-波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)波纹(jzzhid,0xFFD0D0D0)波纹(gsdcxid,0xFFD0D0D0)波纹(lssdjtid,0xFFD0D0D0)波纹(qqipcxid,0xFFD0D0D0)
-波纹(lssdjtid2,0xFFD0D0D0)波纹(qqipcxid2,0xFFD0D0D0)
+波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)波纹(jzzhid,0xFFD0D0D0)波纹(gsdcxid,0xFFD0D0D0)波纹(lssdjtid,0xFFD0D0D0)波纹(qqipcxid,0xFFD0D0D0)波纹(ljflcxid,0xFFD0D0D0)波纹(dzbid,0xFFD0D0D0)
+波纹(ljflcxid2,0xFFD0D0D0)波纹(dzbid2,0xFFD0D0D0)
 pagev2.setOnPageChangeListener(PageView.OnPageChangeListener{
   onPageScrolled=function(a,b,c)
     if c==0then
