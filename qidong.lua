@@ -1930,10 +1930,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.2.9"then
+  if 版本名 > "3.3.1"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.2.9".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.3.1".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
@@ -1965,6 +1965,7 @@ function 过滤(content)
             {
               TextView,
               id='jd',
+              text="准备中...",
               textSize='20sp',
               layout_gravity='center',
             },
@@ -2007,8 +2008,9 @@ function 过滤(content)
                     task(500,function()
                       jd.setText('即将完成')
                       task(1000,function()
-                        jd.setText('更新完成,重启生效.')
+                        jd.setText('更新完成,\n点击关闭\n长按重启.')
                         gxtx.onClick=function()gxdh.dismiss()end
+                        gxtx.onLongClick=function()activity.recreate()end
                       end)
                     end)
                   end
@@ -2022,12 +2024,14 @@ function 过滤(content)
         end
         i=i+1
       end
-      ti.start()
       url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
       Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
         if(code==200 and content)then con=content
+          ti.start()
           io.open(this.luaDir.."/qidong.lua","w+"):write(content):close()
           ygx=true
+        else
+          提示"连接失败，请重试。"gxdh.dismiss()
         end
       end)
     end)
@@ -2119,6 +2123,7 @@ function 下载轻工具(ghx)
         {
           TextView,
           id='jd',
+          text="准备中...",
           textSize='20sp',
           layout_gravity='center',
         },
@@ -2185,12 +2190,14 @@ function 下载轻工具(ghx)
     end
     i=i+1
   end
-  ti.start()
   url="https://raw.githubusercontent.com/donothavename/gx/master/qgj"
   Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
     if(code==200 and content)then con=content
+      ti.start()
       io.open("/data/data/"..activity.getPackageName().."/qgj","w+"):write(content):close()
       yxz=true
+    else
+      提示"连接失败，请重试。"xzdh.dismiss()
     end
   end)
 end
@@ -2232,7 +2239,7 @@ aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/91fe7156
 end
 设置底栏刷新状态(false,true,1000)
 end)
-task(400,function()if dlan==nil then if dlsskkq==0 then dlssk.setVisibility(View.GONE)end bitmap=getViewBitmap(fltBtn.Parent)pixel=bitmap.getPixel(geth(toolbar)/8,getStatusBarHeight()+geth(toolbar)/8)pixel2=bitmap.getPixel(w-0.5*geth(toolbar),getStatusBarHeight()+0.5*geth(toolbar))if not webView.canGoBack() then lspixel=pixel lspixel2=pixel2 end bmwhole.setBackgroundColor(pixel)aqic.setColorFilter(pixel2)gengduoic.setColorFilter(pixel2)bmrefreshic.setColorFilter(pixel2)bmhmic.setColorFilter(pixel2)bmforwardic.setColorFilter(pixel2)bmbackic.setColorFilter(pixel2)bitmap.recycle()if dlsskkq==0 then dlssk.setVisibility(View.VISIBLE)dlsrk.setBackgroundColor(pixel)dlsrk.setTextColor(pixel2)ssbj.setBackgroundColor(pixel)xzssyq.setColorFilter(pixel2)qwss.setColorFilter(pixel2)dlsrk.setHintTextColor(pixel2)end end end)
+task(800,function()if dlan==nil then if dlsskkq==0 then dlssk.setVisibility(View.GONE)end bitmap=getViewBitmap(fltBtn.Parent)pixel=bitmap.getPixel(geth(toolbar)/8,getStatusBarHeight()+geth(toolbar)/8)pixel2=bitmap.getPixel(w-0.5*geth(toolbar),getStatusBarHeight()+0.5*geth(toolbar))if not webView.canGoBack() then lspixel=pixel lspixel2=pixel2 end bmwhole.setBackgroundColor(pixel)aqic.setColorFilter(pixel2)gengduoic.setColorFilter(pixel2)bmrefreshic.setColorFilter(pixel2)bmhmic.setColorFilter(pixel2)bmforwardic.setColorFilter(pixel2)bmbackic.setColorFilter(pixel2)bitmap.recycle()if dlsskkq==0 then dlssk.setVisibility(View.VISIBLE)dlsrk.setBackgroundColor(pixel)dlsrk.setTextColor(pixel2)ssbj.setBackgroundColor(pixel)xzssyq.setColorFilter(pixel2)qwss.setColorFilter(pixel2)dlsrk.setHintTextColor(pixel2)end end end)
 end
 function 收到新标题事件()
 夜间()
