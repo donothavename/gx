@@ -1,4 +1,4 @@
-{版本="1.2.7",fun=function()
+{版本="1.2.8",fun=function()
 File("/data/data/"..activity.getPackageName().."/翻译收藏").createNewFile()
 File("/data/data/"..activity.getPackageName().."/上次查询快递单号").createNewFile()
 File("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用").createNewFile()
@@ -19,8 +19,8 @@ else
   软件内下载("正在下载资源,请耐心等待下载完成","https://raw.githubusercontent.com/donothavename/gx/master/ColorPicker.dex",this.luaDir.."/libs/ColorPicker.dex")
 end
 import 'android.graphics.*'
-全部应用左列={"打字板","垃圾分类查询","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","摩斯电码","RC4加解密","MD5加密","随机数生成","全球IP查询"}
-全部应用右列={"时间屏幕","翻译","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","进制转换","Base64编码转换","历史上的今天","网页源码获取","归属地查询"}
+全部应用左列={"打字板","时间屏幕","翻译","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","进制转换","Base64编码转换","历史上的今天","网页源码获取","归属地查询"}
+全部应用右列={"画板","垃圾分类查询","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","摩斯电码","RC4加解密","MD5加密","随机数生成","全球IP查询"}
 function 波纹方(id,color)
   ripples=activity.obtainStyledAttributes({android.R.attr.selectableItemBackground}).getResourceId(0,0)
   id.setBackgroundDrawable(activity.Resources.getDrawable(ripples).setColor(ColorStateList(int[0].class{int{}},int{color})))
@@ -185,7 +185,7 @@ qbyybj.showAtLocation(fltBtn.Parent,0,0,0)
   },
 },
 ]]
-应用左列id={"qydzbid","qyljflcxid","qykdcxliteid","qyczid","qyewmgjid","qytpzljid","qycksbxxxxid","qymsdmid","qyrc4jjmid","qymd5jmid","qysjsscid","qyqqipcxid"}
+应用左列id={"qydzbid","qysjpmid","qyfyid","qydlscid","qyznzid","qyqsqid","qybilibilifmhqid","qyhqdqbzid","qyjzzhid","qybase64bmzhid","qylssdjtid","qywyymhqid","qygsdcxid"}
 for i=1,#全部应用左列 do
   if i==1 then
     全部应用左列布局=全部应用适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用左列id[1])
@@ -203,7 +203,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..全部应用左列布局.."}"
-应用右列id={"qysjpmid","qyfyid","qydlscid","qyznzid","qyqsqid","qybilibilifmhqid","qyhqdqbzid","qyjzzhid","qybase64bmzhid","qylssdjtid","qywyymhqid","qygsdcxid"}
+应用右列id={"qyhbid","qyljflcxid","qykdcxliteid","qyczid","qyewmgjid","qytpzljid","qycksbxxxxid","qymsdmid","qyrc4jjmid","qymd5jmid","qysjsscid","qyqqipcxid"}
 for i=1,#全部应用右列 do
   if i==1 then
     全部应用右列布局=全部应用适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用右列id[1])
@@ -416,7 +416,7 @@ yytjscbj.showAtLocation(fltBtn.Parent,0,0,0)
 },
 ]]
 b=loadstring("return "..io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a"))轻工具主页收藏应用=b()
-应用添加收藏左列id={"ytcdzbid","ytcljflcxid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcmsdmid","ytcrc4jjmid","ytcmd5jmid","ytcsjsscid","ytcqqipcxid"}
+应用添加收藏左列id={"ytcdzbid","ytcsjpmid","ytcfyid","ytcdlscid","ytcznzid","ytcqsqid","ytcbilibilifmhqid","ytchqdqbzid","ytcjzzhid","ytcbase64bmzhid","ytclssdjtid","ytcwyymhqid","ytcgsdcxid"}
 for i=1,#全部应用左列 do
   if i==1 then
     应用添加收藏左列布局=应用添加收藏适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用添加收藏左列id[1])
@@ -444,7 +444,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..应用添加收藏左列布局.."}"
-应用添加收藏右列id={"ytcsjpmid","ytcfyid","ytcdlscid","ytcznzid","ytcqsqid","ytcbilibilifmhqid","ytchqdqbzid","ytcjzzhid","ytcbase64bmzhid","ytclssdjtid","ytcwyymhqid","ytcgsdcxid"}
+应用添加收藏右列id={"ytchbid","ytcljflcxid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcmsdmid","ytcrc4jjmid","ytcmd5jmid","ytcsjsscid","ytcqqipcxid"}
 for i=1,#全部应用右列 do
   if i==1 then
     应用添加收藏右列布局=应用添加收藏适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用添加收藏右列id[1])
@@ -6439,6 +6439,203 @@ function 选择打字板颜色(id,zl)
   end
 end
 end
+function 画板()
+  画板布局={
+    LinearLayout,
+    layout_width=w,
+    layout_height=h,
+    orientation="vertical",
+    backgroundColor=0xFF9AAEC7,
+    {
+      LinearLayout,
+      id="lssdjtdl",
+      layout_width=w,
+      layout_height="32dp",
+      orientation="horizontal",
+      layout_marginTop=getStatusBarHeight(),
+      backgroundColor=0xFF9AAEC7,
+      {
+        ImageView,
+        padding="15dp",
+        layout_width="48dp",
+        layout_height="48dp",
+        ColorFilter=0xffffffff,
+        layout_gravity="center",
+        src="http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0",
+        onClick=function()hbbj.dismiss()end,
+      },
+      {
+        TextView,
+        text="画板",
+        layout_weight="1",
+        textColor=0xffffffff,
+        paddingLeft="17dp",
+        layout_gravity="center",
+      },
+      {
+        ImageView,
+        padding="15dp",
+        layout_width="48dp",
+        layout_height="48dp",
+        ColorFilter=0xffffffff,
+        layout_gravity="center",
+        src="http://shp.qpic.cn/collector/2530648358/13f9b9f6-4f99-48fb-bb7e-952c45aa3cac/0",
+        onClick=function()
+          DrawingChaceCapture("/storage/emulated/0/Pictures/UTBC浏览器/"..os.date("%Y%m%d%H%M%S.jpg"),hbhbbj)
+        end,
+      },
+    },
+    {
+      LinearLayout,
+      id="hbhbbj",
+      backgroundColor=0xFFFFFFFF,
+     {
+        ImageView,
+        id="hbhb",
+        layout_width=w,
+        layout_height=h-getStatusBarHeight()-2.75*geth(toolbar),
+      },
+    },
+    {
+      LinearLayout,
+      layout_width=w,
+      layout_height="56dp",
+      orientation="horizontal",
+      backgroundColor=0xFFFFAFAFA,
+      {
+        ImageView,
+        padding="16dp",
+        layout_width=w/5,
+        layout_height="fill",
+        ColorFilter=0xFF757575,
+        src="http://shp.qpic.cn/collector/2530648358/83b13d27-e89f-46a8-9131-a5571a1deb2b/0",
+        onClick=function()
+          if 画板撤销[撤销笔数-1] then
+            hbhb.setImageBitmap(画板撤销[撤销笔数-1])
+            canvas.drawBitmap(画板撤销[撤销笔数-1],Matrix(),paint)
+            撤销笔数=撤销笔数-2
+          end
+        end,
+      },
+      {
+        ImageView,
+        padding="16dp",
+        layout_width=w/5,
+        layout_height="fill",
+        ColorFilter=0xFF757575,
+        src="http://shp.qpic.cn/collector/2530648358/4cd35b24-97cb-4d70-867d-2753f15c3813/0",
+        onClick=function()
+          if 画板撤销[撤销笔数+2] then
+            hbhb.setImageBitmap(画板撤销[撤销笔数+2])
+            canvas.drawBitmap(画板撤销[撤销笔数+2],Matrix(),paint)
+            撤销笔数=撤销笔数+2
+          end
+        end,
+      },
+      {
+        ImageView,
+        id="hbtp",
+        padding="16dp",
+        layout_width=w/5,
+        layout_height="fill",
+        ColorFilter=0xFF757575,
+        backgroundColor=0xFFCBCBCB,
+        src="http://shp.qpic.cn/collector/2530648358/4ccc5392-1f7d-41ce-9573-a34efa6fb64f/0",
+        onClick=function()
+          hbtp.setBackgroundColor(0xFFCBCBCB)
+          xptp.setBackgroundColor(0x0)
+          笔="画笔"
+        end,
+      },
+      {
+        ImageView,
+        id="xptp",
+        layout_width=w/5,
+        layout_height="fill",
+        ColorFilter=0xFF757575,
+        src="http://shp.qpic.cn/collector/2530648358/726ffe8b-099f-41f9-af4d-4722497caf17/0",
+        onClick=function()
+          xptp.setBackgroundColor(0xFFCBCBCB)
+          hbtp.setBackgroundColor(0xFFFAFAFA)
+          笔="橡皮"
+        end,
+      },
+      {
+        ImageView,
+        id="qkhb",
+        padding="16dp",
+        layout_width=w/5,
+        layout_height="fill",
+        ColorFilter=0xFF757575,
+        src="http://shp.qpic.cn/collector/2530648358/c5794b00-8e26-4e15-88cf-008d722098cd/0",
+        onClick=function()
+          if 画板撤销[1] then
+            hbhb.setImageBitmap(画板撤销[1])
+            canvas.drawBitmap(画板撤销[1],Matrix(),paint)
+            for i=1,#画板撤销 do
+              luajava.clear(画板撤销[i])
+              画板撤销[i]=nil
+            end
+            撤销笔数=0
+          end
+        end,
+      },
+    },
+  }
+  hbbj=PopupWindow(loadlayout(画板布局))
+  hbbj.setFocusable(true).setWidth(w).setHeight(h).setTouchable(true).setOutsideTouchable(true).showAtLocation(fltBtn.Parent,0,0,0)
+  if 画板撤销 then
+    for i=1,#画板撤销 do
+      luajava.clear(画板撤销[i])
+    end
+  end
+  画板撤销={}波纹(qkhb,0xFFDDDDDD)
+  撤销笔数=0 笔="画笔"
+  bitmapcopy=Bitmap.createBitmap(w,h-getStatusBarHeight()-2.75*geth(toolbar),Bitmap.Config.ARGB_8888)
+  canvas=Canvas(bitmapcopy)
+  canvas.drawColor(Color.WHITE)
+  paint=Paint()
+  canvas.drawBitmap(bitmapcopy, Matrix(), paint)
+  paint.setAntiAlias(true)
+  paint.setStyle(Paint.Style.STROKE)
+  paint.setStrokeCap(Paint.Cap.ROUND)
+  hbhb.onTouch=function(v,e)
+    if e.action==0 then
+      x1 = e.getX()
+      y1 = e.getY()
+      bitmapcopyj=Bitmap.createBitmap(w,h-getStatusBarHeight()-2.75*geth(toolbar),Bitmap.Config.ARGB_8888)
+      canvasj=Canvas(bitmapcopyj)
+      canvasj.drawBitmap(bitmapcopy,Matrix(),paint)
+      画板撤销[#画板撤销+1]=bitmapcopyj
+    elseif e.action==2 then
+      canvas.drawBitmap(bitmapcopy, Matrix(), paint)
+      if 笔=="画笔" then
+        paint.setColor(Color.BLACK)
+        paint.setStrokeWidth(7)
+      else
+        paint.setColor(Color.WHITE)
+        paint.setStrokeWidth(63)
+      end
+      x2 = e.getX()
+      y2 = e.getY()
+      canvas.drawLine(x1,y1,x2,y2,paint)
+      x1 = x2
+      y1 = y2
+      hbhb.setImageBitmap(bitmapcopy)
+    else
+      for i=撤销笔数+2,#画板撤销 do
+        luajava.clear(画板撤销[i])
+        画板撤销[i]=nil
+      end
+      bitmapcopyj=Bitmap.createBitmap(w,h-getStatusBarHeight()-2.75*geth(toolbar),Bitmap.Config.ARGB_8888)
+      canvasj=Canvas(bitmapcopyj)
+      canvasj.drawBitmap(bitmapcopy, Matrix(), paint)
+      画板撤销[#画板撤销+1]=bitmapcopyj
+      撤销笔数=#画板撤销
+    end
+    return true
+  end
+end
 import"android.support.v4.widget.*"
 轻工具布局={
   FrameLayout,
@@ -6647,11 +6844,15 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
+                        id="hbid",
                         paddingLeft="12dp",
                         paddingRight="12dp",
                         text="画板",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
+                        onClick=function()
+                          画板()
+                        end,
                       },
                     },
                     {
@@ -7809,16 +8010,16 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
-                        id="ljflcxid2",
+                        id="hbid2",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="垃圾分类查询",
+                        text="画板",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
-                        onClick=function()垃圾分类查询()end,
+                        onClick=function()画板()end,
                       },
                     },
-                    {
+                    --[[{
                       CardView,
                       layout_height="fill",
                       elevation=0,
@@ -7835,7 +8036,7 @@ import"android.support.v4.widget.*"
                         layout_gravity="center",
                         onClick=function()打字板()end,
                       },
-                    },
+                    },]]
                   },
                 },
               },
@@ -7874,7 +8075,7 @@ import"android.support.v4.widget.*"
                   layout_width="fill",
                   textColor=0xFF6E6E6E,
                   layout_marginTop="15dp",
-                  text="新增 垃圾分类查询\n\n新增 打字板",
+                  text="新增 画板",
                 },
               },
             },
@@ -8107,8 +8308,8 @@ function 主页收藏应用()
 end
 主页收藏应用()
 波纹(zydj,0xFFE2E2E2)波纹(fldj,0xFFE2E2E2)波纹(zhdj,0xFFE2E2E2)
-波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)波纹(jzzhid,0xFFD0D0D0)波纹(gsdcxid,0xFFD0D0D0)波纹(lssdjtid,0xFFD0D0D0)波纹(qqipcxid,0xFFD0D0D0)波纹(ljflcxid,0xFFD0D0D0)波纹(dzbid,0xFFD0D0D0)
-波纹(ljflcxid2,0xFFD0D0D0)波纹(dzbid2,0xFFD0D0D0)
+波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)波纹(jzzhid,0xFFD0D0D0)波纹(gsdcxid,0xFFD0D0D0)波纹(lssdjtid,0xFFD0D0D0)波纹(qqipcxid,0xFFD0D0D0)波纹(ljflcxid,0xFFD0D0D0)波纹(dzbid,0xFFD0D0D0)波纹(hbid,0xFFD0D0D0)
+波纹(hbid2,0xFFD0D0D0)--波纹(dzbid2,0xFFD0D0D0)
 pagev2.setOnPageChangeListener(PageView.OnPageChangeListener{
   onPageScrolled=function(a,b,c)
     if c==0then
