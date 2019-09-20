@@ -876,6 +876,9 @@ end
 if io.open("/data/data/"..activity.getPackageName().."/书签2"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/书签2","w+"):write("{\nfun=function()\n--shuqian\nend\n}"):close()
 end
+if io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a")=="开"then
+activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE)
+end
 wutu=io.open("/data/data/"..activity.getPackageName().."/无图模式"):read("*a")
 if wutu=="开" then
 webView.getSettings().setLoadsImagesAutomatically(false)
@@ -1930,10 +1933,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.3.1"then
+  if 版本名 > "3.3.2"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.3.1".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.3.2".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
@@ -3553,7 +3556,7 @@ if io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a")=="开
 seth(k1,geth(night)+geth(addbook)+geth(tuichu)+100)
 addbook.onClick=function()if webView.canGoBack() then addDataDialog("Collection","加入书签",webView.getTitle(),webView.getUrl()) DialogExternal.setVisibility(View.GONE) gduo=nil else addDataDialog("Collection","加入书签","","http://") DialogExternal.setVisibility(View.GONE) gduo=nil end end
 mybook.onClick=function() showDataDialog("Collection","书签") DialogExternal.setVisibility(View.GONE) gduo=nil end
-yinshen.onClick=function() gduo=nil DialogExternal.setVisibility(View.GONE) yins=io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a") if yins=="开" then io.open("/data/data/"..activity.getPackageName().."/隐身","w+"):write("关"):close() 提示("退出隐身浏览") else io.open("/data/data/"..activity.getPackageName().."/隐身","w+"):write("开"):close() 提示("已进入隐身浏览") end end
+yinshen.onClick=function() gduo=nil DialogExternal.setVisibility(View.GONE) yins=io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a") if yins=="开" then io.open("/data/data/"..activity.getPackageName().."/隐身","w+"):write("关"):close() 提示("退出隐身浏览")activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE) else io.open("/data/data/"..activity.getPackageName().."/隐身","w+"):write("开"):close() 提示("已进入隐身浏览")activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE) end end
 gdyc.onClick=function() DialogExternal.setVisibility(View.GONE) gduo=nil end
 tuichu.onClick=function()退出程序()end
 share.onClick=function() 分享文本(webView.getUrl()) DialogExternal.setVisibility(View.GONE) gduo=nil end
