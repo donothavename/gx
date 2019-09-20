@@ -1,8 +1,12 @@
-{版本="1.2.8",fun=function()
+{版本="1.2.9",fun=function()
 File("/data/data/"..activity.getPackageName().."/翻译收藏").createNewFile()
 File("/data/data/"..activity.getPackageName().."/上次查询快递单号").createNewFile()
 File("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用").createNewFile()
 File("/data/data/"..activity.getPackageName().."/打字板").createNewFile()
+File("/data/data/"..activity.getPackageName().."/汇率").createNewFile()
+if io.open("/data/data/"..activity.getPackageName().."/汇率"):read("*a")==""then
+io.open("/data/data/"..activity.getPackageName().."/汇率","w+"):write('fromq="美元"\nfromdh="USD"\ntoq="人民币"\ntodh="CNY"'):close()
+end
 if io.open("/data/data/"..activity.getPackageName().."/翻译收藏"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/翻译收藏","w+"):write("{\n--翻译收藏\n}"):close()
 end
@@ -19,8 +23,8 @@ else
   软件内下载("正在下载资源,请耐心等待下载完成","https://raw.githubusercontent.com/donothavename/gx/master/ColorPicker.dex",this.luaDir.."/libs/ColorPicker.dex")
 end
 import 'android.graphics.*'
-全部应用左列={"打字板","时间屏幕","翻译","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","进制转换","Base64编码转换","历史上的今天","网页源码获取","归属地查询"}
-全部应用右列={"画板","垃圾分类查询","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","摩斯电码","RC4加解密","MD5加密","随机数生成","全球IP查询"}
+全部应用左列={"打字板","时间屏幕","翻译","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","摩斯电码","RC4加解密","MD5加密","随机数生成","全球IP查询"}
+全部应用右列={"画板","垃圾分类查询","汇率转换","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","进制转换","Base64编码转换","历史上的今天","网页源码获取","归属地查询"}
 function 波纹方(id,color)
   ripples=activity.obtainStyledAttributes({android.R.attr.selectableItemBackground}).getResourceId(0,0)
   id.setBackgroundDrawable(activity.Resources.getDrawable(ripples).setColor(ColorStateList(int[0].class{int{}},int{color})))
@@ -185,7 +189,7 @@ qbyybj.showAtLocation(fltBtn.Parent,0,0,0)
   },
 },
 ]]
-应用左列id={"qydzbid","qysjpmid","qyfyid","qydlscid","qyznzid","qyqsqid","qybilibilifmhqid","qyhqdqbzid","qyjzzhid","qybase64bmzhid","qylssdjtid","qywyymhqid","qygsdcxid"}
+应用左列id={"qydzbid","qysjpmid","qyfyid","qykdcxliteid","qyczid","qyewmgjid","qytpzljid","qycksbxxxxid","qymsdmid","qyrc4jjmid","qymd5jmid","qysjsscid","qyqqipcxid"}
 for i=1,#全部应用左列 do
   if i==1 then
     全部应用左列布局=全部应用适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用左列id[1])
@@ -203,7 +207,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..全部应用左列布局.."}"
-应用右列id={"qyhbid","qyljflcxid","qykdcxliteid","qyczid","qyewmgjid","qytpzljid","qycksbxxxxid","qymsdmid","qyrc4jjmid","qymd5jmid","qysjsscid","qyqqipcxid"}
+应用右列id={"qyhbid","qyljflcxid","qyhlzhid","qydlscid","qyznzid","qyqsqid","qybilibilifmhqid","qyhqdqbzid","qyjzzhid","qybase64bmzhid","qylssdjtid","qywyymhqid","qygsdcxid"}
 for i=1,#全部应用右列 do
   if i==1 then
     全部应用右列布局=全部应用适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用右列id[1])
@@ -416,7 +420,7 @@ yytjscbj.showAtLocation(fltBtn.Parent,0,0,0)
 },
 ]]
 b=loadstring("return "..io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a"))轻工具主页收藏应用=b()
-应用添加收藏左列id={"ytcdzbid","ytcsjpmid","ytcfyid","ytcdlscid","ytcznzid","ytcqsqid","ytcbilibilifmhqid","ytchqdqbzid","ytcjzzhid","ytcbase64bmzhid","ytclssdjtid","ytcwyymhqid","ytcgsdcxid"}
+应用添加收藏左列id={"ytcdzbid","ytcsjpmid","ytcfyid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcmsdmid","ytcrc4jjmid","ytcmd5jmid","ytcsjsscid","ytcqqipcxid"}
 for i=1,#全部应用左列 do
   if i==1 then
     应用添加收藏左列布局=应用添加收藏适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用添加收藏左列id[1])
@@ -444,7 +448,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..应用添加收藏左列布局.."}"
-应用添加收藏右列id={"ytchbid","ytcljflcxid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcmsdmid","ytcrc4jjmid","ytcmd5jmid","ytcsjsscid","ytcqqipcxid"}
+应用添加收藏右列id={"ytchbid","ytcljflcxid","ytchlzhid","ytcdlscid","ytcznzid","ytcqsqid","ytcbilibilifmhqid","ytchqdqbzid","ytcjzzhid","ytcbase64bmzhid","ytclssdjtid","ytcwyymhqid","ytcgsdcxid"}
 for i=1,#全部应用右列 do
   if i==1 then
     应用添加收藏右列布局=应用添加收藏适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用添加收藏右列id[1])
@@ -1456,7 +1460,7 @@ function onTouchEvent(event)
 end
 io.open(this.luaDir.."/sj.lua","w+"):write(""):close()]]):close()进入子页面("共用")
 end
-function x2(str)
+function xy2(str)
   val=""进=0
   for i=0,#str-1 do
     dg=str:sub(#str-i,#str-i)
@@ -1514,7 +1518,7 @@ function Bin2Dec(str)
   decv="0"
   for i=1,#str do
     if str:sub(i,i)=="1" then
-      decv=x2(decv)
+      decv=xy2(decv)
       dec="" 进=0
       for i=0,#decv-1 do
         dg=decv:sub(#decv-i,#decv-i)
@@ -1546,7 +1550,7 @@ function Bin2Dec(str)
       end
       decv=dec
      else
-      decv=x2(decv)
+      decv=xy2(decv)
     end
   end
   return decv
@@ -6448,7 +6452,6 @@ function 画板()
     backgroundColor=0xFF9AAEC7,
     {
       LinearLayout,
-      id="lssdjtdl",
       layout_width=w,
       layout_height="32dp",
       orientation="horizontal",
@@ -6607,7 +6610,7 @@ function 画板()
       canvasj=Canvas(bitmapcopyj)
       canvasj.drawBitmap(bitmapcopy,Matrix(),paint)
       画板撤销[#画板撤销+1]=bitmapcopyj
-    elseif e.action==2 then
+      elseif e.action==2 then
       canvas.drawBitmap(bitmapcopy, Matrix(), paint)
       if 笔=="画笔" then
         paint.setColor(Color.BLACK)
@@ -6635,6 +6638,182 @@ function 画板()
     end
     return true
   end
+end
+function 汇率转换()
+hlbc=io.open("/data/data/"..activity.getPackageName().."/汇率"):read("*a")
+fromq=hlbc:match('fromq="(.-)"')fromdh=hlbc:match('fromdh="(.-)"')toq=hlbc:match('toq="(.-)"')todh=hlbc:match('todh="(.-)"')
+function 获取汇率(fromdh,todh,je)
+  if je~="" then
+    Http.get("http://qq.ip138.com/hl.asp?from="..fromdh.."&to="..todh.."&q="..je,nil,"utf8",nil,function(code,content)
+      if code==200 then
+        zhjg.text=content:match("</p></td><td><p>(.-)</p></td></tr></table></tr>"):match("</p></td><td><p>(.+)"):match("</p></td><td><p>(.+)").." "..todh
+      end
+    end)
+  end
+end
+汇率转换布局={
+  LinearLayout,
+  layout_width=w,
+  layout_height=h,
+  orientation="vertical",
+  backgroundColor=0xFF9AAEC7,
+  {
+    LinearLayout,
+    elevation="5dp",
+    layout_width=w,
+    orientation="horizontal",
+    backgroundColor=0xFF9AAEC7,
+    layout_height=geth(toolbar)+getStatusBarHeight(),
+    {
+      TextView,
+      text="汇率转换",
+      layout_weight="1",
+      paddingLeft="17dp",
+      textColor=0xffffffff,
+      layout_gravity="center",
+      paddingTop=getStatusBarHeight(),
+    },
+  },
+  {
+    LinearLayout,
+    layout_width=w,
+    layout_height="fill",
+    paddingLeft="24dp",
+    paddingRight="24dp",
+    orientation="vertical",
+    backgroundColor=0xFFFFFFFF,
+    {
+      TextView,
+      id="zhjg",
+      text="0000",
+      gravity="right",
+      textSize="30sp",
+      layout_width="fill",
+      textColor=0xFF000000,
+      layout_marginTop="56dp",
+      Typeface=Typeface.DEFAULT_BOLD,
+    },
+    {
+      LinearLayout,
+      layout_width="fill",
+      layout_marginTop="48dp",
+      orientation="horizontal",
+      {
+        Button,
+        id="fromqian",
+        text=fromq,
+        layout_width="96dp",
+        textColor=0xFFFFFFFF,
+        onClick=function()
+          选择钱(fromqian,"from")
+        end,
+      },
+      {
+        ImageView,
+        id="jhft",
+        padding="7dp",
+        layout_weight="1",
+        layout_height="39.5dp",
+        layout_gravity="center",
+        ColorFilter=0xFF757575,
+        src="http://shp.qpic.cn/collector/2530648358/1cfe9b59-5bf6-4d23-b68f-72dd10bb5a14/0",
+        onClick=function()
+          io.open("/data/data/"..activity.getPackageName().."/汇率","w+"):write('fromq="'..toq..'"\nfromdh="'..todh..'"\ntoq="'..fromq..'"\ntodh="'..fromdh..'"'):close()
+          hlbc=io.open("/data/data/"..activity.getPackageName().."/汇率"):read("*a")
+          fromq=hlbc:match('fromq="(.-)"')fromdh=hlbc:match('fromdh="(.-)"')toq=hlbc:match('toq="(.-)"')todh=hlbc:match('todh="(.-)"')
+          fromqian.text=fromq toqian.text=toq
+          获取汇率(fromdh,todh,jewb.text)
+        end,
+      },
+      {
+        Button,
+        id="toqian",
+        text=toq,
+        layout_width="96dp",
+        textColor=0xFFFFFFFF,
+        onClick=function()
+          选择钱(toqian,"to")
+        end,
+      },
+    },
+    {
+      LinearLayout,
+      layout_width="fill",
+      orientation="horizontal",
+      layout_marginTop="40dp",
+      {
+        LinearLayout,
+        layout_weight="1",
+        orientation="vertical",
+        {
+          TextView,
+          textSize="11sp",
+          text="请输入金额..",
+          paddingLeft="4dp",
+          textColor=0xFF68AFE5,
+        },
+        {
+          EditText,
+          id="jewb",
+          layout_width="fill",
+          textColor=0xFF000000,
+        },
+      },
+      {
+        Button,
+        id="zhan",
+        text="转换",
+        layout_width="96dp",
+        textColor=0xFFFFFFFF,
+        layout_gravity="bottom",
+        layout_marginLeft="17dp",
+        layout_marginRight="-3dp",
+        onClick=function()
+          获取汇率(fromdh,todh,jewb.text)
+        end,
+      },
+    },
+  },
+}
+hlzhbj=PopupWindow(loadlayout(汇率转换布局))
+hlzhbj.setFocusable(true).setWidth(w).setHeight(h).setTouchable(true).setOutsideTouchable(true).showAtLocation(fltBtn.Parent,0,0,0)
+颜色(jewb,0xFF68AFE5)波纹(jhft,0xFFD0D0D0)
+import "android.text.method.DigitsKeyListener"
+jewb.setKeyListener(DigitsKeyListener.getInstance(".0123456789"))
+fromqian.getBackground().setColorFilter(PorterDuffColorFilter(0xFF9AAEC7,PorterDuff.Mode.SRC_ATOP))
+toqian.getBackground().setColorFilter(PorterDuffColorFilter(0xFF68AFE5,PorterDuff.Mode.SRC_ATOP))
+zhan.getBackground().setColorFilter(PorterDuffColorFilter(0xFF68AFE5,PorterDuff.Mode.SRC_ATOP))
+jewb.getBackground().setColorFilter(PorterDuffColorFilter(0xFF68AFE5,PorterDuff.Mode.SRC_ATOP));
+function 选择钱(id,zl)
+  选择钱布局={
+    ListView,
+    id="lb",
+    dividerHeight=0,
+    layout_width="fill",
+    VerticalScrollBarEnabled=false,
+    layout_height=h-getStatusBarHeight()-2*geth(toolbar),
+    items={"美元","人民币","印尼卢比","新西兰元","新加坡元","泰国铢","瑞典克朗","日元","瑞士法郎","卢布","菲律宾比索","港币","林吉特","欧元","印度卢比","丹麦克朗","加拿大元","挪威克朗","阿联酋迪拉姆","沙特里亚尔","巴西里亚尔","澳门元","南非兰特","土耳其里拉","韩国元","新台币","澳大利亚元","英镑"}
+  }
+  圆角对话框()
+  .设置圆角("10dp")
+  .添加布局(选择钱布局)
+  .显示(function()
+    lb.onItemClick=function(l,v,p,i)
+      id.text=v.text
+      if zl=="from" then
+        xrhl=io.open("/data/data/"..activity.getPackageName().."/汇率"):read("*a"):gsub('fromq="'..fromq..'"','fromq="'..v.text..'"'):gsub('fromdh="'..fromdh..'"','fromdh="'..v.text:gsub("美元","USD"):gsub("人民币","CNY"):gsub("印尼卢比","IDR"):gsub("新西兰元","NZD"):gsub("新加坡元","SGD"):gsub("泰国铢","THB"):gsub("瑞典克朗","SEK"):gsub("日元","JPY"):gsub("瑞士法郎","CHF"):gsub("卢布","RUB"):gsub("菲律宾比索","PHP"):gsub("港币","HKD"):gsub("林吉特","MYR"):gsub("欧元","EUR"):gsub("印度卢比","INR"):gsub("丹麦克朗","DKK"):gsub("加拿大元","CAD"):gsub("挪威克朗","NOK"):gsub("阿联酋迪拉姆","AED"):gsub("沙特里亚尔","SAR"):gsub("巴西里亚尔","BRL"):gsub("澳门元","MOP"):gsub("南非兰特","ZAR"):gsub("土耳其里拉","TRY"):gsub("韩国元","KRW"):gsub("新台币","TWD"):gsub("澳大利亚元","AUD"):gsub("英镑","GBP")..'"')
+        io.open("/data/data/"..activity.getPackageName().."/汇率","w+"):write(xrhl):close()
+      else
+        xrhl=io.open("/data/data/"..activity.getPackageName().."/汇率"):read("*a"):gsub('toq="'..toq..'"','toq="'..v.text..'"'):gsub('todh="'..todh..'"','todh="'..v.text:gsub("美元","USD"):gsub("人民币","CNY"):gsub("印尼卢比","IDR"):gsub("新西兰元","NZD"):gsub("新加坡元","SGD"):gsub("泰国铢","THB"):gsub("瑞典克朗","SEK"):gsub("日元","JPY"):gsub("瑞士法郎","CHF"):gsub("卢布","RUB"):gsub("菲律宾比索","PHP"):gsub("港币","HKD"):gsub("林吉特","MYR"):gsub("欧元","EUR"):gsub("印度卢比","INR"):gsub("丹麦克朗","DKK"):gsub("加拿大元","CAD"):gsub("挪威克朗","NOK"):gsub("阿联酋迪拉姆","AED"):gsub("沙特里亚尔","SAR"):gsub("巴西里亚尔","BRL"):gsub("澳门元","MOP"):gsub("南非兰特","ZAR"):gsub("土耳其里拉","TRY"):gsub("韩国元","KRW"):gsub("新台币","TWD"):gsub("澳大利亚元","AUD"):gsub("英镑","GBP")..'"')
+        io.open("/data/data/"..activity.getPackageName().."/汇率","w+"):write(xrhl):close()
+      end
+      hlbc=io.open("/data/data/"..activity.getPackageName().."/汇率"):read("*a")
+      fromq=hlbc:match('fromq="(.-)"')fromdh=hlbc:match('fromdh="(.-)"')toq=hlbc:match('toq="(.-)"')todh=hlbc:match('todh="(.-)"')
+      获取汇率(fromdh,todh,jewb.text)
+      pop.dismiss()
+    end
+  end)
+end
 end
 import"android.support.v4.widget.*"
 轻工具布局={
@@ -6923,11 +7102,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
+                        id="hlzhid",
                         paddingLeft="12dp",
                         paddingRight="12dp",
                         text="汇率转换",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
+                        onClick=function()汇率转换()end,
                       },
                     },
                   },
@@ -8010,13 +8191,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
-                        id="hbid2",
+                        id="hlzhid2",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="画板",
+                        text="汇率转换",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
-                        onClick=function()画板()end,
+                        onClick=function()汇率转换()end,
                       },
                     },
                     --[[{
@@ -8075,7 +8256,7 @@ import"android.support.v4.widget.*"
                   layout_width="fill",
                   textColor=0xFF6E6E6E,
                   layout_marginTop="15dp",
-                  text="新增 画板",
+                  text="新增 汇率转换\n\n修复进入画板后，进制转换中转换为DEC报错问题",
                 },
               },
             },
@@ -8308,8 +8489,8 @@ function 主页收藏应用()
 end
 主页收藏应用()
 波纹(zydj,0xFFE2E2E2)波纹(fldj,0xFFE2E2E2)波纹(zhdj,0xFFE2E2E2)
-波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)波纹(jzzhid,0xFFD0D0D0)波纹(gsdcxid,0xFFD0D0D0)波纹(lssdjtid,0xFFD0D0D0)波纹(qqipcxid,0xFFD0D0D0)波纹(ljflcxid,0xFFD0D0D0)波纹(dzbid,0xFFD0D0D0)波纹(hbid,0xFFD0D0D0)
-波纹(hbid2,0xFFD0D0D0)--波纹(dzbid2,0xFFD0D0D0)
+波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)波纹(jzzhid,0xFFD0D0D0)波纹(gsdcxid,0xFFD0D0D0)波纹(lssdjtid,0xFFD0D0D0)波纹(qqipcxid,0xFFD0D0D0)波纹(ljflcxid,0xFFD0D0D0)波纹(dzbid,0xFFD0D0D0)波纹(hbid,0xFFD0D0D0)波纹(hlzhid,0xFFD0D0D0)
+波纹(hlzhid2,0xFFD0D0D0)--波纹(dzbid2,0xFFD0D0D0)
 pagev2.setOnPageChangeListener(PageView.OnPageChangeListener{
   onPageScrolled=function(a,b,c)
     if c==0then
