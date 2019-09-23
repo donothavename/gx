@@ -27,6 +27,7 @@ import"zw"
 import "com.my.sc.*"
 import'com.yuxuan.widget.*'
 import "com.my.sc.MainActivity"
+thread(function()require "import"while true do Thread.sleep(10000)collectgarbage("collect")end end)
 yys=0xFF767676 gnkq=0xFF7294DE wfdj=0xFFA4A6A3
 function searchfz()
   ssyq=io.open("/data/data/"..activity.getPackageName().."/搜索引擎"):read("*a")
@@ -1933,10 +1934,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.3.2"then
+  if 版本名 > "3.3.3"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.3.2".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.3.3".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("32dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
@@ -2091,6 +2092,10 @@ function 打开轻工具()
           xgj=qgjx.fun
           xgj()
         end
+      else
+        function xgj()end
+        xgj=qgjx.fun
+        xgj()
       end
     end)
   end
@@ -2210,6 +2215,7 @@ yj2=io.open("/data/data/"..activity.getPackageName().."/夜间2"):read("*a")
 if yj=="开" and yj2=="启用网页暗色" then 加载Js([[var NightMode;if(!NightMode){NightMode=document.createElement("style");NightMode.type="text/css";NightMode.innerHTML="html,body{background:none !important;background-color: #1d1e2a !important;}html *{background-color: #1d1e2a !important; color:#888888 !important;border-color:#3e4f61 !important;text-shadow:none !important;box-shadow:none !important;}a,a *{border-color:#4c5b99 !important; color:#2d69b3 !important;text-decoration:none !important;}a:visited,a:visited *{color:#a600a6 !important;}a:active,a:active *{color:#5588AA !important;}input,select,textarea,option,button{background-image:none !important;color:#AAAAAA !important;border-color:#4c5b99 !important;}form,div,button,span{background-color:#1d1e2a !important; border-color:#4c5b99 !important;}img{opacity:0.5}";document.getElementsByTagName("HEAD").item(0).appendChild(NightMode)};/*QQBrowserSDKNightModeModifiedByQQ32552732*/]])end
 end
 function 页面即将加载事件()
+collectgarbage("collect")
 if 网页链接:find"fanyi.baidu.com"then ymhlj="fanyi.baidu.com"scys="app-bar,article-loading,article android-style,bottom-intro,go-to-download"jb=""
 elseif 网页链接:find"m.bilibili.com"then ymhlj="m.bilibili.com"scys="index__openAppBtn__src-commonComponent-topArea-,index__container__src-commonComponent-bottomOpenApp-,@ID(toTop)"jb=""
 elseif 网页链接:find"www.coolapk.com"then ymhlj="www.coolapk.com"scys="under"jb=""
@@ -2234,7 +2240,7 @@ if 网页链接:find"https://" or 网页链接:find"file://" then
 设置底栏刷新状态(true,true,1000)
 end
 function 页面加载完毕()
-夜间()
+夜间()collectgarbage("collect")
 task(1,function()
 if not webView.canGoBack() then
 设置顶栏标题("主页")
