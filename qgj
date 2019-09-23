@@ -1,4 +1,4 @@
-{版本="1.2.9",fun=function()
+{版本="1.3.0",fun=function()
 File("/data/data/"..activity.getPackageName().."/翻译收藏").createNewFile()
 File("/data/data/"..activity.getPackageName().."/上次查询快递单号").createNewFile()
 File("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用").createNewFile()
@@ -22,12 +22,31 @@ if f~=nil then
 else
   软件内下载("正在下载资源,请耐心等待下载完成","https://raw.githubusercontent.com/donothavename/gx/master/ColorPicker.dex",this.luaDir.."/libs/ColorPicker.dex")
 end
+local f=io.open("/data/data/"..activity.getPackageName().."/app_lib/libmd5.so",'r')
+if f~=nil then
+  io.close(f)
+else
+  软件内下载("正在下载资源","https://raw.githubusercontent.com/donothavename/gx/master/libmd5.so","/data/data/"..activity.getPackageName().."/app_lib/libmd5.so")
+end
 import 'android.graphics.*'
-全部应用左列={"打字板","时间屏幕","翻译","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","摩斯电码","RC4加解密","MD5加密","随机数生成","全球IP查询"}
-全部应用右列={"画板","垃圾分类查询","汇率转换","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","进制转换","Base64编码转换","历史上的今天","网页源码获取","归属地查询"}
+全部应用左列={"打字板","时间屏幕","翻译","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","大文件清理","进制转换","Base64编码转换","历史上的今天","网页源码获取","归属地查询"}
+全部应用右列={"画板","垃圾分类查询","汇率转换","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","摩斯电码","RC4加解密","MD5加密","随机数生成","全球IP查询"}
 function 波纹方(id,color)
   ripples=activity.obtainStyledAttributes({android.R.attr.selectableItemBackground}).getResourceId(0,0)
   id.setBackgroundDrawable(activity.Resources.getDrawable(ripples).setColor(ColorStateList(int[0].class{int{}},int{color})))
+end
+function getpathmd5(path)
+  md5=require("md5")
+  function md5.sumhexa(k)
+    k=md5.sum(k)
+    return (string.gsub(k, ".", function (c)
+    return string.format("%02x", string.byte(c))
+    end))
+  end
+  local file=io.open(path,"rb")
+  local string=file:read("*a")
+  file:close()
+  return md5.sumhexa(string)
 end
 function 保存链接图片(链接,文件名)
   local ur=URL(链接)
@@ -189,7 +208,7 @@ qbyybj.showAtLocation(fltBtn.Parent,0,0,0)
   },
 },
 ]]
-应用左列id={"qydzbid","qysjpmid","qyfyid","qykdcxliteid","qyczid","qyewmgjid","qytpzljid","qycksbxxxxid","qymsdmid","qyrc4jjmid","qymd5jmid","qysjsscid","qyqqipcxid"}
+应用左列id={"qydzbid","qysjpmid","qyfyid","qykdcxliteid","qyczid","qyewmgjid","qytpzljid","qycksbxxxxid","qydwjqlid","qyjzzhid","qybase64bmzhid","qylssdjtid","qywyymhqid","qygsdcxid"}
 for i=1,#全部应用左列 do
   if i==1 then
     全部应用左列布局=全部应用适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用左列id[1])
@@ -207,7 +226,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..全部应用左列布局.."}"
-应用右列id={"qyhbid","qyljflcxid","qyhlzhid","qydlscid","qyznzid","qyqsqid","qybilibilifmhqid","qyhqdqbzid","qyjzzhid","qybase64bmzhid","qylssdjtid","qywyymhqid","qygsdcxid"}
+应用右列id={"qyhbid","qyljflcxid","qyhlzhid","qydlscid","qyznzid","qyqsqid","qybilibilifmhqid","qyhqdqbzid","qymsdmid","qyrc4jjmid","qymd5jmid","qysjsscid","qyqqipcxid"}
 for i=1,#全部应用右列 do
   if i==1 then
     全部应用右列布局=全部应用适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用右列id[1])
@@ -420,7 +439,7 @@ yytjscbj.showAtLocation(fltBtn.Parent,0,0,0)
 },
 ]]
 b=loadstring("return "..io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a"))轻工具主页收藏应用=b()
-应用添加收藏左列id={"ytcdzbid","ytcsjpmid","ytcfyid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcmsdmid","ytcrc4jjmid","ytcmd5jmid","ytcsjsscid","ytcqqipcxid"}
+应用添加收藏左列id={"ytcdzbid","ytcsjpmid","ytcfyid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcdwjqlid","ytcjzzhid","ytcbase64bmzhid","ytclssdjtid","ytcwyymhqid","ytcgsdcxid"}
 for i=1,#全部应用左列 do
   if i==1 then
     应用添加收藏左列布局=应用添加收藏适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用添加收藏左列id[1])
@@ -448,7 +467,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..应用添加收藏左列布局.."}"
-应用添加收藏右列id={"ytchbid","ytcljflcxid","ytchlzhid","ytcdlscid","ytcznzid","ytcqsqid","ytcbilibilifmhqid","ytchqdqbzid","ytcjzzhid","ytcbase64bmzhid","ytclssdjtid","ytcwyymhqid","ytcgsdcxid"}
+应用添加收藏右列id={"ytchbid","ytcljflcxid","ytchlzhid","ytcdlscid","ytcznzid","ytcqsqid","ytcbilibilifmhqid","ytchqdqbzid","ytcmsdmid","ytcrc4jjmid","ytcmd5jmid","ytcsjsscid","ytcqqipcxid"}
 for i=1,#全部应用右列 do
   if i==1 then
     应用添加收藏右列布局=应用添加收藏适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用添加收藏右列id[1])
@@ -5330,7 +5349,7 @@ function 历史上的今天()
 ]]
         历史事件布局=""
         for i=#事件文字,1,-1 do
-          if 事件图片[i]=="" then
+          if 事件图片[i]=="" or (not 事件图片[i]:find"http") then
             历史事件布局=历史事件布局..单个事件适配布局:gsub("事件文字",事件文字[i]):gsub("事件时间",事件时间[i]):gsub("事件图片",事件图片[i]):gsub("去除","--")
            else
             历史事件布局=历史事件布局..单个事件适配布局:gsub("事件文字",事件文字[i]):gsub("事件时间",事件时间[i]):gsub("事件图片",事件图片[i]):gsub("去除","")
@@ -6587,6 +6606,7 @@ function 画板()
   }
   hbbj=PopupWindow(loadlayout(画板布局))
   hbbj.setFocusable(true).setWidth(w).setHeight(h).setTouchable(true).setOutsideTouchable(true).showAtLocation(fltBtn.Parent,0,0,0)
+  collectgarbage("collect")
   if 画板撤销 then
     for i=1,#画板撤销 do
       luajava.clear(画板撤销[i])
@@ -6814,6 +6834,574 @@ function 选择钱(id,zl)
     end
   end)
 end
+end
+function 大文件清理()
+  function dwjqlqx()end
+  大文件清理布局={
+    LinearLayout,
+    layout_width=w,
+    layout_height=h,
+    orientation="vertical",
+    backgroundColor=0xFF9AAEC7,
+    {
+      LinearLayout,
+      layout_width=w,
+      layout_height="32dp",
+      orientation="horizontal",
+      layout_marginTop=getStatusBarHeight(),
+      backgroundColor=0xFF9AAEC7,
+      {
+        ImageView,
+        padding="15dp",
+        layout_width="48dp",
+        layout_height="48dp",
+        ColorFilter=0xffffffff,
+        layout_gravity="center",
+        src="http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0",
+        onClick=function()dwjqlbj.dismiss()end,
+      },
+      {
+        TextView,
+        id="dwjqlbt",
+        text="大文件清理",
+        layout_weight="1",
+        textColor=0xffffffff,
+        paddingLeft="17dp",
+        layout_gravity="center",
+      },
+      {
+        ImageView,
+        id="qxhdwjqlqx",
+        padding="15dp",
+        layout_width="48dp",
+        layout_height="48dp",
+        ColorFilter=0xffffffff,
+        layout_gravity="center",
+        src="http://shp.qpic.cn/collector/2530648358/b1f989b5-646a-459f-88f3-dd03ffedfa59/0",
+        onClick=function()
+          dwjqlqx()
+        end,
+      },
+    },
+    {
+      FrameLayout,
+      layout_width=w,
+      backgroundColor=0xFFFFFFFF,
+      layout_height=h-getStatusBarHeight()-geth(toolbar),
+      {
+        LinearLayout,
+        layout_width=w,
+        gravity="center",
+        layout_height="fill",
+        orientation="vertical",
+        {
+          ProgressBar,
+          id="pgb",
+        },
+        {
+          TextView,
+          id="wjljwb",
+          text="优化中..",
+          paddingLeft="16dp",
+          paddingRight="16dp",
+          textColor=0xFF6E6E6E,
+          layout_marginTop="16dp",
+        },
+      },
+      {
+        NestedScrollView,
+        id="dwjlbbjbj",
+        visibility=4,
+        layout_width=w,
+        layout_height="fill",
+        backgroundColor=0xFFFAFAFA,
+        {
+          LinearLayout,
+          id="dwjlb",
+        },
+      },
+      {
+        CardView,
+        visibility=4,
+        id="dwjqlan",
+        radius="28dp",
+        elevation="5dp",
+        layout_width="56dp",
+        layout_height="56dp",
+        layout_margin="16dp",
+        layout_gravity="right|bottom",
+        cardBackgroundColor=0xFF68AFE5,
+        layout_marginBottom=16/32*geth(toolbar),
+        {
+          ImageView,
+          padding="16dp",
+          layout_width="fill",
+          layout_height="fill",
+          ColorFilter=0xffffffff,
+          layout_gravity="center",
+          src="http://shp.qpic.cn/collector/2530648358/c5794b00-8e26-4e15-88cf-008d722098cd/0",
+          onClick=function()
+            if 待删除文件=="" then
+              提示"无文件可清理。"
+            else
+              圆角对话框()
+              .设置标题("警示！")
+              .设置消息("确定要删除所选文件吗？删除后将不能恢复。")
+              .设置中立按钮("取消")
+              .设置积极按钮("确定",function()
+                共清理文件大小=0.00
+                b=loadstring("return {"..待删除文件.."}")待删除文件路径=b()
+                for i=1,#待删除文件路径 do
+                  local f=io.open(tostring(ret[待删除文件路径[i]]),'r')
+                  if f then
+                    io.close(f)
+                    共清理文件大小=共清理文件大小+File(tostring(ret[待删除文件路径[i]])).length()
+                    os.remove(tostring(ret[待删除文件路径[i]]))
+                  end
+                  ret[待删除文件路径[i]]=""
+                end
+                for i=1,#ret do
+                  if ret[i]=="" then
+                    table.remove(ret,i)
+                  end
+                end
+                for i=1,#ret do
+                  if ret[i]=="" then
+                    table.remove(ret,i)
+                  end
+                end
+                dwjlbbj.setVisibility(8)
+                dwjqlbt.text="大文件清理"
+                查找大文件完成(ret)
+                if 共清理文件大小>0 then
+                  共清理文件大小=tostring(tointeger(共清理文件大小/1048576*1000))
+                  if 共清理文件大小:sub(#共清理文件大小,#共清理文件大小)>="5" then
+                    共清理文件大小=tostring((共清理文件大小:sub(1,#共清理文件大小-1)+1)/100)
+                  else
+                    共清理文件大小=tostring(共清理文件大小:sub(1,#共清理文件大小-1)/100)
+                  end
+                end
+                task(150,function()
+                  圆角对话框()
+                  .设置标题("提示")
+                  .设置消息("清理完成,共清理了"..共清理文件大小.."MB。")
+                  .设置积极按钮("确定")
+                  .显示()
+                end)
+              end)
+              .显示()
+            end
+          end,
+        },
+      },
+    },
+  }
+  dwjqlbj=PopupWindow(loadlayout(大文件清理布局))
+  dwjqlbj.setFocusable(true).setWidth(w).setHeight(h).setTouchable(true).setOutsideTouchable(true).showAtLocation(fltBtn.Parent,0,0,0)
+  pgb.IndeterminateDrawable.setColorFilter(PorterDuffColorFilter(0xFF68AFE5,PorterDuff.Mode.SRC_ATOP))
+  function 文件详情(path)
+    文件详情布局={
+      LinearLayout,
+      id="bjbj",
+      layout_width=w,
+      layout_height=h,
+      backgroundColor=0x80000000,
+      {
+        CardView,
+        id="bjkp",
+        radius="10dp",
+        layout_width=w,
+        layout_gravity="bottom",
+        layout_marginBottom="-10dp",
+        cardBackgroundColor=0xFFFFFFFF,
+        {
+          LinearLayout,
+          layout_width=w,
+          orientation="vertical",
+          {
+            LinearLayout,
+            layout_width=w,
+            paddingTop="24dp",
+            paddingLeft="32dp",
+            paddingRight="24dp",
+            orientation="horizontal",
+            {
+              ImageView,
+              layout_width="24dp",
+              layout_height="24dp",
+              layout_gravity="center",
+              ColorFilter=0xFF9AAEC7,
+              src="http://shp.qpic.cn/collector/2530648358/a23fee1a-c303-4666-a45c-1fbbe9d9e58f/0"
+            },
+            {
+              TextView,
+              textSize="17sp",
+              layout_weight="1",
+              text="文件详情",
+              layout_gravity="center",
+              textColor=0xFF000000,
+              layout_marginLeft="16dp",
+              Typeface=Typeface.DEFAULT_BOLD,
+            },
+            {
+              ImageView,
+              padding="15dp",
+              id="gbwjxqbj",
+              layout_width="55dp",
+              layout_height="55dp",
+              layout_gravity="center",
+              ColorFilter=0xFF707070,
+              src="http://shp.qpic.cn/collector/2530648358/6a4d61ec-a43b-454e-87c7-3a471e95e51a/0",
+              onClick=function()关闭文件详情布局()end,
+            },
+          },
+          {
+            LinearLayout,
+            paddingLeft="56dp",
+            paddingRight="40dp",
+            orientation="vertical",
+            paddingBottom="10dp",
+            {
+              TextView,
+              text="文件名称",
+              textSize="16sp",
+              paddingTop="16dp",
+              textColor=0xFF68AFE5,
+            },
+            {
+              TextView,
+              id="wjmcwb",
+              paddingTop="8dp",
+              paddingLeft="8dp",
+              paddingBottom="16dp",
+              textColor=0xFF6E6E6E,
+              text=File(path).getName(),
+            },
+            {
+              TextView,
+              text="文件路径",
+              textSize="16sp",
+              paddingTop="16dp",
+              textColor=0xFF68AFE5,
+            },
+            {
+              TextView,
+              id="ljwb",
+              text=path,
+              paddingTop="8dp",
+              paddingLeft="8dp",
+              paddingBottom="16dp",
+              textColor=0xFF6E6E6E,
+            },
+            {
+              TextView,
+              text="MD5",
+              textSize="16sp",
+              paddingTop="16dp",
+              textColor=0xFF68AFE5,
+            },
+            {
+              TextView,
+              id="md5wb",
+              text="获取中..",
+              paddingTop="8dp",
+              paddingLeft="8dp",
+              paddingBottom="32dp",
+              textColor=0xFF6E6E6E,
+            },
+          },
+        },
+      },
+    }
+    wjxqbj=PopupWindow(loadlayout(文件详情布局))
+    wjxqbj.setFocusable(true).setWidth(w).setHeight(h).setTouchable(true).setOutsideTouchable(true).showAtLocation(fltBtn.Parent,0,0,0)
+    wjmcwb.onLongClick=function()
+      复制文本(wjmcwb.text)
+      提示"复制完成"
+    end
+    ljwb.onLongClick=function()
+      复制文本(ljwb.text)
+      提示"复制完成"
+    end
+    md5wb.onLongClick=function()
+      复制文本(md5wb.text)
+      提示"复制完成"
+    end
+    波纹(gbwjxqbj,0xFFE2E2E2)
+    位移动画(bjkp,200,0,0,geth(bjkp),0)
+    task(500,function()
+      local f=io.open(path,'r')
+      if f~=nil then
+        io.close(f)
+        md5wb.text=getpathmd5(path)
+      else
+        md5wb.text=""
+      end
+    end)
+    function 关闭文件详情布局()
+      位移动画(bjkp,200,0,0,0,geth(bjkp))
+      task(199,function()
+        wjxqbj.dismiss()
+      end)
+    end
+    bjkpsety=0
+    bjbj.onTouch=function(v,e)
+      a=e.getAction()&255
+      if a==MotionEvent.ACTION_DOWN then
+        if e.getY()>=h-geth(bjkp) then
+          csdjwz=e.getY()
+        else
+          csdjwz=h+1
+        end
+      elseif a==MotionEvent.ACTION_MOVE then
+        if csdjwz==h+1 then
+        elseif csdjwz>e.getY() then
+          csdjwz=e.getY()
+        else
+          bjkpsety=h-geth(bjkp)+e.getY()-csdjwz+10/32*geth(toolbar)
+          bjkp.setY(bjkpsety)
+        end
+      elseif a==MotionEvent.ACTION_UP then
+        if csdjwz==h+1 then
+          关闭文件详情布局()
+        elseif bjkpsety>=h-0.5*geth(bjkp) then
+          关闭文件详情布局()
+        else
+          bjkp.setY(h-geth(bjkp)+10/32*geth(toolbar))
+          位移动画(bjkp,150,0,0,bjkpsety-(h-geth(bjkp)+10/32*geth(toolbar)),0)
+        end
+      end
+      return true
+    end
+  end
+  function 显示文件路径(str)
+    wjljwb.text=str
+  end
+  function 查找大文件完成(item)
+    ret=item dwjlbbjbj.setVisibility(0)待删除文件=""待删除文件个数=0
+    大文件列表适配布局=[[{
+  LinearLayout,
+  backgroundColor=背景颜色,
+  {
+    LinearLayout,
+    layout_width=w,
+    id="大文件列表id",
+    orientation="vertical",
+    onClick=function()
+      if fxkid.isChecked()==false then
+        fxkid.setChecked(true)
+        待删除文件=待删除文件.."位置,"
+        待删除文件个数=待删除文件个数+1
+       else
+        fxkid.setChecked(false)
+        待删除文件=待删除文件:gsub("位置,","")
+        待删除文件个数=待删除文件个数-1
+      end
+      if 待删除文件个数>0 then
+        dwjqlbt.text="大文件清理("..待删除文件个数..")"
+       else
+        dwjqlbt.text="大文件清理"
+      end
+    end,
+    {
+      LinearLayout,
+      layout_width=w,
+      paddingTop="17dp",
+      paddingLeft="17dp",
+      paddingRight="17dp",
+      orientation="horizontal",
+      {
+        FrameLayout,
+        layout_width="50dp",
+        layout_height="50dp",
+        {
+          CardView,
+          elevation=0,
+          radius="25dp",
+          layout_width="50dp",
+          layout_height="50dp",
+          cardBackgroundColor=0xFF9AAEC7,
+          {
+            TextView,
+            text="文件大小",
+            layout_gravity="center",
+            textColor=0xFFFFFFFF,
+          },
+        },
+        {
+          CardView,
+          elevation=0,
+          radius="9dp",
+          layout_width="18dp",
+          layout_height="18dp",
+          layout_gravity="right|bottom",
+          cardBackgroundColor=0xFF68AFE5,
+          {
+            TextView,
+            text="单位",
+            textSize="11sp",
+            textColor=0xFFFFFFFF,
+            layout_gravity="center",
+          },
+        },
+      },
+      {
+        LinearLayout,
+        layout_weight="1",
+        paddingLeft="17dp",
+        paddingRight="17dp",
+        orientation="vertical",
+        layout_gravity="center",
+        {
+          TextView,
+          text="文件名称",
+          textSize="16sp",
+          textColor=0xFF000000,
+        },
+        {
+          TextView,
+          text="文件父路径",
+          textColor=0xFF6E6E6E,
+        },
+      },
+      {
+        CheckBox,
+        id="fxkid",
+        layout_gravity="center",
+        onClick=function()
+          if fxkid.isChecked()==true then
+            待删除文件=待删除文件.."位置,"
+            待删除文件个数=待删除文件个数+1
+           else
+            待删除文件=待删除文件:gsub("位置,","")
+            待删除文件个数=待删除文件个数-1
+          end
+          if 待删除文件个数>0 then
+            dwjqlbt.text="大文件清理("..待删除文件个数..")"
+           else
+            dwjqlbt.text="大文件清理"
+          end
+        end,
+      },
+    },
+    {
+      TextView,
+      padding="7dp",
+      id="文件详情id",
+      text="文件详情",
+      layout_gravity="right",
+      textColor=0xFF68AFE5,
+      layout_marginBottom="8dp",
+      layout_marginRight="17.5dp",
+      onClick=function()
+        文件详情("文件路径")
+      end,
+    },
+  },
+},
+]]
+    大文件列表布局=""大文件列表事件=""大文件清理全选=""取消大文件清理全选=""
+    for i=1,#item do
+      大文件列表事件=大文件列表事件.."波纹方(大文件列表"..i..",0xFFE9E9E9)波纹方(文件详情"..i..",0xFFE9E9E9)"
+      大文件清理全选=大文件清理全选.."dwjlbfxk"..i..".setChecked(true)"
+      取消大文件清理全选=取消大文件清理全选.."dwjlbfxk"..i..".setChecked(false)"
+      if i%2==1 then
+        大文件列表=大文件列表适配布局:gsub("背景颜色","0xFFFFFFFF"):gsub("文件名称",tostring(item[i].name)):gsub("文件路径",tostring(item[i])):gsub("文件父路径",tostring(item[i]):match("/storage/emulated/0(.-)/"..tostring(item[i].name))):gsub("大文件列表id","大文件列表"..i):gsub("文件详情id","文件详情"..i):gsub("fxkid","dwjlbfxk"..i):gsub("位置",i)
+        if File(tostring(item[i])).length()>=1073741824 then
+          大文件列表=大文件列表:gsub("单位","G")
+          文件大小=tostring(tointeger(File(tostring(item[i])).length()/1073741824*100))
+          if 文件大小:sub(#文件大小,#文件大小)>="5" then
+            大文件列表=大文件列表:gsub("文件大小",tostring((文件大小:sub(1,#文件大小-1)+1)/10))
+          else
+            大文件列表=大文件列表:gsub("文件大小",tostring((文件大小:sub(1,#文件大小-1))/10))
+          end
+        else
+          大文件列表=大文件列表:gsub("单位","M")
+          文件大小=tostring(tointeger(File(tostring(item[i])).length()/1048576*100))
+          if 文件大小:sub(#文件大小,#文件大小)>="5" then
+            大文件列表=大文件列表:gsub("文件大小",tostring((文件大小:sub(1,#文件大小-1)+1)/10))
+          else
+            大文件列表=大文件列表:gsub("文件大小",tostring((文件大小:sub(1,#文件大小-1))/10))
+          end
+        end
+        大文件列表布局=大文件列表布局..大文件列表
+      else
+        大文件列表=大文件列表适配布局:gsub("背景颜色","0xFFF8F8F8"):gsub("文件名称",tostring(item[i].name)):gsub("文件路径",tostring(item[i])):gsub("文件父路径",tostring(item[i]):match("/storage/emulated/0(.-)/"..tostring(item[i].name))):gsub("大文件列表id","大文件列表"..i):gsub("文件详情id","文件详情"..i):gsub("fxkid","dwjlbfxk"..i):gsub("位置",i)
+        if File(tostring(item[i])).length()>=1073741824 then
+          大文件列表=大文件列表:gsub("单位","G")
+          文件大小=tostring(tointeger(File(tostring(item[i])).length()/1073741824*100))
+          if 文件大小:sub(#文件大小,#文件大小)>="5" then
+            大文件列表=大文件列表:gsub("文件大小",tostring((文件大小:sub(1,#文件大小-1)+1)/10))
+          else
+            大文件列表=大文件列表:gsub("文件大小",tostring((文件大小:sub(1,#文件大小-1))/10))
+          end
+        else
+          大文件列表=大文件列表:gsub("单位","M")
+          文件大小=tostring(tointeger(File(tostring(item[i])).length()/1048576*100))
+          if 文件大小:sub(#文件大小,#文件大小)>="5" then
+            大文件列表=大文件列表:gsub("文件大小",tostring((文件大小:sub(1,#文件大小-1)+1)/10))
+          else
+            大文件列表=大文件列表:gsub("文件大小",tostring((文件大小:sub(1,#文件大小-1))/10))
+          end
+        end
+        大文件列表布局=大文件列表布局..大文件列表
+      end
+    end
+    大文件列表布局=[[{
+  LinearLayout,
+  id="dwjlbbj",
+  layout_width="fill",
+  layout_height="fill",
+  orientation="vertical",
+  ]]..大文件列表布局.."}"
+  b=loadstring("return "..大文件列表布局)大文件列表布局=b()
+  dwjlb.addView(loadlayout(大文件列表布局))
+  b=loadstring("return ".."function()"..大文件列表事件.."end")大文件列表事件=b()
+  b=loadstring("return ".."function()if djldwjqx then djldwjqx=nil "..取消大文件清理全选.."qxhdwjqlqx.setImageBitmap(loadbitmap('http://shp.qpic.cn/collector/2530648358/b1f989b5-646a-459f-88f3-dd03ffedfa59/0'))待删除文件个数=0 dwjqlbt.text='大文件清理'待删除文件=''else djldwjqx=0 qxhdwjqlqx.setImageBitmap(loadbitmap('http://shp.qpic.cn/collector/2530648358/17ef4ca4-70b8-4288-ace7-b965b13caa89/0'))待删除文件个数="..#item.." if "..#item..">0 then dwjqlbt.setText('大文件清理("..#item..")')end "..大文件清理全选.."待删除文=''for i=1,"..#item.." do 待删除文=待删除文..tostring(i)..','end 待删除文件=待删除文 end end")大文件清理全选=b()
+  function dwjlbsj()end
+  dwjlbsj=大文件列表事件 dwjlbsj()
+  dwjqlqx=大文件清理全选
+  dwjqlan.setVisibility(0)
+  collectgarbage("collect")
+  end
+  function 查找大文件(catalog)
+    local ret={}
+    require "import"
+    import "java.io.File"
+    import "java.lang.String"
+    function FindFile(catalog)
+      local ls=catalog.listFiles() or File{}
+      for 次数=0,#ls-1 do
+        if 次数==tointeger(#ls/4) or 次数==tointeger(#ls/2) or 次数==tointeger(#ls*0.75) then
+          collectgarbage("collect")
+        end
+        local f=ls[次数]
+        if f.isDirectory() then
+          call("显示文件路径",tostring(f))
+          FindFile(f)
+        else
+          if File(tostring(f)).length()>=31457280 then
+            table.insert(ret,f)
+          end
+        end
+      end
+    end
+    FindFile(catalog,name)
+    call("查找大文件完成",ret)
+    luajava.clear(f)
+    collectgarbage("collect")
+  end
+  collectgarbage("collect")
+  task(200,function()
+    collectgarbage("collect")
+    task(200,function()
+      collectgarbage("collect")
+      task(200,function()
+        catalog=File("/storage/emulated/0/")
+        thread(查找大文件,catalog)
+      end)
+    end)
+  end)
 end
 import"android.support.v4.widget.*"
 轻工具布局={
@@ -7755,11 +8343,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
+                        id="dwjqlid",
                         paddingLeft="12dp",
                         paddingRight="12dp",
                         text="大文件清理",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
+                        onClick=function()大文件清理()end,
                       },
                     },
                     {
@@ -8191,13 +8781,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
-                        id="hlzhid2",
+                        id="dwjqlid2",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="汇率转换",
+                        text="大文件清理",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
-                        onClick=function()汇率转换()end,
+                        onClick=function()大文件清理()end,
                       },
                     },
                     --[[{
@@ -8256,7 +8846,7 @@ import"android.support.v4.widget.*"
                   layout_width="fill",
                   textColor=0xFF6E6E6E,
                   layout_marginTop="15dp",
-                  text="新增 汇率转换\n\n修复进入画板后，进制转换中转换为DEC报错问题",
+                  text="新增 大文件清理\n\n修复历史上的今天可能会报错问题",
                 },
               },
             },
@@ -8489,8 +9079,8 @@ function 主页收藏应用()
 end
 主页收藏应用()
 波纹(zydj,0xFFE2E2E2)波纹(fldj,0xFFE2E2E2)波纹(zhdj,0xFFE2E2E2)
-波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)波纹(jzzhid,0xFFD0D0D0)波纹(gsdcxid,0xFFD0D0D0)波纹(lssdjtid,0xFFD0D0D0)波纹(qqipcxid,0xFFD0D0D0)波纹(ljflcxid,0xFFD0D0D0)波纹(dzbid,0xFFD0D0D0)波纹(hbid,0xFFD0D0D0)波纹(hlzhid,0xFFD0D0D0)
-波纹(hlzhid2,0xFFD0D0D0)--波纹(dzbid2,0xFFD0D0D0)
+波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)波纹(jzzhid,0xFFD0D0D0)波纹(gsdcxid,0xFFD0D0D0)波纹(lssdjtid,0xFFD0D0D0)波纹(qqipcxid,0xFFD0D0D0)波纹(ljflcxid,0xFFD0D0D0)波纹(dzbid,0xFFD0D0D0)波纹(hbid,0xFFD0D0D0)波纹(hlzhid,0xFFD0D0D0)波纹(dwjqlid,0xFFD0D0D0)
+波纹(dwjqlid2,0xFFD0D0D0)--波纹(dzbid2,0xFFD0D0D0)
 pagev2.setOnPageChangeListener(PageView.OnPageChangeListener{
   onPageScrolled=function(a,b,c)
     if c==0then
@@ -8571,4 +9161,5 @@ flhd2.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{
     end
   end
 })
+collectgarbage("collect")
 end}
