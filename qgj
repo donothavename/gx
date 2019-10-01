@@ -1,4 +1,4 @@
-{版本="1.3.1",fun=function()
+{版本="1.3.2",fun=function()
 File("/data/data/"..activity.getPackageName().."/翻译收藏").createNewFile()
 File("/data/data/"..activity.getPackageName().."/上次查询快递单号").createNewFile()
 File("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用").createNewFile()
@@ -2044,16 +2044,16 @@ pagev.setOnPageChangeListener(PageView.OnPageChangeListener{
 dv.setBackground(LuaDrawable(function(mCanvas,mPaint,mDrawable)
   mPaint.setAntiAlias(true)
   mPaint.setStyle(Paint.Style.STROKE)
-  mPaint.setStrokeWidth(10)
+  mPaint.setStrokeWidth(10*bl)
   mPaint.setColor(0xFFADADAD)
-  mCanvas.drawCircle((40/32)*geth(toolbar),(40/32)*geth(toolbar),(40/32)*geth(toolbar)-5,mPaint);
-  mPaint.setStrokeWidth(15)
+  mCanvas.drawCircle((40/32)*geth(toolbar),(40/32)*geth(toolbar),(40/32)*geth(toolbar)-5*bl,mPaint);
+  mPaint.setStrokeWidth(15*bl)
   mPaint.setColor(0xFF888888)
-  mCanvas.drawCircle((40/32)*geth(toolbar),(40/32)*geth(toolbar),(40/32)*geth(toolbar)-17.5,mPaint);
-  mPaint.setStrokeWidth(3)
+  mCanvas.drawCircle((40/32)*geth(toolbar),(40/32)*geth(toolbar),(40/32)*geth(toolbar)-17.5*bl,mPaint);
+  mPaint.setStrokeWidth(3*bl)
   mPaint.setColor(0xFFA5A5A5)
-  mCanvas.drawLine((40/32)*geth(toolbar),25,(40/32)*geth(toolbar),(80/32)*geth(toolbar)-25,mPaint);
-  mCanvas.drawLine(25,(40/32)*geth(toolbar),(80/32)*geth(toolbar)-25,(40/32)*geth(toolbar),mPaint);
+  mCanvas.drawLine((40/32)*geth(toolbar),25*bl,(40/32)*geth(toolbar),(80/32)*geth(toolbar)-25*bl,mPaint);
+  mCanvas.drawLine(25*bl,(40/32)*geth(toolbar),(80/32)*geth(toolbar)-25*bl,(40/32)*geth(toolbar),mPaint);
 end))
 function argb0x2argb(argb0X)
   argbs=((argb0X:sub(1,1)):gsub("a","10"):gsub("b","11"):gsub("c","12"):gsub("d","13"):gsub("e","14"):gsub("f",15))*15
@@ -2096,23 +2096,27 @@ dvzy.onTouch=function()
   movex=movex-zyy
   dv.setTranslationX(movex)dv.setTranslationY(movey)
   获取颜色()
+  return true
 end
 dvyy.onTouch=function()
   movex=movex+zyy
   dv.setTranslationX(movex)dv.setTranslationY(movey)
   获取颜色()
+  return true
 end
 dvsy.onTouch=function()
   movey=movey-sxy
   dv.setTranslationX(movex)dv.setTranslationY(movey)
   获取颜色()
+  return true
 end
 dvxy.onTouch=function()
   movey=movey+sxy
   dv.setTranslationX(movex)dv.setTranslationY(movey)
   获取颜色()
+  return true
 end
-cpv.setLightnessSlider(cpv1)cpv.setAlphaSlider(cpv2)cpv.setDensity(12)
+cpv.setLightnessSlider(cpv1)cpv.setAlphaSlider(cpv2)cpv.setDensity(12)cpv.setColor(0xFFFFFFFF,true)
 cpv2.setColor(-1)
 cpv.onTouch=function()
 cpv1.setColor(cpv.getSelectedColor())
@@ -6899,21 +6903,27 @@ function 大文件清理()
       {
         LinearLayout,
         layout_width=w,
-        gravity="center",
         layout_height="fill",
         orientation="vertical",
         {
-          ProgressBar,
-          id="pgb",
+          LinearLayout,
+          layout_width=w,
+          gravity="center|bottom",
+          layout_height=(h-getStatusBarHeight()-1.5*geth(toolbar))/2,
+          {
+            ProgressBar,
+            id="pgb",
+          },
         },
         {
           TextView,
           id="wjljwb",
-          text="优化中..",
           paddingLeft="16dp",
           paddingRight="16dp",
+          layout_gravity="center",
           textColor=0xFF6E6E6E,
           layout_marginTop="16dp",
+          layout_height=(h-getStatusBarHeight()-1.5*geth(toolbar))/2,
         },
       },
       {
@@ -7137,11 +7147,15 @@ function 大文件清理()
     end
     波纹(gbwjxqbj,0xFFE2E2E2)
     位移动画(bjkp,200,0,0,geth(bjkp),0)
-    task(500,function()
-      if not pcall(function()md5wb.text=getpathmd5(path)end) then
-        md5wb.text="获取失败"
+    function 线程返回文件md5(path)
+      if not pcall(function()collectgarbage("collect")md5=require("md5")function md5.sumhexa(k)k=md5.sum(k)return (string.gsub(k, ".", function (c)return string.format("%02x", string.byte(c))end))end local file=io.open(path,"rb")local string=file:read("*a")file:close()call('设置md5文本',md5.sumhexa(string))end) then
+        call("设置md5文本","获取失败")
       end
-    end)
+    end
+    function 设置md5文本(str)
+      md5wb.text=str
+    end
+    thread(线程返回文件md5,path)
     function 关闭文件详情布局()
       位移动画(bjkp,200,0,0,0,geth(bjkp))
       task(199,function()
@@ -7227,6 +7241,7 @@ function 大文件清理()
           cardBackgroundColor=0xFF9AAEC7,
           {
             TextView,
+            textSize="14sp",
             text="文件大小",
             layout_gravity="center",
             textColor=0xFFFFFFFF,
@@ -7243,9 +7258,9 @@ function 大文件清理()
           {
             TextView,
             text="单位",
-            textSize="11sp",
+            textSize="10sp",
             textColor=0xFFFFFFFF,
-            layout_gravity="center",
+            layout_gravity="center",Typeface=Typeface.DEFAULT_BOLD,
           },
         },
       },
@@ -7368,6 +7383,19 @@ function 大文件清理()
   dwjlbsj=大文件列表事件 dwjlbsj()
   dwjqlqx=大文件清理全选
   dwjqlan.setVisibility(0)
+  收缩按钮=ScaleAnimation(1,0,1,0,相对自身,0.5,相对自身,0.5).setDuration(300).setFillAfter(true)
+  扩放按钮=ScaleAnimation(0,1,0,1,相对自身,0.5,相对自身,0.5).setDuration(300).setFillAfter(true)
+  dwjlbbjbj.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{
+    onScrollChange=function(v,nowx,nowy,oldx,oldy)
+      if nowy>oldy then
+        dwjqlan.startAnimation(收缩按钮)
+        setw(dwjqlan,0)seth(dwjqlan,0)
+      else
+        setw(dwjqlan,1.75*geth(toolbar))seth(dwjqlan,1.75*geth(toolbar))
+        dwjqlan.startAnimation(扩放按钮)
+      end
+    end
+  })
   collectgarbage("collect")
   end
   function 查找大文件(catalog)
@@ -7398,16 +7426,7 @@ function 大文件清理()
     collectgarbage("collect")
   end
   collectgarbage("collect")
-  task(200,function()
-    collectgarbage("collect")
-    task(200,function()
-      collectgarbage("collect")
-      task(200,function()
-        catalog=File("/storage/emulated/0/")
-        thread(查找大文件,catalog)
-      end)
-    end)
-  end)
+  thread(查找大文件,File("/storage/emulated/0/"))
 end
 import"android.support.v4.widget.*"
 轻工具布局={
@@ -8852,7 +8871,7 @@ import"android.support.v4.widget.*"
                   layout_width="fill",
                   textColor=0xFF6E6E6E,
                   layout_marginTop="15dp",
-                  text="修复 垃圾分类查询失败问题\n\n修复 大文件清理可能会报错问题",
+                  text="优化 大文件清理体验\n\n修复 取色器一些bug",
                 },
               },
             },
