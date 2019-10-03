@@ -9728,7 +9728,7 @@ import"android.support.v4.widget.*"
                   layout_width="fill",
                   textColor=0xFF6E6E6E,
                   layout_marginTop="15dp",
-                  text="新增 空文件清理\n\n新增 空文件夹清理\n\n新增 安装包清理\n\n修复 大文件清理 大文件在sdcard根目录会报错问题",
+                  text="新增 QQ无用缓存清理",
                 },
               },
             },
