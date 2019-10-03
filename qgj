@@ -1,4 +1,5 @@
-{版本="1.3.5",fun=function()
+{版本="1.3.6",fun=function()
+qlqqwyhcwc=true
 File("/data/data/"..activity.getPackageName().."/翻译收藏").createNewFile()
 File("/data/data/"..activity.getPackageName().."/上次查询快递单号").createNewFile()
 File("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用").createNewFile()
@@ -29,11 +30,73 @@ else
   软件内下载("正在下载资源","https://raw.githubusercontent.com/donothavename/gx/master/libmd5.so","/data/data/"..activity.getPackageName().."/app_lib/libmd5.so")
 end
 import 'android.graphics.*'
-全部应用左列={"打字板","时间屏幕","翻译","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","大文件清理","空文件夹清理","摩斯电码","RC4加解密","MD5加密","随机数生成","全球IP查询"}
-全部应用右列={"画板","垃圾分类查询","汇率转换","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","空文件清理","安装包清理","进制转换","Base64编码转换","历史上的今天","网页源码获取","归属地查询"}
+全部应用左列={"打字板","时间屏幕","翻译","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","大文件清理","空文件夹清理","QQ无用缓存清理","进制转换","Base64编码转换","历史上的今天","网页源码获取","归属地查询"}
+全部应用右列={"画板","垃圾分类查询","汇率转换","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","空文件清理","安装包清理","摩斯电码","RC4加解密","MD5加密","随机数生成","全球IP查询"}
 function 波纹方(id,color)
   ripples=activity.obtainStyledAttributes({android.R.attr.selectableItemBackground}).getResourceId(0,0)
   id.setBackgroundDrawable(activity.Resources.getDrawable(ripples).setColor(ColorStateList(int[0].class{int{}},int{color})))
+end
+function 获取完成事件(val,t,fun)
+  function 获取完成事件2(val,t)end
+  获取完成事件2=fun
+  获取完成事件2(val,t)
+end
+function getFolderSize(path,fun)
+  local size=0
+  local t=os.time()
+  require "import"
+  import "java.io.File"
+  import "java.lang.String"
+  function FindFile(catalog)
+    local ls=catalog.listFiles()
+    for 次数=0,#ls-1 do
+      if 次数==tointeger(#ls/4) or 次数==tointeger(#ls/2) or 次数==tointeger(#ls*0.75) then
+        collectgarbage("collect")
+      end
+      local f=ls[次数]
+      if f.isDirectory() then
+        FindFile(f)
+       else
+        size=size+File(tostring(f)).length()
+      end
+    end
+  end
+  collectgarbage("collect")
+  if tostring(path):find"Table" then
+    for i=1,#path do
+      if File(tostring(path[i])).isDirectory() then
+        FindFile(File(path[i]))
+      end
+    end
+  else
+    if File(tostring(path)).isDirectory() then
+      FindFile(File(path))
+    end
+  end
+  if size~=0 then
+    if size>=1073741824 then
+      size=tostring(tointeger(size/1073741824*1000))
+      if size:sub(#size,#size)>="5" then
+        size=tostring((size:sub(1,#size-1)+1)/100).."GB"
+      else
+        size=tostring(size:sub(1,#size-1)/100).."GB"
+      end
+    else
+      size=tostring(tointeger(size/1048576*1000))
+      if size:sub(#size,#size)>="5" then
+        size=tostring((size:sub(1,#size-1)+1)/100).."MB"
+      else
+        size=tostring(size:sub(1,#size-1)/100).."MB"
+      end
+    end
+  else
+    size="0.00MB"
+  end
+  call("获取完成事件",size,t,fun)
+  luajava.clear(f)
+  luajava.clear(fun)
+  luajava.clear(获取完成事件)
+  collectgarbage("collect")
 end
 function getpathmd5(path)
   md5=require("md5")
@@ -209,7 +272,7 @@ qbyybj.showAtLocation(fltBtn.Parent,0,0,0)
   },
 },
 ]]
-应用左列id={"qydzbid","qysjpmid","qyfyid","qykdcxliteid","qyczid","qyewmgjid","qytpzljid","qycksbxxxxid","qydwjqlid","qykwjjqlid","qymsdmid","qyrc4jjmid","qymd5jmid","qysjsscid","qyqqipcxid"}
+应用左列id={"qydzbid","qysjpmid","qyfyid","qykdcxliteid","qyczid","qyewmgjid","qytpzljid","qycksbxxxxid","qydwjqlid","qykwjjqlid","qyqqwyhcqlid","qyjzzhid","qybase64bmzhid","qylssdjtid","qywyymhqid","qygsdcxid"}
 for i=1,#全部应用左列 do
   if i==1 then
     全部应用左列布局=全部应用适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用左列id[1])
@@ -227,7 +290,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..全部应用左列布局.."}"
-应用右列id={"qyhbid","qyljflcxid","qyhlzhid","qydlscid","qyznzid","qyqsqid","qybilibilifmhqid","qyhqdqbzid","qykwjqlid","qyazbqlid","qyjzzhid","qybase64bmzhid","qylssdjtid","qywyymhqid","qygsdcxid"}
+应用右列id={"qyhbid","qyljflcxid","qyhlzhid","qydlscid","qyznzid","qyqsqid","qybilibilifmhqid","qyhqdqbzid","qykwjqlid","qyazbqlid","qymsdmid","qyrc4jjmid","qymd5jmid","qysjsscid","qyqqipcxid"}
 for i=1,#全部应用右列 do
   if i==1 then
     全部应用右列布局=全部应用适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用右列id[1])
@@ -441,7 +504,7 @@ yytjscbj.showAtLocation(fltBtn.Parent,0,0,0)
 },
 ]]
 b=loadstring("return "..io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a"))轻工具主页收藏应用=b()
-应用添加收藏左列id={"ytcdzbid","ytcsjpmid","ytcfyid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcdwjqlid","ytckwjjqlid","ytcmsdmid","ytcrc4jjmid","ytcmd5jmid","ytcsjsscid","ytcqqipcxid"}
+应用添加收藏左列id={"ytcdzbid","ytcsjpmid","ytcfyid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcdwjqlid","ytckwjjqlid","ytcqqwyhcqlid","ytcjzzhid","ytcbase64bmzhid","ytclssdjtid","ytcwyymhqid","ytcgsdcxid"}
 for i=1,#全部应用左列 do
   if i==1 then
     应用添加收藏左列布局=应用添加收藏适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用添加收藏左列id[1])
@@ -469,7 +532,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..应用添加收藏左列布局.."}"
-应用添加收藏右列id={"ytchbid","ytcljflcxid","ytchlzhid","ytcdlscid","ytcznzid","ytcqsqid","ytcbilibilifmhqid","ytchqdqbzid","ytckwjqlid","ytcazbqlid","ytcjzzhid","ytcbase64bmzhid","ytclssdjtid","ytcwyymhqid","ytcgsdcxid"}
+应用添加收藏右列id={"ytchbid","ytcljflcxid","ytchlzhid","ytcdlscid","ytcznzid","ytcqsqid","ytcbilibilifmhqid","ytchqdqbzid","ytckwjqlid","ytcazbqlid","ytcmsdmid","ytcrc4jjmid","ytcmd5jmid","ytcsjsscid","ytcqqipcxid"}
 for i=1,#全部应用右列 do
   if i==1 then
     应用添加收藏右列布局=应用添加收藏适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用添加收藏右列id[1])
@@ -8079,6 +8142,102 @@ function 安装包清理()
     collectgarbage("collect")
   end
 end
+function QQ无用缓存清理()
+  qxqlqqwyhc=nil
+  QQ无用缓存清理布局={
+    LinearLayout,
+    gravity="center",
+    layout_width=w,
+    layout_height=h,
+    {
+      CardView,
+      elevation="5dp",
+      {
+        LinearLayout,
+        orientation="vertical",
+        layout_width="86%w",
+        backgroundColor=0xFFFFFFFF,
+        {
+          TextView,
+          id="qlztbt",
+          textSize="20sp",
+          text="正在清理..",
+          paddingTop="18dp",
+          paddingLeft="24dp",
+          paddingRight="24dp",
+          textColor=0xFF000000,
+        },
+        {
+          LinearLayout,
+          padding="24dp",
+          layout_width="fill",
+          orientation="horizontal",
+          {
+            ProgressBar,
+            id="pgb",
+            paddingRight="24dp",
+          },
+          {
+            TextView,
+            id="qlzt",
+            textSize="18sp",
+            text="正在计算大小..",
+            layout_gravity="center",
+            textColor=0xFF000000,
+          },
+        },
+        {
+          LinearLayout,
+          gravity="right",
+          layout_width="fill",
+          paddingTop="4.5dp",
+          paddingRight="12.5dp",
+          paddingBottom="4.5dp",
+          orientation="horizontal",
+          {
+            LinearLayout,
+            layout_width="63.5dp",
+            layout_height="46dp",
+            {
+              TextView,
+              id="qdan",
+              text="取消",
+              gravity="center",
+              layout_width="fill",
+              layout_height="36dp",
+              layout_gravity="center",
+              textColor=0xFF68AFE5,
+              onClick=function()
+                qqwyhcqlbj.dismiss()
+                qxqlqqwyhc=true
+              end,
+            },
+          },
+        },
+      },
+    },
+  }
+  dialog=AlertDialog.Builder(this)qqwyhcqlbj=dialog.show()qqwyhcqlbj.setCancelable(false).getWindow().setContentView(loadlayout(QQ无用缓存清理布局))
+  波纹方(qdan,0xFFE5F2FA)pgb.IndeterminateDrawable.setColorFilter(PorterDuffColorFilter(0xFF68AFE5,PorterDuff.Mode.SRC_ATOP))
+  collectgarbage("collect")
+  if qlqqwyhcwc then
+    qlqqwyhcwc=nil
+    thread(getFolderSize,{"/storage/emulated/0/Android/data/com.tencent.mobileqq","/storage/emulated/0/tencent/MobileQQ/poke","/storage/emulated/0/tencent/MobileQQ/.apollo","/storage/emulated/0/tencent/tbs","/storage/emulated/0/Android/data/com.qzone"},function(size,t)
+      qlqqwyhcwc=true
+      if not qxqlqqwyhc then
+        LuaUtil.rmDir("/storage/emulated/0/Android/data/com.tencent.mobileqq")
+        LuaUtil.rmDir("/storage/emulated/0/tencent/MobileQQ/poke")
+        LuaUtil.rmDir("/storage/emulated/0/tencent/MobileQQ/.apollo")
+        LuaUtil.rmDir("/storage/emulated/0/tencent/tbs")
+        LuaUtil.rmDir("/storage/emulated/0/Android/data/com.qzone")
+        pgb.setVisibility(8)
+        qdan.text="确定"
+        qlztbt.text="清理完成"
+        qlzt.text="共清理了"..size.."，耗时"..os.time()-t.."秒。"
+      end
+    end)
+  end
+end
 import"android.support.v4.widget.*"
 轻工具布局={
   FrameLayout,
@@ -9087,6 +9246,24 @@ import"android.support.v4.widget.*"
                         onClick=function()安装包清理()end,
                       },
                     },
+                    {
+                      CardView,
+                      layout_height="fill",
+                      elevation=0,
+                      radius="16dp",
+                      layout_marginLeft="10dp",
+                      cardBackgroundColor=0xFFF8F8F8,
+                      {
+                        TextView,
+                        id="qqwyhcqlid",
+                        paddingLeft="12dp",
+                        paddingRight="12dp",
+                        text="QQ无用缓存清理",
+                        textColor=0xFF4E4E4E,
+                        layout_gravity="center",
+                        onClick=function()QQ无用缓存清理()end,
+                      },
+                    },
                   },
                 },
               },
@@ -9463,16 +9640,16 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
-                        id="kwjqlid2",
+                        id="qqwyhcqlid2",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="空文件清理",
+                        text="QQ无用缓存清理",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
-                        onClick=function()空文件清理()end,
+                        onClick=function()QQ无用缓存清理()end,
                       },
                     },
-                    {
+                    --[[{
                       CardView,
                       layout_height="fill",
                       elevation=0,
@@ -9489,9 +9666,9 @@ import"android.support.v4.widget.*"
                         layout_gravity="center",
                         onClick=function()空文件夹清理()end,
                       },
-                    },
+                    },]]
                   },
-                  {
+                  --[[{
                     LinearLayout,
                     layout_height="32dp",
                     orientation="horizontal",
@@ -9513,7 +9690,7 @@ import"android.support.v4.widget.*"
                         onClick=function()安装包清理()end,
                       },
                     },
-                  },
+                  },]]
                 },
               },
             },
@@ -9784,8 +9961,8 @@ function 主页收藏应用()
 end
 主页收藏应用()
 波纹(zydj,0xFFE2E2E2)波纹(fldj,0xFFE2E2E2)波纹(zhdj,0xFFE2E2E2)
-波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)波纹(jzzhid,0xFFD0D0D0)波纹(gsdcxid,0xFFD0D0D0)波纹(lssdjtid,0xFFD0D0D0)波纹(qqipcxid,0xFFD0D0D0)波纹(ljflcxid,0xFFD0D0D0)波纹(dzbid,0xFFD0D0D0)波纹(hbid,0xFFD0D0D0)波纹(hlzhid,0xFFD0D0D0)波纹(dwjqlid,0xFFD0D0D0)波纹(kwjqlid,0xFFD0D0D0)波纹(kwjjqlid,0xFFD0D0D0)波纹(azbqlid,0xFFD0D0D0)
-波纹(kwjqlid2,0xFFD0D0D0)波纹(kwjjqlid2,0xFFD0D0D0)波纹(azbqlid2,0xFFD0D0D0)
+波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)波纹(jzzhid,0xFFD0D0D0)波纹(gsdcxid,0xFFD0D0D0)波纹(lssdjtid,0xFFD0D0D0)波纹(qqipcxid,0xFFD0D0D0)波纹(ljflcxid,0xFFD0D0D0)波纹(dzbid,0xFFD0D0D0)波纹(hbid,0xFFD0D0D0)波纹(hlzhid,0xFFD0D0D0)波纹(dwjqlid,0xFFD0D0D0)波纹(kwjqlid,0xFFD0D0D0)波纹(kwjjqlid,0xFFD0D0D0)波纹(azbqlid,0xFFD0D0D0)波纹(qqwyhcqlid,0xFFD0D0D0)
+波纹(qqwyhcqlid2,0xFFD0D0D0)--波纹(kwjjqlid2,0xFFD0D0D0)波纹(azbqlid2,0xFFD0D0D0)
 pagev2.setOnPageChangeListener(PageView.OnPageChangeListener{
   onPageScrolled=function(a,b,c)
     if c==0then
