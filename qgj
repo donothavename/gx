@@ -1,4 +1,14 @@
-{版本="1.3.6",fun=function()
+{版本="1.3.8",fun=function()
+function 清理内存(table)
+  for i=1,#table do
+    luajava.clear(table[i])
+    table[i]=nil
+    luajava.clear(table[i])
+  end
+  luajava.clear(table)
+  table=nil
+  luajava.clear(table)
+end
 qlqqwyhcwc=true
 File("/data/data/"..activity.getPackageName().."/翻译收藏").createNewFile()
 File("/data/data/"..activity.getPackageName().."/上次查询快递单号").createNewFile()
@@ -31,7 +41,7 @@ else
 end
 import 'android.graphics.*'
 全部应用左列={"打字板","时间屏幕","翻译","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","大文件清理","空文件夹清理","QQ无用缓存清理","进制转换","Base64编码转换","历史上的今天","网页源码获取","归属地查询"}
-全部应用右列={"画板","垃圾分类查询","汇率转换","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","空文件清理","安装包清理","摩斯电码","RC4加解密","MD5加密","随机数生成","全球IP查询"}
+全部应用右列={"画板","垃圾分类查询","汇率转换","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","空文件清理","安装包清理","摩斯电码","RC4加解密","MD5加密","随机数生成","全球IP查询","音乐搜索试听"}
 function 波纹方(id,color)
   ripples=activity.obtainStyledAttributes({android.R.attr.selectableItemBackground}).getResourceId(0,0)
   id.setBackgroundDrawable(activity.Resources.getDrawable(ripples).setColor(ColorStateList(int[0].class{int{}},int{color})))
@@ -290,7 +300,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..全部应用左列布局.."}"
-应用右列id={"qyhbid","qyljflcxid","qyhlzhid","qydlscid","qyznzid","qyqsqid","qybilibilifmhqid","qyhqdqbzid","qykwjqlid","qyazbqlid","qymsdmid","qyrc4jjmid","qymd5jmid","qysjsscid","qyqqipcxid"}
+应用右列id={"qyhbid","qyljflcxid","qyhlzhid","qydlscid","qyznzid","qyqsqid","qybilibilifmhqid","qyhqdqbzid","qykwjqlid","qyazbqlid","qymsdmid","qyrc4jjmid","qymd5jmid","qysjsscid","qyqqipcxid","qyyyssstid"}
 for i=1,#全部应用右列 do
   if i==1 then
     全部应用右列布局=全部应用适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用右列id[1])
@@ -532,7 +542,7 @@ layout_width="fill",
 layout_height="fill",
 orientation="vertical",
 ]]..应用添加收藏左列布局.."}"
-应用添加收藏右列id={"ytchbid","ytcljflcxid","ytchlzhid","ytcdlscid","ytcznzid","ytcqsqid","ytcbilibilifmhqid","ytchqdqbzid","ytckwjqlid","ytcazbqlid","ytcmsdmid","ytcrc4jjmid","ytcmd5jmid","ytcsjsscid","ytcqqipcxid"}
+应用添加收藏右列id={"ytchbid","ytcljflcxid","ytchlzhid","ytcdlscid","ytcznzid","ytcqsqid","ytcbilibilifmhqid","ytchqdqbzid","ytckwjqlid","ytcazbqlid","ytcmsdmid","ytcrc4jjmid","ytcmd5jmid","ytcsjsscid","ytcqqipcxid","ytcyyssstid"}
 for i=1,#全部应用右列 do
   if i==1 then
     应用添加收藏右列布局=应用添加收藏适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用添加收藏右列id[1])
@@ -2495,6 +2505,10 @@ seth(wlxqlb,h-getStatusBarHeight()-geth(toolbar)-1.5*geth(kddhk))
 波纹(cxsckd,0xFFD9D9D9)波纹(cxddh,0xFFE2E2E2)
 import "android.text.method.DigitsKeyListener"
 kddh.setKeyListener(DigitsKeyListener.getInstance("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"))
+kdcxLite.onDismiss=function()
+  清理内存({wlxqbj,快递详情布局bj,快递详情局,解析快递编码,快递详情布局,快递查询Lite布局,快递查询Lite})
+  collectgarbage("collect")
+end
 end
 function 图片转链接()
 圆角对话框()
@@ -5457,6 +5471,10 @@ layout_width="fill",
     end)
   end
   获取历史事件()
+  lssdjtbj.onDismiss=function()
+    清理内存({sjlb,历史事件布局,单个事件适配布局,事件图片,事件时间,事件文字,lssdjtbj,获取历史事件,关闭切换日期布局,切换日期布局,历史上的今天布局,历史上的今天})
+    collectgarbage("collect")
+  end
 end
 function 全球IP查询()
 全球IP查询布局={
@@ -6115,6 +6133,10 @@ function 查看垃圾详细信息(ljzl,ljjs,lslj,ljcl)
     return true
   end
 end
+ljflcxbj.onDismiss=function()
+  清理内存({查看垃圾详细信息布局,关闭查看垃圾详细信息布局,ljflcxbj,查看垃圾详细信息,垃圾处理,类似垃圾,垃圾解释,垃圾图片,垃圾种类,垃圾名称,垃圾分类查询布局,item,垃圾分类查询})
+  collectgarbage("collect")
+end
 end
 function 打字板()
 文本颜色=io.open("/data/data/"..activity.getPackageName().."/打字板"):read("*a"):match('"文本颜色":"(.-)"')
@@ -6414,7 +6436,9 @@ task(10,function()
   end)
 end)
 dzbbj.onDismiss=function()
+  清理内存({打字板,选择打字板颜色,关闭修改打字板布局,修改打字板布局,背景色,打字板布局,文本颜色})
   activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+  collectgarbage("collect")
 end
 function 选择打字板颜色(id,zl)
   import'com.flask.colorpicker.*'
@@ -6682,10 +6706,14 @@ function 画板()
   hbbj=PopupWindow(loadlayout(画板布局))
   hbbj.setFocusable(true).setWidth(w).setHeight(h).setTouchable(true).setOutsideTouchable(true).showAtLocation(fltBtn.Parent,0,0,0)
   collectgarbage("collect")
-  if 画板撤销 then
-    for i=1,#画板撤销 do
-      luajava.clear(画板撤销[i])
+  hbbj.onDismiss=function()
+    if 画板撤销 then
+      for i=1,#画板撤销 do
+        luajava.clear(画板撤销[i])
+      end
     end
+    清理内存({笔,画板撤销,画板布局,画板})
+    collectgarbage("collect")
   end
   画板撤销={}波纹(qkhb,0xFFDDDDDD)
   撤销笔数=0 笔="画笔"
@@ -7677,9 +7705,7 @@ function 空文件清理()
     qlzt.text=str
   end
   function 删除空文件(path)
-    if not qxqlkwj then
-      os.remove(path)
-    end
+    os.remove(path)
   end
   function 查找空文件(catalog)
     t=os.time() 个数=0
@@ -7697,11 +7723,11 @@ function 空文件清理()
           FindFile(f)
         else
           if File(tostring(f)).length()==0 then
-            call('删除空文件',tostring(f))
             Thread.sleep(70)
-            if File(tostring(f)).isFile() then
+            if activity.get("qxqlkwj") then
               break
             else
+              call('删除空文件',tostring(f))
               个数=个数+1
               call("设置空文件查找进度","已经清理了"..个数.."个空文件")
             end
@@ -7885,7 +7911,6 @@ function 空文件夹清理()
       for i=1,#item do
         if pcall(function()LuaUtil.rmDir(tostring(item[i]))end) then
           个数=个数+1
-          qlzt.text="已经清理了"..个数.."个文件夹。"
         end
       end
       pgb.setVisibility(8)
@@ -8104,9 +8129,7 @@ function 安装包清理()
     qlzt.text=str
   end
   function 删除安装包(path)
-    if not qxqlazb then
-      os.remove(path)
-    end
+    os.remove(path)
   end
   function 查找安装包(catalog)
     t=os.time() 个数=0
@@ -8124,11 +8147,10 @@ function 安装包清理()
           FindFile(f)
         else
           if tostring(f):sub(#tostring(f)-3,#tostring(f))==".apk" then
-            call('删除安装包',tostring(f))
-            Thread.sleep(70)
-            if File(tostring(f)).isFile() then
+            if activity.get("qxqlazb") then
               break
             else
+              call('删除安装包',tostring(f))
               个数=个数+1
               call("设置安装包查找进度","已经清理了"..个数.."个安装包")
             end
@@ -8222,14 +8244,22 @@ function QQ无用缓存清理()
   collectgarbage("collect")
   if qlqqwyhcwc then
     qlqqwyhcwc=nil
-    thread(getFolderSize,{"/storage/emulated/0/Android/data/com.tencent.mobileqq","/storage/emulated/0/tencent/MobileQQ/poke","/storage/emulated/0/tencent/MobileQQ/.apollo","/storage/emulated/0/tencent/tbs","/storage/emulated/0/Android/data/com.qzone"},function(size,t)
+    thread(getFolderSize,{"/storage/emulated/0/tencent/MobileQQ/bless","/storage/emulated/0/tencent/MobileQQ/newpoke","/storage/emulated/0/tencent/MobileQQ/babyQIconRes","/storage/emulated/0/tencent/MobileQQ/pddata","/storage/emulated/0/tencent/MobileQQ/head","/storage/emulated/0/tencent/MobileQQ/pe","/storage/emulated/0/tencent/MobileQQ/Scribble","/storage/emulated/0/tencent/MobileQQ/DoutuRes","/storage/emulated/0/Android/data/com.tencent.mobileqq","/storage/emulated/0/tencent/MobileQQ/poke","/storage/emulated/0/tencent/MobileQQ/.apollo","/storage/emulated/0/tencent/tbs","/storage/emulated/0/Android/data/com.qzone"},function(size,t)
       qlqqwyhcwc=true
       if not qxqlqqwyhc then
         LuaUtil.rmDir("/storage/emulated/0/Android/data/com.tencent.mobileqq")
         LuaUtil.rmDir("/storage/emulated/0/tencent/MobileQQ/poke")
         LuaUtil.rmDir("/storage/emulated/0/tencent/MobileQQ/.apollo")
         LuaUtil.rmDir("/storage/emulated/0/tencent/tbs")
+        LuaUtil.rmDir("/storage/emulated/0/tencent/MobileQQ/pe/")
+        LuaUtil.rmDir("/storage/emulated/0/tencent/MobileQQ/Scribble")
+        LuaUtil.rmDir("/storage/emulated/0/tencent/MobileQQ/DoutuRes")
         LuaUtil.rmDir("/storage/emulated/0/Android/data/com.qzone")
+        LuaUtil.rmDir("/storage/emulated/0/tencent/MobileQQ/head")
+        LuaUtil.rmDir("/storage/emulated/0/tencent/MobileQQ/pddata")
+        LuaUtil.rmDir("/storage/emulated/0/tencent/MobileQQ/babyQIconRes")
+        LuaUtil.rmDir("/storage/emulated/0/tencent/MobileQQ/newpoke")
+        LuaUtil.rmDir("/storage/emulated/0/tencent/MobileQQ/bless")
         pgb.setVisibility(8)
         qdan.text="确定"
         qlztbt.text="清理完成"
@@ -8237,6 +8267,860 @@ function QQ无用缓存清理()
       end
     end)
   end
+end
+function 音乐搜索试听()
+bffs="列表循环"
+import "android.media.MediaPlayer"
+local function 播放音乐(i,url)
+  zzbf=i collectgarbage("collect")
+  for i=1,#音乐id do
+    loadstring("return 音乐"..i)().setTextColor(0xFF000000)
+    loadstring("return 歌名"..i)().setTextColor(0xFF000000)
+    loadstring("return 歌手"..i)().setTextColor(0xFF000000)
+  end
+  loadstring("return 音乐"..i)().setTextColor(0xFF68AFE5)
+  loadstring("return 歌名"..i)().setTextColor(0xFF68AFE5)
+  loadstring("return 歌手"..i)().setTextColor(0xFF68AFE5)
+  Http.get("http://vip.muyl.vip/template/JOELEO/asset/inc/api.php?callback=jQuery1110049092228126606385_1570265724024&types=url&id="..url.."&source=netease",nil,"utf8",nil,function(code,content)
+    url=content:match("jQuery1110049092228126606385_1570265724024(.+)")
+    url="["..url:sub(2,#url-2).."]"
+    json_o=JSON.decode(url)
+    for n,v in ipairs(json_o) do
+      if mediaPlayer then
+        mediaPlayer.stop()
+        mediaPlayer=nil
+      end
+      if v.url~="" then
+        collectgarbage("collect")
+        获取音乐图片(图片id[i])
+        gcbj.scrollTo(0,0)
+        collectgarbage("collect")
+        thread(获取歌词,歌词id[i])
+        collectgarbage("collect")
+        mediaPlayer=MediaPlayer()
+        mediaPlayer.reset()
+        mediaPlayer.setDataSource(v.url)
+        mediaPlayer.prepare()
+        collectgarbage("collect")
+        mediaPlayer.start()
+        collectgarbage("collect")
+        bfzttp.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/f83b6eca-d92b-460a-8bd6-e7ae4177874e/0"))
+        mediaPlayer.setOnCompletionListener({onCompletion=function()
+          collectgarbage("collect")
+          if zzbf~=0 then
+            if bffs=="列表循环" then
+              if zzbf<#音乐id then
+                播放音乐(zzbf+1,链接id[zzbf+1])
+              else
+                播放音乐(1,链接id[1])
+              end
+            elseif bffs=="随机播放" then
+              zzbf=math.random(1,#音乐id)
+              播放音乐(zzbf,链接id[zzbf])
+            else
+              播放音乐(zzbf,链接id[zzbf])
+            end
+          end
+        end})
+        song_time=mediaPlayer.getDuration()
+        分=tostring(tointeger(song_time/1000/60))
+        if #分==1 then
+          分="0"..分
+        end
+        秒=tostring(tointeger((song_time/1000)%60))
+        if #秒==1 then
+          秒="0"..秒
+        end
+        allt.text=分..":"..秒
+      else
+        提示"播放失败，自动播放下一首"
+        if zzbf~=0 then
+          if zzbf<#音乐id then
+            播放音乐(zzbf+1,链接id[zzbf+1])
+          else
+            播放音乐(1,链接id[1])
+          end
+        end
+      end
+    end
+    if 分 then
+      歌曲时间[i]=分..":"..秒
+      分=nil 秒=nil
+    end
+  end)
+end
+function 获取音乐图片(pic)
+  collectgarbage("collect")
+  Http.get("http://vip.muyl.vip/template/JOELEO/asset/inc/api.php?callback=jQuery1110049092228126606385_1570265724024&types=pic&id="..pic.."&source=netease",nil,"utf8",nil,function(code,content)
+    if code==200 then
+      pic=content:match("jQuery1110049092228126606385_1570265724024(.+)")
+      pic="["..pic:sub(2,#pic-2).."]"
+      json_o=JSON.decode(pic)
+      for i,v in ipairs(json_o) do
+        yytp.setImageBitmap(loadbitmap(v.url))
+      end
+    end
+  end)
+end
+function 添加歌词布局(歌词布局)
+  collectgarbage("collect")
+  if gcfbj then
+    gcfbj.setVisibility(8)
+  end
+  gcwblb.addView(loadlayout(loadstring("return "..歌词布局)()))
+end
+function 获取各行歌词高度(n)
+  collectgarbage("collect")
+  歌词高度={}
+  for i=1,n do
+    table.insert(歌词高度,loadstring("return fbj歌词"..i)().getHeight())
+  end
+end
+function gdsj()end
+function 返回滚动事件(滚动事件)
+  collectgarbage("collect")
+  gdsj=loadstring("return function()pcall(function()"..滚动事件.."end)end")()
+end
+function 获取歌词(lyric)
+  歌词适配布局=[[{
+  LinearLayout,
+  id="fbj歌词id",
+  padding="5dp",
+  layout_width=w,
+  layout_gravity="center",
+  paddingLeft="14dp",
+  paddingRight="14dp",
+  {
+    TextView,
+    id="歌词id",
+    text="文字",
+    gravity="center",
+    textSize="16sp",
+    layout_width="fill",
+    textColor=0xff000000,
+    },
+  },
+]]
+require"import"
+  import "com.androlua.Http"
+  Http.get("http://vip.muyl.vip/template/JOELEO/asset/inc/api.php?callback=jQuery111006245952305442848_1570020593174&types=lyric&id="..lyric.."&source=netease",nil,"utf8",nil,function(code,content)
+    collectgarbage("collect")
+    歌词=content:match("jQuery111006245952305442848_1570020593174(.+)")
+    歌词="["..歌词:sub(2,#歌词-2).."]"
+    JSON=import "cjson"
+    json_o=JSON.decode(歌词)
+    for i,v in pairs(json_o) do
+      歌词=""
+      for i=1,#v.lyric do
+        if v.lyric:sub(i,i)=="[" then
+          歌词=歌词..'"'
+         elseif v.lyric:sub(i,i)=="]" then
+           if v.lyric:sub(i+1,i+1)=="[" then
+             歌词=歌词..'","\n'
+           else
+             歌词=歌词..'","'
+           end
+         else
+          歌词=歌词..v.lyric:sub(i,i)
+        end
+      end
+      if 歌词~="" then
+        歌词='"00:'..(歌词:gsub("\n",'",')..'"'):match('"00:(.+)')
+        gc=歌词:gmatch('"(.-)"')
+        local n=0 歌词时间={} 歌词={} 歌词布局=""
+        for i in gc do
+          n=n+1
+          if n%2==1 then
+            table.insert(歌词时间,tointeger(tostring(i:gsub(":","")):sub(1,2)*60)+tointeger(tostring(i:gsub(":","")):sub(3,4)))
+           else
+            table.insert(歌词,i)
+          end
+        end
+      end
+    end
+    if 歌词~="" then
+      for i=1,#歌词 do
+        歌词布局=歌词布局..歌词适配布局:gsub("歌词id","歌词"..i):gsub("文字",歌词[i])
+      end
+      歌词布局=[[{
+        LinearLayout,
+        id="gcfbj",
+        layout_width=w,
+        gravity="center",
+        layout_height="fill",
+        orientation="vertical",
+      ]]..歌词布局.."}"
+      call('添加歌词布局',歌词布局)
+      task(500,function()
+        call('获取各行歌词高度',#歌词时间)
+        task(100,function()
+          歌词高度=activity.get("歌词高度")
+          滚动事件=""
+          for i=1,#歌词时间 do
+            y=0
+           for n=1,i-1 do
+              y=y+歌词高度[n]
+            end
+            y=y-activity.get("gcbjh")/2+歌词高度[i]/2
+            if i==#歌词时间 then
+              滚动事件=滚动事件.." time=play_time/1000 if time>="..tostring(歌词时间[i]).." then if not ckgc then gcbj.scrollTo(0,"..y..")end task(50,function()for i=1,"..#歌词时间.." do loadstring('return 歌词'..i)().setTextColor(0xFF000000)end 歌词"..i..".setTextColor(0xFF68AFE5)end) end "
+            else
+              滚动事件=滚动事件.." time=play_time/1000 if time>="..tostring(歌词时间[i]).." and time<"..tostring(歌词时间[i+1]).." then if not ckgc then gcbj.scrollTo(0,"..y..")end task(50,function()for i=1,"..#歌词时间.." do loadstring('return 歌词'..i)().setTextColor(0xFF000000)end 歌词"..i..".setTextColor(0xFF68AFE5)end) end "
+            end
+          end
+          call('返回滚动事件',滚动事件)
+        end)
+      end)
+    else
+      call('添加歌词布局','{TextView,id="gcfbj",gravity="center",text="无歌词",textSize="16sp",layout_width=w,padding="14dp",textColor=0xff000000}')
+      call('获取各行歌词高度',0)
+      call('返回滚动事件',"")
+    end
+  end)
+end
+local function 添加布局(i,id,name,artist,album,url)
+  local 布局={
+    LinearLayout,
+    id="音乐列表"..i,
+    layout_width=w,
+    orientation="vertical",
+    backgroundColor=0xFFFFFFFF,
+    onClick=function()
+      collectgarbage("collect")
+      播放音乐(i,url)
+    end,
+    {
+      LinearLayout,
+      padding="10dp",
+      layout_width=w,
+      orientation="horizontal",
+      {
+        TextView,
+        id="音乐"..i,
+        textSize="16sp",
+        text=tostring(i),
+        paddingRight="10dp",
+        textColor=0xFF000000,
+      },
+      {
+        TextView,
+        id="歌名"..i,
+        maxLines=1,
+        textSize="16sp",
+        text=tostring(name),
+        layout_width=0.5*w,
+        textColor=0xff000000,
+      },
+      {
+        TextView,
+        id="歌手"..i,
+        maxLines=1,
+        textSize="16sp",
+        text=tostring(artist),
+        layout_weight="1",
+        textColor=0xff000000,
+      },
+      {
+        CardView,
+        radius="10dp",
+        elevation="1dp",
+        layout_width="20dp",
+        layout_height="20dp",
+        layout_gravity="center",
+        {
+          ImageView,
+          id="图片"..i,
+          padding="1dp",
+          elevation="1dp",
+          layout_width="20dp",
+          layout_height="20dp",
+          layout_gravity="center",
+          src="http://shp.qpic.cn/collector/2530648358/157972bd-3f2d-46c0-bb0f-676a87634525/0",
+          onClick=function()
+            圆角对话框()
+            .设置圆角("10dp")
+            .设置消息("歌名："..name.."\n\n歌手："..artist.."\n\n专辑："..album.."\n\n时长："..歌曲时间[i])
+            .设置中立按钮("关闭")
+            .设置积极按钮("下载",function()
+              Http.get("http://vip.muyl.vip/template/JOELEO/asset/inc/api.php?callback=jQuery1110049092228126606385_1570265724024&types=url&id="..url.."&source=netease",nil,"utf8",nil,function(code,content)
+                url2=content:match("jQuery1110049092228126606385_1570265724024(.+)")
+                url2="["..url2:sub(2,#url2-2).."]"
+                json_o=JSON.decode(url2)
+                for i,v in ipairs(json_o) do
+                  if v.url~="" then
+                    保存链接图片(v.url,"/storage/emulated/0/Download/QQBiD/"..name.." "..artist..".mp3")
+                  else
+                    提示"获取链接失败"
+                  end
+                end
+              end)
+            end)
+            .显示(function()
+              yjdhkwb.setTextSize(15)
+            end)
+          end,
+        },
+      },
+    },
+    {
+      TextView,
+      layout_width=0.95*w,
+      layout_height="1dp",
+      layout_gravity="center",
+      backgroundColor=0xFFF6F6F6,
+    },
+  }
+  return 布局
+end
+local function 搜索音乐(name,sscs)
+  collectgarbage("collect")
+  if sscs<=5 then
+    url="http://vip.muyl.vip/template/JOELEO/asset/inc/api.php?callback=jQuery1110006499043610914579_1570024239567&types=search&count="..20*sscs.."&source=netease&pages=1&name="..name
+  else
+    url="http://vip.muyl.vip/template/JOELEO/asset/inc/api.php?callback=jQuery111009825395460520832_1570295814097&types=search&count=20&source=netease&pages="..sscs.."&name="..name
+  end
+  Http.get(url,nil,"utf8",nil,function(code,content)
+    if code==200 then
+      if 音乐id then
+        for i=1,#音乐id do
+          loadstring("return 音乐列表"..i)().setVisibility(8)
+        end
+      end
+      if sscs<=5 then
+        音乐id={}音乐名称={}歌手={}图片id={}歌词id={}链接id={}专辑={}歌曲时间={}
+        音乐列表=content:match("jQuery1110006499043610914579_1570024239567(.+)")
+      else
+        音乐列表=content:match("jQuery111009825395460520832_1570295814097(.+)")
+      end
+      音乐列表=音乐列表:sub(3,#音乐列表-3)
+      音乐列表="["..音乐列表.."]"
+      JSON=import "cjson"
+      json_o=JSON.decode(音乐列表)
+      for i,v in ipairs(json_o) do
+        歌曲时间[i]="00:00" table.insert(音乐id,tostring(tointeger(v.id))) table.insert(音乐名称,v.name) table.insert(图片id,v.pic_id) table.insert(歌词id,tostring(tointeger(v.lyric_id))) table.insert(链接id,tostring(tointeger(v.url_id))) table.insert(专辑,v.album) table.insert(歌手,v.artist[1])
+      end
+      for i=1,#音乐id do
+        布局=添加布局(i,音乐id[i],音乐名称[i],歌手[i],专辑[i],链接id[i])
+        yylb.addView(loadlayout(布局))
+        波纹方(loadstring("return 音乐列表"..i)(),0xFFE0E0E0)
+        波纹(loadstring("return 图片"..i)(),0xFFE0E0E0)
+      end
+      if zzbf~=0 then
+        for i=1,#音乐id do
+          loadstring("return 音乐"..i)().setTextColor(0xFF000000)
+          loadstring("return 歌名"..i)().setTextColor(0xFF000000)
+          loadstring("return 歌手"..i)().setTextColor(0xFF000000)
+        end
+        loadstring("return 音乐"..zzbf)().setTextColor(0xFF68AFE5)
+        loadstring("return 歌名"..zzbf)().setTextColor(0xFF68AFE5)
+        loadstring("return 歌手"..zzbf)().setTextColor(0xFF68AFE5)
+      end
+      if #音乐id<20*sscs then
+        jxjz.text="全部加载完了"
+      end
+    end
+  end)
+end
+音乐搜索试听布局={
+  LinearLayout,
+  orientation="vertical",
+  {
+    LinearLayout,
+    elevation="5dp",
+    layout_width=w,
+    orientation="vertical",
+    backgroundColor=0xFF9AAEC7,
+    layout_height=154/32*geth(toolbar)+getStatusBarHeight(),
+    {
+      LinearLayout,
+      layout_marginTop=getStatusBarHeight(),
+      orientation="horizontal",
+      layout_width=w,
+      layout_height="32dp",
+      {
+        ImageView,
+        padding="15dp",
+        layout_width="48dp",
+        layout_gravity="center",
+        layout_height="48dp",
+        src="http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0",
+        ColorFilter=0xffffffff,
+        onClick=function()yyssstbj.dismiss()end,
+      },
+      {
+        LinearLayout,
+        layout_marginLeft="12dp",
+        layout_height="32dp",
+        {
+          TextView,
+          layout_gravity="center",
+          textColor=0xffffffff,
+          text="音乐搜索试听",
+        },
+      },
+    },
+    {
+      CardView,
+      id="kddhk",
+      radius="4dp",
+      elevation=0,
+      layout_height="48dp",
+      layout_gravity="center",
+      layout_marginTop="10dp",
+      layout_marginBottom="10dp",
+      CardBackgroundColor=0xffffffff,
+      layout_width=w-28/32*geth(toolbar),
+      {
+        LinearLayout,
+        orientation="horizontal",
+        {
+          FrameLayout,
+          layout_weight="1",
+          layout_gravity="center",
+          {
+            LinearLayout,
+            layout_width=w,
+          },
+          {
+            EditText,
+            id="gqm",
+            textSize="14sp",
+            singleLine=true,
+            layout_width="fill",
+            paddingLeft="16dp",
+            textColor=0xff000000,
+            backgroundColor=0xffffffff,
+            hintTextColor=0xFFB6B6B6,
+            hint="搜索歌手、歌名、专辑",
+          },
+        },
+        {
+          ImageView,
+          id="cxgq",
+          padding="11dp",
+          layout_width="48dp",
+          layout_height="48dp",
+          layout_gravity="center",
+          ColorFilter=0xFFB6B6B6,
+          src="http://shp.qpic.cn/collector/2530648358/4801ab8c-3258-4d1b-aad2-40740e2456f8/0",
+          onClick=function()
+            zzbf=0 sscs=1 ssnr=gqm.text
+            搜索音乐(ssnr,sscs)
+            pagev.showPage(1)
+            jxjz.setVisibility(0)jxjz.text="点击加载更多.."
+          end,
+        },
+      },
+    },
+    {
+      LinearLayout,
+      layout_marginLeft="14dp",
+      layout_height="54dp",
+      layout_width=w,
+      {
+        LinearLayout,
+        layout_gravity="center",
+        orientation="horizontal",
+        id="huatk",
+        {
+          FrameLayout,
+          {
+            CardView,
+            id="huat",
+            elevation=0,
+            cardBackgroundColor=0xFFB6C3D3,
+          },
+          {
+            LinearLayout,
+            {
+              LinearLayout,
+              layout_gravity="center",
+              onClick=function()pagev.showPage(0)end,
+              {
+                TextView,
+                id="bfq",
+                padding="6dp",
+                text="播放器",
+                paddingLeft="8dp",
+                paddingRight="8dp",
+              },
+            },
+            {
+              LinearLayout,
+              layout_gravity="center",
+              onClick=function()pagev.showPage(1)end,
+            {
+              TextView,
+              id="yylbwb",
+              padding="6dp",
+              text="音乐列表",
+              paddingLeft="8dp",
+              paddingRight="8dp",
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  {
+    PageView,
+    backgroundColor=0xffffffff,
+    layout_weight="1",
+    layout_width=w,
+    id="pagev",
+    pages={
+      {
+        LinearLayout,
+        orientation="vertical",
+        {
+          CardView,
+          elevation="5dp",
+          radius="55dp",
+          layout_width="110dp",
+          layout_height="110dp",
+          layout_gravity="center",
+          layout_marginTop="5dp",
+          layout_marginBottom="5dp",
+          cardBackgroundColor=0xFFFFFFFF,
+          {
+            ImageView,
+            id="yytp",
+            layout_width="110dp",
+            layout_height="110dp",
+            layout_gravity="center",
+            scaleType="centerCrop",
+          },
+        },
+        {
+          NestedScrollView,
+          id="gcbj",
+          layout_width=w,
+          layout_height="fill",
+          {
+            LinearLayout,
+            id="gcwblb",
+            layout_width=w,
+            orientation="vertical",
+          },
+        },
+      },
+      {
+        NestedScrollView,
+        id="yylbbj",
+        layout_width="fill",
+        layout_height="fill",
+        {
+          LinearLayout,
+          orientation="vertical",
+          {
+            LinearLayout,
+            padding="10dp",
+            layout_width=w,
+            paddingLeft="28dp",
+            orientation="horizontal",
+            {
+              TextView,
+              text="歌曲",
+              layout_width=0.5*w,
+              textSize="16sp",
+              textColor=0xFF68AFE5,
+            },
+            {
+              TextView,
+              text="歌手",
+              textSize="16sp",
+              textColor=0xFF68AFE5,
+            },
+          },
+          {
+            TextView,
+            layout_width=0.95*w,
+            layout_height="1dp",
+            layout_gravity="center",
+            backgroundColor=0xFFF6F6F6,
+          },
+          {
+            LinearLayout,
+            id="yylb",
+            orientation="vertical",
+          },
+          {
+            TextView,
+            id="jxjz",
+            visibility=4,
+            padding="10dp",
+            layout_width=w,
+            textColor=0xFF6E6E6E,
+            onClick=function()
+              if jxjz.text=="点击加载更多.." then
+                sscs=sscs+1
+                搜索音乐(ssnr,sscs)
+              end
+            end,
+          }
+        },
+      },
+    },
+  },
+  {
+    LinearLayout,
+    id="yybfkj",
+    layout_width=w,
+    paddingTop="14dp",
+    orientation="vertical",
+    backgroundColor=0xFFFFFFFF,
+    {
+      FrameLayout,
+      layout_width=w,
+      {
+        ProgressBar,
+        id="yyjd",
+        max=1000,
+        layout_width=w-28/32*geth(toolbar),
+        layout_gravity="center",
+        style="?android:attr/progressBarStyleHorizontal",
+      },
+      {
+        CardView,
+        id="yyjdd",
+        elevation=0,
+        cardBackgroundColor=0xFF68AFE5,
+      },
+    },
+    {
+      LinearLayout,
+      layout_width="fill",
+      paddingLeft="14dp",
+      paddingRight="14dp",
+      orientation="horizontal",
+      {
+        TextView,
+        id="nowt",
+        text="00:00",
+        textColor=0xFF6E6E6E,
+      },
+      {
+        TextView,
+        id="allt",
+        text="00:00",
+        gravity="right",
+        layout_weight="1",
+        textColor=0xFF6E6E6E,
+      },
+    },
+    {
+      LinearLayout,
+      layout_width=w,
+      layout_height="48dp",
+      paddingBottom="14dp",
+      orientation="horizontal",
+      {
+        ImageView,
+        id="bffstp",
+        padding="4dp",
+        layout_width=w/5,
+        layout_gravity="center",
+        ColorFilter=0xFF6E6E6E,
+        src="http://shp.qpic.cn/collector/2530648358/5e4683b4-5108-421d-9212-3276ae09ceb5/0",
+        onClick=function()
+          if bffs=="列表循环" then
+            bffs="随机播放"
+            bffstp.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/41fa19e1-5a52-4bc1-8f08-3a14de50f23f/0"))
+          elseif bffs=="随机播放" then
+            bffs="单曲循环"
+            bffstp.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/4fccc4d5-2fde-49f3-a4a5-1f5d446a074a/0"))
+          else
+            bffs="列表循环"
+            bffstp.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/5e4683b4-5108-421d-9212-3276ae09ceb5/0"))
+          end
+          提示(bffs)
+        end,
+      },
+      {
+        ImageView,
+        id="systp",
+        layout_width=w/5,
+        layout_gravity="center",
+        ColorFilter=0xFF6E6E6E,
+        src="http://shp.qpic.cn/collector/2530648358/458de12d-a256-4da1-9f84-f750f821496d/0",
+        onClick=function()
+          if zzbf~=0 then
+            if zzbf>1 then
+              播放音乐(zzbf-1,链接id[zzbf-1])
+            else
+              播放音乐(#音乐id,链接id[#音乐id])
+            end
+          end
+        end,
+      },
+      {
+        ImageView,
+        id="bfzttp",
+        layout_width=w/5,
+        layout_gravity="center",
+        ColorFilter=0xFF6E6E6E,
+        src="http://shp.qpic.cn/collector/2530648358/600d320d-4b93-43f0-9242-d5595f7b72f0/0",
+        onClick=function()
+          if mediaPlayer then
+            if mediaPlayer.isPlaying() then
+              mediaPlayer.pause()
+              bfzttp.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/600d320d-4b93-43f0-9242-d5595f7b72f0/0"))
+            else
+              mediaPlayer.start()
+              bfzttp.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/f83b6eca-d92b-460a-8bd6-e7ae4177874e/0"))
+            end
+          end
+        end,
+      },
+      {
+        ImageView,
+        id="xystp",
+        layout_width=w/5,
+        layout_gravity="center",
+        ColorFilter=0xFF6E6E6E,
+        src="http://shp.qpic.cn/collector/2530648358/6fb35fa9-94e1-4ea3-806a-9d7337cffb88/0",
+        onClick=function()
+          if zzbf~=0 then
+            if zzbf<#音乐id then
+              播放音乐(zzbf+1,链接id[zzbf+1])
+            else
+              播放音乐(1,链接id[1])
+            end
+          end
+        end,
+      },
+      {
+        ImageView,
+        id="xztp",
+        padding="6dp",
+        layout_width=w/5,
+        layout_gravity="center",
+        ColorFilter=0xFF6E6E6E,
+        src="http://shp.qpic.cn/collector/2530648358/e6a00e91-f87a-4f3f-b321-a5b0f43c0495/0",
+        onClick=function()
+          if zzbf~=0 then
+            Http.get("http://vip.muyl.vip/template/JOELEO/asset/inc/api.php?callback=jQuery1110049092228126606385_1570265724024&types=url&id="..链接id[zzbf].."&source=netease",nil,"utf8",nil,function(code,content)
+              url2=content:match("jQuery1110049092228126606385_1570265724024(.+)")
+              url2="["..url2:sub(2,#url2-2).."]"
+              json_o=JSON.decode(url2)
+              for i,v in ipairs(json_o) do
+                if v.url~="" then
+                  保存链接图片(v.url,"/storage/emulated/0/Download/QQBiD/"..音乐名称[zzbf].." "..歌手[zzbf]..".mp3")
+                else
+                  提示"获取链接失败"
+                end
+              end
+            end)
+          end
+        end,
+      },
+    },
+  },
+}
+yyssstbj=PopupWindow(loadlayout(音乐搜索试听布局))
+yyssstbj.setFocusable(true).setWidth(w).setHeight(h).setTouchable(true).setOutsideTouchable(true).showAtLocation(fltBtn.Parent,0,0,0)
+gcbjh=h-(154/32*geth(toolbar)+getStatusBarHeight())-geth(yybfkj)-120/32*geth(toolbar)
+波纹(bffstp,0xFFE2E2E2)波纹(systp,0xFFE2E2E2)波纹(bfzttp,0xFFE2E2E2)波纹(xystp,0xFFE2E2E2)波纹(xztp,0xFFE2E2E2)颜色(gqm,0xFF60ACE5)波纹(cxgq,0xFFE2E2E2)波纹方(jxjz,0xFFE0E0E0)
+seth(yyjdd,geth(yyjd)/1.25)setw(yyjdd,geth(yyjd)/1.25)yyjdd.setRadius(geth(yyjd)/2.5)
+yyjddx=14/32*geth(toolbar)-geth(yyjd)/2.5
+yyjdd.setTranslationX(yyjddx)yyjdd.setTranslationY((geth(yyjd)-geth(yyjd)/1.25)/2)
+local yyjdw=w-28/32*geth(toolbar)
+yyjd.ProgressDrawable.setColorFilter(PorterDuffColorFilter(0xFF68AFE5,PorterDuff.Mode.SRC_ATOP))
+gqm.setOnKeyListener({
+  onKey=function(view,code,event)
+    if code==66 then
+      activity.getSystemService(Context.INPUT_METHOD_SERVICE).hideSoftInputFromWindow(gqm.getWindowToken(),0)
+      zzbf=0 sscs=1 ssnr=gqm.text
+      搜索音乐(ssnr,sscs)
+      pagev.showPage(1)
+      jxjz.setVisibility(0)jxjz.text="点击加载更多.."
+    end
+  end
+})
+t=Ticker()
+t.Period=400
+t.onTick=function()
+  pcall(function ()
+    if mediaPlayer.isPlaying() then
+      play_time=mediaPlayer.getCurrentPosition()
+      gdsj()
+      if not tzyyjd then
+        yyjd.setProgress(play_time/song_time*1000)
+        yyjdd.setTranslationX(yyjddx+play_time/song_time*yyjdw)
+      end
+      local 分=tostring(tointeger(play_time/1000/60))
+      if #分==1 then
+        分="0"..分
+      end
+      local 秒=tostring(tointeger((play_time/1000)%60))
+      if #秒==1 then
+        秒="0"..秒
+      end
+      nowt.text=分..":"..秒
+    end
+  end)
+end
+t.start()
+gcbj.onTouch=function(v,e)
+  if e.action==1 then
+    ckgc=nil
+  else
+    ckgc=true
+  end
+end
+yyjd.onTouch=function(v,e)
+  if e.action==0 then
+    tzyyjd=true
+  elseif e.action==2 then
+    if e.getX()>=0 and e.getX()<=yyjdw and mediaPlayer then
+      yyjd.setProgress(e.getX()/yyjdw*1000)
+      yyjdd.setTranslationX(yyjddx+e.getX())
+    end
+  else
+    if mediaPlayer then
+      local 分=tostring(tointeger(((e.getX()/yyjdw)*song_time/1000)/60))
+      if #分==1 then
+        分="0"..分
+      end
+      local 秒=tostring(tointeger(((e.getX()/yyjdw)*song_time/1000)%60))
+      if #秒==1 then
+        秒="0"..秒
+      end
+      nowt.text=分..":"..秒
+      mediaPlayer.seekTo((e.getX()/yyjdw)*song_time)
+    end
+    tzyyjd=nil
+  end
+  return true
+end
+yyssstbj.onDismiss=function()
+  if mediaPlayer then
+    mediaPlayer.stop()
+  end
+  zzbf=0
+  t.stop()
+  collectgarbage("collect")
+end
+setw(huat,getw(bfq))seth(huat,geth(bfq))huat.setRadius(geth(bfq)/2)
+local kuan=getw(bfq)
+pagev.setOnPageChangeListener(PageView.OnPageChangeListener{
+  onPageScrolled=function(a,b,c)
+    ckgc=nil
+    huat.setX(kuan*(b+a))
+    if a~=1 then
+      setw(huat,getw(bfq)-b*(getw(bfq)-getw(yylbwb)))
+    end
+    if c==0then
+      if a==0then
+        bfq.setTextColor(0xFFFFFFFF)
+        yylbwb.setTextColor(0xFFDEDEDE)
+       else
+        bfq.setTextColor(0xFFDEDEDE)
+        yylbwb.setTextColor(0xFFFFFFFF)
+      end
+    end
+  end})
 end
 import"android.support.v4.widget.*"
 轻工具布局={
@@ -9574,6 +10458,29 @@ import"android.support.v4.widget.*"
                       },
                     },
                   },
+                  {
+                    LinearLayout,
+                    layout_height="32dp",
+                    orientation="horizontal",
+                    layout_marginTop="10dp",
+                    {
+                      CardView,
+                      layout_height="fill",
+                      elevation=0,
+                      radius="16dp",
+                      cardBackgroundColor=0xFFF8F8F8,
+                      {
+                        TextView,
+                        id="yyssstid",
+                        paddingLeft="12dp",
+                        paddingRight="12dp",
+                        text="音乐搜索试听",
+                        textColor=0xFF4E4E4E,
+                        layout_gravity="center",
+                        onClick=function()音乐搜索试听()end,
+                      },
+                    },
+                  },
                 },
               },
             },
@@ -9640,13 +10547,13 @@ import"android.support.v4.widget.*"
                       cardBackgroundColor=0xFFF8F8F8,
                       {
                         TextView,
-                        id="qqwyhcqlid2",
+                        id="yyssstid2",
                         paddingLeft="12dp",
                         paddingRight="12dp",
-                        text="QQ无用缓存清理",
+                        text="音乐搜索试听",
                         textColor=0xFF4E4E4E,
                         layout_gravity="center",
-                        onClick=function()QQ无用缓存清理()end,
+                        onClick=function()音乐搜索试听()end,
                       },
                     },
                     --[[{
@@ -9728,7 +10635,7 @@ import"android.support.v4.widget.*"
                   layout_width="fill",
                   textColor=0xFF6E6E6E,
                   layout_marginTop="15dp",
-                  text="新增 QQ无用缓存清理",
+                  text="新增 音乐搜索试听\n\n添加 QQ无用缓存清理规则",
                 },
               },
             },
@@ -9961,8 +10868,8 @@ function 主页收藏应用()
 end
 主页收藏应用()
 波纹(zydj,0xFFE2E2E2)波纹(fldj,0xFFE2E2E2)波纹(zhdj,0xFFE2E2E2)
-波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)波纹(jzzhid,0xFFD0D0D0)波纹(gsdcxid,0xFFD0D0D0)波纹(lssdjtid,0xFFD0D0D0)波纹(qqipcxid,0xFFD0D0D0)波纹(ljflcxid,0xFFD0D0D0)波纹(dzbid,0xFFD0D0D0)波纹(hbid,0xFFD0D0D0)波纹(hlzhid,0xFFD0D0D0)波纹(dwjqlid,0xFFD0D0D0)波纹(kwjqlid,0xFFD0D0D0)波纹(kwjjqlid,0xFFD0D0D0)波纹(azbqlid,0xFFD0D0D0)波纹(qqwyhcqlid,0xFFD0D0D0)
-波纹(qqwyhcqlid2,0xFFD0D0D0)--波纹(kwjjqlid2,0xFFD0D0D0)波纹(azbqlid2,0xFFD0D0D0)
+波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)波纹(jzzhid,0xFFD0D0D0)波纹(gsdcxid,0xFFD0D0D0)波纹(lssdjtid,0xFFD0D0D0)波纹(qqipcxid,0xFFD0D0D0)波纹(ljflcxid,0xFFD0D0D0)波纹(dzbid,0xFFD0D0D0)波纹(hbid,0xFFD0D0D0)波纹(hlzhid,0xFFD0D0D0)波纹(dwjqlid,0xFFD0D0D0)波纹(kwjqlid,0xFFD0D0D0)波纹(kwjjqlid,0xFFD0D0D0)波纹(azbqlid,0xFFD0D0D0)波纹(qqwyhcqlid,0xFFD0D0D0)波纹(yyssstid,0xFFD0D0D0)
+波纹(yyssstid2,0xFFD0D0D0)--波纹(kwjjqlid2,0xFFD0D0D0)波纹(azbqlid2,0xFFD0D0D0)
 pagev2.setOnPageChangeListener(PageView.OnPageChangeListener{
   onPageScrolled=function(a,b,c)
     if c==0then
