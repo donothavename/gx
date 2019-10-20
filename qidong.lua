@@ -835,6 +835,10 @@ end
 刷新网页()
 end
 zy()
+function onNewIntent(intent)
+  gbzy()
+  加载网页(tostring(intent.getData()))
+end
 fltBtn.setVisibility(View.GONE)
 参数=0
 function onKeyDown(code,event)
@@ -1934,11 +1938,11 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.3.3"then
+  if 版本名 > "3.3.5"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.3.3".."→"..版本名.."\n更新内容："..内容)
-    .设置圆角("32dp")
+    .设置消息("版本：".."3.3.5".."→"..版本名.."\n更新内容："..内容)
+    .设置圆角("30dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
       更新动画=
