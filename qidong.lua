@@ -27,7 +27,7 @@ import"zw"
 import "com.my.sc.*"
 import'com.yuxuan.widget.*'
 import "com.my.sc.MainActivity"
-thread(function()require "import"while true do Thread.sleep(10000)webView.freeMemory()collectgarbage("count")collectgarbage("collect")collectgarbage("count")end end)
+thread(function()require "import"while true do Thread.sleep(10000)collectgarbage("count")collectgarbage("collect")collectgarbage("count")end end)
 yys=0xFF767676 gnkq=0xFF7294DE wfdj=0xFFA4A6A3
 function searchfz()
   ssyq=io.open("/data/data/"..activity.getPackageName().."/搜索引擎"):read("*a")
@@ -2359,6 +2359,7 @@ if 网页链接:find"https://" or 网页链接:find"file://" then
 设置底栏刷新状态(true,true,1000)
 end
 function 页面加载完毕()
+webView.freeMemory()
 夜间()collectgarbage("collect")
 task(1,function()
 if not webView.canGoBack() then
