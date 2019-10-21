@@ -27,7 +27,7 @@ import"zw"
 import "com.my.sc.*"
 import'com.yuxuan.widget.*'
 import "com.my.sc.MainActivity"
-thread(function()require "import"while true do Thread.sleep(10000)collectgarbage("collect")end end)
+thread(function()require "import"while true do Thread.sleep(10000)webView.freeMemory()collectgarbage("count")collectgarbage("collect")collectgarbage("count")end end)
 yys=0xFF767676 gnkq=0xFF7294DE wfdj=0xFFA4A6A3
 function searchfz()
   ssyq=io.open("/data/data/"..activity.getPackageName().."/搜索引擎"):read("*a")
@@ -169,6 +169,121 @@ function setw(view,w)
 linearParams=view.getLayoutParams()
 linearParams.width=w
 view.setLayoutParams(linearParams)
+end
+function 波纹方(id,color)
+  ripples=activity.obtainStyledAttributes({android.R.attr.selectableItemBackground}).getResourceId(0,0)
+  id.setBackgroundDrawable(activity.Resources.getDrawable(ripples).setColor(ColorStateList(int[0].class{int{}},int{color})))
+end
+webView.onLongClick=function(v)
+  hitTestResult=webView.getHitTestResult()
+  if hitTestResult.getType()==WebView.HitTestResult.IMAGE_TYPE or hitTestResult.getType()==WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE then
+    picurl=hitTestResult.getExtra()
+    长按列表布局={
+      AbsoluteLayout,
+      id="bjbj",
+      layout_width=w,
+      layout_height=h,
+      onClick=function()
+        gbcalbbj()
+      end,
+      {
+        CardView,
+        id="bjkp",
+        radius="15dp",
+        elevation="1dp",
+        layout_width=0.45*w,
+        CardBackgroundColor=color1,
+        {
+          LinearLayout,
+          layout_width="fill",
+          paddingTop="10dp",
+          orientation="vertical",
+          paddingBottom="10dp",
+          {
+            TextView,
+            id="cktp",
+            textColor=yjys,
+            text="查看图片",
+            layout_width="fill",
+            paddingTop="10dp",
+            paddingLeft="20dp",
+            paddingBottom="10dp",
+            onClick=function()
+              加载网页(picurl)
+              gbcalbbj()
+            end,
+          },
+          {
+            TextView,
+            id="fzlj",
+            textColor=yjys,
+            text="复制链接",
+            layout_width="fill",
+            paddingTop="10dp",
+            paddingLeft="20dp",
+            paddingBottom="10dp",
+            onClick=function()
+              复制文本(picurl)
+              提示"已复制链接"
+              gbcalbbj()
+            end,
+          },
+          {
+            TextView,
+            id="bctp",
+            textColor=yjys,
+            text="保存图片",
+            layout_width="fill",
+            paddingTop="10dp",
+            paddingLeft="20dp",
+            paddingBottom="10dp",
+            onClick=function()
+              保存链接图片(picurl,"/storage/emulated/0/Pictures/UTBC浏览器/"..os.date("%Y%m%d%H%M%S")..".png")
+              gbcalbbj()
+            end,
+          },
+          {
+            TextView,
+            id="ytst",
+            textColor=yjys,
+            text="以图搜图",
+            layout_width="fill",
+            paddingTop="10dp",
+            paddingLeft="20dp",
+            paddingBottom="10dp",
+            onClick=function()
+              加载网页("https://pic.sogou.com/pic/ris_searchList.jsp?statref=home&v=5&keyword="..picurl)
+              gbcalbbj()
+            end,
+          },
+        },
+      },
+    }
+    calbbj=PopupWindow(loadlayout(长按列表布局))
+    calbbj.setFocusable(true).setWidth(w).setHeight(h).setTouchable(true).setOutsideTouchable(true).showAtLocation(fltBtn.Parent,0,0,0)
+    波纹方(cktp,0xFFD0D0D0)波纹方(bctp,0xFFD0D0D0)波纹方(fzlj,0xFFD0D0D0)波纹方(ytst,0xFFD0D0D0)
+    if ex<=0.45*w then
+      bjkpx=ex
+    else
+      bjkpx=ex-0.45*w
+    end
+    ey=ey+getStatusBarHeight()+geth(toolbar)
+    if ey>=getStatusBarHeight()+geth(toolbar) and ey<=h-geth(bjkp)-0.068*h then
+      bjkpy=ey
+      szfx=0
+    else
+      szfx=1
+      bjkpy=ey-geth(bjkp)
+    end
+    linearParams=bjkp.getLayoutParams()linearParams.x=bjkpx linearParams.y=bjkpy bjkp.setLayoutParams(linearParams)
+    bjkp.startAnimation(ScaleAnimation(0,1,0,1,1,0.5,1,szfx).setDuration(100))
+    function gbcalbbj()
+      task(110,function()
+        calbbj.dismiss()
+      end)
+      bjkp.startAnimation(ScaleAnimation(1,0,1,0,1,0.5,1,szfx).setDuration(100))
+    end
+  end
 end
 function 提示(t)
   local tsbj={
@@ -1938,10 +2053,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.3.5"then
+  if 版本名 > "3.3.6"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.3.5".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.3.6".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("30dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
