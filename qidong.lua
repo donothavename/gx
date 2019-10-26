@@ -3997,12 +3997,12 @@ webView.onTouch=function(v,e)
           fakebmbar.startAnimation(TranslateAnimation(0,0,0,fakebmbar.getHeight()).setDuration(200).setFillAfter(true))
           task(200,function()
             toolbar.parent.setVisibility(8)
-            fakebmbar.setVisibility(8)
+            bmwhole.setVisibility(4)
           end)
         end
       else
         if toolbar.parent.getVisibility()==8 then
-          toolbar.parent.setVisibility(0)fakebmbar.setVisibility(0)
+          toolbar.parent.setVisibility(0)bmwhole.setVisibility(0)
           toolbar.parent.startAnimation(TranslateAnimation(0,0,-fakebmbar.getHeight(),0).setDuration(200).setFillAfter(true))
           fakebmbar.startAnimation(TranslateAnimation(0,0,fakebmbar.getHeight(),0).setDuration(200).setFillAfter(true))
         end
