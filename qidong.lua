@@ -15,6 +15,7 @@ File("/data/data/"..activity.getPackageName().."/浏览器标识").createNewFile
 File("/data/data/"..activity.getPackageName().."/自定义UA").createNewFile()
 File("/data/data/"..activity.getPackageName().."/搜索引擎").createNewFile()
 File("/data/data/"..activity.getPackageName().."/隐身").createNewFile()
+File("/data/data/"..activity.getPackageName().."/全屏").createNewFile()
 File("/data/data/"..activity.getPackageName().."/主页背景图地址").createNewFile()
 File("/data/data/"..activity.getPackageName().."/书签").createNewFile()
 File("/data/data/"..activity.getPackageName().."/书签2").createNewFile()
@@ -174,6 +175,58 @@ function 波纹方(id,color)
   ripples=activity.obtainStyledAttributes({android.R.attr.selectableItemBackground}).getResourceId(0,0)
   id.setBackgroundDrawable(activity.Resources.getDrawable(ripples).setColor(ColorStateList(int[0].class{int{}},int{color})))
 end
+webView.setDownloadListener({
+  onDownloadStart=function(链接,UA,处理,类型,大小)
+    ur=URL(链接)
+    con=ur.openConnection()
+    wjm=File(tostring(con.getURL().getFile())).getName()
+    if wjm:find"?" then
+      wjm=wjm:match("(.+)?")
+    end
+    圆角对话框()
+    .设置圆角("10dp")
+    .设置标题("你是否需要下载此文件？")
+    .添加布局({
+      LinearLayout,
+      orientation="vertical",
+      Focusable=true,
+      FocusableInTouchMode=true,
+      {
+        EditText,
+        singleLine=true,
+        selectAllOnFocus=true,
+        id="wjmwb",
+        text=wjm,
+        layout_marginTop="5dp",
+        layout_width="80%w",
+        layout_gravity="center",
+        hintTextColor=yys,
+        textColor=yjys,
+      },
+      {
+        EditText,
+        singleLine=true,
+        selectAllOnFocus=true,
+        id="ljwb",
+        text=链接,
+        layout_margiTop="5dp",
+        layout_width="80%w",
+        layout_gravity="center",
+        hintTextColor=yys,
+        textColor=yjys,
+      },
+      {
+        TextView,
+        textColor=yys,
+        text="文件大小："..string.format("%.2f",大小/1048576).."MB",
+      }
+    })
+    .设置消极按钮("分享",function()分享文本(链接)end)
+    .设置中立按钮("取消")
+    .设置积极按钮("确定",function()软件内下载("正在下载："..wjmwb.text,ljwb.text,"/storage/emulated/0/Download/"..wjmwb.text)end)
+    .显示()
+  end
+})
 webView.onLongClick=function(v)
   hitTestResult=webView.getHitTestResult()
   if hitTestResult.getType()==WebView.HitTestResult.IMAGE_TYPE or hitTestResult.getType()==WebView.HitTestResult.SRC_IMAGE_ANCHOR_TYPE then
@@ -267,7 +320,9 @@ webView.onLongClick=function(v)
     else
       bjkpx=ex-0.45*w
     end
-    ey=ey+getStatusBarHeight()+geth(toolbar)
+    if toolbar.parent.getVisibility()==0 then
+      ey=ey+getStatusBarHeight()+geth(toolbar)
+    end
     if ey>=getStatusBarHeight()+geth(toolbar) and ey<=h-geth(bjkp)-0.068*h then
       bjkpy=ey
       szfx=0
@@ -403,7 +458,7 @@ end)
         srzybjtdz.setTextColor(0xFD009688)
       end
     end})end)end szbjt()
-end 
+end
 bl=math.sqrt(w^2+h^2)/math.sqrt(1280^2+720^2)
 sqjj=(0.8*w+bl*70-bl*4*105)/5
 if zybjtdz==""then sqwbys=0xff7c7c7c else sqwbys=0xffffffff end
@@ -963,7 +1018,7 @@ function onKeyDown(code,event)
     else
     if Gj==0 then gjx.setVisibility(View.GONE) Gj=nil gduo=nil elseif gduo==0 then DialogExternal.setVisibility(View.GONE) gduo=nil else
      if webView.canGoBack() then
-     网页后退()if not(webView.canGoBack())then xszy()end else
+     网页后退()if not(webView.canGoBack())then gbzy()xszy()end else
       提示"再按一次返回键退出浏览器"
       参数=tonumber(os.time()) 
       end
@@ -986,6 +1041,9 @@ io.open("/data/data/"..activity.getPackageName().."/浏览器标识","w+"):write
 end
 if io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/隐身","w+"):write("关"):close()
+end
+if io.open("/data/data/"..activity.getPackageName().."/全屏"):read("*a")==""then
+io.open("/data/data/"..activity.getPackageName().."/全屏","w+"):write("关"):close()
 end
 if io.open("/data/data/"..activity.getPackageName().."/无图模式"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/无图模式","w+"):write("关"):close()
@@ -2053,10 +2111,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.3.6"then
+  if 版本名 > "3.3.9"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.3.6".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.3.9".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("30dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
@@ -2368,7 +2426,7 @@ aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/91fe7156
 end
 设置底栏刷新状态(false,true,1000)
 end)
-task(800,function()if dlan==nil then if dlsskkq==0 then dlssk.setVisibility(View.GONE)end bitmap=getViewBitmap(fltBtn.Parent)pixel=bitmap.getPixel(geth(toolbar)/8,getStatusBarHeight()+geth(toolbar)/8)pixel2=bitmap.getPixel(w-0.5*geth(toolbar),getStatusBarHeight()+0.5*geth(toolbar))if not webView.canGoBack() then lspixel=pixel lspixel2=pixel2 end bmwhole.setBackgroundColor(pixel)aqic.setColorFilter(pixel2)gengduoic.setColorFilter(pixel2)bmrefreshic.setColorFilter(pixel2)bmhmic.setColorFilter(pixel2)bmforwardic.setColorFilter(pixel2)bmbackic.setColorFilter(pixel2)bitmap.recycle()if dlsskkq==0 then dlssk.setVisibility(View.VISIBLE)dlsrk.setBackgroundColor(pixel)dlsrk.setTextColor(pixel2)ssbj.setBackgroundColor(pixel)xzssyq.setColorFilter(pixel2)qwss.setColorFilter(pixel2)dlsrk.setHintTextColor(pixel2)end end end)
+if toolbar.getChildAt(3) then bitmap=getViewBitmap(toolbar.getChildAt(3))else bitmap=getViewBitmap(toolbar.getChildAt(2))end pixel=webView.getFirstPixel()pixel2=bitmap.getPixel(0.5*geth(toolbar),0.5*geth(toolbar))if not webView.canGoBack()then lspixel=pixel lspixel2=pixel2 end bmwhole.setBackgroundColor(pixel)aqic.setColorFilter(pixel2)gengduoic.setColorFilter(pixel2)bmrefreshic.setColorFilter(pixel2)bmhmic.setColorFilter(pixel2)bmforwardic.setColorFilter(pixel2)bmbackic.setColorFilter(pixel2)bitmap.recycle()luajava.clear(bitmap)bitmap=nil if dlsrk then dlsrk.setBackgroundColor(pixel)dlsrk.setTextColor(pixel2)ssbj.setBackgroundColor(pixel)xzssyq.setColorFilter(pixel2)qwss.setColorFilter(pixel2)dlsrk.setHintTextColor(pixel2)end
 end
 function 收到新标题事件()
 夜间()
@@ -3213,7 +3271,7 @@ fltBtn.Parent.addView(loadlayout(gjx))
 if not webView.canGoBack() then bcwyic.setColorFilter(wfdj)bcwywb.setTextColor(wfdj)fanyiic.setColorFilter(wfdj)fanyiwb.setTextColor(wfdj)yuanmaic.setColorFilter(wfdj)yuanmawb.setTextColor(wfdj)spjxic.setColorFilter(wfdj)spjxwb.setTextColor(wfdj)browseric.setColorFilter(wfdj)browserwb.setTextColor(wfdj)readic.setColorFilter(wfdj)readwb.setTextColor(wfdj)hcldic.setColorFilter(wfdj)hcldwb.setTextColor(wfdj)end
 if io.open("/data/data/"..activity.getPackageName().."/浏览器标识"):read("*a")~="默认"then biaoshiic.setColorFilter(gnkq)biaoshiwb.setTextColor(gnkq)end
 if io.open("/data/data/"..activity.getPackageName().."/无图模式"):read("*a")=="开"then wtmsic.setColorFilter(gnkq)wtmswb.setText("无图模式")wtmswb.setTextColor(gnkq)end
-if dlan~=nil then qpic.setColorFilter(gnkq)qpwb.setTextColor(gnkq)end
+if io.open("/data/data/"..activity.getPackageName().."/全屏"):read("*a")=="开" then qpic.setColorFilter(gnkq)qpwb.setTextColor(gnkq)end
 seth(k1,geth(yncz)+geth(biaoshi)+geth(browser)+geth(tuichu)+125)
 function gjx.onClick() gjx.setVisibility(View.GONE) GJX=0 Gj=nil end
 yncz.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)
@@ -3286,7 +3344,7 @@ bcwy.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibilit
 lxym.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)离线页面()end
 fanyi.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE)items={ListView,id="lb",dividerHeight=0,items={"彩云小译","百度翻译","有道翻译"},layout_width="fill",}圆角对话框().设置圆角("10dp").设置标题("选择翻译引擎").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==2 then 加载网页("http://fanyi.baidu.com/transpage?query="..webView.getUrl().."&from=auto&to=zh&source=url&ie=utf8&render=1")elseif id==3 then 加载网页("http://fanyi.youdao.com/WebpageTranslate?keyfrom=webfanyi.top&url="..webView.getUrl().."&type=ZH_CN2EN")elseif id==1 then 加载Js([[(function(){if(!document.body)return;var popup=document.querySelectorAll('.cyxy-target-popup');if(popup&&popup.length>0)return;var trs=document.createElement('script');trs.type='text/javascript';trs.charset='UTF-8';trs.src=('https:'==document.location.protocol?'https://':'http://')+'caiyunapp.com/dest/trs.js';document.body.appendChild(trs);})()]])end end})end)end end
 yuanma.onClick=function()if webView.canGoBack() then GJX=0 Gj=nil gjx.setVisibility(View.GONE) 加载网页("view-source:"..webView.getUrl())end end
-qp.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)if dlan==nil then activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.GONE)fakebmbar.setVisibility(View.GONE)webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,0)fltBtn.setVisibility(View.VISIBLE)dlan=0 else activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);toolbar.parent.setVisibility(View.VISIBLE)fakebmbar.setVisibility(View.VISIBLE)webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,bmwhole.height)fltBtn.setVisibility(View.GONE)dlan=nil end end
+qp.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE)if io.open("/data/data/"..activity.getPackageName().."/全屏"):read("*a")=="关" then activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,0)io.open("/data/data/"..activity.getPackageName().."/全屏","w+"):write("开"):close() else activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,bmwhole.height)io.open("/data/data/"..activity.getPackageName().."/全屏","w+"):write("关"):close() end end
 wtms.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) wutu=io.open("/data/data/"..activity.getPackageName().."/无图模式"):read("*a") if wutu=="开" then webView.getSettings().setLoadsImagesAutomatically(true) 提示"有图模式" io.open("/data/data/"..activity.getPackageName().."/无图模式","w+"):write("关"):close() else webView.getSettings().setLoadsImagesAutomatically(false) 提示"无图模式" io.open("/data/data/"..activity.getPackageName().."/无图模式","w+"):write("开"):close() end end
 xiutan.onClick=function()GJX=0 Gj=nil gjx.setVisibility(View.GONE) items={ListView,id="lb",dividerHeight=0,items={"嗅探1","嗅探2"},layout_width="fill",}圆角对话框().设置圆角("10dp").设置标题("选择嗅探引擎").添加布局(items).显示(function()lb.setOnItemClickListener(AdapterView.OnItemClickListener{onItemClick=function(parent, v, pos,id)pop.dismiss()if id==1 then require("import").import("qqbid/qqbid").resource_sniff();elseif id==2 then local dl=ProgressDialog.show(activity,nil,'正在嗅探')dl.show()加载Js([[window.location.assign($("iframe").attr("src"))
 ]]) task(1000,function() dl.dismiss() function loadTheJs() 加载Js("function returnVideoUrl(){var theVideoUrl=document.getElementsByTagName('video')[0].currentSrc;location.href=theVideoUrl;};returnVideoUrl();"); return true; end if(loadTheJs()) then task(1000,function() intent = Intent(Intent.ACTION_VIEW); uri = Uri.parse(webView.getUrl()); intent.setDataAndType(uri, "video/mp4"); activity.startActivity(intent); end); end end)end end})end)end
@@ -3790,7 +3848,11 @@ end
   };
 }
 fltBtn.Parent.addView(loadlayout(底栏布局))
+if io.open("/data/data/"..activity.getPackageName().."/全屏"):read("*a")=="开"then
+activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+else
 task(1,function()webView.Parent.LayoutParams=webView.Parent.LayoutParams.setMargins(0,0,0,bmwhole.height)end)
+end
 function 波纹(id,颜色)
   import "android.content.res.ColorStateList"
   local attrsArray = {android.R.attr.selectableItemBackgroundBorderless} 
@@ -3806,7 +3868,7 @@ end
 波纹(gengduo,0xFFE2E2E2)
 波纹(bmrefresh,0xFFE2E2E2)
 --注意！还有一些东西写在了网页加载事件和加载完毕事件
-bmback.onClick=function()if webView.canGoBack()then 网页后退()if not webView.canGoBack()then xszy()end else 提示"没有网页可以后退哦"end end
+bmback.onClick=function()if webView.canGoBack()then 网页后退()if not webView.canGoBack()then gbzy()xszy()end else 提示"没有网页可以后退哦"end end
 bmforward.onClick=function()if webView.canGoForward()then gbzy()网页前进()else 提示"没有网页可以前进哦"end end
 bmhome.onClick=function()停止加载()gbzy()xszy()while true do 网页后退()if not webView.canGoBack()then break end end end
 gengduo.onClick=function() if GJX==0 then 更多() GJX=nil gduo=0 elseif Gj==0 then gjx.setVisibility(View.GONE) Gj=nil gduo=nil elseif gduo==nil then 更多() gduo=0 else DialogExternal.setVisibility(View.GONE) gduo=nil end end
@@ -3925,10 +3987,29 @@ task(200,function(JDPUK)--延时等待悬浮按钮准备好
 end)
 if not tostring(jdpuk)==string.byte("")..string.byte("")..string.byte("4")..string.char(55).."32" then error()end
 webView.onTouch=function(v,e)
-  --获取手指点击的位置，不管是滑动，长按，点击，都会调用这个事件
-  ex=e.getX() --感觉getX的方法获取的坐标准一些，你也可以试试改成getRawX
-  ey=e.getY() --同上
-  --print("x"..ex.."y"..ey)
+  if e.action==0 then
+    webOldY=webView.getWebScrollY()
+  elseif e.action==1 then
+    if io.open("/data/data/"..activity.getPackageName().."/全屏"):read("*a")=="开" then
+      if webView.getWebScrollY()>=webOldY then
+        if toolbar.parent.getVisibility()~=8 then
+          toolbar.parent.startAnimation(TranslateAnimation(0,0,0,-toolbar.parent.getHeight()).setDuration(200).setFillAfter(true))
+          fakebmbar.startAnimation(TranslateAnimation(0,0,0,fakebmbar.getHeight()).setDuration(200).setFillAfter(true))
+          task(200,function()
+            toolbar.parent.setVisibility(8)
+          end)
+        end
+      else
+        if toolbar.parent.getVisibility()==8 then
+          toolbar.parent.setVisibility(0)
+          toolbar.parent.startAnimation(TranslateAnimation(0,0,-fakebmbar.getHeight(),0).setDuration(200).setFillAfter(true))
+          fakebmbar.startAnimation(TranslateAnimation(0,0,fakebmbar.getHeight(),0).setDuration(200).setFillAfter(true))
+        end
+      end
+    end
+  end
+  ex=e.getX()
+  ey=e.getY()
 end
 function bowen(id,颜色)
   --这个function用于设置控件点击的波纹效果
