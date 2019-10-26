@@ -2111,10 +2111,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.3.9"then
+  if 版本名 > "3.4.0"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.3.9".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.4.0".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("30dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
@@ -3997,11 +3997,12 @@ webView.onTouch=function(v,e)
           fakebmbar.startAnimation(TranslateAnimation(0,0,0,fakebmbar.getHeight()).setDuration(200).setFillAfter(true))
           task(200,function()
             toolbar.parent.setVisibility(8)
+            fakebmbar.setVisibility(8)
           end)
         end
       else
         if toolbar.parent.getVisibility()==8 then
-          toolbar.parent.setVisibility(0)
+          toolbar.parent.setVisibility(0)fakebmbar.setVisibility(0)
           toolbar.parent.startAnimation(TranslateAnimation(0,0,-fakebmbar.getHeight(),0).setDuration(200).setFillAfter(true))
           fakebmbar.startAnimation(TranslateAnimation(0,0,fakebmbar.getHeight(),0).setDuration(200).setFillAfter(true))
         end
