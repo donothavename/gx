@@ -1,3 +1,7 @@
+config.global_js=[[
+/*链接文字可点击*/var clearLink,excludedTags,filter,linkMixInit,linkPack,linkify,observePage,observer,setLink,url_regexp,xpath;url_regexp=/((https?:\/\/|www\.)[\x21-\x7e]+[\w\/]|(\w[\w._-]+\.(com|cn|org|net|info|tv|cc))(\/[\x21-\x7e]*[\w\/])?|ed2k:\/\/[\x21-\x7e]+\|\/|thunder:\/\/[\x21-\x7e]+=)/gi;﻿ clearLink=function(a){var b;a=null!=(b=a.originalTarget)?b:a.target;if(null!=a&&"a"===a.localName&&-1!==a.className.indexOf("texttolink")&&(b=a.getAttribute("href"),0!==b.indexOf("http")&&0!==b.indexOf("ed2k://")&&0!==b.indexOf("thunder://")))return a.setAttribute("href","http://"+b)};document.addEventListener("mouseover",clearLink);﻿ setLink=function(a){if(null!=a&&-1===a.parentNode.className.indexOf("texttolink")&&"#cdata-section"!==a.nodeName){var b=a.textContent.replace(url_regexp,'<a href="$1" target="_blank" class="texttolink">$1</a>');if(a.textContent.length!==b.length){var c=document.createElement("span");c.innerHTML=b;return a.parentNode.replaceChild(c,a)}}};excludedTags="a svg canvas applet input button area pre embed frame frameset head iframe img option map meta noscript object script style textarea code".split(" ");﻿ xpath="//text()[not(ancestor::"+excludedTags.join(") and not(ancestor::")+")]";filter=new RegExp("^("+excludedTags.join("|")+")$","i");linkPack=function(a,b){var c,d;if(b+1E4<a.snapshotLength){var e=c=b;for(d=b+1E4;b<=d?c<=d:c>=d;e=b<=d?++c:--c)setLink(a.snapshotItem(e));setTimeout(function(){return linkPack(a,b+1E4)},15)}else for(e=c=b,d=a.snapshotLength;b<=d?c<=d:c>=d;e=b<=d?++c:--c)setLink(a.snapshotItem(e))};﻿ linkify=function(a){a=document.evaluate(xpath,a,null,XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE,null);return linkPack(a,0)};observePage=function(a){for(a=document.createTreeWalker(a,NodeFilter.SHOW_TEXT,{acceptNode:function(a){if(!filter.test(a.parentNode.localName))return NodeFilter.FILTER_ACCEPT}},!1);a.nextNode();)setLink(a.currentNode)};﻿ observer=new window.MutationObserver(function(a){var b,c;var d=0;for(b=a.length;d<b;d++){var e=a[d];if("childList"===e.type){var g=e.addedNodes;var f=0;for(c=g.length;f<c;f++)e=g[f],observePage(e)}}});linkMixInit=function(){if(window===window.top&&""!==window.document.title)return linkify(document.body),observer.observe(document.body,{childList:!0,subtree:!0})};﻿ var clearlinkF=function(a){url=a.getAttribute("href");if(0!==url.indexOf("http")&&0!==url.indexOf("ed2k://")&&0!==url.indexOf("thunder://"))return a.setAttribute("href","http://"+url)},clearlinkE=function(){for(var a=document.getElementsByClassName("texttolink"),b=0;b<a.length;b++)clearlinkF(a[b])};setTimeout(clearlinkE,1500);setTimeout(linkMixInit,100);
+/*回到顶部/底部*/function toTopLikeKuAn(){var toTopBtn=document.createElement("div");toTopBtn.id="toTopBtn";toTopBtn.setAttribute("style","font-size:4vw !important;width:10vw !important;height:10vw !important;line-height:10vw !important;text-align:center !important;background:url(http://shp.qpic.cn/collector/2530648358/288e725b-3651-403b-9909-95f5aee1a497/0) no-repeat center center !important;background-size:5vw 5vw !important;background-color:rgba(250,250,250,0.9) !important;box-shadow:0px 1px 1px rgba(0,0,0,0.4);color:#000 !important;position:fixed !important;bottom:5vh !important;right:45vw !important;z-index:99999999999999999 !important;border-radius:100% !important;display:none;");document.body.appendChild(toTopBtn)};function isScrollToTop(){var toTopTimer;var theBody=document.getElementsByTagName('body')[0];var topTopBtn=document.getElementById('toTopBtn');document.ontouchstart=function(e){if(toTopTimer){clearTimeout(toTopTimer)};mystartY=e.changedTouches[0].clientY};document.ontouchmove=function(e){myendY=e.changedTouches[0].clientY;var myY=myendY-mystartY;if(myY>0){toTopBtn.style.opacity="1";toTopBtn.style.display="block";toTopBtn.style.transform="rotateZ(0deg)";toTopBtn.style.boxShadow="0px 1px 1px rgba(0,0,0,0.4)";toTopBtn.onclick=function(){window.scrollTo(0,0);this.style.display="none";toTopBtn.removeEventListener('click',this,false)}}else if(myY<0){toTopBtn.style.opacity="1";toTopBtn.style.display="block";toTopBtn.style.transform="rotateZ(180deg)";toTopBtn.style.boxShadow="0px -1px 1px rgba(0,0,0,0.4)";toTopBtn.onclick=function(){document.body.scrollTop=document.body.scrollHeight;this.style.display="none";toTopBtn.removeEventListener('click',this,false)}}else{toTopBtn.style.display="none"}};document.ontouchend=function(e){toTopTimer=setTimeout(function(){toTopBtn.style.transitionProperty="opacity,background-color";toTopBtn.style.transitionDuration="500ms";toTopBtn.style.transitionTimingFunction="linear";toTopBtn.style.opacity="0";toTopBtn.style.backgroundColor="rgba(200,200,200,1)";setTimeout(function(){toTopBtn.style.display="none";toTopBtn.style.backgroundColor="rgba(250,250,250,0.9)"},500)},1000)}};var isHaveToTopBtn;isHaveToTopBtn=document.getElementById('toTopBtn');if(!isHaveToTopBtn){toTopLikeKuAn();isScrollToTop()};]]
+toolbar.getChildAt(3).setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/1314d18d-fa1c-4bcb-b8f0-ffbc726b2bdb/0"))
 function geth(view)
 view.measure(View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED),View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED));
 height=view.getMeasuredHeight()
@@ -155,6 +159,143 @@ function 波纹方(id,color)
   ripples=activity.obtainStyledAttributes({android.R.attr.selectableItemBackground}).getResourceId(0,0)
   id.setBackgroundDrawable(activity.Resources.getDrawable(ripples).setColor(ColorStateList(int[0].class{int{}},int{color})))
 end
+function xdc(url,path)
+  require"import"
+  import"java.net.URL"
+  local ur=URL(url)
+  import "java.io.File"
+  file =File(path);
+  local con = ur.openConnection();
+  local co = con.getContentLength();
+  local is = con.getInputStream();
+  local bs = byte[1024]
+  local len,read=0,0
+  import "java.io.FileOutputStream"
+  local wj= FileOutputStream(path);
+  len = is.read(bs)
+  while len~=-1 do
+    wj.write(bs, 0, len);
+    read=read+len
+    pcall(call,"ding",read,co)
+    len = is.read(bs)
+  end
+  wj.close();
+  is.close();
+  pcall(call,"dstop",co)
+end
+function appDownload(url,path)
+  thread(xdc,url,path)
+end
+function 软件内下载(title,url,path,night)
+  local ts=true
+  appDownload(url,path)
+  local 布局={
+    LinearLayout,
+    id="appdownbg",
+    layout_width="fill",
+    layout_height="fill",
+    orientation="vertical",
+    {
+      TextView,
+      id="appdownsong",
+      text=title,
+      layout_margin="15dp",
+      textColor="#ff000000",
+      textSize="20sp",
+    },
+    {
+      TextView,
+      id="appdowninfo",
+      text="已下载：0MB/0MB\n下载状态：准备下载",
+      layout_marginRight="15dp",
+      layout_marginLeft="15dp",
+      layout_marginBottom="15dp",
+      textSize="15sp",
+    },
+    {
+      ProgressBar,
+      id="进度条",
+      style="?android:attr/progressBarStyleHorizontal",
+      layout_width="fill",
+      layout_marginRight="15dp",
+      layout_marginLeft="15dp",
+      layout_marginBottom="15dp",
+    },
+    {
+      LinearLayout,
+      gravity="right",
+      layout_width="fill",
+      orientation="horizontal",
+      {
+        TextView,
+        id="打开",
+        text="打开",
+        visibility=8,
+        padding="15dp",
+        textSize="15sp",
+        textColor="#EC407A",
+        onClick=function()
+          dldown.dismiss()
+          luajava.clear(dldown,布局)
+          ts=nil
+          import "android.webkit.MimeTypeMap"
+          import "android.content.Intent"
+          import "android.net.Uri"
+          import "java.io.File"
+          FileName=tostring(File(path).Name)
+          ExtensionName=FileName:match("%.(.+)")
+          Mime=MimeTypeMap.getSingleton().getMimeTypeFromExtension(ExtensionName)
+          if Mime then 
+            intent = Intent(); 
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
+            intent.setAction(Intent.ACTION_VIEW); 
+            intent.setDataAndType(Uri.fromFile(File(path)), Mime); 
+            activity.startActivity(intent);
+          else
+            提示"找不到可以用来打开此文件的程序"
+          end
+        end,
+      },
+      {
+        TextView,
+        padding="15dp",
+        textSize="15sp",
+        textColor="#EC407A",
+        text="后台下载",
+        id="后台下载"
+      },
+    }
+  }
+  dldown=AlertDialog.Builder(activity)
+  .setView(loadlayout(布局))
+  .show()
+  .setCancelable(false)
+  function ding(a,b)
+    appdowninfo.Text=string.format("%0.2f",a/1024/1024).."MB/"..string.format("%0.2f",b/1024/1024).."MB".."\n下载状态：正在下载！"
+    进度条.progress=(a/b*100)
+  end
+  function dstop(c)
+    if ts then
+      appdowninfo.Text="下载完成，总长度"..string.format("%0.2f",c/1024/1024).."MB"
+      后台下载.setText("完成")
+      if title:find".apk" then
+        打开.setVisibility(0)
+      end
+      luajava.clear(ts)
+    else
+      Toast.makeText(activity, "下载完成！",Toast.LENGTH_SHORT).show()
+      luajava.clear(ts)
+    end
+  end 
+  后台下载.onClick=function()
+    dldown.dismiss()
+    luajava.clear(dldown,布局)
+    ts=nil
+    if 后台下载.getText()=="后台下载" then
+      Toast.makeText(activity, "正在下载...",Toast.LENGTH_SHORT).show()
+    end
+  end
+end
 function 保存链接图片(链接,文件名)
   local ur=URL(链接)
   file=File(文件名);
@@ -184,6 +325,7 @@ function ms2time(ms)
   return (year.."-"..month.."-"..day.." "..time)
 end
 function 图片查看(url)
+collectgarbage("collect")
 背景颜色="黑" matrix=Matrix()
 if url:sub(1,4)=="http" then
   kjd=0
@@ -215,6 +357,7 @@ else
   tpw=bitmap.getWidth() tph=bitmap.getHeight()
   tpxx=ms2time(File(url).lastModified()).."（"..tpw.."×"..tph.."）"
 end
+collectgarbage("collect")
 图片查看布局={
   FrameLayout,
   id="tpckbj",
@@ -384,9 +527,14 @@ end
 tpckbuj=PopupWindow(loadlayout(图片查看布局))
 tpckbuj.setFocusable(true).setWidth(w).setHeight(h).setTouchable(true).setOutsideTouchable(true).showAtLocation(fltBtn.Parent,0,0,0)
 tpckbuj.onDismiss=function()
+  luajava.clear(bitmap)
+  bitmap=nil
   if io.open("/data/data/"..activity.getPackageName().."/全屏"):read("*a")=="开" then
     activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+  else
+    activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
   end
+  collectgarbage("collect")
 end
 tp.setImageBitmap(bitmap)
 if tpw<w and tph<h then
@@ -410,6 +558,7 @@ else
   matrix.postTranslate((w-tpw*scale)/2,(h-tph*scale)/2)
 end
 tp.setImageMatrix(matrix)
+collectgarbage("collect")
 local 参数=0
 tpckbj.onTouch=function(v,e)
   local M=tostring(tp.getImageMatrix()):sub(7,100)
@@ -433,6 +582,7 @@ tpckbj.onTouch=function(v,e)
     mode=1
   end
   if e.action==0 then
+    collectgarbage("collect")
     tpX=e.getX()
     tpY=e.getY()
     t=Date().getTime()
@@ -1325,7 +1475,6 @@ function onNewIntent(intent)
   gbzy()
   加载网页(tostring(intent.getData()))
 end
-fltBtn.setVisibility(View.GONE)
 参数=0
 function onKeyDown(code,event)
   if string.find(tostring(event),"KEYCODE_BACK") ~= nil then
@@ -2427,10 +2576,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.4.3"then
+  if 版本名 > "3.4.4"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.4.3".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.4.4".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("30dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
@@ -2521,8 +2670,9 @@ function 过滤(content)
         end
         i=i+1
       end
-      url="https://raw.githubusercontent.com/donothavename/gx/master/qidong.lua"
-      Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
+      hm=HashMap{}
+      hm.put("Accept","application/vnd.github.VERSION.raw")
+      Http.get("https://api.github.com/repos/donothavename/gx/contents/qidong.lua",nil,nil,hm,function(code,content,cookie,header)
         if(code==200 and content)then con=content
           ti.start()
           io.open(this.luaDir.."/qidong.lua","w+"):write(content):close()
@@ -2691,8 +2841,9 @@ function 下载轻工具(ghx)
     end
     i=i+1
   end
-  url="https://raw.githubusercontent.com/donothavename/gx/master/qgj"
-  Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
+  hm=HashMap{}
+  hm.put("Accept","application/vnd.github.VERSION.raw")
+  Http.get("https://api.github.com/repos/donothavename/gx/contents/qgj",nil,nil,hm,function(code,content,cookie,header)
     if(code==200 and content)then con=content
       ti.start()
       io.open("/data/data/"..activity.getPackageName().."/qgj","w+"):write(content):close()
@@ -2726,9 +2877,9 @@ elseif 网页链接:find"www.google.com.hk"then ymhlj="www.google.com.hk"scys="c
 else ymhlj=""scys=""jb=""end
 config.web_control[1].url=(ymhlj)config.web_control[1].remove_element=(scys)config.web_control[1].js=(jb)
 if 网页链接:find"https://" or 网页链接:find"file://" then
-  aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0"))
+  toolbar.getChildAt(0).setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0"))
   else
-  aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/279ac7de-ee84-4457-a675-09947d84fcde/0"))
+  toolbar.getChildAt(0).setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/279ac7de-ee84-4457-a675-09947d84fcde/0"))
   end
 设置底栏刷新状态(true,true,1000)
 end
@@ -2738,11 +2889,11 @@ webView.freeMemory()
 task(1,function()
 if not webView.canGoBack() then
 设置顶栏标题("主页")
-aqic.setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0"))
+toolbar.getChildAt(0).setImageBitmap(loadbitmap("http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0"))
 end
 设置底栏刷新状态(false,true,1000)
 end)
-if toolbar.getChildAt(3) then bitmap=getViewBitmap(toolbar.getChildAt(3))else bitmap=getViewBitmap(toolbar.getChildAt(2))end pixel=webView.getFirstPixel()pixel2=bitmap.getPixel(0.5*geth(toolbar),0.5*geth(toolbar))if not webView.canGoBack()then lspixel=pixel lspixel2=pixel2 end bmwhole.setBackgroundColor(pixel)aqic.setColorFilter(pixel2)gengduoic.setColorFilter(pixel2)bmrefreshic.setColorFilter(pixel2)bmhmic.setColorFilter(pixel2)bmforwardic.setColorFilter(pixel2)bmbackic.setColorFilter(pixel2)bitmap.recycle()luajava.clear(bitmap)bitmap=nil if dlsrk then dlsrk.setBackgroundColor(pixel)dlsrk.setTextColor(pixel2)ssbj.setBackgroundColor(pixel)xzssyq.setColorFilter(pixel2)qwss.setColorFilter(pixel2)dlsrk.setHintTextColor(pixel2)end
+if toolbar.getChildAt(3) then bitmap=getViewBitmap(toolbar.getChildAt(3))else bitmap=getViewBitmap(toolbar.getChildAt(2))end pixel=webView.getFirstPixel()pixel2=bitmap.getPixel(0.5*geth(toolbar),0.5*geth(toolbar))if not webView.canGoBack()then lspixel=pixel lspixel2=pixel2 end bmwhole.setBackgroundColor(pixel)gengduoic.setColorFilter(pixel2)bmrefreshic.setColorFilter(pixel2)bmhmic.setColorFilter(pixel2)bmforwardic.setColorFilter(pixel2)bmbackic.setColorFilter(pixel2)bitmap.recycle()luajava.clear(bitmap)bitmap=nil if dlsrk then dlsrk.setBackgroundColor(pixel)dlsrk.setTextColor(pixel2)ssbj.setBackgroundColor(pixel)xzssyq.setColorFilter(pixel2)qwss.setColorFilter(pixel2)dlsrk.setHintTextColor(pixel2)end
 end
 function 收到新标题事件()
 夜间()
@@ -2753,27 +2904,7 @@ if yins=="关" then read_hst() add_hst() save_hst() end end
 yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
 end
 检查更新()
-安全={
-  LinearLayout;
-  {
-    LinearLayout;
-    layout_width=geth(toolbar);
-    layout_marginTop=getStatusBarHeight(),
-    layout_height=geth(toolbar);
-    gravity="center";
-    id="aq",
-    {
-      ImageView;
-      src="http://shp.qpic.cn/collector/2530648358/91fe7156-c36f-4529-a814-a61d1e999357/0";
-      layout_height="18dp";
-      layout_width="18dp";
-      layout_gravity="center";
-      id="aqic";
-    };
-  };
-}
-fltBtn.Parent.addView(loadlayout(安全))
-aq.onClick=function()
+toolbar.getChildAt(0).onClick=function()
   if webView.canGoBack() then
   if 网页链接:find"http://" or 网页链接:find"ftp://" then
   wzaq="您与此网站之间建立的链接不安全\n请勿在此网站上输入任何敏感信息(例如密码或信用卡信息),因为攻击者可能会盗取这些信息"
@@ -2941,63 +3072,6 @@ dlsrk.setOnKeyListener({
   end
 })
 end
-ycgn=loadlayout{
-LinearLayout;
-layout_width="fill";
-layout_height="5%h";
-gravity="bottom";
-orientation="horizontal",
-{
-Button;
-backgroundColor="#00000000";
-layout_width="fill";
-layout_marginTop="fill";
-onClick=function()
-  InputLayout={
-    LinearLayout;
-    orientation="vertical";
-    Focusable=true,
-    FocusableInTouchMode=true,
-    {
-      TextView;
-      id="xxmm",
-      textSize="15sp",
-      layout_marginTop="10dp";
-      layout_marginLeft="3dp",
-      layout_width="80%w";
-      layout_gravity="center",
-      text="请输入密码";
-      textColor=yys;
-    };
-    {
-      EditText;
-      layout_marginTop="5dp";
-      layout_width="80%w";
-      layout_gravity="center",
-      id="mima";
-      text=" ";
-      hintTextColor=yys;
-      textColor=yjys;
-    };
-  };
-  圆角对话框()
-  .设置标题("请输入密码")
-  .设置圆角("10dp")
-  .添加布局(InputLayout)
-  .设置积极按钮("确定",function() 
-    if mima.text=="" then 进入子页面("xx") else 提示"密码错误" end  
-    end)
-  .设置消极按钮("取消",nil)
-  .显示(function()
-  mima.setOnFocusChangeListener(OnFocusChangeListener{ 
-    onFocusChange=function(v,hasFocus)
-      if hasFocus then
-        xxmm.setTextColor(0xFD009688)
-      end
-    end})end)
-end
-};}
-sidebar.addView(ycgn,1)
     chltq=loadlayout{
       LinearLayout;
       orientation="vertical";
@@ -5003,4 +5077,45 @@ function addDataDialog(name,title,value,key)--32552732
       edit2.setText(key)
     end
   end)
+end
+item={
+  LinearLayout,
+  layout_width="fill",
+  orientation="horizontal",
+  {
+    ImageView,
+    padding="12dp",
+    id="侧滑列表图标",
+    layout_width="48dp",
+    layout_height="48dp",
+    layout_marginLeft="8dp",
+  },
+  {
+    TextView,
+    id="侧滑列表文字",
+    layout_weight="1",
+    layout_margin="8dp",
+    textColor=0xFF5C5C5C,
+    layout_gravity="center",
+  },
+}
+data={}
+列表图标={"http://shp.qpic.cn/collector/2530648358/87469963-2cd2-4a5d-a990-e2930436b382/0","http://shp.qpic.cn/collector/2530648358/87469963-2cd2-4a5d-a990-e2930436b382/0","http://shp.qpic.cn/collector/2530648358/577e6367-3b93-4098-938e-feb783e04956/0","http://shp.qpic.cn/collector/2530648358/78a557a7-e4a2-46f5-abd2-6905447ee518/0","http://shp.qpic.cn/collector/2530648358/8bd98801-f8aa-45da-9597-7b37a81a1b36/0"}
+列表文字={"vip影库","vip影库2","音乐搜索","电视直播","轻工具"}
+for i=1,#列表文字 do table.insert(data,{侧滑列表图标=列表图标[i],侧滑列表文字=列表文字[i]})end
+adp=LuaAdapter(activity,data,item)
+sidebar.getChildAt(2).Adapter=adp
+sidebar.getChildAt(2).onItemClick=function(pa,v,po,i)
+  drawerLayout.closeDrawer(3)
+  if i==1 then
+    gbzy()加载网页("http://vip.muyl.vip/")
+  elseif i==2 then
+    gbzy()加载网页("http://v.sigu.me/")
+  elseif i==3 then
+    gbzy()加载网页("http://music.bbbbbb.me/")
+  elseif i==4 then
+    gbzy()加载网页("http://wx.91kds.org/")
+  else
+    打开轻工具()
+  end
 end
