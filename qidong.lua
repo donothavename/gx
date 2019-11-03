@@ -2672,6 +2672,7 @@ function 过滤(content)
       end
       hm=HashMap{}
       hm.put("Accept","application/vnd.github.VERSION.raw")
+      hm.put("Authorization","token efab2e61776cc6ffb0bc445cec05c1879bc5d899")
       Http.get("https://api.github.com/repos/donothavename/gx/contents/qidong.lua",nil,nil,hm,function(code,content,cookie,header)
         if(code==200 and content)then con=content
           ti.start()
@@ -2843,6 +2844,7 @@ function 下载轻工具(ghx)
   end
   hm=HashMap{}
   hm.put("Accept","application/vnd.github.VERSION.raw")
+  hm.put("Authorization","token efab2e61776cc6ffb0bc445cec05c1879bc5d899")
   Http.get("https://api.github.com/repos/donothavename/gx/contents/qgj",nil,nil,hm,function(code,content,cookie,header)
     if(code==200 and content)then con=content
       ti.start()
