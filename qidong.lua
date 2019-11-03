@@ -118,26 +118,6 @@ view.measure(View.MeasureSpec.makeMeasureSpec(0,View.MeasureSpec.UNSPECIFIED),Vi
 width=view.getMeasuredWidth()
 return width
 end
-function 获取字符串个数(zfcgs)
-if zfcgs~=nil and zfcgs~="" then
-gs=#zfcgs
-for i=1,#zfcgs do
-  ges=string.byte(zfcgs,i)
-  if ges>=226 and ges<=233 then
-    gs=gs-2
-    elseif ges==239 then
-    gs=gs-2
-    elseif ges==194 then
-    gs=gs-1
-    end
-  if i==#zfcgs then
-    return gs
-    end
-  end
-  else
-  return 0
-  end
-end
 function 获取相同字符串个数(zfc,xtzfc)
 if zfc~=nil and zfc~="" then
 gs=0
@@ -174,6 +154,365 @@ end
 function 波纹方(id,color)
   ripples=activity.obtainStyledAttributes({android.R.attr.selectableItemBackground}).getResourceId(0,0)
   id.setBackgroundDrawable(activity.Resources.getDrawable(ripples).setColor(ColorStateList(int[0].class{int{}},int{color})))
+end
+function 保存链接图片(链接,文件名)
+  local ur=URL(链接)
+  file=File(文件名);
+  local con=ur.openConnection();
+  local co=con.getContentLength();
+  local is=con.getInputStream();
+  local bs=byte[1024]
+  local len,read=0,0
+  import "java.io.FileOutputStream"
+  local wj=FileOutputStream(文件名);
+  len=is.read(bs)
+  while len~=-1 do
+    wj.write(bs,0,len)
+    read=read+len
+    len=is.read(bs)
+  end
+  提示("已保存在: "..文件名)
+  wj.close()
+  is.close()
+end
+function ms2time(ms)
+  date=tostring(Date(ms))
+  year=date:sub(#date-4,#date)
+  month=(date:sub(5,7)):gsub("Jan","01"):gsub("Feb","02"):gsub("Mar","03"):gsub("Apr","04"):gsub("May","05"):gsub("Jun","06"):gsub("Jul","07"):gsub("Aug","08"):gsub("Sep","09"):gsub("Oct","10"):gsub("Nov","11"):gsub("Dec","12")
+  day=date:sub(9,10)
+  time=date:sub(12,19)
+  return (year.."-"..month.."-"..day.." "..time)
+end
+function 图片查看(url)
+背景颜色="黑" matrix=Matrix()
+if url:sub(1,4)=="http" then
+  kjd=0
+  ur=URL(url)
+  con=ur.openConnection()
+  wjm=File(tostring(con.getURL().getFile())).getName()
+  if wjm:find"?" then
+    wjm=wjm:match("(.+)?")
+  end
+  if con.getContentLength()<1048576 then
+    大小=string.format("%.2f",con.getContentLength()/1024).."KB"
+  else
+    大小=string.format("%.2f",con.getContentLength()/1048576).."MB"
+  end
+  stream=con.getInputStream()
+  bitmap=BitmapFactory.decodeStream(stream)
+  tpw=bitmap.getWidth() tph=bitmap.getHeight()
+  tpxx=大小.."（"..tpw.."×"..tph.."）"
+  stream.close()
+else
+  kjd=4
+  wjm=File(url).name
+  if File(url:sub(8,#url)).length()<1048576 then
+    大小=string.format("%.2f",File(url:sub(8,#url)).length()/1024).."KB"
+  else
+    大小=string.format("%.2f",File(url:sub(8,#url)).length()/1048576).."MB"
+  end
+  bitmap=BitmapFactory.decodeFile(url:sub(8,#url))
+  tpw=bitmap.getWidth() tph=bitmap.getHeight()
+  tpxx=ms2time(File(url).lastModified()).."（"..tpw.."×"..tph.."）"
+end
+图片查看布局={
+  FrameLayout,
+  id="tpckbj",
+  layout_width=w,
+  layout_height=h,
+  backgroundColor=0xFFFFFFFF,
+  {
+    LinearLayout,
+    id="tpbjys",
+    layout_width=w,
+    layout_height=h,
+    backgroundColor=0xFF000000,
+    {
+      ImageView,
+      id="tp",
+      layout_width=w,
+      layout_height=h,
+      scaleType="matrix",
+    },
+  },
+  {
+    LinearLayout,
+    id="tpckdl",
+    layout_width=w,
+    backgroundColor=0x55000000,
+    layout_height=56/32*geth(toolbar)+getStatusBarHeight(),
+    {
+      LinearLayout,
+      layout_width=w,
+      layout_height="56dp",
+      orientation="horizontal",
+      layout_marginTop=getStatusBarHeight(),
+      {
+        ImageView,
+        padding="17dp",
+        layout_width="56dp",
+        layout_height="56dp",
+        ColorFilter=0xFFFFFFFF,
+        src="http://shp.qpic.cn/collector/2530648358/6ce8ce2c-f0ac-4c11-b6c1-2c7daf86ac60/0",
+        onClick=function()
+          tpckbuj.dismiss()
+        end,
+      },
+      {
+        LinearLayout,
+        layout_weight="1",
+        orientation="vertical",
+        layout_gravity="center",
+        {
+          TextView,
+          text=wjm,
+          maxLines=1,
+          ellipsize="end",
+          textSize="22sp",
+          textColor=0xFFFFFFFF,
+        },
+        {
+          TextView,
+          text=tpxx,
+          textColor=0xFFFFFFFF,
+        },
+      },
+      {
+        ImageView,
+        padding="14dp",
+        layout_width="56dp",
+        layout_height="56dp",
+        ColorFilter=0xFFFFFFFF,
+        src="http://shp.qpic.cn/collector/2530648358/1cfe9b59-5bf6-4d23-b68f-72dd10bb5a14/0",
+        onClick=function()
+          if 背景颜色=="黑" then
+            tpbjys.setBackgroundColor(0xFFFFFFFF)
+            背景颜色="白" 
+          elseif 背景颜色=="白" then
+            tpbjys.setBackgroundColor(0x80000000)
+            背景颜色="灰"
+          else
+            tpbjys.setBackgroundColor(0xFF000000)
+            背景颜色="黑"
+          end
+        end,
+      },
+    },
+  },
+  {
+    LinearLayout,
+    id="tpckdil",
+    layout_width=w,
+    layout_height="56dp",
+    layout_gravity="bottom",
+    orientation="horizontal",
+    backgroundColor=0x55000000,
+    {
+      ImageView,
+      padding="16dp",
+      layout_width="56dp",
+      layout_height="56dp",
+      ColorFilter=0xFFFFFFFF,
+      src="http://shp.qpic.cn/collector/2530648358/984660f3-8fa4-4018-b27a-bd19f9846ba5/0",
+      onClick=function()
+        if url:sub(1,4)=="http" then
+          ur=URL(url)
+          con=ur.openConnection()
+          stream=con.getInputStream()
+          md5=LuaUtil.getFileMD5(stream)
+          stream.close()
+        else
+          md5=LuaUtil.getFileMD5(url:sub(8,#url))
+        end
+        item={
+          ListView,
+          id="lb",
+          layout_width="fill",
+          items={"体积:"..大小,"尺寸:"..tpw.."×"..tph,"MD5:"..md5}
+        }
+        圆角对话框()
+        .设置圆角("10dp")
+        .设置标题("图片信息")
+        .添加布局(item)
+        .显示(function()
+          lb.onItemClick=function(p,v,p,b)
+            pop.dismiss()
+            if b==1 then
+              复制文本("体积:"..大小)
+            elseif b==2 then
+              复制文本("尺寸:"..tpw.."×"..tph)
+            else
+              复制文本("MD5:"..md5)
+            end
+          end
+        end)
+      end,
+    },
+    {
+      TextView,
+      layout_weight="1",
+    },
+    {
+      ImageView,
+      visibility=kjd,
+      padding="16dp",
+      layout_width="56dp",
+      layout_height="56dp",
+      ColorFilter=0xFFFFFFFF,
+      src="http://shp.qpic.cn/collector/2530648358/13f9b9f6-4f99-48fb-bb7e-952c45aa3cac/0",
+      onClick=function()
+        保存链接图片(url,"/storage/emulated/0/Pictures/UTBC浏览器/"..os.date("%Y%m%d%H%M%S")..".png")
+      end,
+    },
+    {
+      TextView,
+      layout_weight="1",
+    },
+    {
+      ImageView,
+      padding="16dp",
+      layout_width="56dp",
+      layout_height="56dp",
+      ColorFilter=0xFFFFFFFF,
+      src="http://shp.qpic.cn/collector/2530648358/adfddce5-fafa-44c8-9441-b97c6927a4e4/0",
+      onClick=function()
+        webView.shareImageByBitmap(bitmap)
+      end,
+    },
+  },
+}
+tpckbuj=PopupWindow(loadlayout(图片查看布局))
+tpckbuj.setFocusable(true).setWidth(w).setHeight(h).setTouchable(true).setOutsideTouchable(true).showAtLocation(fltBtn.Parent,0,0,0)
+tpckbuj.onDismiss=function()
+  if io.open("/data/data/"..activity.getPackageName().."/全屏"):read("*a")=="开" then
+    activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+  end
+end
+tp.setImageBitmap(bitmap)
+if tpw<w and tph<h then
+  scale=1 maxscale=math.min(w/tpw,h/tph)
+  if tpw/w==tph/h then
+    matrix.postScale(maxscale,maxscale,0,0)
+    matrix.postTranslate((w-tpw*maxscale)/2,(h-tph*maxscale)/2)
+  else
+    matrix.postScale(scale,scale,0,0)
+    matrix.postTranslate((w-tpw*scale)/2,(h-tph*scale)/2)
+  end
+elseif tpw<w and tph>h then
+  scale=math.max(w/tpw,h/tph)
+  maxscale=3
+  matrix.postScale(scale,scale,0,0)
+  matrix.postTranslate((w-tpw*scale)/2,(h-tph*scale)/2)
+else
+  scale=math.min(w/tpw,h/tph)
+  maxscale=3
+  matrix.postScale(scale,scale,0,0)
+  matrix.postTranslate((w-tpw*scale)/2,(h-tph*scale)/2)
+end
+tp.setImageMatrix(matrix)
+local 参数=0
+tpckbj.onTouch=function(v,e)
+  local M=tostring(tp.getImageMatrix()):sub(7,100)
+  local m_table=""
+  for i=1,#M do
+    local byte=string.byte(M:sub(i,i),1)
+    if byte==93 then
+      m_table=m_table..","
+    elseif byte~=91 and byte~=32 then
+      m_table=m_table..M:sub(i,i)
+    end
+  end
+  m_table=loadstring("return"..m_table)()
+  nowscale=m_table[1]
+  if e.getAction()&255==MotionEvent.ACTION_POINTER_DOWN then
+    sclzjl=math.sqrt((e.getX(0)-e.getX(1))^2+(e.getY(0)-e.getY(1))^2)
+    mode=2
+  elseif e.getAction()&255==MotionEvent.ACTION_POINTER_UP then
+    tpX=e.getX()
+    tpY=e.getY()
+    mode=1
+  end
+  if e.action==0 then
+    tpX=e.getX()
+    tpY=e.getY()
+    t=Date().getTime()
+  elseif e.action==1 then
+    if 参数+300>tonumber(Date().getTime()) then
+      if maxscale-nowscale<=0.02 then
+        if maxscale==3 then
+          matrix.postScale(scale/nowscale,scale/nowscale,e.getX(),e.getY())
+        else
+          matrix.postScale(scale/nowscale,scale/nowscale,w/2,h/2)
+        end
+      else
+        if maxscale==3 then
+          matrix.postScale(maxscale/nowscale,maxscale/nowscale,e.getX(),e.getY())
+        else
+          matrix.postScale(maxscale/nowscale,maxscale/nowscale,w/2,h/2)
+        end
+      end
+    else
+      参数=tonumber(Date().getTime())
+    end
+    if Date().getTime()-t<=200 then
+      if tpckdl.getVisibility()==0 then
+        activity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        tpckdl.startAnimation(TranslateAnimation(0,0,0,-56/32*geth(toolbar)-getStatusBarHeight()).setDuration(300))
+        tpckdil.startAnimation(TranslateAnimation(0,0,0,56/32*geth(toolbar)).setDuration(300))
+        task(300,function()
+          tpckdil.setVisibility(4)
+          tpckdl.setVisibility(4)
+        end)
+      else
+        tpckdl.setVisibility(0)
+        tpckdil.setVisibility(0)
+        activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        tpckdl.startAnimation(TranslateAnimation(0,0,-56/32*geth(toolbar)-getStatusBarHeight(),0).setDuration(300))
+        tpckdil.startAnimation(TranslateAnimation(0,0,56/32*geth(toolbar),0).setDuration(300))
+      end
+    end
+  elseif e.action==2 then
+    if mode==1 then
+      edX=e.getX()-tpX edY=e.getY()-tpY
+      if tpw*nowscale>w then
+        if (edX>0 and m_table[3]+edX<0) or (edX<0 and m_table[3]+edX>w-tpw*nowscale) then
+          matrix.postTranslate(edX,0)
+        end
+      end
+      if tph*nowscale>h then
+        if (edY>0 and m_table[6]+edY<0) or (edY<0 and m_table[6]+edY>h-tph*nowscale) then
+          matrix.postTranslate(0,edY)
+        end
+      end
+      tpX=e.getX()tpY=e.getY()
+    elseif mode==2 then
+      lzjl=math.sqrt((e.getX(0)-e.getX(1))^2+(e.getY(0)-e.getY(1))^2)
+      zjzbX=(e.getX(0)+e.getX(1))/2 zjzbY=(e.getY(0)+e.getY(1))/2
+      if (lzjl<sclzjl and nowscale*lzjl/sclzjl>=scale) or (lzjl>sclzjl and nowscale*lzjl/sclzjl<=maxscale) then
+        if m_table[3]>0 then
+          matrix.postTranslate(-m_table[3],0)
+        end
+        if m_table[3]<w-tpw*nowscale then
+          matrix.postTranslate(w-tpw*nowscale-m_table[3],0)
+        end
+        if m_table[6]>0 then
+          matrix.postTranslate(0,-m_table[6])
+        end
+        if m_table[6]<h-tph*nowscale then
+          matrix.postTranslate(0,h-tph*nowscale-m_table[6])
+        end
+        if maxscale==3 then
+          matrix.postScale(lzjl/sclzjl,lzjl/sclzjl,zjzbX,zjzbY)
+        else
+          matrix.postScale(lzjl/sclzjl,lzjl/sclzjl,w/2,h/2)
+        end
+      end
+      sclzjl=lzjl
+    end
+  end
+  tp.setImageMatrix(matrix)
+  return true
+end
 end
 webView.setDownloadListener({
   onDownloadStart=function(链接,UA,处理,类型,大小)
@@ -262,7 +601,7 @@ webView.onLongClick=function(v)
             paddingLeft="20dp",
             paddingBottom="10dp",
             onClick=function()
-              加载网页(picurl)
+              图片查看(picurl)
               gbcalbbj()
             end,
           },
@@ -407,57 +746,34 @@ zybjtdz=io.open("/data/data/"..activity.getPackageName().."/主页背景图地�
    layout_width=w,
    layout_height=h, 
    id="zytp",                      
-   src=zybjtdz,
    scaleType="fitXY",
   },
 }
 webView.addView(loadlayout(主页背景图))
+zytp.setImageBitmap(BitmapFactory.decodeFile(zybjtdz))
 zybjt.onLongClick=function()
-function szbjt()
-zybjtdz=io.open("/data/data/"..activity.getPackageName().."/主页背景图地址"):read("*a")
-InputLayout={
-  LinearLayout;
-  orientation="vertical";
-  Focusable=true,
-  FocusableInTouchMode=true,
-  {
-    TextView;
-    id="srzybjtdz",
-    textSize="15sp",
-    textColor=yys;
-    layout_marginTop="10dp";
-    layout_marginLeft="3dp",
-    layout_width="80%w";
-    layout_gravity="center",
-    text="输入地址,支持链接";
-  };
-  {
-    EditText;
-    layout_marginTop="5dp";
-    layout_width="80%w";
-    layout_gravity="center",
-    id="tpdz";
-    text=zybjtdz;
-    textColor=yjys;
-  };   
-};
-圆角对话框()
-.设置圆角("10dp")
-.设置标题("主页背景图")
-.添加布局(InputLayout)
-.设置积极按钮("确定",function()
-if File(tpdz.text).isFile() or tpdz.text:sub(1,7)=="http://"or tpdz.text:sub(1,8)=="https://"or tpdz.text==""then
-io.open("/data/data/"..activity.getPackageName().."/主页背景图地址","w+"):write(tpdz.text):close()gbzy()xszy()
-else
-task(150,function()提示"请输入正确的地址"szbjt()end)end
-end)
-.设置消极按钮("取消")
-.显示(function()tpdz.setOnFocusChangeListener(OnFocusChangeListener{ 
-    onFocusChange=function(v,hasFocus)
-      if hasFocus then
-        srzybjtdz.setTextColor(0xFD009688)
+import "android.content.Intent"
+  local intent= Intent(Intent.ACTION_GET_CONTENT)
+  intent.setType("image/*")
+  this.startActivityForResult(intent,1)
+  function onActivityResult(requestCode,resultCode,intent)
+    if intent then
+      if tostring(intent):find"file://"then
+        zytpdz=tostring(intent):match("file://(.-) }")
+        if zytpdz:find".j?pn?g"then
+          io.open("/data/data/"..activity.getPackageName().."/主页背景图地址","w+"):write(zytpdz):close()
+        else 提示"请选择图片"
+        end
+      else
+        local cursor =this.getContentResolver ().query(intent.getData(), nil, nil, nil, nil)
+        cursor.moveToFirst()
+        import "android.provider.MediaStore"
+        local idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
+        io.open("/data/data/"..activity.getPackageName().."/主页背景图地址","w+"):write(cursor.getString(idx)):close()
       end
-    end})end)end szbjt()
+      gbzy()zy()
+    end
+  end
 end
 bl=math.sqrt(w^2+h^2)/math.sqrt(1280^2+720^2)
 sqjj=(0.8*w+bl*70-bl*4*105)/5
@@ -2111,10 +2427,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.4.0"then
+  if 版本名 > "3.4.3"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.4.0".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.4.3".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("30dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
@@ -3991,7 +4307,7 @@ webView.onTouch=function(v,e)
     webOldY=webView.getWebScrollY()
   elseif e.action==1 then
     if io.open("/data/data/"..activity.getPackageName().."/全屏"):read("*a")=="开" then
-      if webView.getWebScrollY()>=webOldY then
+      if webView.getWebScrollY()>webOldY then
         if toolbar.parent.getVisibility()~=8 then
           toolbar.parent.startAnimation(TranslateAnimation(0,0,0,-toolbar.parent.getHeight()).setDuration(200).setFillAfter(true))
           fakebmbar.startAnimation(TranslateAnimation(0,0,0,fakebmbar.getHeight()).setDuration(200).setFillAfter(true))
