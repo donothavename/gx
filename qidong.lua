@@ -24,7 +24,7 @@ File("/data/data/"..activity.getPackageName().."/主页背景图地址").createN
 File("/data/data/"..activity.getPackageName().."/书签").createNewFile()
 File("/data/data/"..activity.getPackageName().."/书签2").createNewFile()
 File("/data/data/"..activity.getPackageName().."/剪切板").createNewFile()
-File("/data/data/"..activity.getPackageName().."/qgj").createNewFile()
+File("/data/data/"..activity.getPackageName().."/gjx").createNewFile()
 import "android.view.View$OnFocusChangeListener"
 import"RoundedDialog"
 import"read"
@@ -159,13 +159,18 @@ function 波纹方(id,color)
   ripples=activity.obtainStyledAttributes({android.R.attr.selectableItemBackground}).getResourceId(0,0)
   id.setBackgroundDrawable(activity.Resources.getDrawable(ripples).setColor(ColorStateList(int[0].class{int{}},int{color})))
 end
-function xdc(url,path)
+function xdc(url,path,header)
   require"import"
   import"java.net.URL"
   local ur=URL(url)
   import "java.io.File"
   file =File(path);
   local con = ur.openConnection();
+  if header then
+    for i=1,#header/2 do
+      con.setRequestProperty(header[i*2-1],header[i*2])
+    end
+  end
   local co = con.getContentLength();
   local is = con.getInputStream();
   local bs = byte[1024]
@@ -183,12 +188,12 @@ function xdc(url,path)
   is.close();
   pcall(call,"dstop",co)
 end
-function appDownload(url,path)
-  thread(xdc,url,path)
+function appDownload(url,path,header)
+  thread(xdc,url,path,header)
 end
-function 软件内下载(title,url,path,night)
+function 软件内下载(title,url,path,header)
   local ts=true
-  appDownload(url,path)
+  appDownload(url,path,header)
   local 布局={
     LinearLayout,
     id="appdownbg",
@@ -276,7 +281,7 @@ function 软件内下载(title,url,path,night)
     if ts then
       appdowninfo.Text="下载完成，总长度"..string.format("%0.2f",c/1024/1024).."MB"
       后台下载.setText("完成")
-      if not title:find".dex" and not title:find".so" then
+      if not path:find(activity.getPackageName()) then
         打开.setVisibility(0)
       end
       luajava.clear(ts)
@@ -2574,10 +2579,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.4.5"then
+  if 版本名 > "3.4.6"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.4.5".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.4.6".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("30dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
@@ -2696,52 +2701,52 @@ Http.get(url,nil,"UTF-8",nil,function(code,content,cookie,header)
   end
 end)
 end
-function 打开轻工具()
-  qgjx=io.open("/data/data/"..activity.getPackageName().."/qgj"):read("*a")
-  if qgjx==""then
+function 打开工具箱()
+  gjxx=io.open("/data/data/"..activity.getPackageName().."/gjx"):read("*a")
+  if gjxx==""then
     圆角对话框()
     .设置标题("提示")
-    .设置消息("是否下载轻工具?不下载将无法使用哦!\n")
+    .设置消息("是否下载工具箱?不下载将无法使用哦!\n")
     .设置积极按钮("确定",function()
-      下载轻工具("下载")
+      下载工具箱("下载")
     end)
     .设置中立按钮("取消")
     .显示()
    else
     b=nil
-    b=loadstring("return "..qgjx);
-    qgjx=b()
+    b=loadstring("return "..gjxx);
+    gjxx=b()
     url="https://sharechain.qq.com/dc2f311c2b314a5edc35f3d9204964f7"
     Http.get(url,nil,"UTF-8",nil,function(code,content,cookie,header)
       if(code==200 and content)then
         content=content:match("\"html_content\":(.-),"):gsub("\\u003C/?.-%>",""):gsub("\\\\","&revs;"):gsub("\\n","\n"):gsub("&nbsp;"," "):gsub("&lt;","<"):gsub("&gt;",">"):gsub("&quot;","\""):gsub("&apos;","'"):gsub("&revs;","\\"):gsub("&amp;","&");
-        if content:match("【工具箱】(.-)【工具箱】")>tostring(qgjx.版本) then
+        if content:match("【工具箱】(.-)【工具箱】")>tostring(gjxx.版本) then
           圆角对话框()
           .设置标题("检测到更新")
           .设置消息("是否更新?")
           .设置积极按钮("确定",function()
-            下载轻工具("更新")
+            下载工具箱("更新")
           end)
           .设置消极按钮("取消",function()
             function xgj()end
-            xgj=qgjx.fun
+            xgj=gjxx.fun
             xgj()
           end)
           .显示()
          else
           function xgj()end
-          xgj=qgjx.fun
+          xgj=gjxx.fun
           xgj()
         end
       else
         function xgj()end
-        xgj=qgjx.fun
+        xgj=gjxx.fun
         xgj()
       end
     end)
   end
 end
-function 下载轻工具(ghx)
+function 下载工具箱(ghx)
   yxz=nil
   gxq=200/360*w
   下载动画=
@@ -2818,12 +2823,12 @@ function 下载轻工具(ghx)
                     jd.setText(ghx..'完成')
                     task(800,function()
                       xzdh.dismiss()
-                      qgjx=io.open("/data/data/"..activity.getPackageName().."/qgj"):read("*a")
+                      gjxx=io.open("/data/data/"..activity.getPackageName().."/gjx"):read("*a")
                       b=nil
-                      b=loadstring("return "..qgjx)
-                      qgjx=b()
+                      b=loadstring("return "..gjxx)
+                      gjxx=b()
                       function xgj()end
-                      xgj=qgjx.fun
+                      xgj=gjxx.fun
                       xgj()
                     end)
                   end)
@@ -2841,10 +2846,10 @@ function 下载轻工具(ghx)
   end
   hm=HashMap{}
   hm.put("Accept","application/vnd.github.VERSION.raw")
-  Http.get("https://api.github.com/repos/donothavename/gx/contents/qgj",nil,nil,hm,function(code,content,cookie,header)
+  Http.get("https://api.github.com/repos/donothavename/gx/contents/gjx",nil,nil,hm,function(code,content,cookie,header)
     if(code==200 and content)then con=content
       ti.start()
-      io.open("/data/data/"..activity.getPackageName().."/qgj","w+"):write(content):close()
+      io.open("/data/data/"..activity.getPackageName().."/gjx","w+"):write(content):close()
       yxz=true
     else
       提示"连接失败，请重试。"xzdh.dismiss()
@@ -5114,6 +5119,6 @@ sidebar.getChildAt(2).onItemClick=function(pa,v,po,i)
   elseif i==4 then
     gbzy()加载网页("http://wx.91kds.org/")
   else
-    打开轻工具()
+    打开工具箱()
   end
 end
