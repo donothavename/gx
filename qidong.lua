@@ -242,14 +242,12 @@ function 软件内下载(title,url,path,night)
           import "android.content.Intent"
           import "android.net.Uri"
           import "java.io.File"
-          FileName=tostring(File(path).Name)
-          ExtensionName=FileName:match("%.(.+)")
-          Mime=MimeTypeMap.getSingleton().getMimeTypeFromExtension(ExtensionName)
+          Mime=URL(url).openConnection().getContentType()
           if Mime then 
             intent = Intent(); 
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
             intent.setAction(Intent.ACTION_VIEW); 
-            intent.setDataAndType(Uri.fromFile(File(path)), Mime); 
+            intent.setDataAndType(Uri.fromFile(File(path)),Mime); 
             activity.startActivity(intent);
           else
             提示"找不到可以用来打开此文件的程序"
@@ -278,7 +276,7 @@ function 软件内下载(title,url,path,night)
     if ts then
       appdowninfo.Text="下载完成，总长度"..string.format("%0.2f",c/1024/1024).."MB"
       后台下载.setText("完成")
-      if title:find".apk" then
+      if not title:find".dex" and not title:find".so" then
         打开.setVisibility(0)
       end
       luajava.clear(ts)
@@ -2576,10 +2574,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.4.4"then
+  if 版本名 > "3.4.5"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.4.4".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.4.5".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("30dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
@@ -4378,10 +4376,10 @@ end)
 if not tostring(jdpuk)==string.byte("")..string.byte("")..string.byte("4")..string.char(55).."32" then error()end
 webView.onTouch=function(v,e)
   if e.action==0 then
-    webOldY=webView.getWebScrollY()
+    webOldY=webView.getScrollY()
   elseif e.action==1 then
     if io.open("/data/data/"..activity.getPackageName().."/全屏"):read("*a")=="开" then
-      if webView.getWebScrollY()>webOldY then
+      if webView.getScrollY()>webOldY then
         if toolbar.parent.getVisibility()~=8 then
           toolbar.parent.startAnimation(TranslateAnimation(0,0,0,-toolbar.parent.getHeight()).setDuration(200).setFillAfter(true))
           fakebmbar.startAnimation(TranslateAnimation(0,0,0,fakebmbar.getHeight()).setDuration(200).setFillAfter(true))
@@ -4390,7 +4388,7 @@ webView.onTouch=function(v,e)
             bmwhole.setVisibility(4)
           end)
         end
-      else
+      elseif webView.getScrollY()<webOldY then
         if toolbar.parent.getVisibility()==8 then
           toolbar.parent.setVisibility(0)bmwhole.setVisibility(0)
           toolbar.parent.startAnimation(TranslateAnimation(0,0,-fakebmbar.getHeight(),0).setDuration(200).setFillAfter(true))
@@ -5101,7 +5099,7 @@ item={
 }
 data={}
 列表图标={"http://shp.qpic.cn/collector/2530648358/87469963-2cd2-4a5d-a990-e2930436b382/0","http://shp.qpic.cn/collector/2530648358/87469963-2cd2-4a5d-a990-e2930436b382/0","http://shp.qpic.cn/collector/2530648358/577e6367-3b93-4098-938e-feb783e04956/0","http://shp.qpic.cn/collector/2530648358/78a557a7-e4a2-46f5-abd2-6905447ee518/0","http://shp.qpic.cn/collector/2530648358/8bd98801-f8aa-45da-9597-7b37a81a1b36/0"}
-列表文字={"vip影库","vip影库2","音乐搜索","电视直播","轻工具"}
+列表文字={"vip影库","vip影库2","音乐搜索","电视直播","工具箱"}
 for i=1,#列表文字 do table.insert(data,{侧滑列表图标=列表图标[i],侧滑列表文字=列表文字[i]})end
 adp=LuaAdapter(activity,data,item)
 sidebar.getChildAt(2).Adapter=adp
