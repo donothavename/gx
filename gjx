@@ -1,4 +1,4 @@
-{版本="1.3.8",fun=function()
+{版本="1.4.0",fun=function()
 function 清理内存(table)
   for i=1,#table do
     luajava.clear(table[i])
@@ -12,7 +12,7 @@ end
 qlqqwyhcwc=true
 File("/data/data/"..activity.getPackageName().."/翻译收藏").createNewFile()
 File("/data/data/"..activity.getPackageName().."/上次查询快递单号").createNewFile()
-File("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用").createNewFile()
+File("/data/data/"..activity.getPackageName().."/工具箱主页收藏应用").createNewFile()
 File("/data/data/"..activity.getPackageName().."/打字板").createNewFile()
 File("/data/data/"..activity.getPackageName().."/汇率").createNewFile()
 if io.open("/data/data/"..activity.getPackageName().."/汇率"):read("*a")==""then
@@ -24,21 +24,15 @@ end
 if io.open("/data/data/"..activity.getPackageName().."/打字板"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/打字板","w+"):write('"文本":"点击右下角设置文字"\n"文本颜色":"0xff000000"\n"背景色":"0xffffffff"'):close()
 end
-if io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a")==""then
-io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用","w+"):write("{}"):close()
+if io.open("/data/data/"..activity.getPackageName().."/工具箱主页收藏应用"):read("*a")==""then
+io.open("/data/data/"..activity.getPackageName().."/工具箱主页收藏应用","w+"):write("{}"):close()
 end
-local f=io.open(this.luaDir.."/libs/ColorPicker.dex",'r')
+--[[local f=io.open("/data/data/"..activity.getPackageName().."/app_lib/json.lua",'r')
 if f~=nil then
   io.close(f)
 else
-  软件内下载("正在下载资源,请耐心等待下载完成","https://raw.githubusercontent.com/donothavename/gx/master/ColorPicker.dex",this.luaDir.."/libs/ColorPicker.dex")
-end
-local f=io.open("/data/data/"..activity.getPackageName().."/app_lib/libmd5.so",'r')
-if f~=nil then
-  io.close(f)
-else
-  软件内下载("正在下载资源","https://raw.githubusercontent.com/donothavename/gx/master/libmd5.so","/data/data/"..activity.getPackageName().."/app_lib/libmd5.so")
-end
+  软件内下载("正在下载资源","https://api.github.com/repos/LuaDist2/json4lua/contents/json.lua","/data/data/"..activity.getPackageName().."/app_lib/json.lua",{"Accept","application/vnd.github.VERSION.raw"})
+end]]
 import 'android.graphics.*'
 全部应用左列={"打字板","时间屏幕","翻译","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","大文件清理","空文件夹清理","QQ无用缓存清理","进制转换","Base64编码转换","历史上的今天","网页源码获取","归属地查询"}
 全部应用右列={"画板","垃圾分类查询","汇率转换","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","空文件清理","安装包清理","摩斯电码","RC4加解密","MD5加密","随机数生成","全球IP查询","音乐搜索试听"}
@@ -85,19 +79,9 @@ function getFolderSize(path,fun)
   end
   if size~=0 then
     if size>=1073741824 then
-      size=tostring(tointeger(size/1073741824*1000))
-      if size:sub(#size,#size)>="5" then
-        size=tostring((size:sub(1,#size-1)+1)/100).."GB"
-      else
-        size=tostring(size:sub(1,#size-1)/100).."GB"
-      end
+      size=string.format("%.2f",size/1073741824).."GB"
     else
-      size=tostring(tointeger(size/1048576*1000))
-      if size:sub(#size,#size)>="5" then
-        size=tostring((size:sub(1,#size-1)+1)/100).."MB"
-      else
-        size=tostring(size:sub(1,#size-1)/100).."MB"
-      end
+      size=string.format("%.2f",size/1048576).."MB"
     end
   else
     size="0.00MB"
@@ -107,39 +91,6 @@ function getFolderSize(path,fun)
   luajava.clear(fun)
   luajava.clear(获取完成事件)
   collectgarbage("collect")
-end
-function getpathmd5(path)
-  md5=require("md5")
-  function md5.sumhexa(k)
-    k=md5.sum(k)
-    return (string.gsub(k, ".", function (c)
-    return string.format("%02x", string.byte(c))
-    end))
-  end
-  local file=io.open(path,"rb")
-  local string=file:read("*a")
-  file:close()
-  return md5.sumhexa(string)
-end
-function 保存链接图片(链接,文件名)
-  local ur=URL(链接)
-  file=File(文件名);
-  local con=ur.openConnection();
-  local co=con.getContentLength();
-  local is=con.getInputStream();
-  local bs=byte[1024]
-  local len,read=0,0
-  import "java.io.FileOutputStream"
-  local wj=FileOutputStream(文件名);
-  len=is.read(bs)
-  while len~=-1 do
-    wj.write(bs,0,len)
-    read=read+len
-    len=is.read(bs)
-  end
-  提示("已保存在: "..文件名)
-  wj.close()
-  is.close()
 end
 function 提示(t)
   local tsbj={
@@ -324,16 +275,16 @@ b=loadstring("return "..全部应用右列布局)全部应用右列布局=b()
 qbyyyl.addView(loadlayout(全部应用右列布局))
 for i=1,#应用左列id do
   if i==1 then
-    全部应用左列事件="波纹("..应用左列id[1]..",0xFFE9E9E9)"..应用左列id[1]..".onLongClick=function()应用添加收藏()if ytc"..应用左列id[1]:sub(3,#应用左列id[1]).."fxk.isChecked()==false then "..[[轻工具主页待添加收藏应用='"'..全部应用左列[1]..'",']].."end ytc"..应用左列id[1]:sub(3,#应用左列id[1]).."fxk.setChecked(true)return true end "
+    全部应用左列事件="波纹("..应用左列id[1]..",0xFFE9E9E9)"..应用左列id[1]..".onLongClick=function()应用添加收藏()if ytc"..应用左列id[1]:sub(3,#应用左列id[1]).."fxk.isChecked()==false then "..[[工具箱主页待添加收藏应用='"'..全部应用左列[1]..'",']].."end ytc"..应用左列id[1]:sub(3,#应用左列id[1]).."fxk.setChecked(true)return true end "
   else
-    全部应用左列事件=全部应用左列事件.."波纹("..应用左列id[i]..",0xFFE9E9E9)"..应用左列id[i]..".onLongClick=function()应用添加收藏()待添加收藏应用名称='"..全部应用左列[i].."'if ytc"..应用左列id[i]:sub(3,#应用左列id[i]).."fxk.isChecked()==false then "..[[轻工具主页待添加收藏应用='"'..待添加收藏应用名称..'",']].."end ytc"..应用左列id[i]:sub(3,#应用左列id[i]).."fxk.setChecked(true)return true end "
+    全部应用左列事件=全部应用左列事件.."波纹("..应用左列id[i]..",0xFFE9E9E9)"..应用左列id[i]..".onLongClick=function()应用添加收藏()待添加收藏应用名称='"..全部应用左列[i].."'if ytc"..应用左列id[i]:sub(3,#应用左列id[i]).."fxk.isChecked()==false then "..[[工具箱主页待添加收藏应用='"'..待添加收藏应用名称..'",']].."end ytc"..应用左列id[i]:sub(3,#应用左列id[i]).."fxk.setChecked(true)return true end "
   end
 end
 for i=1,#应用右列id do
   if i==1 then
-    全部应用右列事件="波纹("..应用右列id[1]..",0xFFE9E9E9)"..应用右列id[1]..".onLongClick=function()应用添加收藏()if ytc"..应用右列id[1]:sub(3,#应用右列id[1]).."fxk.isChecked()==false then "..[[轻工具主页待添加收藏应用='"'..全部应用右列[1]..'",']].."end ytc"..应用右列id[1]:sub(3,#应用右列id[1]).."fxk.setChecked(true)return true end "
+    全部应用右列事件="波纹("..应用右列id[1]..",0xFFE9E9E9)"..应用右列id[1]..".onLongClick=function()应用添加收藏()if ytc"..应用右列id[1]:sub(3,#应用右列id[1]).."fxk.isChecked()==false then "..[[工具箱主页待添加收藏应用='"'..全部应用右列[1]..'",']].."end ytc"..应用右列id[1]:sub(3,#应用右列id[1]).."fxk.setChecked(true)return true end "
   else
-    全部应用右列事件=全部应用右列事件.."波纹("..应用右列id[i]..",0xFFE9E9E9)"..应用右列id[i]..".onLongClick=function()应用添加收藏()待添加收藏应用名称='"..全部应用右列[i].."'if ytc"..应用右列id[i]:sub(3,#应用右列id[i]).."fxk.isChecked()==false then "..[[轻工具主页待添加收藏应用='"'..待添加收藏应用名称..'",']].."end ytc"..应用右列id[i]:sub(3,#应用右列id[i]).."fxk.setChecked(true)return true end "
+    全部应用右列事件=全部应用右列事件.."波纹("..应用右列id[i]..",0xFFE9E9E9)"..应用右列id[i]..".onLongClick=function()应用添加收藏()待添加收藏应用名称='"..全部应用右列[i].."'if ytc"..应用右列id[i]:sub(3,#应用右列id[i]).."fxk.isChecked()==false then "..[[工具箱主页待添加收藏应用='"'..待添加收藏应用名称..'",']].."end ytc"..应用右列id[i]:sub(3,#应用右列id[i]).."fxk.setChecked(true)return true end "
   end
 end
 b=loadstring("return ".."function()"..全部应用左列事件..全部应用右列事件.."end")全部应用事件=b()
@@ -343,7 +294,7 @@ qbyysj()
 end
 function 应用添加收藏()
 collectgarbage("collect")
-轻工具主页待添加收藏应用=""
+工具箱主页待添加收藏应用=""
 应用添加收藏布局={
   LinearLayout,
   layout_width=w,
@@ -440,11 +391,11 @@ collectgarbage("collect")
         layout_gravity="center",
         src="http://shp.qpic.cn/collector/2530648358/63f0b437-8922-485c-8f85-8c2077fca763/0",
         onClick=function()
-          if 轻工具主页待添加收藏应用=="" then
+          if 工具箱主页待添加收藏应用=="" then
             提示"未添加。"
           else
-            轻工具主页收藏应用=io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a")
-            io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用","w+"):write(轻工具主页收藏应用:sub(1,#轻工具主页收藏应用-1)..轻工具主页待添加收藏应用:gsub("短链 生成与还原","短链生成").."}"):close()
+            工具箱主页收藏应用=io.open("/data/data/"..activity.getPackageName().."/工具箱主页收藏应用"):read("*a")
+            io.open("/data/data/"..activity.getPackageName().."/工具箱主页收藏应用","w+"):write(工具箱主页收藏应用:sub(1,#工具箱主页收藏应用-1)..工具箱主页待添加收藏应用:gsub("短链 生成与还原","短链生成").."}"):close()
             提示"添加收藏成功。"
             yytjscbj.dismiss()
             主页收藏应用()
@@ -479,10 +430,10 @@ yytjscbj.showAtLocation(fltBtn.Parent,0,0,0)
       if 已添加==nil then
         if 应用idfxk.isChecked()==false then
           应用idfxk.setChecked(true)
-          轻工具主页待添加收藏应用=轻工具主页待添加收藏应用..'"应用名称",'
+          工具箱主页待添加收藏应用=工具箱主页待添加收藏应用..'"应用名称",'
         else
           应用idfxk.setChecked(false)
-          轻工具主页待添加收藏应用=轻工具主页待添加收藏应用:gsub('"应用名称",',"")
+          工具箱主页待添加收藏应用=工具箱主页待添加收藏应用:gsub('"应用名称",',"")
         end
       end
     end,
@@ -503,9 +454,9 @@ yytjscbj.showAtLocation(fltBtn.Parent,0,0,0)
       onClick=function()
         if 已添加==nil then
           if 应用idfxk.isChecked()==true then
-            轻工具主页待添加收藏应用=轻工具主页待添加收藏应用..'"应用名称",'
+            工具箱主页待添加收藏应用=工具箱主页待添加收藏应用..'"应用名称",'
           else
-            轻工具主页待添加收藏应用=轻工具主页待添加收藏应用:gsub('"应用名称",',"")
+            工具箱主页待添加收藏应用=工具箱主页待添加收藏应用:gsub('"应用名称",',"")
           end
         end
       end,
@@ -513,24 +464,24 @@ yytjscbj.showAtLocation(fltBtn.Parent,0,0,0)
   },
 },
 ]]
-b=loadstring("return "..io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a"))轻工具主页收藏应用=b()
+b=loadstring("return "..io.open("/data/data/"..activity.getPackageName().."/工具箱主页收藏应用"):read("*a"))工具箱主页收藏应用=b()
 应用添加收藏左列id={"ytcdzbid","ytcsjpmid","ytcfyid","ytckdcxliteid","ytcczid","ytcewmgjid","ytctpzljid","ytccksbxxxxid","ytcdwjqlid","ytckwjjqlid","ytcqqwyhcqlid","ytcjzzhid","ytcbase64bmzhid","ytclssdjtid","ytcwyymhqid","ytcgsdcxid"}
 for i=1,#全部应用左列 do
   if i==1 then
     应用添加收藏左列布局=应用添加收藏适配布局:gsub("应用名称",全部应用左列[1]):gsub("应用id",应用添加收藏左列id[1])
-    for n=1,#轻工具主页收藏应用+1 do
-      if n==#轻工具主页收藏应用+1 then
+    for n=1,#工具箱主页收藏应用+1 do
+      if n==#工具箱主页收藏应用+1 then
         应用添加收藏左列布局=应用添加收藏左列布局:gsub("已添加","nil"):gsub("已勾选","false"):gsub("可勾选","true")
-      elseif 轻工具主页收藏应用[n]:find(全部应用左列[i]) then
+      elseif 工具箱主页收藏应用[n]:find(全部应用左列[i]) then
         应用添加收藏左列布局=应用添加收藏左列布局:gsub("已添加","true"):gsub("已勾选","true"):gsub("可勾选","false")break
       end
     end
   else
     应用添加收藏左列布局=应用添加收藏左列布局..应用添加收藏适配布局:gsub("应用名称",全部应用左列[i]):gsub("应用id",应用添加收藏左列id[i]):gsub("短链生成","短链 生成与还原")
-    for n=1,#轻工具主页收藏应用+1 do
-      if n==#轻工具主页收藏应用+1 then
+    for n=1,#工具箱主页收藏应用+1 do
+      if n==#工具箱主页收藏应用+1 then
         应用添加收藏左列布局=应用添加收藏左列布局:gsub("已添加","nil"):gsub("已勾选","false"):gsub("可勾选","true")
-      elseif 轻工具主页收藏应用[n]:find(全部应用左列[i]) then
+      elseif 工具箱主页收藏应用[n]:find(全部应用左列[i]) then
         应用添加收藏左列布局=应用添加收藏左列布局:gsub("已添加","true"):gsub("已勾选","true"):gsub("可勾选","false")break
       end
     end
@@ -546,19 +497,19 @@ orientation="vertical",
 for i=1,#全部应用右列 do
   if i==1 then
     应用添加收藏右列布局=应用添加收藏适配布局:gsub("应用名称",全部应用右列[1]):gsub("应用id",应用添加收藏右列id[1])
-    for n=1,#轻工具主页收藏应用+1 do
-      if n==#轻工具主页收藏应用+1 then
+    for n=1,#工具箱主页收藏应用+1 do
+      if n==#工具箱主页收藏应用+1 then
         应用添加收藏右列布局=应用添加收藏右列布局:gsub("已添加","nil"):gsub("已勾选","false"):gsub("可勾选","true")
-      elseif 轻工具主页收藏应用[n]:find(全部应用右列[i]) then
+      elseif 工具箱主页收藏应用[n]:find(全部应用右列[i]) then
         应用添加收藏右列布局=应用添加收藏右列布局:gsub("已添加","true"):gsub("已勾选","true"):gsub("可勾选","false")break
       end
     end
   else
     应用添加收藏右列布局=应用添加收藏右列布局..应用添加收藏适配布局:gsub("应用名称",全部应用右列[i]):gsub("应用id",应用添加收藏右列id[i]):gsub("短链生成","短链 生成与还原")
-    for n=1,#轻工具主页收藏应用+1 do
-      if n==#轻工具主页收藏应用+1 then
+    for n=1,#工具箱主页收藏应用+1 do
+      if n==#工具箱主页收藏应用+1 then
         应用添加收藏右列布局=应用添加收藏右列布局:gsub("已添加","nil"):gsub("已勾选","false"):gsub("可勾选","true")
-      elseif 轻工具主页收藏应用[n]:find(全部应用右列[i]) then
+      elseif 工具箱主页收藏应用[n]:find(全部应用右列[i]) then
         应用添加收藏右列布局=应用添加收藏右列布局:gsub("已添加","true"):gsub("已勾选","true"):gsub("可勾选","false")break
       end
     end
@@ -1091,11 +1042,9 @@ dfywb.addTextChangedListener({
   end
 end})
 function 翻译动画()
-  缩放按钮=ScaleAnimation(1,0.6,1,0.6,相对自身,0.5,相对自身,0.5)
-.setDuration(200).setFillAfter(true)
+  缩放按钮=ScaleAnimation(1,0.6,1,0.6,相对自身,0.5,相对自身,0.5).setDuration(200).setFillAfter(true)
   fytx.startAnimation(缩放按钮)
-  缩放按钮=ScaleAnimation(0.6,1,0.6,1,相对自身,0.5,相对自身,0.5)
-.setDuration(200).setFillAfter(true)
+  缩放按钮=ScaleAnimation(0.6,1,0.6,1,相对自身,0.5,相对自身,0.5).setDuration(200).setFillAfter(true)
   url="http://fanyi.youdao.com/translate?&doctype=json&type="..fylx.."&i="..dfywb.text:gsub("\n"," ")
   Http.get(url,nil,"utf8",nil,function(code,content,cookie,header)
     if fylx:find"2ZH_CN"then yyan=Locale.CHINESE yuy="中文"
@@ -1114,7 +1063,7 @@ function 翻译动画()
     else
       fyjgwb=content:match('"translateResult"(.-)"}]]}')
       fyjgwb=fyjgwb:sub(4,#fyjgwb)..'"}'
-      JSON=import"cjson"
+      JSON=import"json"
       json_o=JSON.decode("["..fyjgwb.."]")
         for i,v in ipairs(json_o) do
         if i==1then
@@ -2215,14 +2164,6 @@ task(500,function()
   end
 end)
 end
-function ms2time(ms)
-  date=tostring(Date(ms))
-  year=date:sub(#date-4,#date)
-  month=(date:sub(5,7)):gsub("Jan","01"):gsub("Feb","02"):gsub("Mar","03"):gsub("Apr","04"):gsub("May","05"):gsub("Jun","06"):gsub("Jul","07"):gsub("Aug","08"):gsub("Sep","09"):gsub("Oct","10"):gsub("Nov","11"):gsub("Dec","12")
-  day=date:sub(9,10)
-  time=date:sub(12,19)
-  return (year.."-"..month.."-"..day.." "..time)
-end
 function 快递查询Lite()
 kdxqbj=nil
 快递查询Lite布局={
@@ -2447,7 +2388,7 @@ function 解析快递编码(kdxqbm)
   yqs.setVisibility(4)
   zxkdwz.text=""zxkdsj.text=""
   if kdxqbm:find"msg"then
-    JSON=import"cjson"
+    JSON=import"json"
     kdxqbm='{"msg":'..kdxqbm:match('{"msg":(.-)</pre>')
     kdxqbm=kdxqbm:sub(1,#kdxqbm-1)
     kdxqb=""
@@ -3175,7 +3116,9 @@ bilibili封面获取布局={
                               padding="16.25dp",
                               orientation="horizontal",
                               layout_width=0.5*(w-73/32*geth(toolbar)),
-                              onClick=function()分享文本(图片链接)end,
+                              onClick=function()
+                                webView.shareImageByUrl(图片链接)
+                              end,
                               {
                                 ImageView,
                                 layout_width="23.5dp",
@@ -5944,7 +5887,7 @@ item={
                 if content:find"name" then
                   ljlb=content:match('"newslist":(.+)')
                   垃圾名称={}垃圾种类={}垃圾图片={}垃圾解释={}类似垃圾={}垃圾处理={}
-                  JSON=import"cjson"
+                  JSON=import"json"
                   if ljlb:sub(#ljlb-3,#ljlb-3)=="}" then
                     json_o=JSON.decode(ljlb:sub(1,#ljlb-2))
                   else
@@ -7087,12 +7030,7 @@ function 大文件清理()
                 dwjqlbt.text="大文件清理"
                 查找大文件完成(ret)
                 if 共清理文件大小>0 then
-                  共清理文件大小=tostring(tointeger(共清理文件大小/1048576*1000))
-                  if 共清理文件大小:sub(#共清理文件大小,#共清理文件大小)>="5" then
-                    共清理文件大小=tostring((共清理文件大小:sub(1,#共清理文件大小-1)+1)/100)
-                  else
-                    共清理文件大小=tostring(共清理文件大小:sub(1,#共清理文件大小-1)/100)
-                  end
+                  共清理文件大小=string.format("%.2f",共清理文件大小/1048576)
                 end
                 task(150,function()
                   圆角对话框()
@@ -7243,7 +7181,9 @@ function 大文件清理()
     波纹(gbwjxqbj,0xFFE2E2E2)
     位移动画(bjkp,200,0,0,geth(bjkp),0)
     function 线程返回文件md5(path)
-      if not pcall(function()collectgarbage("collect")md5=require("md5")function md5.sumhexa(k)k=md5.sum(k)return (string.gsub(k, ".", function (c)return string.format("%02x", string.byte(c))end))end local file=io.open(path,"rb")local string=file:read("*a")file:close()call('设置md5文本',md5.sumhexa(string))end) then
+    require"import"
+    import"com.androlua.LuaUtil"
+      if not pcall(function()collectgarbage("collect")call('设置md5文本',LuaUtil.getFileMD5(tostring(path)))end) then
         call("设置md5文本","获取失败")
       end
     end
@@ -7429,21 +7369,9 @@ function 大文件清理()
           大文件列表=大文件列表:gsub("文件父路径",tostring(File(tostring(item[i])).getParentFile()):match("/storage/emulated/0(.+)"))
         end
         if File(tostring(item[i])).length()>=1073741824 then
-          大文件列表=大文件列表:gsub("单位","G"):gsub("dwbjys","0xFFEC534B")
-          文件大小=tostring(tointeger(File(tostring(item[i])).length()/1073741824*100))
-          if 文件大小:sub(#文件大小,#文件大小)>="5" then
-            大文件列表=大文件列表:gsub("文件大小",tostring((文件大小:sub(1,#文件大小-1)+1)/10))
-          else
-            大文件列表=大文件列表:gsub("文件大小",tostring((文件大小:sub(1,#文件大小-1))/10))
-          end
+          大文件列表=大文件列表:gsub("单位","G"):gsub("dwbjys","0xFFEC534B"):gsub("文件大小",string.format("%.1f",File(tostring(item[i])).length()/1073741824))
         else
-          大文件列表=大文件列表:gsub("单位","M"):gsub("dwbjys","0xFF68AFE5")
-          文件大小=tostring(tointeger(File(tostring(item[i])).length()/1048576*100))
-           if 文件大小:sub(#文件大小,#文件大小)>="5" then
-            大文件列表=大文件列表:gsub("文件大小",tostring((文件大小:sub(1,#文件大小-1)+1)/10))
-          else
-            大文件列表=大文件列表:gsub("文件大小",tostring((文件大小:sub(1,#文件大小-1))/10))
-          end
+          大文件列表=大文件列表:gsub("单位","M"):gsub("dwbjys","0xFF68AFE5"):gsub("文件大小",string.format("%.1f",File(tostring(item[i])).length()/1048576))
         end
         大文件列表布局=大文件列表布局..大文件列表
       else
@@ -7454,21 +7382,9 @@ function 大文件清理()
           大文件列表=大文件列表:gsub("文件父路径",tostring(File(tostring(item[i])).getParentFile()):match("/storage/emulated/0(.+)"))
         end
         if File(tostring(item[i])).length()>=1073741824 then
-          大文件列表=大文件列表:gsub("单位","G"):gsub("dwbjys","0xFFEC534B")
-          文件大小=tostring(tointeger(File(tostring(item[i])).length()/1073741824*100))
-          if 文件大小:sub(#文件大小,#文件大小)>="5" then
-            大文件列表=大文件列表:gsub("文件大小",tostring((文件大小:sub(1,#文件大小-1)+1)/10))
-          else
-            大文件列表=大文件列表:gsub("文件大小",tostring((文件大小:sub(1,#文件大小-1))/10))
-          end
+          大文件列表=大文件列表:gsub("单位","G"):gsub("dwbjys","0xFFEC534B"):gsub("文件大小",string.format("%.1f",File(tostring(item[i])).length()/1073741824))
         else
-          大文件列表=大文件列表:gsub("单位","M"):gsub("dwbjys","0xFF68AFE5")
-          文件大小=tostring(tointeger(File(tostring(item[i])).length()/1048576*100))
-          if 文件大小:sub(#文件大小,#文件大小)>="5" then
-            大文件列表=大文件列表:gsub("文件大小",tostring((文件大小:sub(1,#文件大小-1)+1)/10))
-          else
-            大文件列表=大文件列表:gsub("文件大小",tostring((文件大小:sub(1,#文件大小-1))/10))
-          end
+          大文件列表=大文件列表:gsub("单位","M"):gsub("dwbjys","0xFF68AFE5"):gsub("文件大小",string.format("%.1f",File(tostring(item[i])).length()/1048576))
         end
         大文件列表布局=大文件列表布局..大文件列表
       end
@@ -8409,7 +8325,7 @@ require"import"
     collectgarbage("collect")
     歌词=content:match("jQuery111006245952305442848_1570020593174(.+)")
     歌词="["..歌词:sub(2,#歌词-2).."]"
-    JSON=import "cjson"
+    JSON=import "json"
     json_o=JSON.decode(歌词)
     for i,v in pairs(json_o) do
       歌词=""
@@ -8596,7 +8512,7 @@ local function 搜索音乐(name,sscs)
       end
       音乐列表=音乐列表:sub(3,#音乐列表-3)
       音乐列表="["..音乐列表.."]"
-      JSON=import "cjson"
+      JSON=import "json"
       json_o=JSON.decode(音乐列表)
       for i,v in ipairs(json_o) do
         歌曲时间[i]="00:00" table.insert(音乐id,tostring(tointeger(v.id))) table.insert(音乐名称,v.name) table.insert(图片id,v.pic_id) table.insert(歌词id,tostring(tointeger(v.lyric_id))) table.insert(链接id,tostring(tointeger(v.url_id))) table.insert(专辑,v.album) table.insert(歌手,v.artist[1])
@@ -9125,9 +9041,9 @@ pagev.setOnPageChangeListener(PageView.OnPageChangeListener{
   end})
 end
 import"android.support.v4.widget.*"
-轻工具布局={
+工具箱布局={
   FrameLayout,
-  id="qgjfbj",
+  id="gjxfbj",
   layout_width=w,
   layout_height=h,
   {
@@ -9204,13 +9120,13 @@ import"android.support.v4.widget.*"
               layout_gravity="center",
               src="http://shp.qpic.cn/collector/2530648358/42fcb38e-779a-4622-886d-fade6f7a08f7/0",
               onClick=function()
-                if 轻工具主页待删除应用~=""then
-                  b=loadstring("return ".."{"..轻工具主页待删除应用.."}")轻工具主页待删除应用=b()
-                  轻工具主页收藏应用=io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a")
-                  for i=1,#轻工具主页待删除应用 do
-                    轻工具主页收藏应用=轻工具主页收藏应用:gsub('"'..轻工具主页待删除应用[i]..'",',"")
+                if 工具箱主页待删除应用~=""then
+                  b=loadstring("return ".."{"..工具箱主页待删除应用.."}")工具箱主页待删除应用=b()
+                  工具箱主页收藏应用=io.open("/data/data/"..activity.getPackageName().."/工具箱主页收藏应用"):read("*a")
+                  for i=1,#工具箱主页待删除应用 do
+                    工具箱主页收藏应用=工具箱主页收藏应用:gsub('"'..工具箱主页待删除应用[i]..'",',"")
                   end
-                  io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用","w+"):write(轻工具主页收藏应用):close()
+                  io.open("/data/data/"..activity.getPackageName().."/工具箱主页收藏应用","w+"):write(工具箱主页收藏应用):close()
                   scscyy.setVisibility(4)
                   主页收藏应用()
                 end
@@ -10532,7 +10448,7 @@ import"android.support.v4.widget.*"
                     layout_marginLeft="16dp",
                   },
                 },
-                {
+                --[[{
                   LinearLayout,
                   layout_width="fill",
                   orientation="vertical",
@@ -10558,7 +10474,7 @@ import"android.support.v4.widget.*"
                         onClick=function()音乐搜索试听()end,
                       },
                     },
-                    --[[{
+                    {
                       CardView,
                       layout_height="fill",
                       elevation=0,
@@ -10575,9 +10491,9 @@ import"android.support.v4.widget.*"
                         layout_gravity="center",
                         onClick=function()空文件夹清理()end,
                       },
-                    },]]
+                    },
                   },
-                  --[[{
+                  {
                     LinearLayout,
                     layout_height="32dp",
                     orientation="horizontal",
@@ -10599,8 +10515,8 @@ import"android.support.v4.widget.*"
                         onClick=function()安装包清理()end,
                       },
                     },
-                  },]]
-                },
+                  },
+                },]]
               },
             },
             {
@@ -10637,7 +10553,7 @@ import"android.support.v4.widget.*"
                   layout_width="fill",
                   textColor=0xFF6E6E6E,
                   layout_marginTop="15dp",
-                  text="新增 音乐搜索试听\n\n添加 QQ无用缓存清理规则",
+                  text="修复 一些bug\n\n优化 一些工具",
                 },
               },
             },
@@ -10648,15 +10564,15 @@ import"android.support.v4.widget.*"
   },
   {
     LinearLayout,
-    id="qgjdingl",
+    id="gjxdingl",
     elevation="5dp",
     layout_width=w,
     backgroundColor=0xFF9AAEC7,
     layout_height=getStatusBarHeight()+geth(toolbar),
     {
       TextView,
-      id="qgjwz",
-      text="轻工具",
+      id="gjxwz",
+      text="工具箱",
       paddingLeft="20dp",
       paddingTop=getStatusBarHeight(),
       layout_gravity="center",
@@ -10665,7 +10581,7 @@ import"android.support.v4.widget.*"
   },
   {
     LinearLayout,
-    id="qgjdil",
+    id="gjxdil",
     layout_gravity="bottom",
     elevation="10dp",
     layout_width=w,
@@ -10767,13 +10683,13 @@ import"android.support.v4.widget.*"
     },
   },
 }
-qgj=PopupWindow(loadlayout(轻工具布局))
-qgj.setFocusable(true)
-qgj.setWidth(w)
-qgj.setHeight(h)
-qgj.setTouchable(true)
-qgj.setOutsideTouchable(true)
-qgj.showAtLocation(fltBtn.Parent,0,0,0)
+gjx=PopupWindow(loadlayout(工具箱布局))
+gjx.setFocusable(true)
+gjx.setWidth(w)
+gjx.setHeight(h)
+gjx.setTouchable(true)
+gjx.setOutsideTouchable(true)
+gjx.showAtLocation(fltBtn.Parent,0,0,0)
 主页收藏应用适配布局=[[
 {
   CardView,
@@ -10792,10 +10708,10 @@ qgj.showAtLocation(fltBtn.Parent,0,0,0)
       if 触发了长按事件 then
         if 应用名称fxk.isChecked()==false then
           应用名称fxk.setChecked(true)
-          轻工具主页待删除应用=轻工具主页待删除应用..'"应用名称",'
+          工具箱主页待删除应用=工具箱主页待删除应用..'"应用名称",'
         else
           应用名称fxk.setChecked(false)
-          轻工具主页待删除应用=轻工具主页待删除应用:gsub('"应用名称",',"")
+          工具箱主页待删除应用=工具箱主页待删除应用:gsub('"应用名称",',"")
         end
       else
         应用名称()
@@ -10818,9 +10734,9 @@ qgj.showAtLocation(fltBtn.Parent,0,0,0)
       layout_gravity="center",
       onClick=function()
         if 应用名称fxk.isChecked()==true then
-          轻工具主页待删除应用=轻工具主页待删除应用..'"应用名称",'
+          工具箱主页待删除应用=工具箱主页待删除应用..'"应用名称",'
         else
-          轻工具主页待删除应用=轻工具主页待删除应用:gsub('"应用名称",',"")
+          工具箱主页待删除应用=工具箱主页待删除应用:gsub('"应用名称",',"")
         end
       end,
     },
@@ -10833,18 +10749,18 @@ function 主页收藏应用()
     zyscyyzlbj.setVisibility(View.GONE)zyscyyylbj.setVisibility(View.GONE)
   end
   触发了长按事件=nil 主页收藏应用左列布局="" 主页收藏应用右列布局="" 主页收藏应用事件="" 恢复复选框="" 隐藏复选框=""
-  b=loadstring("return "..io.open("/data/data/"..activity.getPackageName().."/轻工具主页收藏应用"):read("*a"))轻工具主页收藏应用=b()
-  for i=1,#轻工具主页收藏应用 do
-    恢复复选框=恢复复选框..轻工具主页收藏应用[i].."fxk.setVisibility(0)"
-    隐藏复选框=隐藏复选框..轻工具主页收藏应用[i].."fxk.setVisibility(8)"..轻工具主页收藏应用[i].."fxk.setChecked(false)"
+  b=loadstring("return "..io.open("/data/data/"..activity.getPackageName().."/工具箱主页收藏应用"):read("*a"))工具箱主页收藏应用=b()
+  for i=1,#工具箱主页收藏应用 do
+    恢复复选框=恢复复选框..工具箱主页收藏应用[i].."fxk.setVisibility(0)"
+    隐藏复选框=隐藏复选框..工具箱主页收藏应用[i].."fxk.setVisibility(8)"..工具箱主页收藏应用[i].."fxk.setChecked(false)"
   end
-  for i=1,#轻工具主页收藏应用 do
+  for i=1,#工具箱主页收藏应用 do
     if i%2==1 then
-      主页收藏应用事件=主页收藏应用事件.."波纹("..轻工具主页收藏应用[i].."id,0xFFE9E9E9)"..轻工具主页收藏应用[i].."id.onLongClick=function()if 触发了长按事件 then "..隐藏复选框.."scscyy.setVisibility(4)触发了长按事件=nil else 轻工具主页待删除应用名称='"..轻工具主页收藏应用[i].."'"..恢复复选框..轻工具主页收藏应用[i].."fxk.setChecked(true)scscyy.setVisibility(0)"..[[轻工具主页待删除应用='"'..轻工具主页待删除应用名称..'",']].."触发了长按事件=true end return true end "
-      主页收藏应用左列布局=主页收藏应用左列布局..主页收藏应用适配布局:gsub("应用名称",轻工具主页收藏应用[i]):gsub('text="短链生成"','text="短链 生成与还原"')
+      主页收藏应用事件=主页收藏应用事件.."波纹("..工具箱主页收藏应用[i].."id,0xFFE9E9E9)"..工具箱主页收藏应用[i].."id.onLongClick=function()if 触发了长按事件 then "..隐藏复选框.."scscyy.setVisibility(4)触发了长按事件=nil else 工具箱主页待删除应用名称='"..工具箱主页收藏应用[i].."'"..恢复复选框..工具箱主页收藏应用[i].."fxk.setChecked(true)scscyy.setVisibility(0)"..[[工具箱主页待删除应用='"'..工具箱主页待删除应用名称..'",']].."触发了长按事件=true end return true end "
+      主页收藏应用左列布局=主页收藏应用左列布局..主页收藏应用适配布局:gsub("应用名称",工具箱主页收藏应用[i]):gsub('text="短链生成"','text="短链 生成与还原"')
     else
-      主页收藏应用事件=主页收藏应用事件.."波纹("..轻工具主页收藏应用[i].."id,0xFFE9E9E9)"..轻工具主页收藏应用[i].."id.onLongClick=function()if 触发了长按事件 then "..隐藏复选框.."scscyy.setVisibility(4)触发了长按事件=nil else 轻工具主页待删除应用名称='"..轻工具主页收藏应用[i].."'"..恢复复选框..轻工具主页收藏应用[i].."fxk.setChecked(true)scscyy.setVisibility(0)"..[[轻工具主页待删除应用='"'..轻工具主页待删除应用名称..'",']].."触发了长按事件=true end return true end "
-      主页收藏应用右列布局=主页收藏应用右列布局..主页收藏应用适配布局:gsub("应用名称",轻工具主页收藏应用[i]):gsub('text="短链生成"','text="短链 生成与还原"')
+      主页收藏应用事件=主页收藏应用事件.."波纹("..工具箱主页收藏应用[i].."id,0xFFE9E9E9)"..工具箱主页收藏应用[i].."id.onLongClick=function()if 触发了长按事件 then "..隐藏复选框.."scscyy.setVisibility(4)触发了长按事件=nil else 工具箱主页待删除应用名称='"..工具箱主页收藏应用[i].."'"..恢复复选框..工具箱主页收藏应用[i].."fxk.setChecked(true)scscyy.setVisibility(0)"..[[工具箱主页待删除应用='"'..工具箱主页待删除应用名称..'",']].."触发了长按事件=true end return true end "
+      主页收藏应用右列布局=主页收藏应用右列布局..主页收藏应用适配布局:gsub("应用名称",工具箱主页收藏应用[i]):gsub('text="短链生成"','text="短链 生成与还原"')
     end
   end
   主页收藏应用左列布局=[[{
@@ -10905,24 +10821,24 @@ flhd.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{
     if nowy>=0 and nowy<=geth(flhd)-h+getStatusBarHeight() then
       if dlsety+nowy-oldy>=0 and dlsety+nowy-oldy<=geth(toolbar)then
         dlsety=dlsety+nowy-oldy
-        qgjdingl.setY(-dlsety)
-        qgjwz.startAnimation(AlphaAnimation(0,(-dlsety+32)/32).setDuration(0).setFillAfter(true))
+        gjxdingl.setY(-dlsety)
+        gjxwz.startAnimation(AlphaAnimation(0,(-dlsety+32)/32).setDuration(0).setFillAfter(true))
       else
         if dlsety+nowy-oldy>geth(toolbar)then
           dlsety=geth(toolbar)
-          qgjdingl.setY(-dlsety)
-          qgjwz.startAnimation(AlphaAnimation(0,0).setDuration(0).setFillAfter(true))
+          gjxdingl.setY(-dlsety)
+          gjxwz.startAnimation(AlphaAnimation(0,0).setDuration(0).setFillAfter(true))
         else
           dlsety=0
-          qgjdingl.setY(0)
-          qgjwz.startAnimation(AlphaAnimation(0,1).setDuration(0).setFillAfter(true))
+          gjxdingl.setY(0)
+          gjxwz.startAnimation(AlphaAnimation(0,1).setDuration(0).setFillAfter(true))
         end
       end
     end
     if nowy>oldy then
-      qgjdil.setVisibility(4)
+      gjxdil.setVisibility(4)
     else
-      qgjdil.setVisibility(0)
+      gjxdil.setVisibility(0)
     end
   end
 })
@@ -10931,24 +10847,24 @@ flhd2.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener{
     if nowy>=0 and nowy<=geth(flhd2)-h+getStatusBarHeight() then
       if dlsety+nowy-oldy>=0 and dlsety+nowy-oldy<=geth(toolbar)then
         dlsety=dlsety+nowy-oldy
-        qgjdingl.setY(-dlsety)
-        qgjwz.startAnimation(AlphaAnimation(0,(-dlsety+32)/32).setDuration(0).setFillAfter(true))
+        gjxdingl.setY(-dlsety)
+        gjxwz.startAnimation(AlphaAnimation(0,(-dlsety+32)/32).setDuration(0).setFillAfter(true))
       else
         if dlsety+nowy-oldy>geth(toolbar)then
           dlsety=geth(toolbar)
-          qgjdingl.setY(-dlsety)
-          qgjwz.startAnimation(AlphaAnimation(0,0).setDuration(0).setFillAfter(true))
+          gjxdingl.setY(-dlsety)
+          gjxwz.startAnimation(AlphaAnimation(0,0).setDuration(0).setFillAfter(true))
         else
           dlsety=0
-          qgjdingl.setY(0)
-          qgjwz.startAnimation(AlphaAnimation(0,1).setDuration(0).setFillAfter(true))
+          gjxdingl.setY(0)
+          gjxwz.startAnimation(AlphaAnimation(0,1).setDuration(0).setFillAfter(true))
         end
       end
     end
     if nowy>oldy then
-      qgjdil.setVisibility(4)
+      gjxdil.setVisibility(4)
     else
-      qgjdil.setVisibility(0)
+      gjxdil.setVisibility(0)
     end
   end
 })
