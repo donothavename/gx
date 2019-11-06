@@ -27,12 +27,12 @@ end
 if io.open("/data/data/"..activity.getPackageName().."/工具箱主页收藏应用"):read("*a")==""then
 io.open("/data/data/"..activity.getPackageName().."/工具箱主页收藏应用","w+"):write("{}"):close()
 end
---[[local f=io.open("/data/data/"..activity.getPackageName().."/app_lib/json.lua",'r')
+local f=io.open("/data/data/"..activity.getPackageName().."/app_lib/libcjson.so",'r')
 if f~=nil then
   io.close(f)
 else
-  软件内下载("正在下载资源","https://api.github.com/repos/LuaDist2/json4lua/contents/json.lua","/data/data/"..activity.getPackageName().."/app_lib/json.lua",{"Accept","application/vnd.github.VERSION.raw"})
-end]]
+  软件内下载("正在下载资源","https://api.github.com/repos/donothavename/gx/contents/libcjson.so","/data/data/"..activity.getPackageName().."/app_lib/libcjson.so",{"Accept","application/vnd.github.VERSION.raw"})
+end
 import 'android.graphics.*'
 全部应用左列={"打字板","时间屏幕","翻译","快递查询Lite","尺子","二维码工具","图片转链接","查看设备详细信息","大文件清理","空文件夹清理","QQ无用缓存清理","进制转换","Base64编码转换","历史上的今天","网页源码获取","归属地查询"}
 全部应用右列={"画板","垃圾分类查询","汇率转换","短链生成","指南针","取色器","BiliBili封面获取","获取当前壁纸","空文件清理","安装包清理","摩斯电码","RC4加解密","MD5加密","随机数生成","全球IP查询","音乐搜索试听"}
@@ -1063,7 +1063,7 @@ function 翻译动画()
     else
       fyjgwb=content:match('"translateResult"(.-)"}]]}')
       fyjgwb=fyjgwb:sub(4,#fyjgwb)..'"}'
-      JSON=import"json"
+      JSON=import"cjson"
       json_o=JSON.decode("["..fyjgwb.."]")
         for i,v in ipairs(json_o) do
         if i==1then
@@ -2388,7 +2388,7 @@ function 解析快递编码(kdxqbm)
   yqs.setVisibility(4)
   zxkdwz.text=""zxkdsj.text=""
   if kdxqbm:find"msg"then
-    JSON=import"json"
+    JSON=import"cjson"
     kdxqbm='{"msg":'..kdxqbm:match('{"msg":(.-)</pre>')
     kdxqbm=kdxqbm:sub(1,#kdxqbm-1)
     kdxqb=""
@@ -5887,7 +5887,7 @@ item={
                 if content:find"name" then
                   ljlb=content:match('"newslist":(.+)')
                   垃圾名称={}垃圾种类={}垃圾图片={}垃圾解释={}类似垃圾={}垃圾处理={}
-                  JSON=import"json"
+                  JSON=import"cjson"
                   if ljlb:sub(#ljlb-3,#ljlb-3)=="}" then
                     json_o=JSON.decode(ljlb:sub(1,#ljlb-2))
                   else
@@ -8325,7 +8325,7 @@ require"import"
     collectgarbage("collect")
     歌词=content:match("jQuery111006245952305442848_1570020593174(.+)")
     歌词="["..歌词:sub(2,#歌词-2).."]"
-    JSON=import "json"
+    JSON=import "cjson"
     json_o=JSON.decode(歌词)
     for i,v in pairs(json_o) do
       歌词=""
@@ -8512,7 +8512,7 @@ local function 搜索音乐(name,sscs)
       end
       音乐列表=音乐列表:sub(3,#音乐列表-3)
       音乐列表="["..音乐列表.."]"
-      JSON=import "json"
+      JSON=import "cjson"
       json_o=JSON.decode(音乐列表)
       for i,v in ipairs(json_o) do
         歌曲时间[i]="00:00" table.insert(音乐id,tostring(tointeger(v.id))) table.insert(音乐名称,v.name) table.insert(图片id,v.pic_id) table.insert(歌词id,tostring(tointeger(v.lyric_id))) table.insert(链接id,tostring(tointeger(v.url_id))) table.insert(专辑,v.album) table.insert(歌手,v.artist[1])
@@ -10787,7 +10787,7 @@ end
 主页收藏应用()
 波纹(zydj,0xFFE2E2E2)波纹(fldj,0xFFE2E2E2)波纹(zhdj,0xFFE2E2E2)
 波纹(dlscid,0xFFD0D0D0)波纹(ewmgjid,0xFFD0D0D0)波纹(sjpmid,0xFFD0D0D0)波纹(fyid,0xFFD0D0D0)波纹(czid,0xFFD0D0D0)波纹(znzid,0xFFD0D0D0)波纹(qsqid,0xFFD0D0D0)波纹(kdcxliteid,0xFFD0D0D0)波纹(tpzljid,0xFFD0D0D0)波纹(hqdqbzid,0xFFD0D0D0)波纹(cksbxxxxid,0xFFD0D0D0)波纹(msdmid,0xFFD0D0D0)波纹(base64bmzhid,0xFFD0D0D0)波纹(sjsscid,0xFFD0D0D0)波纹(bilibilifmhqid,0xFFD0D0D0)波纹(md5jmid,0xFFD0D0D0)波纹(wyymhqid,0xFFD0D0D0)波纹(jzzhid,0xFFD0D0D0)波纹(gsdcxid,0xFFD0D0D0)波纹(lssdjtid,0xFFD0D0D0)波纹(qqipcxid,0xFFD0D0D0)波纹(ljflcxid,0xFFD0D0D0)波纹(dzbid,0xFFD0D0D0)波纹(hbid,0xFFD0D0D0)波纹(hlzhid,0xFFD0D0D0)波纹(dwjqlid,0xFFD0D0D0)波纹(kwjqlid,0xFFD0D0D0)波纹(kwjjqlid,0xFFD0D0D0)波纹(azbqlid,0xFFD0D0D0)波纹(qqwyhcqlid,0xFFD0D0D0)波纹(yyssstid,0xFFD0D0D0)
-波纹(yyssstid2,0xFFD0D0D0)--波纹(kwjjqlid2,0xFFD0D0D0)波纹(azbqlid2,0xFFD0D0D0)
+--波纹(yyssstid2,0xFFD0D0D0)波纹(kwjjqlid2,0xFFD0D0D0)波纹(azbqlid2,0xFFD0D0D0)
 pagev2.setOnPageChangeListener(PageView.OnPageChangeListener{
   onPageScrolled=function(a,b,c)
     if c==0then
