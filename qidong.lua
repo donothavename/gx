@@ -4376,10 +4376,10 @@ end)
 if not tostring(jdpuk)==string.byte("")..string.byte("")..string.byte("4")..string.char(55).."32" then error()end
 webView.onTouch=function(v,e)
   if e.action==0 then
-    webOldY=webView.getScrollY()
+    webOldY=webView.getWebScrollY()
   elseif e.action==1 then
     if io.open("/data/data/"..activity.getPackageName().."/全屏"):read("*a")=="开" then
-      if webView.getScrollY()>webOldY then
+      if webView.getWebScrollY()>webOldY then
         if toolbar.parent.getVisibility()~=8 then
           toolbar.parent.startAnimation(TranslateAnimation(0,0,0,-toolbar.parent.getHeight()).setDuration(200).setFillAfter(true))
           fakebmbar.startAnimation(TranslateAnimation(0,0,0,fakebmbar.getHeight()).setDuration(200).setFillAfter(true))
@@ -4388,7 +4388,7 @@ webView.onTouch=function(v,e)
             bmwhole.setVisibility(4)
           end)
         end
-      elseif webView.getScrollY()<webOldY then
+      elseif webView.getWebScrollY()<webOldY then
         if toolbar.parent.getVisibility()==8 then
           toolbar.parent.setVisibility(0)bmwhole.setVisibility(0)
           toolbar.parent.startAnimation(TranslateAnimation(0,0,-fakebmbar.getHeight(),0).setDuration(200).setFillAfter(true))
