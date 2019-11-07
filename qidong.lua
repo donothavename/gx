@@ -2454,32 +2454,9 @@ local dbh=h-geth(toolbar)-getStatusBarHeight()
           gravity="center",
           onClick=function()
             if ljwb.text~=""then
-              jzdl.stopLoading()jzdl.loadUrl(ljwb.text)yljwb=ljwb.text
-              task(500,function()
-                jzdllj=jzdl.getUrl()
-                if jzdllj~="about:blank"then
-                  if jzdllj~=yljwb then
-                    scwb.text=jzdllj jzdl.stopLoading()
-                  end
-                end
-                task(13500,function()
-                  if jzdl.getUrl()==yljwb and ljwb.text:find"t.cn"then
-                    提示"转换失败。"
-                  end
-                end)
+              Http.get(ljwb.text,nil,"utf8",nil,function(code,content)
+                scwb.text=content:match('请确认您要访问网址</h3>(.-)</a>'):match('href="(.-)"')
               end)
-              jzdl.setWebViewClient{
-                onPageFinished=function(view,url)
-                  jzdllj=jzdl.getUrl()
-                  if ljwb.text:find"http"and ljwb.text:find"t.cn"then
-                    if jzdllj~=yljwb then
-                      scwb.text=jzdllj
-                    end
-                   elseif ljwb.text:find"http://"or ljwb.text:find"https://"then
-                    scwb.text=jzdllj
-                   else 提示"转换失败"
-                  end
-                end}
              else 提示"请输入文本.."
             end
           end,
@@ -2504,11 +2481,8 @@ local dbh=h-geth(toolbar)-getStatusBarHeight()
           layout_height="fill",
           onClick=function()
             if ljwb.text~=""then
-              Http.get("https://api.weibo.com/2/short_url/shorten.json?source=2849184197&url_long="..ljwb.text,nil,"utf8",nil,function(code,content,cookie,header)
-                if content:find"url_short"then
-                  scwb.text=content:match('url_short":"(.-)","url_long"')
-                 else 提示"转换失败。"
-                end
+              Http.get("http://t.im/?url="..ljwb.text.."&keyword=&title=&expiration=3",nil,"utf8",nil,function(code,content)
+                scwb.text="https://t.im"..content:match('t.im(.-)</span>')
               end)
              else 提示"请输入文本.."
             end
@@ -2548,10 +2522,6 @@ local dbh=h-geth(toolbar)-getStatusBarHeight()
         onClick=function()复制文本(scwb.text)提示"复制完成"end,
       },
     },
-    {
-      LuaWebView,
-      id="jzdl",
-    },
   },
 }
 dlscbj=PopupWindow(loadlayout(短链生成布局))
@@ -2561,7 +2531,6 @@ dlscbj.setHeight(h)
 dlscbj.setTouchable(true)
 dlscbj.setOutsideTouchable(true)
 dlscbj.showAtLocation(fltBtn.Parent,0,0,0)
-jzdl.setVisibility(View.GONE)
 剪切板=tostring(activity.getSystemService(Context.CLIPBOARD_SERVICE).getText())
 if 剪切板:sub(1,7)=="http://"or 剪切板:sub(1,8)=="https://"then
 ljwb.text=剪切板
@@ -2579,10 +2548,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.4.6"then
+  if 版本名 > "3.4.7"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.4.6".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.4.7".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("30dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
