@@ -63,6 +63,9 @@ wutu=io.open("/data/data/"..activity.getPackageName().."/无图模式"):read("*a
 if wutu=="开" then
 webView.getSettings().setLoadsImagesAutomatically(false)
 end
+if io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")=="开" and io.open("/data/data/"..activity.getPackageName().."/夜间2"):read("*a")=="启用网页暗色" then
+webView.setDayOrNight(false)
+end
 llqbs=io.open("/data/data/"..activity.getPackageName().."/浏览器标识"):read("*a")
 if llqbs=="默认" then webView.getSettings().setUserAgentString("Mozilla/5.0 Dalvik/2 ( Linux; U; NEM-AL10 Build/HONORNEM-AL10;Youku;7.1.4;) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Safari/537.36 (Baidu; P1 6.0) iPhone/7.1 Android/8.0 baiduboxapp/2.7.0.10");
 elseif llqbs=="Chrome (PC)" then webView.getSettings().setUserAgentString("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/47.0.2526.73 Safari/537.36");
@@ -70,7 +73,7 @@ elseif llqbs=="IE 11 (PC)" then webView.getSettings().setUserAgentString("Mozill
 elseif llqbs=="iphone" then webView.getSettings().setUserAgentString("Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_0 like Mac OS X; en-us) AppleWebKit/532.9 (KHTML, like Gecko) Version/4.0.5 Mobile/8A293 Safari/6531.22.7");
 elseif llqbs=="塞班 (Symbian)" then webView.getSettings().setUserAgentString("Mozilla/5.0 (Symbian/3; Series60/5.2 NokiaN8-00/012.002; Profile/MIDP-2.1 Configuration/CLDC-1.1 ) AppleWebKit/533.4 (KHTML, like Gecko) NokiaBrowser/7.3.0 Mobile Safari/533.4 3gpp-gba");
 elseif llqbs=="自定义" then ua=io.open("/data/data/"..activity.getPackageName().."/自定义UA"):read("*a") webView.getSettings().setUserAgentString(ua);end
-thread(function()require "import"while true do Thread.sleep(10000)collectgarbage("count")collectgarbage("collect")collectgarbage("count")end end)
+function 优化内存() collectgarbage("collect")task(1000,function()优化内存()end)end 优化内存()
 yys=0xFF767676 gnkq=0xFF7294DE wfdj=0xFFA4A6A3
 function searchfz()
   ssyq=io.open("/data/data/"..activity.getPackageName().."/搜索引擎"):read("*a")
@@ -568,6 +571,7 @@ collectgarbage("collect")
 tpckbuj=PopupWindow(loadlayout(图片查看布局))
 tpckbuj.setFocusable(true).setWidth(w).setHeight(h).setTouchable(true).setOutsideTouchable(true).showAtLocation(fltBtn.Parent,0,0,0)
 tpckbuj.onDismiss=function()
+  bitmap.recycle()
   luajava.clear(bitmap)
   bitmap=nil
   if io.open("/data/data/"..activity.getPackageName().."/全屏"):read("*a")=="开" then
@@ -1939,7 +1943,7 @@ end
               gravity="center",
               onClick=function()
                 if qrbm~=nil then
-                  qrbm.recycle()qrbm=nil
+                  qrbm.recycle()luajava.clear(qrbm)qrbm=nil
                 end
                 qrbm=MainActivity.Create2DCode(tostring(网页链接))
                 ewmtp.setImageBitmap((qrbm))
@@ -1966,7 +1970,7 @@ end
               onClick=function()
                 if ewmwb.text~=""then
                   if qrbm~=nil then
-                    qrbm.recycle()qrbm=nil
+                    qrbm.recycle()luajava.clear(qrbm)qrbm=nil
                   end
                   qrbm=MainActivity.Create2DCode(tostring(ewmwb.text))
                   ewmtp.setImageBitmap((qrbm))
@@ -2350,10 +2354,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.4.8"then
+  if 版本名 > "3.5.0"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.4.8".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.5.0".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("30dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
@@ -2627,11 +2631,6 @@ function 下载工具箱(ghx)
     end
   end)
 end
-function 夜间()
-yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")
-yj2=io.open("/data/data/"..activity.getPackageName().."/夜间2"):read("*a")
-if yj=="开" and yj2=="启用网页暗色" then 加载Js([[var NightMode;if(!NightMode){NightMode=document.createElement("style");NightMode.type="text/css";NightMode.innerHTML="html,body{background:none !important;background-color: #1d1e2a !important;}html *{background-color: #1d1e2a !important; color:#888888 !important;border-color:#3e4f61 !important;text-shadow:none !important;box-shadow:none !important;}a,a *{border-color:#4c5b99 !important; color:#2d69b3 !important;text-decoration:none !important;}a:visited,a:visited *{color:#a600a6 !important;}a:active,a:active *{color:#5588AA !important;}input,select,textarea,option,button{background-image:none !important;color:#AAAAAA !important;border-color:#4c5b99 !important;}form,div,button,span{background-color:#1d1e2a !important; border-color:#4c5b99 !important;}img{opacity:0.5}";document.getElementsByTagName("HEAD").item(0).appendChild(NightMode)};/*QQBrowserSDKNightModeModifiedByQQ32552732*/]])end
-end
 function 页面即将加载事件()
 collectgarbage("collect")
 if 网页链接:find"fanyi.baidu.com"then ymhlj="fanyi.baidu.com"scys="app-bar,article-loading,article android-style,bottom-intro,go-to-download"jb=""
@@ -2659,7 +2658,7 @@ if 网页链接:find"https://" or 网页链接:find"file://" then
 end
 function 页面加载完毕()
 webView.freeMemory()
-夜间()collectgarbage("collect")
+collectgarbage("collect")
 task(1,function()
 if not webView.canGoBack() then
 设置顶栏标题("主页")
@@ -2670,7 +2669,6 @@ end)
 if toolbar.getChildAt(3) then bitmap=getViewBitmap(toolbar.getChildAt(3))else bitmap=getViewBitmap(toolbar.getChildAt(2))end pixel=webView.getFirstPixel()pixel2=bitmap.getPixel(0.5*geth(toolbar),0.5*geth(toolbar))if not webView.canGoBack()then lspixel=pixel lspixel2=pixel2 end bmwhole.setBackgroundColor(pixel)gengduoic.setColorFilter(pixel2)bmrefreshic.setColorFilter(pixel2)bmhmic.setColorFilter(pixel2)bmforwardic.setColorFilter(pixel2)bmbackic.setColorFilter(pixel2)bitmap.recycle()luajava.clear(bitmap)bitmap=nil if dlsrk then dlsrk.setBackgroundColor(pixel)dlsrk.setTextColor(pixel2)ssbj.setBackgroundColor(pixel)xzssyq.setColorFilter(pixel2)qwss.setColorFilter(pixel2)dlsrk.setHintTextColor(pixel2)end
 end
 function 收到新标题事件()
-夜间()
 设置顶栏标题(webView.title)
 if webView.canGoBack() then
 yins=io.open("/data/data/"..activity.getPackageName().."/隐身"):read("*a")
@@ -3910,12 +3908,11 @@ tuichu.onClick=function()退出程序()end
 share.onClick=function() 分享文本(webView.getUrl()) DialogExternal.setVisibility(View.GONE) gduo=nil end
 xiazai.onClick=function() if pcall(function() activity.getPackageManager().getPackageInfo("com.dv.adm.pay",0) end) then 打开程序("com.dv.adm.pay")else 提示("你似乎没有安装ADM下载器") import "android.content.Intent" import "android.net.Uri" intent = Intent("android.intent.action.VIEW") intent .setData(Uri.parse( "market://details?id=com.dv.adm.pay")) this.startActivity(intent) end gduo=nil DialogExternal.setVisibility(View.GONE) end
 night.onClick=function() gduo=nil color1 = 0xffffffff;yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")if yj=="关" then io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("开"):close()提示"夜间模式"webView.addView(loadlayout{LinearLayout,id="overla",layout_width=10*h,layout_height=32552732*6,backgroundColor="#86000000",})color1 = 0xff232323 yjys=0xffffffff ys3=yjys if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end 侧滑卡片.setCardBackgroundColor(0xff232323) fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)else io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("关"):close()提示"白天模式"webView.removeView(overla)yjys=0xff000000 ys3=0xFF4D4D4D if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material_Light)else activity.setTheme(android.R.style.Theme_Holo_Light)end 侧滑卡片.setCardBackgroundColor(0xffffffff) fltBtn.setCardBackgroundColor(color1)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)end DialogExternal.setVisibility(View.GONE) yj2=io.open("/data/data/"..activity.getPackageName().."/夜间2"):read("*a")if yj2=="启用网页暗色" then 刷新网页()end end
-night.onLongClick=function()yj2=io.open("/data/data/"..activity.getPackageName().."/夜间2"):read("*a")if yj2=="启用网页暗色" then io.open("/data/data/"..activity.getPackageName().."/夜间2","w+"):write("禁用网页暗色"):close() 提示"禁用了夜间模式网页暗色支持." else io.open("/data/data/"..activity.getPackageName().."/夜间2","w+"):write("启用网页暗色"):close() 提示"启用了夜间模式网页暗色支持." end return true end
+night.onLongClick=function()yj2=io.open("/data/data/"..activity.getPackageName().."/夜间2"):read("*a")if yj2=="启用网页暗色" then io.open("/data/data/"..activity.getPackageName().."/夜间2","w+"):write("禁用网页暗色"):close()webView.setDayOrNight(true) 提示"禁用了夜间模式网页暗色支持." else io.open("/data/data/"..activity.getPackageName().."/夜间2","w+"):write("启用网页暗色"):close()webView.setDayOrNight(false) 提示"启用了夜间模式网页暗色支持." end return true end
 history.onClick=function() DialogExternal.setVisibility(View.GONE) gduo=nil read_hst() show_hst() end
 gj.onClick=function()工具箱() Gj=0 xfb=nil DialogExternal.setVisibility(View.GONE)end
 function DialogExternal.onClick() DialogExternal.setVisibility(View.GONE) gduo=nil end
 end
---底下导航栏
 底栏布局={
   LinearLayout;
   orientation="horizontal";
@@ -4858,8 +4855,8 @@ item={
   },
 }
 data={}
-列表图标={"http://shp.qpic.cn/collector/2530648358/87469963-2cd2-4a5d-a990-e2930436b382/0","http://shp.qpic.cn/collector/2530648358/87469963-2cd2-4a5d-a990-e2930436b382/0","http://shp.qpic.cn/collector/2530648358/577e6367-3b93-4098-938e-feb783e04956/0","http://shp.qpic.cn/collector/2530648358/78a557a7-e4a2-46f5-abd2-6905447ee518/0","http://shp.qpic.cn/collector/2530648358/8bd98801-f8aa-45da-9597-7b37a81a1b36/0"}
-列表文字={"vip影库","vip影库2","音乐搜索","电视直播","工具箱"}
+列表图标={"http://shp.qpic.cn/collector/2530648358/fc30823d-d20f-4f67-b3fb-e6bac2ff6471/0","http://shp.qpic.cn/collector/2530648358/fc30823d-d20f-4f67-b3fb-e6bac2ff6471/0","http://shp.qpic.cn/collector/2530648358/3222def2-7403-4618-921c-797ec771f72b/0","http://shp.qpic.cn/collector/2530648358/664cca14-6c40-4d0f-bb8f-fbb590d08b87/0","http://shp.qpic.cn/collector/2530648358/8bd98801-f8aa-45da-9597-7b37a81a1b36/0","http://shp.qpic.cn/collector/2530648358/75cc237a-fab6-4a2f-9be9-938c52d2d952/0"}
+列表文字={"vip影库","vip影库2","音乐搜索","电视直播","工具箱","检查更新"}
 for i=1,#列表文字 do table.insert(data,{侧滑列表图标=列表图标[i],侧滑列表文字=列表文字[i]})end
 adp=LuaAdapter(activity,data,item)
 sidebar.getChildAt(2).Adapter=adp
@@ -4873,7 +4870,9 @@ sidebar.getChildAt(2).onItemClick=function(pa,v,po,i)
     gbzy()加载网页("http://music.bbbbbb.me/")
   elseif i==4 then
     gbzy()加载网页("http://wx.91kds.org/")
-  else
+  elseif i==5 then
     打开工具箱()
+  else
+    检查更新()
   end
 end
