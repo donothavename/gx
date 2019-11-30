@@ -65,7 +65,7 @@ if wutu=="开" then
 webView.getSettings().setLoadsImagesAutomatically(false)
 end
 if io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")=="开" and io.open("/data/data/"..activity.getPackageName().."/夜间2"):read("*a")=="启用网页暗色" then
---webView.setDayOrNight(false)
+webView.setDayOrNight(false)
 end
 llqbs=io.open("/data/data/"..activity.getPackageName().."/浏览器标识"):read("*a")
 if llqbs=="默认" then webView.getSettings().setUserAgentString("Mozilla/5.0 Dalvik/2 ( Linux; U; NEM-AL10 Build/HONORNEM-AL10;Youku;7.1.4;) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Safari/537.36 (Baidu; P1 6.0) iPhone/7.1 Android/8.0 baiduboxapp/2.7.0.10");
@@ -3140,7 +3140,7 @@ task(1,function()
         layout_gravity="center",
         layout_width="25%w",
         layout_height="fill",
-        onClick=function()关闭(function()color1=0xffffffff yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")if yj=="关" then io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("开"):close()if io.open("/data/data/"..activity.getPackageName().."/夜间2"):read("*a")=="启用网页暗色"then --[[webView.setDayOrNight(false)]]end 提示"夜间模式"webView.addView(loadlayout{LinearLayout,id="overla",layout_width=10*h,layout_height=32552732*6,backgroundColor="#76000000",})color1=0xff232323 yjys=0xffffffff ys3=yjys if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end 侧滑卡片.setCardBackgroundColor(0xff232323)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)else io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("关"):close()--[[webView.setDayOrNight(true)]]提示"白天模式"webView.removeView(overla)yjys=0xff000000 ys3=0xFF4D4D4D if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material_Light)else activity.setTheme(android.R.style.Theme_Holo_Light)end 侧滑卡片.setCardBackgroundColor(0xffffffff)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)end yj2=io.open("/data/data/"..activity.getPackageName().."/夜间2"):read("*a")end)end,
+        onClick=function()关闭(function()color1=0xffffffff yj=io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")if yj=="关" then io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("开"):close()if io.open("/data/data/"..activity.getPackageName().."/夜间2"):read("*a")=="启用网页暗色"then webView.setDayOrNight(false)end 提示"夜间模式"webView.addView(loadlayout{LinearLayout,id="overla",layout_width=10*h,layout_height=32552732*6,backgroundColor="#76000000",})color1=0xff232323 yjys=0xffffffff ys3=yjys if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material)else activity.setTheme(android.R.style.Theme_Holo)end 侧滑卡片.setCardBackgroundColor(0xff232323)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)else io.open("/data/data/"..activity.getPackageName().."/夜间","w+"):write("关"):close()webView.setDayOrNight(true)提示"白天模式"webView.removeView(overla)yjys=0xff000000 ys3=0xFF4D4D4D if luajava.bindClass("android.os.Build").VERSION.SDK_INT>=21 then activity.setTheme(android.R.style.Theme_Material_Light)else activity.setTheme(android.R.style.Theme_Holo_Light)end 侧滑卡片.setCardBackgroundColor(0xffffffff)zybjt.setBackgroundColor(color1)sidebar.setBackgroundColor(color1)end yj2=io.open("/data/data/"..activity.getPackageName().."/夜间2"):read("*a")end)end,
         {
           ImageView;
           layout_width="20dp",
@@ -3316,7 +3316,7 @@ task(1,function()
 }
 更多布局=PopupWindow(loadlayout(更多布局))
 更多布局.setFocusable(true).setWidth(w).setHeight(h).setTouchable(true).setOutsideTouchable(true).showAtLocation(fltBtn.Parent,0,0,0)
-gdbj.getChildAt(0).getChildAt(0).onLongClick=function()if io.open("/data/data/"..activity.getPackageName().."/夜间2"):read("*a")=="启用网页暗色" then io.open("/data/data/"..activity.getPackageName().."/夜间2","w+"):write("禁用网页暗色"):close()--[[webView.setDayOrNight(true)]]提示"禁用了夜间模式网页暗色支持."else io.open("/data/data/"..activity.getPackageName().."/夜间2","w+"):write("启用网页暗色"):close()if io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")=="开"then --[[webView.setDayOrNight(false)]]end 提示"启用了夜间模式网页暗色支持."end return true end
+gdbj.getChildAt(0).getChildAt(0).onLongClick=function()if io.open("/data/data/"..activity.getPackageName().."/夜间2"):read("*a")=="启用网页暗色" then io.open("/data/data/"..activity.getPackageName().."/夜间2","w+"):write("禁用网页暗色"):close()webView.setDayOrNight(true)提示"禁用了夜间模式网页暗色支持."else io.open("/data/data/"..activity.getPackageName().."/夜间2","w+"):write("启用网页暗色"):close()if io.open("/data/data/"..activity.getPackageName().."/夜间"):read("*a")=="开"then webView.setDayOrNight(false)end 提示"启用了夜间模式网页暗色支持."end return true end
 更多布局.dismiss()
 浏览器工具箱布局={
   LinearLayout,
