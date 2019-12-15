@@ -619,19 +619,7 @@ tpckbj.onTouch=function(v,e)
     tpY=e.getY()
     t=Date().getTime()
   elseif e.action==1 then
-    if m_table[3]>0 then
-      matrix.postTranslate(-m_table[3],0)
-    end
-    if m_table[3]<w-tpw*nowscale then
-      matrix.postTranslate(w-tpw*nowscale-m_table[3],0)
-    end
-    if m_table[6]>0 then
-      matrix.postTranslate(0,-m_table[6])
-    end
-    if m_table[6]<h-tph*nowscale then
-      matrix.postTranslate(0,h-tph*nowscale-m_table[6])
-    end
-      if 参数+300>tonumber(Date().getTime()) then
+    if 参数+300>tonumber(Date().getTime()) then
       if maxscale-nowscale<=0.02 then
         if maxscale==3 then
           matrix.postScale(scale/nowscale,scale/nowscale,e.getX(),e.getY())
@@ -680,14 +668,30 @@ tpckbj.onTouch=function(v,e)
       end
       tpX=e.getX()tpY=e.getY()
     elseif mode==2 then
+      if m_table[3]>0 and m_table[3]<w-tpw*nowscale then
+        matrix.postTranslate((w-tpw*nowscale)/2-m_table[3],0)
+      else
+        if m_table[3]>0 then
+          matrix.postTranslate(-m_table[3],0)
+        end
+        if m_table[3]<w-tpw*nowscale then
+          matrix.postTranslate(w-tpw*nowscale-m_table[3],0)
+        end
+      end
+      if m_table[6]>0 and m_table[6]<h-tph*nowscale then
+        matrix.postTranslate(0,(h-tph*nowscale)/2-m_table[6])
+      else
+        if m_table[6]>0 then
+          matrix.postTranslate(0,-m_table[6])
+        end
+        if m_table[6]<h-tph*nowscale then
+          matrix.postTranslate(0,h-tph*nowscale-m_table[6])
+        end
+      end
       lzjl=math.sqrt((e.getX(0)-e.getX(1))^2+(e.getY(0)-e.getY(1))^2)
       zjzbX=(e.getX(0)+e.getX(1))/2 zjzbY=(e.getY(0)+e.getY(1))/2
       if (lzjl<sclzjl and nowscale*lzjl/sclzjl>=scale) or (lzjl>sclzjl and nowscale*lzjl/sclzjl<=maxscale) then
-        if maxscale==3 then
-          matrix.postScale(lzjl/sclzjl,lzjl/sclzjl,zjzbX,zjzbY)
-        else
-          matrix.postScale(lzjl/sclzjl,lzjl/sclzjl,w/2,h/2)
-        end
+        matrix.postScale(lzjl/sclzjl,lzjl/sclzjl,zjzbX,zjzbY)
       end
       sclzjl=lzjl
     end
@@ -2339,10 +2343,10 @@ function 过滤(content)
   if 内容==""then
     内容="获取失败"
   end
-  if 版本名 > "3.5.2"then
+  if 版本名 > "3.5.3"then
     圆角对话框()
     .设置标题("检测到更新")
-    .设置消息("版本：".."3.5.2".."→"..版本名.."\n更新内容："..内容)
+    .设置消息("版本：".."3.5.3".."→"..版本名.."\n更新内容："..内容)
     .设置圆角("30dp")
     .设置积极按钮("立即更新",function()
       gxq=200/360*w
